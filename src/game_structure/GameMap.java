@@ -54,7 +54,7 @@ public class GameMap {
 		//si specifica la modalita' di gioco
 		this.hero_side=hero_side;
 		//si inizializza la mappa di gioco
-		popola_mappa();
+		popolaMappa();
 		//si inizializza la mappa da costruire giocando
 		this.mappa_esplorazione=null;	
 	}//GameMap(boolean)
