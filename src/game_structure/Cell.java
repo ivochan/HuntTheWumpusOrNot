@@ -4,8 +4,8 @@ package game_structure;
  *BREEZE, colore bianco, brezza del pozzo
  */
 enum SenseStatusH {
-    STINK,
-    BREEZE
+	STINK,
+	BREEZE
 }//SenseStatusH
 
 /*enumerazione utilizzata per il vettore dei sensori: modalita' mostro
@@ -13,8 +13,8 @@ enum SenseStatusH {
  *SWISH, colore bianco, fruscio di foglie vicino la trappola
  */
 enum SenseStatusW {
-    CREAK,
-    SWISH
+	CREAK,
+	SWISH
 }//SenseStatusW
 
 /*questa classe implementa la cella di una matrice
@@ -27,7 +27,7 @@ public class Cell {
 	 */
 
 	//indica se la cella e' stata visitata o meno
-	private boolean isVisited = false;
+	private boolean isVisited;
 	
 	//vettore dei sensori H: STINK, BREEZE
 	//vettore dei sensori W: CREAK, SWISH
@@ -35,15 +35,21 @@ public class Cell {
 
 	//contenuto della cella sulla base della enum CellStatus
 	private CellStatus status;
-	//
+	//numero intero associato alla enumerazione CellStatus
 	private int content;
 
-
+	//
+	
 	//costruttore di default
-	private Cell() {}
+	public Cell() {
+		//le caratteristiche della cella non sono state specificate
+		this.status=null;
+		this.content=-1;
+		this.isVisited=false;
+	}//Cell()
 
 	//costruttore che riceve lo stato che caratterizza la cella
-	private Cell(CellStatus status, boolean hero_side, boolean sense1, boolean sense2) {
+	public Cell(CellStatus status, boolean hero_side, boolean sense1, boolean sense2) {
 		//stato della cella 
 		this.status=status;
 		//si verifica in quale modalita' si stia giocando
@@ -52,23 +58,18 @@ public class Cell {
 			//si assegna lo stato alla cella
 			switch (status) {
 				case SAFE:
-					this.text = new String(CellStatus.SAFE.toString());
 					content = CellStatus.SAFE.ordinal();
 					break;
 				case PIT: //l'avventuriero deve evitare di cadere nel pozzo
-					text = new String(CellStatus.PIT.toString());
 					content = CellStatus.PIT.ordinal();
 					break;
 				case WUMPUS:
-					text = new String(CellStatus.WUMPUS.toString());
 					content = CellStatus.WUMPUS.ordinal();
 					break;
 				case GOLD:
-					text = new String(CellStatus.GOLD.toString());
 					content = CellStatus.GOLD.ordinal();
 					break;
 				case DENIED:
-					text = new String(CellStatus.DENIED.toString());
 					content = CellStatus.DENIED.ordinal();
 					break;
 				default:
@@ -91,23 +92,18 @@ public class Cell {
 			//si assegna lo stato alla cella
 			switch (status) {
 				case SAFE:
-					this.text = new String(CellStatus.SAFE.toString());
 					content = CellStatus.SAFE.ordinal();
 					break;
 				case GOLD:
-					text = new String(CellStatus.GOLD.toString());
 					content = CellStatus.GOLD.ordinal();
 					break;
 				case HERO:
-					text = new String(CellStatus.HERO.toString());
 					content = CellStatus.HERO.ordinal();
 					break;
 				case TRAP: //il wumpus deve evitare la trappola
-					text = new String(CellStatus.TRAP.toString());
 					content = CellStatus.TRAP.ordinal();
 					break;
 				case DENIED:
-					text = new String(CellStatus.DENIED.toString());
 					content = CellStatus.DENIED.ordinal();
 					break;
 				default: break;
@@ -148,6 +144,21 @@ public class Cell {
 		}
 	}//setCell
 	
+	public String getCellStatus() {
+		//ritorna il nome della enum che descrive la cella
+		return this.status.name();
+	}//getCellStatus()
+	
+	public void setCellStatus(CellStatus status) {
+		if(status==null) {
+			System.exit(-1);
+		}
+		else {
+			this.status=status;
+		}
+	}//setCellStatus(CellStatus)
+	
+	
 	public boolean[] getSenseVector() {
 		return sense_vector;
 	}//getSenseVector
@@ -159,6 +170,18 @@ public class Cell {
 		this.sense_vector[1]=sense2;
 	}//setSenseVector
 	
+	public String SenseVectorToString(boolean hero_side) {
+		//Stringa da stampare come informazioni sui sensori
+		String sense_info;
+		if(hero_side) {
+			sense_info=new String("Il vettore dei sensi dell'eroe:\n||Stink| |Breeze||\n");
+		}
+		else {
+			sense_info=new String("Il vettore dei sensi del mostro:\n||Creak| |Swish||\n");
+		}
+		return sense_info+"||"+sense_vector[0]+"| |"+sense_vector[1]+"||\n";
+	}//SenseVectorToString()
+	
 	public boolean isVisited() {
 		//restituisce true se la cella e' stata gia' visitata, altrimenti false
 		return isVisited;
@@ -166,7 +189,7 @@ public class Cell {
 	
 	@Override
 	public String toString() {
-		return CellStatus.valueOf
-	}
+		return "|"+new String(this.status.name()).charAt(0)+"|";
+	}//toString()
 
 }//Cell
