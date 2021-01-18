@@ -62,14 +62,36 @@ public class GameMap {
 	/* per riempire la mappa di gioco il valore di ogni cella verra' deciso secondo 
 	 * una funzione di probabilita'
 	 */
+	//TODO
 	private void popolaMappa() {
-		// TODO Auto-generated method stub
+		//si sceglie casualmente il numero di celle giocabili (da 9 a 16)
+		int max_n=((int)(Math.random()*8))+9; // numero massimo delle celle da riempire
+		// numero di celle da riempire rimaste
+		int n=max_n;
+		// si ricava il numero di celle non accessibili
+		int d = 16-max_n;
+		//oggetti da sistemare nelle celle
+		int p = 4; //pozzi da mettere nella mappa (hero_side = true)
+		int max_p = 4; //numero massimo di pozzi 
+		int t = p; //trappole da mettere al posto dei pozzi (hero_side = false)
+		int max_t = max_p; //numero massimo di trappole
+		int g = 1;//oro
+		int h=1;//avventuriero
+		int w=1;//mostro
+		//calcolo della probabilita'
 		
 	}//popolaMappa
 	
 	//funzione di probabilita' utilizzata per stabilire il valore che deve assumere la cella di interesse
-	private int lambda(int max, int min) {
-		return 0;
+	private int lambda(int x,int max_x, int n, int max_n) {
+		/* - x, oggetto cella da inserire;
+		 * - max_x, numero massimo di oggetti di tipo x che possono essere inseriti nella mappa;
+		 * - n, numero di celle della mappa che devono essere ancora riempite;
+		 * - max_n, numero massimo di celle della mappa che possono essere riempite (giocabili).
+		 */
+		int prob = ((x/max_x)) - (1-n/max_n);
+		//probabilita'
+		return prob;
 	}
 
 	//metodi accessori
