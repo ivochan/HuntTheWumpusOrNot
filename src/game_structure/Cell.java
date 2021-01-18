@@ -137,12 +137,24 @@ public class Cell {
 			this.content=content;
 			//al momento della creazione la cella non e' mai stata visitata
 			this.isVisited=false;
+			//aggiornamento del parametro status
+			this.status=getEnumFromInt(content);
 		}
 		else {
 			//il valore ricevuto non e' valido
 			System.exit(-1);
 		}
 	}//setCell
+
+	private CellStatus getEnumFromInt(int content) {	
+		//si scorre il vettore delle enumerazioni CellStatus
+		for(CellStatus c : CellStatus.values()) {
+			if(c.ordinal()==content) {
+				return c; 
+			}
+		}
+		return null;
+	}//getEnumFromInt
 	
 	public String getCellStatus() {
 		//ritorna il nome della enum che descrive la cella
@@ -155,6 +167,7 @@ public class Cell {
 		}
 		else {
 			this.status=status;
+			this.content=status.ordinal();
 		}
 	}//setCellStatus(CellStatus)
 	

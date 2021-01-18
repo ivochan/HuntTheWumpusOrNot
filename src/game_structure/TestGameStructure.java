@@ -18,6 +18,24 @@ public class TestGameStructure {
 		//System.out.println(g1);
 		
 		GameMap g = new GameMap(hero_side);
+		//riempimento mappa
+		for(int i=0;i<4;i++) {
+			for(int j=0;j<4;j++) {
+				g.mappa_gioco[i][j]=new Cell(CellStatus.SAFE,hero_side,true,true);
+			}
+		}
+		
+		g.mappa_gioco[1][2].setCellStatus(CellStatus.GOLD);
+		g.mappa_gioco[3][3].setCellStatus(CellStatus.WUMPUS);
+		g.mappa_gioco[0][0].setCellStatus(CellStatus.HERO);
+		g.mappa_gioco[2][2].setCellStatus(CellStatus.PIT);
+		
+		g.mappa_gioco[0][3].setCellStatus(CellStatus.GOLD);
+		g.mappa_gioco[0][3].setCell(5);
+		
+		
+		
+		
 		System.out.println(g);
 		
 	}//main

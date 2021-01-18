@@ -28,7 +28,7 @@ public class GameMap {
 	private static int c= 4; //colonne
   
 	//inizializzazione della matrice di gioco 
-	private Cell[][] mappa_gioco = new Cell[r][c];
+	Cell[][] mappa_gioco = new Cell[r][c];
 	/*si deve popolare la matrice secondo queste specifiche:
 	 *-generare casualmente un numero tra 9 e 16 che rappresenta il numero di stanze giocabili;
 	 *-inserire la casella "fossa";
@@ -94,7 +94,12 @@ public class GameMap {
 			for(int j=0; j<c; j++) {
 				//si scorrono le colonne della matrice
 				//si stampa il contenuto della cella 
-				stampa_mappa+=" "+ mappa_gioco[i][j]+ " ";
+				if(j<c-1) {
+					stampa_mappa+=mappa_gioco[i][j]+ " ";
+				}
+				else {
+					stampa_mappa+=mappa_gioco[i][j];
+				}
 			}//for colonne
 			stampa_mappa+="|\n"; //si stampa la fine della riga e si va a capo
 		}//for righe
