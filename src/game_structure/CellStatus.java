@@ -6,7 +6,7 @@ public enum CellStatus {
     WUMPUS,
     HERO,
     GOLD,
-    DENIED,
+    DENIED, 
     TRAP;
 }//CellStatus
 
@@ -15,7 +15,7 @@ public enum CellStatus {
    WUMPUS, colore rosso, MOSTRO
    HERO, colore arancione, AVVENTURIERO
    GOLD, colore giallo, ORO
-   DENIED, colore nero, cella non accessibile, BLOCCATA
+   DENIED, colore nero, cella non accessibile,PIETRA
    TRAP colore viola, trappola in cui puo' cadere in wumpus (wumpus_side)
 */
 

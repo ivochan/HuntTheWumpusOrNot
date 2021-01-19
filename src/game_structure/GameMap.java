@@ -63,12 +63,12 @@ public class GameMap {
 	 * una funzione di probabilita'
 	 */
 	//TODO
-	private void popolaMappa() {
-		//si sceglie casualmente il numero di celle giocabili (da 9 a 16)
-		int max_n=((int)(Math.random()*8))+9; // numero massimo delle celle da riempire
+	void popolaMappa() {
+		//si sceglie casualmente il numero di celle giocabili (da 12 a 16)
+		int max_n=((int)(Math.random()*5))+12; // numero massimo delle celle da riempire
 		// numero di celle da riempire rimaste
 		int n=max_n;
-		// si ricava il numero di celle non accessibili
+		// si ricava il numero di celle non accessibili (tra 0 e 4) STONE = DENIED
 		int d = 16-max_n;
 		//oggetti da sistemare nelle celle
 		int p = 4; //pozzi da mettere nella mappa (hero_side = true)
