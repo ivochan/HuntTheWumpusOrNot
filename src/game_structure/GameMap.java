@@ -127,6 +127,10 @@ public class GameMap {
 		}//for righe
 		
 		return legenda+"\n"+stampa_mappa;
+	}//toString()
+	
+	public void setGameCell(int i, int j, CellStatus status) {
+		//metodo che permette specificare il contenuto di una cella di gioco
 	}
 
 	
