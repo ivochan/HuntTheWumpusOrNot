@@ -20,7 +20,10 @@ public class TestMappaGioco {
 		elem_gioco[0]=13; elem_gioco[1]=3; elem_gioco[2]=1; elem_gioco[3]=1;
 		elem_gioco[4]=1; elem_gioco[5]=2; elem_gioco[6]=1;
 		stampaVettore(elem_gioco);
+		//popolamento della mappa
 		//mappa.popolaMappa();
+		//stampa a video della mappa di gioco
+		//System.out.println(mappa);
 		
 	}//main
 	
@@ -119,6 +122,7 @@ public class TestMappaGioco {
 		else 
 			//allora e' una cella sicura
 			return CellStatus.SAFE;
+		//TODO manca il posizionamento dell'eroe
 	}//scegliCella
 
 	private boolean isStone(double seed, int i, int j) {
