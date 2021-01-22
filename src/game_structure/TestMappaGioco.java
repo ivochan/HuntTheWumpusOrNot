@@ -25,13 +25,13 @@ public class TestMappaGioco {
 		GameMap mappa = new GameMap();
 		//vettore degli elementi di gioco
 		int [] elem_gioco= new int [9];
+		
 		//riempimento del vettore
 		//riempiVettore(mappa,elem_gioco);
-		//stampa su console
-		//stampaVettore(elem_gioco);
 		
 		//ESEMPIO del vettore di gioco
 		//| [16] [16] [13] [3] [3] [1] [1] [1] [2] [2] | 
+		
 		elem_gioco[0]=16;//celle da riempire rimaste
 		elem_gioco[1]=16;//n_max celle
 		elem_gioco[2]=3;//sassi (celle non giocabili)
@@ -41,6 +41,8 @@ public class TestMappaGioco {
 		elem_gioco[6]=1;//wumpus
 		elem_gioco[7]=2;//pozzi
 		elem_gioco[8]=2;//n_max pozzi
+		
+		
 		stampaVettore(elem_gioco);
 		//stampa della mappa
 		//System.out.println(mappa);
@@ -53,19 +55,14 @@ public class TestMappaGioco {
 	
 	private static void stampaVettore(int[] elem_gioco) {
 		//si stampa una legenda
-		System.out.println("[celle 0] [n_max celle 1] [sassi 2] [n_max sassi 3]"
-				+ " [oro 4] [eroe 5] [wumpus 6] [pozzi 7] [n_max pozzi 8]\n");
+		System.out.println("[celle] [n_max celle] [sassi] [n_max sassi]"
+				+ " [oro] [eroe] [wumpus] [pozzi] [n_max pozzi]\n");
 		//si stampa il contenitore a sinistra
 		System.out.print("| ");
 		//si scorrono le celle del vettore
 		for(int i=0;i<elem_gioco.length;i++) {
 			//si stampa la cella i-esima
-			if(i<elem_gioco.length-1) {
-				System.out.print("["+elem_gioco[i]+"] ");
-			}
-			else {
-				System.out.print("["+elem_gioco[i]+"] ");
-			}
+			System.out.print("["+elem_gioco[i]+"] ");
 		}//for
 		System.out.println("|\n");
 	}//stampaVettore
@@ -80,12 +77,12 @@ public class TestMappaGioco {
 				//si impsta il contenuto della cella
 				mappa.mappa_gioco[i][j] = new Cell(cs);
 				//si stampa il vettore degli elementi di gioco
-				stampaVettore(elem_gioco);
+				//stampaVettore(elem_gioco);
 			}//for colonne
 		}//for righe
 	}//popolaMappa
 	
-	private static void riempiVettore(GameMap mappa,int[] elem_gioco) {
+	private static void riempiVettore(GameMap mappa, int[] elem_gioco) {
 		//numero massimo delle celle della mappa
 		int max_n=mappa.getMapDimension();
 		// numero di celle da riempire rimaste
