@@ -7,7 +7,7 @@ public class TestMappaGioco {
 		//variabile booleana per la modalita'
 		boolean hero_side=true;
 		//creazione di una nuova mappa
-		GameMap mappa = new GameMap(hero_side);
+		GameMap mappa = new GameMap();
 		//vettore degli elementi di gioco
 		int [] elem_gioco= new int [8];
 		//riempimento del vettore
@@ -24,12 +24,14 @@ public class TestMappaGioco {
 		elem_gioco[4]=1;//eroe
 		elem_gioco[5]=1;//wumpus
 		elem_gioco[6]=2;//pozzi
-		elem_gioco[7]=1;//n_max pozzi
+		elem_gioco[7]=2;//n_max pozzi
 		stampaVettore(elem_gioco);
-		//popolamento della mappa
-		//mappa.popolaMappa();
-		//stampa a video della mappa di gioco
+		//stampa della mappa
 		//System.out.println(mappa);
+		//popolamento della mappa
+		popolaMappa(mappa,elem_gioco);
+		//stampa a video della mappa di gioco
+		System.out.println(mappa);
 		
 	}//main
 	
@@ -52,7 +54,7 @@ public class TestMappaGioco {
 		System.out.println("|");
 	}//stampaVettore
 
-	private void popolaMappa(GameMap mappa, int [] elem_gioco) {
+	private static void popolaMappa(GameMap mappa, int [] elem_gioco) {
 		//si itera la mappa
 		for(int i=0;i<mappa.mappa_gioco.length;i++) { //si scorrono le righe
 			//si scorrono le colonne
@@ -60,7 +62,9 @@ public class TestMappaGioco {
 				//si considera la cella 
 				CellStatus cs = scegliCella(mappa.mappa_gioco[i][j],elem_gioco);
 				//si impsta il contenuto della cella
-				mappa.mappa_gioco[i][j].setCellStatus(cs);
+				mappa.mappa_gioco[i][j] = new Cell(cs);
+				//si stampa il vettore degli elementi di gioco
+				//stampaVettore(elem_gioco);
 			}//for colonne
 		}//for righe
 	}//popolaMappa
@@ -108,16 +112,29 @@ public class TestMappaGioco {
 		}
 	}//riempiVettore
 
-	private CellStatus scegliCella(Cell cell, int[] elem_gioco) {
+	private static CellStatus scegliCella(Cell cell, int[] elem_gioco) {
 		//metodo che specifica la tipologia di cella che sara' mappa[i][j]
 		//variabili da utilizzare per il calcolo
-		
+		//System.out.println("Metodo scegliCella");
 		//si calcola un seme (un numero casuale che sara' la soglia con cui
 		//confrontare la probabilita'
 		double seed = (Math.random());//numero tra 0 e 1 escluso
 		//HERO_SIDE
-		if(isPit(seed,elem_gioco[0],elem_gioco[5],elem_gioco[6])) {
+		if(elem_gioco[6]!=0&&isPit(seed,elem_gioco[6],elem_gioco[7],elem_gioco[0], elem_gioco[1])) {
+			/* -seed e' il valore di soglia con cui confrontare la probabilita' ottenuta
+			 * -x = elem_gioco[6] e' il numero di pozzi rimasti da posizionare;
+			 * -max_x = elem_gioco[7] e' il numero totale di pozzi;
+			 * -n = elem_gioco[0] e' il numero di celle rimaste da rimepire;
+			 * -n_max = elem_gioco[1] e' il numero massimo di celle che costituiscono la mappa;
+			 */
 			//la cella e' un pozzo
+			//quindi si devono aggiornare i parametri
+			//n -> una celle e' stata occupata percio' il numero di celle libere e' diminuito
+			elem_gioco[0]-=1; 
+			//p -> un pozzo e' stato assegnato, percio' il numero di pozzi da collocare e' diminuito
+			elem_gioco[6]-=1;
+			//si stampa l'attuale vettore degli elementi di gioco
+			//si assegna l'etichetta alla cella
 			return CellStatus.PIT;
 		}
 		else if(isWumpus(seed,elem_gioco[0],elem_gioco[4])) {
@@ -133,33 +150,38 @@ public class TestMappaGioco {
 			//la cella e' DENIED
 			return CellStatus.DENIED;
 		}
-		else 
+		else {
+			System.out.println("Cella SAFE\n");
 			//allora e' una cella sicura
+			//si aggiornano i parametri
+			elem_gioco[0]-=1;//numero celle da riempire
 			return CellStatus.SAFE;
-		//TODO manca il posizionamento dell'eroe
+		}
+			//TODO manca il posizionamento dell'eroe
 	}//scegliCella
 
-	private boolean isStone(double seed, int i, int j) {
+	private static boolean isStone(double seed, int i, int j) {
 		//i parametri sono il valore di soglia con cui 
 		//confrontare la probabilita' da calcolare
 		//il numero di pietre che ancora possono essere messe
 		//il numero massimo di pietre in generale
 		//si calcola la probabilita'della cella
-		double prob = lambda(i, i, j, j);
+	
 		return false;
 	}
 
-	private boolean isGold(double seed, int i, int j) {
+	private static boolean isGold(double seed, int i, int j) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	private boolean isWumpus(double seed, int i, int j) {
+	private static boolean isWumpus(double seed, int i, int j) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	private boolean isPit(double seed, int x_pit, int x_max_pit, int n, int n_max) {
+	
+	
+	private static boolean isPit(double seed, int x_pit, int x_max_pit, int n, int n_max) {
 		/* parametri:
 		 *-seed, e' il valore di soglia con cui confrontare la probabilita'
 		 * calcolata per la cella;
@@ -168,13 +190,22 @@ public class TestMappaGioco {
 		 *-n, e' il numeor di celle della mappa che ancora devono essere riempite;
 		 *-n_max, il numero di caselle da cui e' composta la mappa di gioco.
 		 */
-		n_max=mappa
-		//verifica se la cella considerata possa essere un pozzo
-		//
-		
-		
+		//calcolo della probabilita' per cui la cella possa essere
+		//classificata come PIT in base ai parametri forniti
+		double prob=lambda(x_pit, x_max_pit, n, n_max);
+		System.out.println("Probabilita' pozzo "+prob);
+		System.out.println("Soglia pozzo "+seed+"\n");
+		//confronto con il valore di soglia
+		//TODO controllare criterio
+		if(Math.abs(prob)<=seed) {
+			System.out.println("Pozzo posizionato!\n");
+			//allora la casella sara' etichettata come PIT
+			return true;
+		}
+		//se la soglia non e' stata rispettata allora questa
+		//cella non sara' un pozzo
 		return false;
-	}
+	}//isPit
 	
 	//funzione di probabilita' utilizzata per stabilire il valore che deve assumere la cella di interesse
 	private static double lambda(int x,int max_x, int n, int max_n) {
@@ -187,7 +218,7 @@ public class TestMappaGioco {
 		//System.out.println(prob);
 		//probabilita'
 		return prob;
-	}
+	}//lambda
 
 	
 	

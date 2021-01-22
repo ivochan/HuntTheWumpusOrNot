@@ -49,42 +49,35 @@ public class GameMap {
 	//costruttore di default
 	public GameMap() {
 		hero_side=true;
-		mappa_esplorazione = null;
+		//si inizializza la mappa di gioco
+		inizializzaMappa();
 	}//GameMap()
   
 	public GameMap(boolean hero_side) {
 		//si specifica la modalita' di gioco
 		this.hero_side=hero_side;
-		//si inizializza la mappa di gioco
-		popolaMappa();
+
+		//TODO
+		//popolaMappa();
 		//si inizializza la mappa da costruire giocando
 		this.mappa_esplorazione=null;	
 	}//GameMap(boolean)
 
+	//inizializzazione della mappa
+	private void inizializzaMappa() {
+		//si itera per righe
+		for(int i=0;i<r;i++) {
+			//si itera per colonne
+			for(int j=0;j<c;j++) {
+				//viene istanziata ogni cella
+				this.mappa_esplorazione[i][j]= new Cell();
+			}//for colonne
+		}//cor righe
+	}
+	
 	/* per riempire la mappa di gioco il valore di ogni cella verra' deciso secondo 
 	 * una funzione di probabilita'
 	 */
-	//TODO
-	void popolaMappa() {
-		//si sceglie casualmente il numero di celle giocabili (da 12 a 16)
-		int max_n=((int)(Math.random()*5))+12; // numero massimo delle celle da riempire
-		// numero di celle da riempire rimaste
-		int n=max_n;
-		// si ricava il numero di celle non accessibili (tra 0 e 4) STONE = DENIED
-		int d = 16-max_n;
-		//oggetti da sistemare nelle celle
-		int p = 4; //pozzi da mettere nella mappa (hero_side = true)
-		int max_p = 4; //numero massimo di pozzi 
-		int t = p; //trappole da mettere al posto dei pozzi (hero_side = false)
-		int max_t = max_p; //numero massimo di trappole
-		int g = 1;//oro
-		int h=1;//avventuriero
-		int w=1;//mostro
-		//calcolo della probabilita'
-		
-	}//popolaMappa
-	
-	//funzione di probabilita' utilizzata per stabilire il valore che deve assumere la cella di interesse
 	private int lambda(int x,int max_x, int n, int max_n) {
 		/* - x, oggetto cella da inserire;
 		 * - max_x, numero massimo di oggetti di tipo x che possono essere inseriti nella mappa;

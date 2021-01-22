@@ -26,9 +26,6 @@ public class Cell {
 	 * dall'essere stata visitata o meno
 	 */
 
-	//indica se la cella e' stata visitata o meno
-	private boolean isVisited;
-	
 	//vettore dei sensori H: STINK, BREEZE
 	//vettore dei sensori W: CREAK, SWISH
 	private boolean[] sense_vector = new boolean[2];
@@ -47,6 +44,43 @@ public class Cell {
 		this.content=-1;
 		this.isVisited=false;
 	}//Cell()
+
+	//costruttore essenziale
+	public Cell(CellStatus status) {
+		//TODO per test
+		//modalita' hero_side
+		//stato della cella 
+		this.status=status;
+		//si assegna lo stato alla cella
+		switch (status) {
+			case SAFE:
+				content = CellStatus.SAFE.ordinal();
+				break;
+			case PIT: //l'avventuriero deve evitare di cadere nel pozzo
+				content = CellStatus.PIT.ordinal();
+				break;
+			case WUMPUS:
+				content = CellStatus.WUMPUS.ordinal();
+				break;
+			case GOLD:
+				content = CellStatus.GOLD.ordinal();
+				break;
+			case DENIED:
+				content = CellStatus.DENIED.ordinal();
+				break;
+			default:
+				break;
+		}//switchcase
+		//inizialmente la cella non e' mai stata visitata
+		this.isVisited=false;
+	}//costruttore
+	
+	/* oltre al suo status,ogni cella puo' essere caratterizzata
+	 * dall'essere stata visitata o meno
+	 */
+	
+	//indica se la cella e' stata visitata o meno
+	private boolean isVisited;
 
 	//costruttore che riceve lo stato che caratterizza la cella
 	public Cell(CellStatus status, boolean hero_side, boolean sense1, boolean sense2) {
@@ -161,16 +195,7 @@ public class Cell {
 		return this.status.name();
 	}//getCellStatus()
 	
-	public void setCellStatus(CellStatus status) {
-		if(status==null) {
-			System.exit(-1);
-		}
-		else {
-			this.status=status;
-			this.content=status.ordinal();
-		}
-	}//setCellStatus(CellStatus)
-	
+	//TODO metodo setCellStatus(CellStatus cs) 
 	
 	public boolean[] getSenseVector() {
 		return sense_vector;
@@ -202,7 +227,10 @@ public class Cell {
 	
 	@Override
 	public String toString() {
-		return "|"+new String(this.status.name()).charAt(0)+"|";
+		if(status!=null) {
+			return "|"+new String(this.status.name()).charAt(0)+"|";
+		}
+		return "|"+new String(this.content+"|");
 	}//toString()
 
 }//Cell
