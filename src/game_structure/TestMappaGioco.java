@@ -9,16 +9,22 @@ public class TestMappaGioco {
 		//creazione di una nuova mappa
 		GameMap mappa = new GameMap(hero_side);
 		//vettore degli elementi di gioco
-		int [] elem_gioco= new int [7];
+		int [] elem_gioco= new int [8];
 		//riempimento del vettore
 		//riempiVettore(mappa,elem_gioco);
 		//stampa su console
 		//stampaVettore(elem_gioco);
 		
 		//ESEMPIO del vettore di gioco
-		//| [13]  [3]  [1]  [1]  [1]  [2]  [2] 
-		elem_gioco[0]=13; elem_gioco[1]=3; elem_gioco[2]=1; elem_gioco[3]=1;
-		elem_gioco[4]=1; elem_gioco[5]=2; elem_gioco[6]=1;
+		//| [16] [16] [13]  [3]  [1]  [1]  [1]  [2]  [2] 
+		elem_gioco[0]=16;//celle da riempire rimaste
+		elem_gioco[1]=16;//n_max celle
+		elem_gioco[2]=3;//sassi (celle non giocabili)
+		elem_gioco[3]=1;//oro
+		elem_gioco[4]=1;//eroe
+		elem_gioco[5]=1;//wumpus
+		elem_gioco[6]=2;//pozzi
+		elem_gioco[7]=1;//n_max pozzi
 		stampaVettore(elem_gioco);
 		//popolamento della mappa
 		//mappa.popolaMappa();
@@ -29,15 +35,20 @@ public class TestMappaGioco {
 	
 	private static void stampaVettore(int[] elem_gioco) {
 		//si stampa una legenda
-		System.out.println("[n_celle] [sassi] [oro] [eroe]"
-				+ " [wumpus] [pozzi] [n_max pozzi]");
+		System.out.println("[celle]   [n_max celle]   [sassi]  [oro]"
+				+ "  [eroe] [wumpus] [pozzi] [n_max pozzi]\n");
 		//si stampa il contenitore a sinistra
 		System.out.print("|");
 		//si scorrono le celle del vettore
 		for(int i=0;i<elem_gioco.length;i++) {
 			//si stampa la cella i-esima
-			System.out.print(" ["+elem_gioco[i]+"] ");
-		}
+			if(i<elem_gioco.length-1) {
+				System.out.print(" ["+elem_gioco[i]+"]	   ");
+			}
+			else {
+				System.out.print(" ["+elem_gioco[i]+"] ");
+			}
+		}//for
 		System.out.println("|");
 	}//stampaVettore
 
@@ -55,25 +66,28 @@ public class TestMappaGioco {
 	}//popolaMappa
 	
 	private static void riempiVettore(GameMap mappa,int[] elem_gioco) {
-		//calcolo delle celle giocabili in questa partita
-		///si sceglie casualmente il numero di celle giocabili (da 12 a 16) da riempire
-		int max_n=((int)(Math.random()*5))+12;
+		//numero massimo delle celle della mappa
+		int max_n=mappa.getMapDimension();
 		// numero di celle da riempire rimaste
 		int n=max_n;
+		//numero delle celle da riempire nella mappa di gioco
 		elem_gioco[0]=n;
-		// si ricava il numero di celle non accessibili PIETRA
-		int d = 16 - max_n;
+		//numero massimo delle caselle della mappa
+		elem_gioco[1]=max_n;
+		//si sceglie casualmente il numero di celle non giocabili (da 0 a 4)
+		//ovvero il numero di celle non accessibili PIETRA		
+		int d=(int)(Math.random()*5);//(da 0 a 5 escluso)
 		//celle non giocabili DENIED
-		elem_gioco[1]=d;
+		elem_gioco[2]=d;
 		//oro 
 		int g=1;
-		elem_gioco[2]=g;
+		elem_gioco[3]=g;
 		//avventuriero 
 		int h=1;
-		elem_gioco[3]=h;
+		elem_gioco[4]=h;
 		//mostro 
 		int w=1;
-		elem_gioco[4]=w;
+		elem_gioco[5]=w;
 		//pozzi da mettere nella mappa (hero_side = true)
 		int p = 2; 
 		int max_p = 2;
@@ -84,13 +98,13 @@ public class TestMappaGioco {
 		//nel vettore 
 		if(mappa.getGameMode()) {
 			//hero_side
-			elem_gioco[5]=p;
-			elem_gioco[6]=max_p;
+			elem_gioco[6]=p;
+			elem_gioco[7]=max_p;
 		}
 		else {
 			//wumpus_side
-			elem_gioco[5]=t;
-			elem_gioco[6]=max_t;
+			elem_gioco[6]=t;
+			elem_gioco[7]=max_t;
 		}
 	}//riempiVettore
 
@@ -126,7 +140,12 @@ public class TestMappaGioco {
 	}//scegliCella
 
 	private boolean isStone(double seed, int i, int j) {
-		// TODO Auto-generated method stub
+		//i parametri sono il valore di soglia con cui 
+		//confrontare la probabilita' da calcolare
+		//il numero di pietre che ancora possono essere messe
+		//il numero massimo di pietre in generale
+		//si calcola la probabilita'della cella
+		double prob = lambda(i, i, j, j);
 		return false;
 	}
 
@@ -140,15 +159,26 @@ public class TestMappaGioco {
 		return false;
 	}
 
-	private boolean isPit(double seed, int i, int j, int k) {
+	private boolean isPit(double seed, int x_pit, int x_max_pit, int n, int n_max) {
+		/* parametri:
+		 *-seed, e' il valore di soglia con cui confrontare la probabilita'
+		 * calcolata per la cella;
+		 *-x_pit, e' il numero di pozzi che ancora devono essere messi nella mappa;
+		 *-x_max_pit, e' il numero massimo di pozzi da mettere nella mappa;
+		 *-n, e' il numeor di celle della mappa che ancora devono essere riempite;
+		 *-n_max, il numero di caselle da cui e' composta la mappa di gioco.
+		 */
+		n_max=mappa
 		//verifica se la cella considerata possa essere un pozzo
+		//
+		
 		
 		return false;
 	}
 	
 	//funzione di probabilita' utilizzata per stabilire il valore che deve assumere la cella di interesse
 	private static double lambda(int x,int max_x, int n, int max_n) {
-		/* - x, oggetto cella da inserire;
+		/* - x, numero del tipo di oggetti cella da inserire;
 		 * - max_x, numero massimo di oggetti di tipo x che possono essere inseriti nella mappa;
 		 * - n, numero di celle della mappa che devono essere ancora riempite;
 		 * - max_n, numero massimo di celle della mappa che possono essere riempite (giocabili).

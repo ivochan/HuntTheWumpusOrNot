@@ -26,6 +26,8 @@ public class GameMap {
 	//dimensioni della matrice
 	private static int r = 4; //righe
 	private static int c= 4; //colonne
+	//numero delle celle
+	private static int n_cells = r*c;
   
 	//inizializzazione della matrice di gioco 
 	Cell[][] mappa_gioco = new Cell[r][c];
@@ -102,8 +104,9 @@ public class GameMap {
 		 */
 		return this.hero_side;
 	}//getGameMode
+	
 	public void setGameMode(boolean hero_side) {
-		this.hero_side=hero_side;
+		GameMap.hero_side=hero_side;
 	}//setGameMode
 
 	@Override
@@ -133,6 +136,14 @@ public class GameMap {
 		//metodo che permette specificare il contenuto di una cella di gioco
 	}
 
+	public int getMapDimension() {
+		return n_cells;
+	}
 	
+	public void setMapDimension(int d) {
+		//la mappa deve essere quadrata
+		this.r=d;//righe
+		this.c=d;//colonne	
+	}
 
 }//GameMap
