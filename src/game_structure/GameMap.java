@@ -1,15 +1,16 @@
 package game_structure;
-/* classe che realizza la mappa di gioco
- * in cui ci saranno:
+/** classe GameMap
+ * @author ivonne
+ * Questa classe realizza la mappa di gioco, i cui elementi saranno:
  * -1 mostro,
  * -1 eroe,
  * -1 lingotto d'oro,
  * -4 pozzi (hero_side) o 4 trappole (wumpus_side)
- * e' costituita da una matrice di Button di dimensione 4 x 4
- * ogni cella e' una stanza da esplorare, collegata a quelle ad essa adiacenti
- * non tutte le celle sono "giocabili"
- * ci saranno un minimo di 9 stanze ed un massimo di 16
- * ogni stanza e' collegata con quelle ad essa adiacenti
+ * Questa mappa e' costituita da una matrice di Button di dimensione 4 x 4.
+ * Ogni cella e' una stanza da esplorare, collegata a quelle ad essa adiacenti ed inoltre
+ * non tutte le celle sono "giocabili".
+ * Ci saranno un minimo di 9 stanze ed un massimo di 16 ed
+ * ogni stanza e' collegata con quelle ad essa adiacenti.
  */
 public class GameMap {
 	//legenda

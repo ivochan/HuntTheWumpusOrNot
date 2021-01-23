@@ -78,6 +78,7 @@ public class TestMappaGioco {
 				CellStatus cs = scegliCella(mappa.mappa_gioco[i][j],elem_gioco);
 				//si impsta il contenuto della cella
 				mappa.mappa_gioco[i][j] = new Cell(cs);
+				//TODO strutturare popolamento del vettore dei sensori
 				//si imposta in vettore dei sensori
 				//nella modalita' eroe STINK (per Wumpus) e BREEZE (per Pit)
 				if(cs.ordinal()==1) { //la cella e' un pozzo
