@@ -10,12 +10,12 @@ public enum CellStatus {
     TRAP;
 }//CellStatus
 
-/* SAFE, colore verde, cella accessibile e LIBERA
-   PIT, colore blu, FOSSA in cui puo' cadere l'avventuriero (hero_side)
-   WUMPUS, colore rosso, MOSTRO
-   HERO, colore arancione, AVVENTURIERO
-   GOLD, colore giallo, ORO
-   DENIED, colore nero, cella non accessibile,PIETRA
-   TRAP colore viola, trappola in cui puo' cadere in wumpus (wumpus_side)
+/* SAFE, colore verde, cella accessibile e LIBERA, 0
+   PIT, colore blu, FOSSA in cui puo' cadere l'avventuriero (hero_side), 1
+   WUMPUS, colore rosso, MOSTRO, 2
+   HERO, colore arancione, AVVENTURIERO, 3
+   GOLD, colore giallo, ORO, 4
+   DENIED, colore nero, cella non accessibile, PIETRA, 5
+   TRAP colore viola, trappola in cui puo' cadere in wumpus, 6 (wumpus_side)
 */
 

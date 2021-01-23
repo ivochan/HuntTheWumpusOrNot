@@ -20,6 +20,8 @@ public class TestMappaGioco {
 			}
 		}
 		*/
+		//test enum
+		//System.out.println(CellStatus.PIT.ordinal());
 		
 		//creazione di una nuova mappa
 		GameMap mappa = new GameMap();
@@ -76,6 +78,18 @@ public class TestMappaGioco {
 				CellStatus cs = scegliCella(mappa.mappa_gioco[i][j],elem_gioco);
 				//si impsta il contenuto della cella
 				mappa.mappa_gioco[i][j] = new Cell(cs);
+				//si imposta in vettore dei sensori
+				//nella modalita' eroe STINK (per Wumpus) e BREEZE (per Pit)
+				if(cs.ordinal()==1) { //la cella e' un pozzo
+					//allora le quattro caselle circostanti 
+					//e quella considerata avranno il vettore dei sensi
+					//STINK e BREEZE pari a 0, 1
+					System.out.println("Cella ["+i+","+j+"]");
+					//il sensore per della brezza e'true
+					mappa.mappa_gioco[i][j].setSenseVector(false, true);
+					//si impostano i sensori delle quattro celle circostanti
+					//TODO
+				}
 				//si stampa il vettore degli elementi di gioco
 				//stampaVettore(elem_gioco);
 			}//for colonne

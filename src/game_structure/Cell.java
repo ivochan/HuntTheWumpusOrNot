@@ -43,6 +43,9 @@ public class Cell {
 		this.status=null;
 		this.content=-1;
 		this.isVisited=false;
+		//inizializzazione vettore dei sensi
+		this.sense_vector[0]=false;
+		this.sense_vector[1]=false;
 	}//Cell()
 
 	//costruttore essenziale
@@ -207,6 +210,14 @@ public class Cell {
 		//seconda cella del vettore dei sensi
 		this.sense_vector[1]=sense2;
 	}//setSenseVector
+	
+	public void setSenseVectorCell(int i, boolean sense) {
+		//controllo sull'indice di cella del vettore
+		if(i==0 || i==1) {
+			//si specifica il senso corrispondente
+			this.sense_vector[i]=sense;
+		}
+	}
 	
 	public String SenseVectorToString(boolean hero_side) {
 		//Stringa da stampare come informazioni sui sensori

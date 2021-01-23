@@ -71,6 +71,7 @@ public class GameMap {
 			for(int j=0;j<c;j++) {
 				//viene istanziata ogni cella
 				this.mappa_esplorazione[i][j]= new Cell();
+				//il vettore dei sensi e' inizializzato a false
 			}//for colonne
 		}//cor righe
 	}
@@ -126,6 +127,7 @@ public class GameMap {
 	}//toString()
 	
 	public void setGameCell(int i, int j, CellStatus status) {
+		//TODO
 		//metodo che permette specificare il contenuto di una cella di gioco
 	}
 
@@ -139,4 +141,5 @@ public class GameMap {
 		this.c=d;//colonne	
 	}
 
+	
 }//GameMap
