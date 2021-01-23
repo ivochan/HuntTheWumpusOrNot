@@ -140,9 +140,9 @@ public class Cell {
 	 * questo costruttore crea un oggetto Cell, specificando il suo contenuto attraverso
 	 * il parametro che riceve e mettendo tutti gli altri attribuiti di classe ai loro
 	 * valori di default
-	 * @param cs : CellStatus, parametro che attraverso l'enumerazione, descrive la tipologia della cella
+	 * @param status : CellStatus, parametro che attraverso l'enumerazione, descrive la tipologia della cella
 	 */
-	public Cell(CellStatus cs) {
+	public Cell(CellStatus status) {
 		//TODO si ipotizza la modalita' hero_side
 		//si assegnano i valori di default agli attribuit di classe
 		//non ricevuti come parametro
@@ -153,30 +153,35 @@ public class Cell {
 		//controllo sul parametro ricevuto
 		if(status==null) {
 			this.status=null;
+			System.out.println("nullo");
 			//allora il contenuto associato sara' -1
 			//perche' non esiste un oggetto enum corrispondente al parametro
 			this.content=-1;
 		}//fi
-		//si assegna lo stato alla cella
-		switch (status) {
-			case SAFE:
-				content = CellStatus.SAFE.ordinal();
-				break;
-			case PIT: //l'avventuriero deve evitare di cadere nel pozzo
-				content = CellStatus.PIT.ordinal();
-				break;
-			case WUMPUS:
-				content = CellStatus.WUMPUS.ordinal();
-				break;
-			case GOLD:
-				content = CellStatus.GOLD.ordinal();
-				break;
-			case DENIED:
-				content = CellStatus.DENIED.ordinal();
-				break;
-			default:
-				break;
-		}//switchcase
+		else{
+			//si assegna lo stato alla cella
+			this.status=status;
+			//si assegna il contenuto
+			switch (status) {
+				case SAFE:
+					content = CellStatus.SAFE.ordinal();
+					break;
+				case PIT: //l'avventuriero deve evitare di cadere nel pozzo
+					content = CellStatus.PIT.ordinal();
+					break;
+				case WUMPUS:
+					content = CellStatus.WUMPUS.ordinal();
+					break;
+				case GOLD:
+					content = CellStatus.GOLD.ordinal();
+					break;
+				case DENIED:
+					content = CellStatus.DENIED.ordinal();
+					break;
+				default:
+					break;
+			}//switchcase
+		}
 		//TODO inserire qui l'inizializzazione del vettore dei sensori
 	}//Cell(CellStatus)
 
