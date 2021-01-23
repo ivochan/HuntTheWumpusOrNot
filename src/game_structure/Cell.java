@@ -318,7 +318,8 @@ public class Cell {
 		if(status!=null) {
 			return "|"+new String(this.status.name()).charAt(0)+"|";
 		}
-		return "|"+new String(this.content+"|");
+		else
+			return "|"+new String(this.content+"|");
 	}//toString()
 
 }//Cell
