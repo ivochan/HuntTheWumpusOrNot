@@ -22,7 +22,51 @@ Quindi l'integrazione con la parte grafica, ovvero il front-end, realizzato prim
 
 In questa versione del gioco è stata prevista, per il giocatore, la possibilità di interpretare, indifferentemente, il ruolo del **Wumpus** o del cacciatore, a cui ci si riferisce come **Avventuriero**.
 
+
+
+### Campo di gioco
+
 La mappa di gioco sarà costituita come una matrice di dimensioni ( 4 x 4 ).
+
+Le celle potranno essere di questo tipo:
+
+- **SAFE**, colore verde, cella accessibile e LIBERA, con il valore intero indicativo 0;
+- **PIT**, colore blu, FOSSA in cui puo' cadere l'avventuriero, se si gioca nella modalità Eroe (hero_side = true), con il valore intero indicativo 1;
+- **WUMPUS**, colore rosso, MOSTRO, con il valore intero indicativo 2;
+- **HERO**, colore arancione, AVVENTURIERO, con il valore intero indicativo 3;
+- **GOLD**, colore giallo, ORO, con il valore intero indicativo 4;
+- **DENIED**, colore nero, cella non accessibile, SASSO, con il valore intero indicativo 5;
+- **TRAP**, colore viola, trappola in cui può cadere il wumpus, se si gioca nella modalità Wumpus (hero_side = false), con il valore intero indicativo 6;
+
+Per come è stato strutturato il gioco, gli elementi che, in totale, verranno posizionati sulla mappa di gioco sono:
+
+- un mostro;
+- un eroe;
+- un lingotto d'oro;
+- due pozzi (modalità hero_side) oppure due trappole (modalità !hero_side);
+- un numero casuale da 0 a 4 di pietre, che rappresentano le celle non giocabili;
+
+Per quanto riguarda il vettore dei sensori, i cui elementi sono stati rappresentati come valori di tipo boolean, descritti da un'enumerazione, potrà essere definito nel modo seguente:
+
+- *SenseHStatus* , ovvero il vettore dei sensori nella modalità Eroe, sarà costituito, per ogni cella, da due elementi, quali:
+   *	STINK, colore marrone, odore del Wumpus, con indice di cella 0;
+   *	BREEZE, colore bianco, brezza del pozzo, icon indice di cella 1;
+- *SenseWStauts*, ovvero il vettore dei sensori nella modalità Wumpus,  sarà costituito, per ogni cella, da due elementi, quali:
+  - CREAK, colore marrone, scricchiolio dovuto al passo dell'eroe, con indice di cella 0;
+  - SWISH, colore bianco, fruscio di foglie vicino la trappola, con indice di cella 1;
+
+
+
+### Modalità di gioco
+
+Per quanto riguarda la modalità di gioco, è stata prevista l'introduzione di due tipi differenti di giocatore, ovvero:
+
+- il giocatore vero e proprio, *HumanPlayer*, pilotato dall'utente;
+- il giocatore automatico,  *IAPlayer*, l'implementazione di un agente dotato di una semplice intelligenza artificiale;
+
+Quindi, al momento dell'avvio del gioco, sarà l'utente finale a poter decidere in che modalità giocare, se nella versione classica, *Hero Side*, in cui l'avventuriero deve uccidere il Wumpus o se nella versione in cui dovrà impersonare proprio il mostro del gioco e riuscire a sopravvivere al cacciatore.
+
+Inoltre, l'utente sarà nelle condizioni di poter decidere se vuole essere lui direttamente a controllare le mosse del suo personaggio oppure lasciare che la risoluzione del gioco e quindi l'esplorazione del labirinto venga affidata al giocatore automatico, provvisto di intelligenza artificiale.
 
 
 
