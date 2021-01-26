@@ -32,15 +32,14 @@ La mappa di gioco sarà costituita come una matrice di dimensioni ( 4 x 4 ).
 
 Funzionalità da implementare:
 
-- creazione della classe Cell per implementare la generica casella della mappa di gioco;
-- creazione dell'enumerazioni per indicare i tipi di celle che possono costituire la mappa e i tipi di sensori;
-- creazione della struttura della mappa di gioco tramite la classe GameMap; 
-
+- ~~creazione della classe Cell per implementare la generica casella della mappa di gioco;~~
+- ~~creazione dell'enumerazioni per indicare i tipi di celle che possono costituire la mappa e i tipi di sensori;~~
+- ~~creazione della struttura della mappa di gioco tramite la classe GameMap;~~ 
 - correggere funzioni di probabilità per il popolamento della mappa;
 - posizionamento dell'eroe nella mappa di gioco;
 - specificare i valori del vettore dei sensori per ogni cella;
 - integrare le funzionalità relative alla mappa nella classe GameMap;
-
 - prevedere il popolamento della mappa in entrambe le modalità di gioco;
-- testare il popolamento della mappa di gioco;
+- testare il popolamento manuale della mappa di gioco;
+- testare il popolamento automatico della mappa di gioco;
 
