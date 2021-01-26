@@ -1,36 +1,16 @@
 package game_structure;
 
-public class TestMappaGioco {
+public class TestGameMap {
 
 	public static void main (String [] args) {
-		
-		/*
-		//test visualizzazione cella
-		Cell c1 = new Cell();
-		boolean hero_side=true;
-		Cell c2 = new Cell(CellStatus.GOLD,hero_side,true,true);
-		//System.out.println(c2);
-		System.out.println(c2.SenseVectorToString(hero_side));
-		//System.out.println("La cella e' stata visitata? "+ (hero_side?"si":"no"));
-		GameMap g = new GameMap(hero_side);
-		//riempimento mappa
-		for(int i=0;i<4;i++) {
-			for(int j=0;j<4;j++) {
-				g.mappa_gioco[i][j]=new Cell(CellStatus.SAFE,hero_side,true,true);
-			}
-		}
-		*/
-		//test enum
-		//System.out.println(CellStatus.PIT.ordinal());
-		
 		//creazione di una nuova mappa
 		GameMap mappa = new GameMap();
 		//vettore degli elementi di gioco
 		int [] elem_gioco= new int [9];
-		
+	
 		//riempimento del vettore
-		//riempiVettore(mappa,elem_gioco);
-		
+		riempiVettore(mappa,elem_gioco);
+		stampaVettore(elem_gioco);
 		//ESEMPIO del vettore di gioco
 		//| [16] [16] [13] [3] [3] [1] [1] [1] [2] [2] | 
 		
@@ -52,7 +32,7 @@ public class TestMappaGioco {
 		popolaMappa(mappa,elem_gioco);
 		//stampa a video della mappa di gioco
 		System.out.println(mappa);
-		
+	
 	}//main
 	
 	private static void stampaVettore(int[] elem_gioco) {
@@ -71,15 +51,15 @@ public class TestMappaGioco {
 
 	private static void popolaMappa(GameMap mappa, int [] elem_gioco) {
 		//si itera la mappa
-		for(int i=0;i<mappa.mappa_gioco.length;i++) { //si scorrono le righe
+		for(int i=0;i<mappa.game_map.length;i++) { //si scorrono le righe
 			//si scorrono le colonne
-			for(int j=0;j<mappa.mappa_gioco.length;j++) {
+			for(int j=0;j<mappa.game_map.length;j++) {
 				//si considera la cella 
-				CellStatus cs = scegliCella(mappa.mappa_gioco[i][j],elem_gioco);
+				CellStatus cs = scegliCella(mappa.game_map[i][j],elem_gioco);
 				//verifica con stampa contenuto
 				System.out.println("Cella da inserire "+cs);
 				//si imposta il contenuto della cella
-				mappa.mappa_gioco[i][j] = new Cell(cs);
+				mappa.game_map[i][j] = new Cell(cs);
 				//
 				//
 				//TODO strutturare popolamento del vettore dei sensori
@@ -105,7 +85,7 @@ public class TestMappaGioco {
 	
 	private static void riempiVettore(GameMap mappa, int[] elem_gioco) {
 		//numero massimo delle celle della mappa
-		int max_n=mappa.getMapDimension();
+		int max_n=mappa.getMapNCells();
 		// numero di celle da riempire rimaste
 		int n=max_n;
 		//numero delle celle da riempire nella mappa di gioco
@@ -316,4 +296,4 @@ public class TestMappaGioco {
 	
 	
 
-}//TestMappaGioco
+}//TestGameMap

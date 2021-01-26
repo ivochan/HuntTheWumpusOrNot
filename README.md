@@ -1,7 +1,5 @@
 # Gioco del Wumpus
 
-------
-
 ## Introduzione
 
 Questo progetto rappresenta l'implementazione, in codice **Java**, del videogioco conosciuto con il nome di "**Hunt the Wumpus**", realizzato nel 1972 da Gregory Yob.
@@ -82,8 +80,8 @@ Funzionalità da implementare:
 - correggere funzioni di probabilità per il popolamento della mappa;
 - posizionamento dell'eroe nella mappa di gioco;
 - specificare i valori del vettore dei sensori per ogni cella;
-- integrare le funzionalità relative alla mappa nella classe GameMap;
+- ~~integrare le funzionalità relative alla mappa nella classe GameMap;~~
 - prevedere il popolamento della mappa in entrambe le modalità di gioco;
-- testare il popolamento manuale della mappa di gioco;
+- ~~testare il popolamento manuale della mappa di gioco;~~
 - testare il popolamento automatico della mappa di gioco;
 

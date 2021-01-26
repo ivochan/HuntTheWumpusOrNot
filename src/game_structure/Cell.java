@@ -17,7 +17,7 @@ enum SenseStatusH {
 }//SenseStatusH
 
 /** Enumerazione utilizzata per il vettore dei sensori: modalita' mostro
- *	CREAK, colore marrone, scricchiolio dovuto al passo dell'eroe Wumpus
+ *	CREAK, colore marrone, scricchiolio dovuto al passo dell'eroe
  *	SWISH, colore bianco, fruscio di foglie vicino la trappola
  */
 enum SenseStatusW {
@@ -215,6 +215,45 @@ public class Cell {
 		}
 	}//setCell
 	
+	/** metodo setCellStauts(CellStatus status): void
+	 * @param status, stato che si vuole assegnare alla cella per definirne la tipologia;
+	 * @return void
+	 */
+	public void setCellStatus(CellStatus status) {
+		//controllo sul parametro ricevuto
+		if(status==null) {
+			this.status=null;
+			System.out.println("nullo");
+			//allora il contenuto associato sara' -1
+			//perche' non esiste un oggetto enum corrispondente al parametro
+			this.content=-1;
+		}//fi
+		else{
+			//si assegna lo stato alla cella
+			this.status=status;
+			//si assegna il contenuto
+			switch (status) {
+				case SAFE:
+					content = CellStatus.SAFE.ordinal();
+					break;
+				case PIT: //l'avventuriero deve evitare di cadere nel pozzo
+					content = CellStatus.PIT.ordinal();
+					break;
+				case WUMPUS:
+					content = CellStatus.WUMPUS.ordinal();
+					break;
+				case GOLD:
+					content = CellStatus.GOLD.ordinal();
+					break;
+				case DENIED:
+					content = CellStatus.DENIED.ordinal();
+					break;
+				default:
+					break;
+			}//switchcase
+		}//else
+	}//setCellStatus()
+	
 	/** metodo getEnumFromInt(int) : CellStatus
 	 * questo metodo restituisce il valore della enum CellStatus associato
 	 * al contenuto della cella, indicato da un valore intero.
@@ -241,7 +280,15 @@ public class Cell {
 		return this.status.name();
 	}//getCellStatus()
 	
-	//TODO metodo setCellStatus(CellStatus cs) 
+	/** metodo getCellStatus() : CellStatus
+	 * metodo che restituisce l'oggetto CellStatus che rappresenta il contenuto della cella
+	 * @return cs : CellStatus, il valore associato alla enum CellStatus
+	 */
+	public CellStatus getCellStatusEnum() {
+		//ritorna il valore della enum che descrive la cella
+		return this.status;
+	}//getCellStatusEnum()
+	
 	
 	/** metodo getSenseVector() : boolean []
 	 * metodo che restituisce il vettore dei sensori che caratterizza ogni cella
