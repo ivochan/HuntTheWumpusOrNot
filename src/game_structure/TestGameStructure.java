@@ -76,8 +76,22 @@ public class TestGameStructure {
 		System.out.println(g1);
 		//test riempimento vettore degli elementi di gioco : Automatico
 		//questo riempimento avviene nel costruttore della classe GameMap
+		//"true" per stampare la legenda
 		System.out.println(g1.elementsVectorToString(true));		
 		//test riempimento vettore degli elementi di gioco : Manuale
+		/*
+		g1.setGameElement(0,4);
+		System.out.println(g1.elementsVectorToString(false));
+		g1.setGameElement(8,1);
+		System.out.println(g1.elementsVectorToString(false));	
+		g1.setGameElement(4,7);
+		System.out.println(g1.elementsVectorToString(false));
+		g1.setGameElement(8,4);
+		System.out.println(g1.elementsVectorToString(false));
+		g1.setGameElement(3,2);
+		System.out.println(g1.elementsVectorToString(false));
+		*/
 		
 	}//main
+	
 }//TestGameStructure
