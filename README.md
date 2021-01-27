@@ -77,11 +77,15 @@ Funzionalità da implementare:
 - ~~creazione della classe Cell per implementare la generica casella della mappa di gioco;~~
 - ~~creazione dell'enumerazioni per indicare i tipi di celle che possono costituire la mappa e i tipi di sensori;~~
 - ~~creazione della struttura della mappa di gioco tramite la classe GameMap;~~ 
+- sostituire i messaggi di errore e le stampe di debug con il sollevamento delle eccezioni;
 - correggere funzioni di probabilità per il popolamento della mappa;
-- posizionamento dell'eroe nella mappa di gioco;
-- specificare i valori del vettore dei sensori per ogni cella;
-- ~~integrare le funzionalità relative alla mappa nella classe GameMap;~~
 - prevedere il popolamento della mappa in entrambe le modalità di gioco;
+- ~~integrare le funzionalità relative alla mappa nella classe GameMap;~~
 - ~~testare il popolamento manuale della mappa di gioco;~~
 - testare il popolamento automatico della mappa di gioco;
+- inserire metodi ed attributi che permettano di identificare la posizione della cella nella mappa;
+- testare l'indicizzazione della cella una volta messa nella mappa di gioco;
+- posizionare dell'eroe nella mappa di gioco;
+- specificare i valori del vettore dei sensori per ogni cella;
+- testare la coerenza delle informazioni dei sensori in base al contenuto delle celle della mappa;
 
