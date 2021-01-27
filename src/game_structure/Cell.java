@@ -30,6 +30,7 @@ enum SenseStatusW {
  *	e secondo altre proprieta' stabilite in questa classe
  */
 public class Cell {
+	
 	//vettore dei sensori H: STINK, BREEZE
 	//vettore dei sensori W: CREAK, SWISH
 	private boolean[] sense_vector = new boolean[2];
@@ -40,6 +41,8 @@ public class Cell {
 	private int content;
 	//indica se la cella e' stata visitata o meno
 	private boolean isVisited;
+	//vettore che indice la posizione [i][j] della cella nella matrice di gioco
+	private int[] position= new int[2];
 
 	/** costruttore di default
 	 */
@@ -289,6 +292,50 @@ public class Cell {
 		return this.status;
 	}//getCellStatusEnum()
 	
+	/** metodo getCellPosition()
+	 * questo metodo restituisce il vettore che contiente gli indici i e j
+	 * che indicano la posizione della cella nella mappa di gioco
+	 * @return position: int[], vettore di due celle [i][j]
+	 */
+	public int[] getCellPosition() {
+		return position;
+	}//getCellPosition
+	
+	/** metodo setCellPosition(int, int){
+	 * questo metodo e' stato previsto per essere utilizzato nella classe GameMap,
+	 * nel momento in cui deve essere inizializzata la mappa, per identificare la
+	 * posizione di ogni cella nella mappa di gioco tramite questa coppia di indici
+	 * @param i: int, indice di riga;
+	 * @param j: int, indice di colonna;
+	 * questo metodo si e' reso necessario perche' la conoscenza della posizione che 
+	 * la cella occupa nella mappa di gioco serve a garantire che il personaggio giocabile, ovvero 
+	 * l'eroe nella modalita' hero_side, il wumpus altrimenti, sia posizionato nelle celle
+	 * che costituiscono la "cornice" della mappa di gioco.
+	 */
+	public void setCellPosition(int i, int j) {
+		//controllo sui parametri
+		if(i<0 || j<0) {
+			System.out.println("Non e' ammesso un indice negativo");
+		}
+		else {//gli indici sono validi
+			//indice di riga
+			position[0]=i;
+			//indice di colonna
+			position[1]=j;
+		}
+	}//setCellPosition()
+	
+	/** metodo cellPositionToString(): String
+	 * questo metodo permette di vistualizzare come stringa
+	 * il vettore che descrive la posizione della cella, tramite una coppia di indici,
+	 * una volta creata nella matrice di gioco.
+	 * @return p: String, stringa del vettore degli indici di posizione
+	 */
+	public String cellPositionToString() {
+		//si costruisce il vettore delle posizioni 
+		String p = new String("Cella ["+position[0]+"],["+position[1]+"]");
+		return p;
+	}//cellPositionToString()
 	
 	/** metodo getSenseVector() : boolean []
 	 * metodo che restituisce il vettore dei sensori che caratterizza ogni cella

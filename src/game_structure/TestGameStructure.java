@@ -9,9 +9,10 @@ package game_structure;
 public class TestGameStructure {
 
 	public static void main (String [] args) {
-		//attributo 
+		//attributo della modalita' di gioco
 		boolean hero_side=true;
-/*
+		
+		/*//############		Test oggetto Cell e SenseVector		##############
 		//test visualizzazione cella
 		Cell c1 = new Cell();
 		//stampa del contenuto della cella
@@ -25,8 +26,9 @@ public class TestGameStructure {
 		System.out.println("La cella e' stata visitata? "+ (hero_side?"si":"no"));
 		//test enum
 		System.out.println("intero associato all'enum "+CellStatus.PIT.ordinal());
+		*/
 		
-		//test riempimento mappa : MANUALE
+		/*//###############		test riempimento MAPPA: MANUALE		####################
 		GameMap g = new GameMap(hero_side);
 		//stampa della dimensione della mappa
 		System.out.println("Length della mappa "+g.game_map.length);
@@ -62,7 +64,6 @@ public class TestGameStructure {
 				//altrimenti si lascia il contenuto della cella così com'è
 			}//for colonne
 		}//for righe
-		
 		//TODO non mettere l'oro, il wumpus o l'eroe circondato dalle celle non accessibili
 		//mappa creata
 		//||H| |S| |S| |S||
@@ -71,6 +72,8 @@ public class TestGameStructure {
  		//||W| |S| |D| |G||
 		System.out.println(g);
 		*/
+		
+		/*//#####################		Test riempimento VETTORE elementi di GIOCO		#################
 		//si costruisce un nuovo oggetto mappa
 		GameMap g1 =new GameMap(hero_side);
 		System.out.println(g1);
@@ -79,7 +82,6 @@ public class TestGameStructure {
 		//"true" per stampare la legenda
 		System.out.println(g1.elementsVectorToString(true));		
 		//test riempimento vettore degli elementi di gioco : Manuale
-		/*
 		g1.setGameElement(0,4);
 		System.out.println(g1.elementsVectorToString(false));
 		g1.setGameElement(8,1);
@@ -91,6 +93,12 @@ public class TestGameStructure {
 		g1.setGameElement(3,2);
 		System.out.println(g1.elementsVectorToString(false));
 		*/
+		
+		/*//#################		###################à
+		//ESEMPIO del vettore di gioco
+		//| [16] [16] [13] [3] [3] [1] [1] [1] [2] [2] | 
+		*/
+		
 		
 	}//main
 	
