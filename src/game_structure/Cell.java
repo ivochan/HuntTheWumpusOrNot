@@ -42,7 +42,8 @@ public class Cell {
 	//indica se la cella e' stata visitata o meno
 	private boolean isVisited;
 	//vettore che indice la posizione [i][j] della cella nella matrice di gioco
-	private int[] position= new int[2];
+	private int[] position= {-1, -1};
+
 
 	/** costruttore di default
 	 */
@@ -294,15 +295,16 @@ public class Cell {
 	
 	/** metodo getCellPosition()
 	 * questo metodo restituisce il vettore che contiente gli indici i e j
-	 * che indicano la posizione della cella nella mappa di gioco
-	 * @return position: int[], vettore di due celle [i][j]
+	 * che indicano la posizione della cella nella mappa di gioco,
+	 * visualizzandla come una stringa 
+	 * @return p: String, stringa del vettore degli indici di posizione
 	 */
-	public int[] getCellPosition() {
-		//si restituisce il vettore di interi
-		return position;
+	public String getCellPosition() {
+		//si costruisce il vettore delle posizioni 
+		String p = new String("Cella ["+position[0]+","+position[1]+"]");
+		return p;
 	}//getCellPosition
 	
-//TODO
 	/** metodo setCellPosition(int, int){
 	 * questo metodo e' stato previsto per essere utilizzato nella classe GameMap,
 	 * nel momento in cui deve essere inizializzata la mappa, per identificare la
@@ -326,19 +328,7 @@ public class Cell {
 			position[1]=j;
 		}
 	}//setCellPosition()
-	
-	/** metodo cellPositionToString(): String
-	 * questo metodo permette di vistualizzare come stringa
-	 * il vettore che descrive la posizione della cella, tramite una coppia di indici,
-	 * una volta creata nella matrice di gioco.
-	 * @return p: String, stringa del vettore degli indici di posizione
-	 */
-	public String cellPositionToString() {
-		//si costruisce il vettore delle posizioni 
-		String p = new String("Cella ["+position[0]+"],["+position[1]+"]");
-		return p;
-	}//cellPositionToString()
-	
+
 	/** metodo getSenseVector() : boolean []
 	 * metodo che restituisce il vettore dei sensori che caratterizza ogni cella
 	 * serve per memorizzare le informazioni relative alle celle circostanti

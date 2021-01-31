@@ -26,17 +26,16 @@ public class TestGameStructure {
 		System.out.println("La cella e' stata visitata? "+ (hero_side?"si":"no"));
 		//test enum
 		System.out.println("intero associato all'enum "+CellStatus.PIT.ordinal());
-		*/
+		
 		Cell c = new Cell();
-		System.out.println(c);
+		System.out.println("Cella "+c);
 		System.out.println("Posizione "+c.getCellPosition());
 		c.setCellPosition(0, -1);
 		c.setCellStatus(CellStatus.HERO);
 		System.out.println(c);
 		c.setCellPosition(0, 0);
 		System.out.println("Posizione "+c.getCellPosition());
-
-		
+		*/
 		
 		/*//###############		test riempimento MAPPA: MANUALE		####################
 		GameMap g = new GameMap(hero_side);
@@ -105,13 +104,12 @@ public class TestGameStructure {
 		*/
 		
 		
-		
 		/*//#################		###################à
 		//ESEMPIO del vettore di gioco
 		//| [16] [16] [13] [3] [3] [1] [1] [1] [2] [2] | 
 		*/
-		
-		
+		GameMap gm = new GameMap(hero_side);
+		System.out.println(gm);
 		
 	}//main
 	

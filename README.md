@@ -76,16 +76,43 @@ Funzionalità da implementare:
 
 - ~~creazione della classe Cell per implementare la generica casella della mappa di gioco;~~
 - ~~creazione dell'enumerazioni per indicare i tipi di celle che possono costituire la mappa e i tipi di sensori;~~
-- ~~creazione della struttura della mappa di gioco tramite la classe GameMap;~~ 
+- ~~creazione della struttura della mappa di gioco tramite la classe GameMap;~~
+- inserire i super-pipistrelli come tipologia di cella della mappa (CellStatus.BAT);
+- prevedere lo spostamento del personaggio giocabile in una cella casuale, se in presenza di un super-pipistrello; 
+- definire il meccanismo del punteggio, in base alle tipologie di celle esaminate;
+- memorizzare il valore del punteggio acquisito via via durante la partita di gioco;
 - sostituire i messaggi di errore e le stampe di debug con il sollevamento delle eccezioni;
-- correggere funzioni di probabilità per il popolamento della mappa;
+- ~~correggere funzione di probabilità per il popolamento della mappa;~~ grazie a PsykeDady :3
 - prevedere il popolamento della mappa in entrambe le modalità di gioco;
 - ~~integrare le funzionalità relative alla mappa nella classe GameMap;~~
 - ~~testare il popolamento manuale della mappa di gioco;~~
-- testare il popolamento automatico della mappa di gioco;
-- inserire metodi ed attributi che permettano di identificare la posizione della cella nella mappa;
-- testare l'indicizzazione della cella una volta messa nella mappa di gioco;
+- ~~inserire metodi ed attributi che permettano di identificare la posizione della cella nella mappa;~~
+- ~~testare l'indicizzazione della cella una volta messa nella mappa di gioco con i metodi accessori;~~
+- revisionare la struttura del vettore degli elementi di gioco in modo da avere a disposizione il numero di elementi, per ogni tipologia di cella, che devono essere posizionati sulla mappa;
+- strutturare il popolamento automatico della mappa di gioco game_map in modo che sia coerente con i dati degli elementi che devono essere inseriti;
 - posizionare dell'eroe nella mappa di gioco;
+- specificare gli indici che descrivono la posizione della casella nella mappa, per ogni cella della matrice;
 - specificare i valori del vettore dei sensori per ogni cella;
 - testare la coerenza delle informazioni dei sensori in base al contenuto delle celle della mappa;
-
+- testare il popolamento automatico della mappa di gioco;
+- definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa;
+- definire il giocatore "HumanPlayer",
+- dotare la classe HumanPlayer dei metodi necessari allo spostamento del personaggio nella mappa;
+- tenere traccia delle caselle visitate in una copia della mappa di gioco, denominata exploration_map;
+- utilizzare il flag isVisited per identificare le celle che sono state esaminate e copiarle nella exploration_map, nella stessa posizione occupata nella game_map;
+- definire i meccanismi di gioco a disposizione di HumanPlayer come:
+  -  l'inizio della partita, 
+  - il calcolo del punteggio, 
+  - la scelta della mossa
+  - l'esplorazione dell'ambiente di gioco tramite il vettore dei sensori
+  - il termine della partita
+  - movimento nella mappa manuale (tramite metodo accessorio)
+  - movimento nella mappa da input (su decisione dell'utente)
+  - prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input
+- definire il giocatore automatico "IAPlayer"
+- dotare la classe "IAPlayer" dei metodi necessari per:
+  - esaminare l'ambiente di gioco
+  - acquisire le informazioni dal vettore dei sensori
+  - stabilire la mossa da effettuare in base ai dati acquisiti
+- testare la modalità di gioco lato utente
+- testare la modalità di gioco automatico

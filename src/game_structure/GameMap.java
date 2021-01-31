@@ -1,4 +1,7 @@
 package game_structure;
+
+import java.util.Random;
+
 /** classe GameMap
  * @author ivonne
  * Questa classe realizza la mappa di gioco, i cui elementi saranno:
@@ -69,10 +72,10 @@ public class GameMap {
 	 * con cui dovra' essere popolata la mappa
 	 * [celle] [n_max celle] [sassi] [n_max sassi] [oro] [eroe] [wumpus] [pozzi] [n_max pozzi]
 	 */
-	int [] game_elements= new int [9];
+	//int [] game_elements= new int [9];
+	// [celle 0] [sassi 1] [oro 2] [eroe 3] [wumpus 4] [pozzi o trappole 5]
+	int [] game_elements= new int [6];
 	
-	
-  
 	/**costruttore di default GameMap()
 	 * non riceve nessun parametro
 	 * percio' di default la modalita' di gioco e' hero_side
@@ -96,8 +99,10 @@ public class GameMap {
 		inizializeMaps();
 		//si definisce il vettore degli elementi di gioco 
 		elementsVectorFilling();
+		System.out.println(elementsVectorToString(false));
 		//si popola la matrice di gioco
-		populateMap();
+		fillingGameMap();
+	
 	}//GameMap(boolean)
 
 	/** metodo inizializeMaps(): void
@@ -121,53 +126,78 @@ public class GameMap {
 		}//for righe 
 	}//inizializeMaps()
 	
-	/** metodo ElvectorFilling(): void
+	private void clear() {
+		//si itera per righe
+		for(int i=0;i<r;i++) {
+			//si itera per colonne
+			for(int j=0;j<c;j++) {
+				//viene istanziata ogni cella della matrice di gioco
+				this.game_map[i][j]= new Cell();
+			}//for colonne
+		}//for righe 
+	}//clear()
+	
+	/** metodo elementsVectorFilling(): void
 	 * questo metodo e' utilizzato per riempire automaticamente il vettore degli elementi di 
 	 * gioco che dovranno poi essere utilizzati per popolare la mappa
 	 * @param elem_gioco
 	 */
 	private void elementsVectorFilling() {
+		//TODO test
+		//[celle 0] [sassi 1] [oro 2] [eroe 3] [wumpus 4] [pozzi o trappole 5]
 		//numero massimo delle celle della mappa
-		int max_n=n_cells;
+		//TODO int max_n=n_cells;
 		// numero di celle da riempire rimaste
-		int n=max_n;
+		//TODO int n=max_n;
 		//numero delle celle da riempire nella mappa di gioco
-		game_elements[0]=n;
+		//TODO game_elements[0]=n;
+		//TODO test
+		game_elements[0]=n_cells;
 		//numero massimo delle caselle della mappa
-		game_elements[1]=max_n;
+		//TODO game_elements[1]=max_n;
 		//si sceglie casualmente il numero di celle non giocabili (da 0 a 4)
 		//ovvero il numero di celle non accessibili PIETRA		
 		int d=(int)(Math.random()*5);//(da 0 a 5 escluso)
 		//celle non giocabili DENIED
-		game_elements[2]=d;
+		//TODO game_elements[2]=d;
 		//massimo numero di celle non giocabili DENIED
-		game_elements[3]=d;
+		//TODO game_elements[3]=d;
+		//TODO test
+		game_elements[1]=d;
 		//oro 
 		int g=1;
-		game_elements[4]=g;
+		//TODO game_elements[4]=g;
+		//TODO test
+		game_elements[2]=g;
 		//avventuriero 
 		int h=1;
-		game_elements[5]=h;
+		//TODO game_elements[5]=h;
+		//TODO test
+		game_elements[3]=h;
 		//mostro 
 		int w=1;
-		game_elements[6]=w;
+		//TODO game_elements[6]=w;
+		//TODO test
+		game_elements[4]=w;
 		//pozzi da mettere nella mappa (hero_side = true)
 		int p = 2; 
-		int max_p = 2;
+		//TODO int max_p = 2;
 		//trappole da mettere al posto dei pozzi (hero_side = false)
-		int t = p; 
+		//TODOint t = p; 
 		//numero massimo di trappole
-		int max_t = max_p;
+		//TODO int max_t = max_p;
 		//nel vettore 
 		if(hero_side) {
 			//hero_side
-			game_elements[7]=p;
-			game_elements[8]=max_p;
+			//TODO game_elements[7]=p;
+			//TODO game_elements[8]=max_p;
+			//TODO test
+			game_elements[5]=p;
 		}//fi
 		else {
 			//wumpus_side
-			game_elements[7]=t;
-			game_elements[8]=max_t;
+			//TODO game_elements[7]=t;
+			//TODO game_elements[8]=max_t;
 		}//esle
 	}//elementsVectorFilling
 	
@@ -226,14 +256,12 @@ public class GameMap {
 	 * 					  definito dalla enumerazione CellStatus
 	 * @return status: CellStatus, ovvero l'enumerazione che e' stata assegnata alla cella in questione.
 	 */
-	private CellStatus chooseCell(Cell cell) {
+	private CellStatus chooseCell(Cell cell,double random) {
 		//variabili da utilizzare per il calcolo
-		//si calcola la soglia con cui confrontare la probabilita' della cella
-		double seed = (Math.random());//numero tra 0 e 1 escluso
 		//modalita' eroe
 		if(hero_side) {
 			//POZZO
-			if(game_elements[7]>0 && isPit(seed,game_elements[7],game_elements[8],game_elements[0],game_elements[1])) {
+			if(isPit(random,game_elements[7],game_elements[8],game_elements[0],game_elements[1])) {
 				//la cella e' un pozzo
 				//quindi si devono aggiornare i parametri
 				//n -> una celle e' stata occupata percio' il numero di celle libere e' diminuito
@@ -245,7 +273,7 @@ public class GameMap {
 				return CellStatus.PIT;
 			}
 			//MOSTRO
-			else if(game_elements[6]>0 && isWumpus(seed,game_elements[6],game_elements[0],game_elements[1])) {
+			else if(game_elements[6]>0 && isWumpus(random,game_elements[6],game_elements[0],game_elements[1])) {
 				//si aggiornano i parametri
 				game_elements[6]-=1;
 				//si riducono le celle libere
@@ -254,7 +282,7 @@ public class GameMap {
 				return CellStatus.WUMPUS;
 			}
 			//ORO
-			else if(game_elements[4]>0 && isGold(seed,game_elements[4],game_elements[0],game_elements[1])) {
+			else if(game_elements[4]>0 && isGold(random,game_elements[4],game_elements[0],game_elements[1])) {
 				//so aggiornano i parametri
 				game_elements[4]-=1;
 				//si riduce il numero di celle occupate
@@ -262,7 +290,7 @@ public class GameMap {
 				return CellStatus.GOLD;
 			}
 			//PIETRA
-			else if(game_elements[2]>0 && isStone(seed,game_elements[2],game_elements[3],game_elements[0],game_elements[1])) {
+			else if(game_elements[2]>0 && isStone(random,game_elements[2],game_elements[3],game_elements[0],game_elements[1])) {
 				//si aggiornano i parametri
 				game_elements[2]-=1;
 				//si riduce il numero delle celle libere
@@ -271,9 +299,9 @@ public class GameMap {
 				return CellStatus.DENIED;
 			}
 			//EROE
-			else if(game_elements[5]>0 && isHero(seed,game_elements[5],game_elements[0],game_elements[1])){
+			/*
+			else if(game_elements[5]>0 && isHero(random,game_elements[5],game_elements[0],game_elements[1])){
 				//TODO controllare in quale posizione viene messo
-				System.out.println("Eccomi");
 				//sono ammessi solo i bordi
 				//si aggiornano i parametri
 				game_elements[5]-=1;
@@ -282,10 +310,9 @@ public class GameMap {
 				//la cella contiene l'eroe
 				return CellStatus.HERO;
 			}
+			*/
 			//SAFE
 			else {
-				//allora e' una cella sicura
-				System.out.println("Cella SAFE\n");
 				//si aggiornano i parametri
 				game_elements[0]-=1;
 				//numero celle da riempire
@@ -304,7 +331,7 @@ public class GameMap {
 	 * questo metodo si occupa di confrontare la probabilita' calcolata per la 
 	 * cella in questione con il valore di soglia, per stabilire se in essa possa
 	 * essere posizionato o meno il wumpus
-	 * @param seed: double, valore di soglia, scelto in maniera casuale, con cui confrontare 
+	 * @param rando,: double, valore di soglia, scelto in maniera casuale, con cui confrontare 
 	 * 						la probabilita' calcolata per la cella attuale;
 	 * @param x: int, rappresenta l'oggetto wumpus, nel vettore e' la cella game_elements[6];
 	 * @param n: int, rappresenta il numero di celle che ancora possono essere riempite
@@ -314,13 +341,12 @@ public class GameMap {
 	 * @return boolean, sara' true se il wumpus e' stato posizionato nella cella esaminata,
 	 * 					sara' false altrimenti.
 	 */
-	private boolean isWumpus(double seed, int x, int n, int n_max) {
-		//valore di soglia
-		double prob=lambda(x, x, n, n_max);
+	private boolean isWumpus(double random, int x, int n, int n_max) {
+		//calcolo della probabilita'
+		double prob=prob(x, x, n, n_max);
 		//System.out.println("Probabilita' wumpus "+prob);
-		//System.out.println("Soglia wumpus "+seed+"\n");
 		//confronto della probabilita' con il valore di soglia
-		if(prob>=seed) {
+		if(random < prob) {
 			//allora si puo' posizionare il wumpus
 			//System.out.println("Il Wumpus e' stato posizionato!\n");
 			return true;
@@ -333,7 +359,7 @@ public class GameMap {
 	 * questo metodo si occupa di confrontare la probabilita' calcolata per la 
 	 * cella in questione con il valore di soglia, per stabilire se in essa possa
 	 * essere posizionato o meno l'oro
-	 * @param seed: double, valore di soglia, scelto in maniera casuale, con cui confrontare 
+	 * @param random: double, valore di soglia, scelto in maniera casuale, con cui confrontare 
 	 * 						la probabilita' calcolata per la cella attuale;
 	 * @param x: int, rappresenta l'oggetto oro, nel vettore e' la cella game_elements[4];
 	 * @param n: int, rappresenta il numero di celle che ancora possono essere riempite
@@ -343,13 +369,12 @@ public class GameMap {
 	 * @return boolean, sara' true se  l'oro e' stato posizionato nella cella esaminata,
 	 * 					sara' false altrimenti.
 	 */
-	private boolean isGold(double seed, int x, int n, int n_max) {
-		//valore di soglia
-		double prob=lambda(x, x, n, n_max);
+	private boolean isGold(double random, int x, int n, int n_max) {
+		//calcolo della probabilita'
+		double prob=prob(x, x, n, n_max);
 		//System.out.println("Probabilita' oro "+prob);
-		//System.out.println("Soglia oro "+seed+"\n");
 		//confronto della probabilita' con il valore di soglia
-		if(prob<=seed) {
+		if(random < prob) {
 			//allora si puo' posizionare l'oro
 			//System.out.println("L'oro e' stato posizionato!\n");
 			return true;
@@ -362,7 +387,7 @@ public class GameMap {
 	 * questo metodo si occupa di confrontare la probabilita' calcolata per la 
 	 * cella in questione con il valore di soglia, per stabilire se in essa possa
 	 * essere posizionato o meno la cella PIETRA, cioe' la cella non giocabile, DENIED.
-	 * @param seed: double, valore di soglia, scelto in maniera casuale, con cui confrontare 
+	 * @param random: double, valore di soglia, scelto in maniera casuale, con cui confrontare 
 	 * 						la probabilita' calcolata per la cella attuale;
 	 * @param x: int, rappresenta l'oggetto pietra, nel vettore e' la cella game_elements[2];
 	 * @param x_max: int, rappresenta il numero massimo di oggetti pietra che possono essere
@@ -374,13 +399,12 @@ public class GameMap {
 	 * @return boolean, sara' true se la pietra e' stato posizionata nella cella esaminata,
 	 * 					sara' false altrimenti.
 	 */
-	private boolean isStone(double seed, int x, int x_max, int n, int n_max) {
-		//valore di soglia
-		double prob=lambda(x, x_max, n, n_max);
+	private boolean isStone(double random, int x, int x_max, int n, int n_max) {
+		//calcolo della probabilita'
+		double prob=prob(x, x_max, n, n_max);
 		//System.out.println("Probabilita' pietra "+prob);
-		//System.out.println("Soglia pietra "+seed+"\n");
 		//confronto della probabilita' con il valore di soglia
-		if(prob<=seed) {
+		if(random < prob){
 			//allora si puo' posizionare l'oro
 			//System.out.println("Un sasso e' stato posizionato!\n");
 			return true;
@@ -393,7 +417,7 @@ public class GameMap {
 	 * cella in questione con il valore di soglia, per stabilire se in essa possa
 	 * essere posizionato o meno la cella POZZO, cioe' la cella che deve evitare l'evventuriero
 	 * per non perdere la partita.
-	 * @param seed: double, valore di soglia, scelto in maniera casuale, con cui confrontare 
+	 * @param random: double, valore di soglia, scelto in maniera casuale, con cui confrontare 
 	 * 						la probabilita' calcolata per la cella attuale;
 	 * @param x: int, rappresenta l'oggetto pozzo, nel vettore e' la cella game_elements[7];
 	 * @param x_max: int, rappresenta il numero massimo di oggetti pietra che possono essere
@@ -405,13 +429,13 @@ public class GameMap {
 	 * @return boolean, sara' true se il pozzo e' stato posizionato nella cella esaminata,
 	 * 					sara' false altrimenti.
 	 */
-	private boolean isPit(double seed, int x_pit, int x_max_pit, int n, int n_max) {
+	private boolean isPit(double random, int x_pit, int x_max_pit, int n, int n_max) {
 		//calcolo della probabilita' per cui la cella possa essere un pozzo
-		double prob=lambda(x_pit, x_max_pit, n, n_max);
+		double prob=prob(x_pit, x_max_pit, n, n_max);
 		//System.out.println("Probabilita' pozzo "+prob);
 		//System.out.println("Soglia pozzo "+seed+"\n");
 		//confronto con il valore di soglia
-		if(Math.abs(prob)<=seed) {
+		if(random < prob) {
 			//System.out.println("Pozzo posizionato!\n");
 			//allora la casella sara' etichettata come PIT
 			return true;
@@ -426,7 +450,7 @@ public class GameMap {
 	 * cella in questione con il valore di soglia, per stabilire se in essa possa
 	 * essere posizionato o meno la cella EROE, cioe' la cella da cui l'avventuriero iniziera'
 	 * l'esplorazione della mappa di gioco.
-	 * @param seed: double, valore di soglia, scelto in maniera casuale, con cui confrontare 
+	 * @param random: double, valore di soglia, scelto in maniera casuale, con cui confrontare 
 	 * 						la probabilita' calcolata per la cella attuale;
 	 * @param x: int, rappresenta l'oggetto eroe, nel vettore e' la cella game_elements[5];
 	 * @param n: int, rappresenta il numero di celle che ancora possono essere riempite
@@ -439,13 +463,12 @@ public class GameMap {
 	 * anche se il parametro x viene aggiornato, il metodo non verra' rieseguito.
 	 * double prob=lambda(x, x, n, n_max);
 	 */
-	private boolean isHero(double seed, int x, int n, int n_max) {
+	private boolean isHero(double random, int x, int n, int n_max) {
 		//calcolo della probabilita' per cui la cella possa essere un pozzo
-		double prob=lambda(x, x, n, n_max);
+		double prob=prob(x, x, n, n_max);
 		//System.out.println("Probabilita' eroe"+prob);
-		//System.out.println("Soglia eroe "+seed+"\n");
 		//confronto con il valore di soglia
-		if(Math.abs(prob)<=seed) {
+		if(random < prob) {
 			//System.out.println("Eroe posizionato!\n");
 			//allora la casella sara' etichettata come HERO
 			return true;
@@ -455,7 +478,7 @@ public class GameMap {
 		return false;
 	}//isHero()
 	
-	/** metodo lambda(int, int, int, int): double
+	/** metodo prob(int, int, int, int): double
 	 * questo metodo calcola, sfruttando la funzione cosi' definita (x/max_x)) - (1-n/max_n)
 	 * la probilita' per cui la cella in esame potrebbe essere etichetta con la tipologia
 	 * che si sta considerando nel metodo in cui questa funzione di calcolo della 
@@ -469,56 +492,125 @@ public class GameMap {
 	 * 						 calcolato per la cella in esame.
 	 */
 	private double lambda(int x,int max_x, int n, int max_n) {
+		//numero casuale
+		double random = Math.random();
 		//funzione di probabilita'
-		double prob = ((x/max_x)) - (1-n/max_n);
-		//System.out.println(prob);
+		double prob = ((x/max_x) - (n/max_n) + random)/3;
 		return prob;
-	}//lambda
-
+	}//prob
+	
 	/** metodo populateMap(): void
 	 * 
 	 */
 	private void populateMap() {
-		//si itera la mappa
-		for(int i=0;i<game_map.length;i++) { //si scorrono le righe
-			//si scorrono le colonne
-			for(int j=0;j<game_map.length;j++) {
-				//si considera la cella [i][j] 
-				CellStatus cs = chooseCell(game_map[i][j]);
-				//System.out.println("Cella da inserire "+cs);
-				//si imposta il contenuto della cella
-				game_map[i][j] = new Cell(cs);
-				//
-				//
+		//vettore degli elementi di gioco
+		//[celle 0] [n_max celle 1] [sassi 2] [n_max sassi 3]
+		//[oro 4] [eroe 5] [wumpus 6] [pozzi 7] [n_max pozzi 8]
+		//si cerca una combinazione delle tipologie di cella
+		//idonea a popolare la mappa di gioco
+		while(game_elements[7]!=0 || game_elements[2]!=0 || 
+				game_elements[4]!=0 || game_elements[6]!=0 ||
+				game_elements[5]!=0 || game_elements[0]!=0) {
+			//si itera la mappa
+			for(int i=0;i<r;i++) { //si scorrono le righe
+				//si scorrono le colonne
+				for(int j=0;j<r;j++) {
+					//valore casuale da utilizzare come seoglia
+					double rand = Math.random();
+					//si considera la cella [i][j] 
+					CellStatus cs = chooseCell(game_map[i][j], rand);
+					//si imposta il contenuto della cella
+					game_map[i][j] = new Cell(cs);
+					System.out.println(game_map[i][j]);
 				//TODO strutturare popolamento del vettore dei sensori
-				//si imposta in vettore dei sensori
-				//nella modalita' eroe STINK (per Wumpus) e BREEZE (per Pit)
-				/*
-				if(cs.ordinal()==1) { //la cella e' un pozzo
-					//allora le quattro caselle circostanti 
-					//e quella considerata avranno il vettore dei sensi
-					//STINK e BREEZE pari a 0, 1
-					System.out.println("Cella ["+i+","+j+"]");
-					//il sensore per della brezza e'true
-					mappa.mappa_gioco[i][j].setSenseVector(false, true);
-					//si impostano i sensori delle quattro celle circostanti
-					//TODO
-				}
-				*/
-				//si stampa il vettore degli elementi di gioco
-				//stampaVettore(elem_gioco);
-			}//for colonne
-		}//for righe
-	}//popolaMappa
+				}//for colonne
+			}//for righe
 	
+		}//while
+	}//populateMap()
 	
+	//TODO TEST PROBABILITA'
+	private double prob(int x,int max_x, int n, int max_n) {
+		//numero casuale
+		double random = Math.random();
+		//funzione di probabilita'
+		double prob = ((x/max_x) - (n/max_n) + random) /3;
+		return prob;
+	}//prob
 	
+	//TODO TEST METODO RIEMPIMENTO MAPPA
+	private void fillingGameMap() {
+		//[celle 0] [sassi 1] [oro 2] [eroe 3] [wumpus 4] [pozzi 5]
+		//parametri da verificare
+		int n_pozzi=game_elements[5];
+		int pozzi=n_pozzi;
+		
+		//int n_sassi=game_elements[1];
+		//int sassi=n_sassi;
+		
+		int n_wumpus=game_elements[4];
+		int wumpus=n_wumpus;
+		
+		int n_oro=game_elements[2];
+		int oro=n_oro;
+		
+		//int n_hero=game_elements[3];
+		//int hero=n_hero;
+		
+		int n_celle=game_elements[0]; 
+		int celle=n_celle;
+		//variabili che conterranno la probabilita'
+		double ppozzi=0;
+		double pwumpus=0;
+		double poro=0;
+		//ciclo di riempimento della mappa
+		while( pozzi!=0 || wumpus!=0 || oro!=0) {
+			for(int i=0;i<r;i++) {
+				for(int j=0;j<c;j++) {
+					//si genera un numero casuale
+					double random = Math.random();
+					//calcolo delle probabilita' per ogni tipologia di cella
+					ppozzi = prob(pozzi, n_pozzi, celle, n_celle);
+					System.out.println("ppozzi="+ppozzi);
+					pwumpus = prob(wumpus, n_wumpus, celle, n_celle);
+					System.out.println("pwump="+pwumpus);
+					poro = prob(oro, n_oro, celle, n_celle);
+					System.out.println("poro="+poro);
+					//confronto delle probabilita' con la soglia random
+					if(random<ppozzi) {
+						game_map[i][j]=new Cell(CellStatus.PIT);
+						pozzi=pozzi-1;
+					}
+					else if(random < pwumpus) {
+						game_map[i][j]= new Cell(CellStatus.WUMPUS);
+						wumpus=wumpus-1;
+					}
+					else if(random < poro) {
+						game_map[i][j]= new Cell(CellStatus.GOLD);
+						oro=oro-1;
+					}
+					else {
+						game_map[i][j]= new Cell(CellStatus.SAFE);
+				
+					}
+					//si decrementa il numero di celle rimaste da 
+					//riempire
+					celle=celle-1;	
+					//System.out.println("Cella "+game_map[i][j]);
+					//System.out.println(elementsVectorToString(false));
+				}//for colonne
+			}//for righe
+			//riassegnare alle variabili i valori di default
+			oro=n_oro;
+			pozzi=n_pozzi;
+			wumpus=n_wumpus;
+			celle=n_celle;
+			//svuotare la matrice
+			clear();	
+		}//while
+		System.out.println("Finito");
+	}				
 	
-	
-	
-	
-	
-
 	/** metodo toString() : String
 	 * permette di stampare la disposizione delle celle sulla mappa
 	 * stampando il loro contenuto secondo il metodo toString() definito per l'oggetto Cell
