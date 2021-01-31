@@ -298,9 +298,11 @@ public class Cell {
 	 * @return position: int[], vettore di due celle [i][j]
 	 */
 	public int[] getCellPosition() {
+		//si restituisce il vettore di interi
 		return position;
 	}//getCellPosition
 	
+//TODO
 	/** metodo setCellPosition(int, int){
 	 * questo metodo e' stato previsto per essere utilizzato nella classe GameMap,
 	 * nel momento in cui deve essere inizializzata la mappa, per identificare la
