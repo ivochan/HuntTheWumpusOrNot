@@ -111,6 +111,15 @@ public class TestGameStructure {
 		GameMap gm = new GameMap(hero_side);
 		System.out.println(gm);
 		
+		/*
+		 for(int i=0;i<4;i++) {
+		 	for(int j=0;j<4;j++) {
+				System.out.println(gm.game_map[i][j]+" "+gm.game_map[i][j].getCellPosition());
+			}
+		}
+		*/
+		
+		
 	}//main
 	
 }//TestGameStructure

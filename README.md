@@ -91,7 +91,11 @@ Funzionalità da implementare:
 - revisionare la struttura del vettore degli elementi di gioco in modo da avere a disposizione il numero di elementi, per ogni tipologia di cella, che devono essere posizionati sulla mappa;
 - strutturare il popolamento automatico della mappa di gioco game_map in modo che sia coerente con i dati degli elementi che devono essere inseriti;
 - posizionare dell'eroe nella mappa di gioco;
-- specificare gli indici che descrivono la posizione della casella nella mappa, per ogni cella della matrice;
+  - indicizzare le celle della cornice della matrice, ciascuna con un numero da 0 a 12;
+  - creare un vettore del doppio degli elementi che contenga, nelle celle adiacenti, la coppia di indici identificativa per ogni cella, nella matrice;
+  - generare un numero casuale che definisca in quale cella posizionare l'eroe, se etichettata come SAFE;
+- creare un metodo che inglobi il popolamento della mappa con il posizionamento dell'eroe, prevedendo il caso di ripopolare la mappa se non è stata trovata una collocazione idonea al personaggio giocabile;
+- ~~specificare gli indici che descrivono la posizione della casella nella mappa, per ogni cella della matrice;~~
 - specificare i valori del vettore dei sensori per ogni cella;
 - testare la coerenza delle informazioni dei sensori in base al contenuto delle celle della mappa;
 - testare il popolamento automatico della mappa di gioco;
