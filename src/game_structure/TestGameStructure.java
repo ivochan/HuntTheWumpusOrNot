@@ -108,9 +108,16 @@ public class TestGameStructure {
 		//ESEMPIO del vettore di gioco
 		//| [16] [16] [13] [3] [3] [1] [1] [1] [2] [2] | 
 		*/
+		/*
+		System.out.println("Modalita' Wumpus.");
+		GameMap gm1 = new GameMap(!hero_side);
+		System.out.println(gm1);
+		*/
+		/*
+		System.out.println("Modalita' Eroe.");
 		GameMap gm = new GameMap(hero_side);
 		System.out.println(gm);
-		
+		*/
 		/*
 		 for(int i=0;i<4;i++) {
 		 	for(int j=0;j<4;j++) {

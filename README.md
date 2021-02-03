@@ -88,9 +88,9 @@ Funzionalità da implementare:
 - ~~testare il popolamento manuale della mappa di gioco;~~
 - ~~inserire metodi ed attributi che permettano di identificare la posizione della cella nella mappa;~~
 - ~~testare l'indicizzazione della cella una volta messa nella mappa di gioco con i metodi accessori;~~
-- revisionare la struttura del vettore degli elementi di gioco in modo da avere a disposizione il numero di elementi, per ogni tipologia di cella, che devono essere posizionati sulla mappa;
-- strutturare il popolamento automatico della mappa di gioco game_map in modo che sia coerente con i dati degli elementi che devono essere inseriti;
-- posizionare dell'eroe nella mappa di gioco;
+- ~~revisionare la struttura del vettore degli elementi di gioco in modo da avere a disposizione il numero di elementi, per ogni tipologia di cella, che devono essere posizionati sulla mappa;~~
+- ~~strutturare il popolamento automatico della mappa di gioco game_map in modo che sia coerente con i dati degli elementi che devono essere inseriti;~~
+- posizionare dell'eroe (o wumpus, nella modalita' !hero_side) nella mappa di gioco;
   - indicizzare le celle della cornice della matrice, ciascuna con un numero da 0 a 12;
   - creare un vettore del doppio degli elementi che contenga, nelle celle adiacenti, la coppia di indici identificativa per ogni cella, nella matrice;
   - generare un numero casuale che definisca in quale cella posizionare l'eroe, se etichettata come SAFE;

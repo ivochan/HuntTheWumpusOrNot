@@ -317,10 +317,16 @@ public class Cell {
 	 * che costituiscono la "cornice" della mappa di gioco.
 	 */
 	public void setCellPosition(int i, int j) {
-		//indice di riga
-		position[0]=i;
-		//indice di colonna
-		position[1]=j;
+		//controllo sui parametri
+		if(i<-1 || i>3 || j<-1 || j>3) {
+			System.out.println("Indice di cella non valido!");
+		}
+		else {
+			//indice di riga
+			position[0]=i;
+			//indice di colonna
+			position[1]=j;
+		}
 	}//setCellPosition()
 
 	/** metodo getSenseVector() : boolean []
