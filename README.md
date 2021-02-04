@@ -97,9 +97,9 @@ Funzionalità da implementare:
 - ~~testare il metodo di posizionamento dell'eroe;~~
 - ~~creare un metodo che inglobi il popolamento della mappa con il posizionamento dell'eroe, prevedendo il caso di ripopolare la mappa se non è stata trovata una collocazione idonea al personaggio giocabile;~~
 - ~~specificare gli indici che descrivono la posizione della casella nella mappa, per ogni cella della matrice;~~
-- specificare i valori del vettore dei sensori per ogni cella;
+- specificare i valori del vettore dei sensori per ogni cella vicina a quelle significative;
 - testare la coerenza delle informazioni dei sensori in base al contenuto delle celle della mappa;
-- testare il popolamento automatico della mappa di gioco;
+- ~~testare il popolamento automatico della mappa di gioco;~~
 - definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa;
 - definire il giocatore "HumanPlayer",
 - dotare la classe HumanPlayer dei metodi necessari allo spostamento del personaggio nella mappa;

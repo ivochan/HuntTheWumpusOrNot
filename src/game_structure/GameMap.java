@@ -487,7 +487,7 @@ public class GameMap {
 	 * Se questo valore sara' pari alla lunghezza del vettore allora tutti gli elementi saranno
 	 * true, altrimenti vorra' dire che ci sono ancora celle che non sono state prese in considerazione.
 	 */
-	public boolean areAllTrials(boolean[] v_trials) {
+	private boolean areAllTrials(boolean[] v_trials) {
 		//contatore che tiene traccia di tutti i valori a true
 		int c = 0;
 		//si itera il vettore
@@ -541,7 +541,32 @@ public class GameMap {
 		}//while
 	}//populateMap
 
+	//TODO metodo per impostare i sensori
+	private void SensorAssignement() {
+		//si crea un vettore che conterra' gli indici di riga delle celle
+		//che contengono i pozzi o trappole
+		int [] pit_trap_i = new int[game_elements[4]];
+		int [] pit_trap_j = new int[game_elements[4]];
+		//si crea un vettore che contiene gli indici di riga e colonna della cella avversario
+		int [] enemy_indices = new int[2];
+		//si cercano le celle che contengono i pozzi o trappole
+		whereIsDanger(pit_trap_i, pit_trap_j);
+		//si cerca la cella con il nemico
+		whereIsEnemy(enemy_indices);
+		//trovati gli indici si possono assegnare i sensori
+		//di default entrambi false
+	}//defineSensors()
 	
+	private void whereIsEnemy(int[] enemy_indices) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void whereIsDanger(int[] pit_trap_i, int[] pit_trap_j) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	/** metodo toString() : String
 	 * permette di stampare la disposizione delle celle sulla mappa
