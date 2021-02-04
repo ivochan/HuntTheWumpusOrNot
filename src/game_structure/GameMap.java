@@ -104,7 +104,7 @@ public class GameMap {
 		//DEBUG
 		//System.out.println(elementsVectorToString(true));
 		//si popola la matrice di gioco
-		fillingGameMap();
+		createGameMap();
 	}//GameMap(boolean)
 
 	/** metodo inizializeMaps(): void
@@ -452,7 +452,6 @@ public class GameMap {
 				found = true;
 				//DEBUG
 				System.out.println("Il PG e' stato posizionato nella cella "+"["+i+",]["+j+"]");
-				System.out.println("Cella "+game_map[i][j].toString());
 			}//fi
 			else {
 				//se la cella scelta non era libera si deve ciclare di nuovo 
@@ -488,7 +487,7 @@ public class GameMap {
 	 * Se questo valore sara' pari alla lunghezza del vettore allora tutti gli elementi saranno
 	 * true, altrimenti vorra' dire che ci sono ancora celle che non sono state prese in considerazione.
 	 */
-	private boolean areAllTrials(boolean[] v_trials) {
+	public boolean areAllTrials(boolean[] v_trials) {
 		//contatore che tiene traccia di tutti i valori a true
 		int c = 0;
 		//si itera il vettore
@@ -520,16 +519,37 @@ public class GameMap {
 		return c==v_trials.length;
 	}//areAllTrials()
 
-	//TODO posizionare l'eroe metodo metti eroe nella matrice popolata
-	//scegliere un numero casuale da 0 a 12
-	//vedere a quale cella corrisponde 
-	//indici da prendere i*2 e i*2+1
-	//vettore grande il doppio
-	
 	//TODO metodo complessivo che crea la mappa di gioco
 	//tutto in un while 
 	//se non trovo una cella vuota lungo la cornice, dove mettere l'eroe
 	//devo ripopolare la mappa
+	/** metodo createGameMap(): void
+	 * questo metodo si occupa di creare la mappa di gioco, con l'ausilio dei metodi
+	 * fillingGameMap() e putPG(), venendo richiamato proprio nel costruttore della classe.
+	 * Dopo la sua esecuzione, tutti gli elementi che costituiscono il gioco, compreso
+	 * il personaggio giocabile, sono stati inseriti nella matrice che rappresenta
+	 * la mappa di gioco.
+	 * 
+	 */
+	private void createGameMap() {
+		//variabile asiliaria che indica l'avvenuto posizionamento del pg
+		boolean done = false;
+		//ciclo
+		while(!done) {
+			//si riempie la mappa di gioco
+			fillingGameMap();
+			//DEBUG
+			System.out.println(game_map);
+			//si cerca di posizionare il pg
+			done = putPG();
+			//finche' non si esce dal ciclo viene ripopolata la mappa alla ricerca
+			//di una configurazione idonea al posizionamento del pg
+			System.out.println("Posizionamento PG riuscito? "+done);
+		}//while
+		System.out.println("posizionamento corretto!");
+		System.out.println(game_map);
+	}//populateMap
+
 	
 	
 	/** metodo toString() : String

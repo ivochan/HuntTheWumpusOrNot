@@ -95,7 +95,7 @@ Funzionalità da implementare:
   - ~~creare due vettori del doppio degli elementi che contengano, rispettivamente, gli indici identificativi della posizione di ogni cella nella matrice di gioco;~~
   - ~~generare un numero casuale che definisca in quale cella posizionare l'eroe, se etichettata come SAFE;~~
 - ~~testare il metodo di posizionamento dell'eroe;~~
-- creare un metodo che inglobi il popolamento della mappa con il posizionamento dell'eroe, prevedendo il caso di ripopolare la mappa se non è stata trovata una collocazione idonea al personaggio giocabile;
+- ~~creare un metodo che inglobi il popolamento della mappa con il posizionamento dell'eroe, prevedendo il caso di ripopolare la mappa se non è stata trovata una collocazione idonea al personaggio giocabile;~~
 - ~~specificare gli indici che descrivono la posizione della casella nella mappa, per ogni cella della matrice;~~
 - specificare i valori del vettore dei sensori per ogni cella;
 - testare la coerenza delle informazioni dei sensori in base al contenuto delle celle della mappa;

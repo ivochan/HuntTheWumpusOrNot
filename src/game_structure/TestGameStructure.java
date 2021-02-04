@@ -90,8 +90,40 @@ public class TestGameStructure {
 		*/
 		/*
 		//test sul posizionamento dell'eroe
-		System.out.println("Posizionamento dell'eroe ...");
-		g.putPG(); //questo metodo deve essere pubblico
+		//System.out.println("Posizionamento dell'eroe ...");
+		//g.putPG(); //questo metodo deve essere pubblico
+		//System.out.println(g);
+		*/
+		/*		
+		g.game_map[0][0].setCellStatus(CellStatus.DENIED);
+		g.game_map[0][1].setCellStatus(CellStatus.DENIED);
+		g.game_map[0][2].setCellStatus(CellStatus.DENIED);
+		g.game_map[0][3].setCellStatus(CellStatus.DENIED);
+		g.game_map[1][0].setCellStatus(CellStatus.DENIED);
+		g.game_map[1][3].setCellStatus(CellStatus.DENIED);
+		g.game_map[2][0].setCellStatus(CellStatus.DENIED);
+		g.game_map[2][3].setCellStatus(CellStatus.DENIED);
+		g.game_map[3][0].setCellStatus(CellStatus.DENIED);
+		g.game_map[3][1].setCellStatus(CellStatus.DENIED);
+		g.game_map[3][2].setCellStatus(CellStatus.DENIED);
+		g.game_map[3][3].setCellStatus(CellStatus.DENIED);
+		//posizionamento del pg
+		System.out.println("Il PG e' stato messo? "+g.putPG());
+		//test con nessuna casella disponibile
+		System.out.println(g);
+		boolean done = false;
+		//ciclo
+		while(!done) {
+			//si cerca di posizionare il pg
+			done = g.putPG();
+			//finche' non si esce dal ciclo viene ripopolata la mappa alla ricerca
+			//di una configurazione idonea al posizionamento del pg
+			System.out.println("Posizionamento PG riuscito? "+done);
+			//
+			g.fillingGameMap();
+			System.out.println(g);
+		}//while
+		System.out.println("posizionamento corretto!");
 		System.out.println(g);
 		*/
 		
