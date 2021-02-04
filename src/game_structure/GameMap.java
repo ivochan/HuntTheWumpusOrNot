@@ -372,6 +372,154 @@ public class GameMap {
 		}//while
 	}//fillingGameMap()			
 	
+	/** metodo putPG(): void
+	 * questo metodo si occupa di posizionare il personaggio giocabile nella mappa
+	 * dopo che e' stata popolata con gli altri elementi di gico.
+	 * Questo personaggio giocabile puo' essere l'eroe oppure il wumpus, a seconda
+	 * della modalita' di gioco considerata.
+	 * Questo metodo viene eseguito dopo che il metodo fillingGameMap() ha trovato una
+	 * configurazione valida per tutti gli elementi da posizionare.
+	 * Se questo metodo dovesse fallire il posizionamento del PG, allora,
+	 * il metodo di riempimento della mappa andra' rieseguito.
+	 * Per la realizzazione di questo metodo bisogna tenere presente:
+	 * - un vettore di 12 celle, che conterra' un numero identificativo per ogni cella
+	 * 	 ad esempio la cella (1,0) e' la numero 11;
+	 * - un vettore di 24 celle, il doppio del precendente, in cui le celle conterranno, 
+	 *	 a due a due ed in posizioni adiacenti, gli indici della cella a cui si riferiscono,
+	 *	 indicativi della posizione che questa assume nella matrice di gioco
+	 *	 ad esempio: [0][0][...] le prime due celle del vettore sono gli indici della cella
+	 *	 identificata come 0;
+	 * Segue la numerazione utilizzata:		
+	 * 
+	 * | |0,0| |0,1| |0,2| |0,3| |			|  |0| |1| |2| |3| |
+	 * | |1,0| |1,1| |1,2| |1,3| |			| |11| |X| |X| |4| |
+	 * | |2,0| |2,1| |2,2| |2,3| |			| |10| |X| |X| |5| |
+	 * | |3,0| |3,1| |3,2| |3,3| |			|  |9| |8| |7| |6| |
+	 *
+	 *	Cella i-esima
+	 *
+	 *	{0,		1,	   2,	  3,	 4,		5,	   6,	  7,	 8, 	9,	  10,	 11}
+	 *
+	 *	Coppia di indici [i][j]
+	 *
+	 *	[0][0] [0][1] [0][2] [0][3] [1][3] [2][3] [3][3] [3][2] [3][1] [3][0] [2][0] [1][0]	
+	 *
+	 * Quindi, verra' generato un numero casuale tra 0 e 12 (escluso) che indichera' la cella
+	 * predestinata a contenere il personaggio giocabile, verranno estratti dal vettore degli
+	 * indici la coppia che ne descrive la posizione nella matrice e si verifichera' che sia 
+	 * libera, cioe' etichettata come SAFE.
+	 */
+	private boolean putPG() {
+		//si scrive il vettore degli indici riga della matrice, per le celle della cornice
+		int [] r_index = {0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 2, 1};
+		//si scrive il vettore degli indici colonna della matrice, per le celle della cornice
+		int [] c_index = {0, 1, 2, 3, 3, 3, 3, 2, 1, 0, 0, 0};
+		//vettore che tiene traccia dei tentativi che sono stati effettuati
+		boolean [] v_trials = new boolean[12];
+		//variabile booleana che indica se e' stata trovata la posizione idonea 
+		boolean found = false;
+		/* variabile boolean che indica se sono stati fatti tutti i tentativi possibili,
+		 * ovvero se sono state esaminate tutte le celle della cornice
+		 */
+		boolean all_trials =false;
+		//ciclo di posizionamento del pg
+		while(!found && !all_trials) {
+			/* si genera il numero casuale da 0 a 12 (escluso)
+			 * questo indichera' la posizione in cui trovare l'indice di interesse,
+			 *sia nel vettore deglie indici riga che nel vettore degli indici colonna
+			 */
+			int rand = (int)(Math.random()*12);
+			//si preleva l'indice di riga
+			int i = r_index[rand];
+			//si preleva l'indice di colonna
+			int j = c_index[rand];
+			//si aggiorna il vettore dei tentativi
+			v_trials[rand] = true;
+			//si controlla se la cella della cornice sia libera
+			String cs = game_map[i][j].getCellStatus();
+			//si controlla che sia libera
+			if(cs.equals(CellStatus.SAFE.name())) {
+				//se la cella e' libera si puo' posizionare il pg
+				if(hero_side) {
+					//modalita' eroe
+					game_map[i][j].setCellStatus(CellStatus.HERO);
+				}
+				else {
+					//modalita' wumpus
+					game_map[i][j].setCellStatus(CellStatus.HERO);
+				}
+				//si imposta la variabile boolean
+				found = true;
+				//DEBUG
+				System.out.println("Il PG e' stato posizionato nella cella "+"["+i+",]["+j+"]");
+				System.out.println("Cella "+game_map[i][j].toString());
+			}//fi
+			else {
+				//se la cella scelta non era libera si deve ciclare di nuovo 
+				found =false;
+			}
+			/* se sono state controllate tutte le celle dei vettori degli indici
+			 * non c'e' una combinazione valida quindi il metodo termina senza aver 
+			 * posizionato il pg
+			 */
+			all_trials = areAllTrials(v_trials);
+			//DEBUG
+			//System.out.println("found "+found);
+			//System.out.println("areAllTrials? "+all_trials);
+		}
+		//indica se e' stata trovata una posizione al pg nella mappa di gioco
+		return found;
+	}//putPG()
+	
+	/** metodo areAllTrials(boolean []): boolean
+	 * questo metodo itera il vettore dei tentativi v_trials, cioe' quello che contiene
+	 * una variabile boolean per ogni cella, in modo da indicare se la casella della 
+	 * matrice di gioco che corrisponde all'indice della cella del vettore e' stata gia'
+	 * controllata o meno, come possibile posizione per il pg.
+	 * Se tutte le celle sono state verificare, percio' il vettore dei tentativi contiene
+	 * true in ogni suo elemento, allora il metodo che si occupa di posizionare il pg
+	 * termina senza successo, rendendo necessario rielaborare una nuova configurazione
+	 * per tutti gli elementi di gioco che devono essere posizionati sulla mappa.
+	 *  
+	 * @param v_trials: boolean [], e' il vettore di variabili booleane;
+	 * @return true, se ogni elemento del vettore e' pari a true,
+	 * 		   false, altrimenti. Questo verra' verificato tenendo traccia di una variabile
+	 * 		   contatore che verra' incrementata ad ogni valore pari a true trovato nel vettore.
+	 * Se questo valore sara' pari alla lunghezza del vettore allora tutti gli elementi saranno
+	 * true, altrimenti vorra' dire che ci sono ancora celle che non sono state prese in considerazione.
+	 */
+	private boolean areAllTrials(boolean[] v_trials) {
+		//contatore che tiene traccia di tutti i valori a true
+		int c = 0;
+		//si itera il vettore
+		for(int i=0;i<v_trials.length;i++) {
+			//si controlla il contenuto della cella
+			if(v_trials[i]==true) {
+				//si incrementa il contatore
+				c++;
+			}//fi
+		}//for del vettore
+		//se il contatore e' pari alla lunghezza del vettore vuol dire che tutti 
+		//gli elementi sono pari a true
+		/*
+		//DEBUG stampa vettore
+		System.out.print("[");
+		for(int i=0;i<v_trials.length;i++) {
+			if(i<v_trials.length-1) {
+				//non e' l'ultimo elemento
+				System.out.print(v_trials[i]+"] [");
+			}//fi
+			else {
+				//e' l'ultimo elemento
+				System.out.println(v_trials[i]+"]");
+			}//else
+		}//for
+		*/
+		//DEBUG
+		//System.out.println("cont "+c);
+		return c==v_trials.length;
+	}//areAllTrials()
+
 	//TODO posizionare l'eroe metodo metti eroe nella matrice popolata
 	//scegliere un numero casuale da 0 a 12
 	//vedere a quale cella corrisponde 

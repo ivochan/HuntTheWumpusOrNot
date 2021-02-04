@@ -37,11 +37,13 @@ public class TestGameStructure {
 		System.out.println("Posizione "+c.getCellPosition());
 		*/
 		
-		/*//###############		test riempimento MAPPA: MANUALE		####################
+		//###############		test riempimento MAPPA: MANUALE		####################
 		GameMap g = new GameMap(hero_side);
+		System.out.println(g);
 		//stampa della dimensione della mappa
-		System.out.println("Length della mappa "+g.game_map.length);
+		//System.out.println("Length della mappa "+g.game_map.length);
 		//riempimento mappa 
+		/*
 		for(int i=0;i<4;i++) {
 			for(int j=0;j<4;j++) {
 				//inizializzazione delle celle di default
@@ -52,6 +54,8 @@ public class TestGameStructure {
 		}//for righe
 		//stampa della mappa
 		System.out.println("Mappa inizializzata di default:\n"+g);
+		*/
+		/*
 		//si specificano altri valori per le celle
 		g.game_map[0][0].setCellStatus(CellStatus.HERO);
 		g.game_map[2][2].setCellStatus(CellStatus.DENIED);
@@ -59,8 +63,9 @@ public class TestGameStructure {
 		g.game_map[2][3].setCellStatus(CellStatus.DENIED);
 		g.game_map[1][3].setCellStatus(CellStatus.GOLD);
 		g.game_map[1][2].setCellStatus(CellStatus.PIT);
-		g.game_map[2][0].setCellStatus(CellStatus.PIT);
+		g.game_map[2][0].setCellStatus(CellStatus.SAFE);
 		g.game_map[3][0].setCellStatus(CellStatus.WUMPUS);
+		
 		//si cercano le celle non inizializzate per riempirle come SAFE
 		for(int i=0;i<4;i++) {
 			for(int j=0;j<4;j++) {
@@ -73,16 +78,25 @@ public class TestGameStructure {
 				//altrimenti si lascia il contenuto della cella così com'è
 			}//for colonne
 		}//for righe
-		//TODO non mettere l'oro, il wumpus o l'eroe circondato dalle celle non accessibili
+		//N.B. non mettere l'oro, il wumpus o l'eroe circondato dalle celle non accessibili
 		//mappa creata
 		//||H| |S| |S| |S||
  		//||S| |S| |P| |S||
  		//||P| |S| |D| |D||
  		//||W| |S| |D| |G||
 		System.out.println(g);
+		//Cell c1 = g.game_map[0][1];
+		//System.out.println(c1.getCellStatus().equals("SAFE"));
+		*/
+		/*
+		//test sul posizionamento dell'eroe
+		System.out.println("Posizionamento dell'eroe ...");
+		g.putPG(); //questo metodo deve essere pubblico
+		System.out.println(g);
 		*/
 		
-		/*//#####################		Test riempimento VETTORE elementi di GIOCO		#################
+		/*
+		//#####################		Test riempimento VETTORE elementi di GIOCO		#################
 		//si costruisce un nuovo oggetto mappa
 		GameMap g1 =new GameMap(hero_side);
 		System.out.println(g1);
@@ -125,8 +139,7 @@ public class TestGameStructure {
 			}
 		}
 		*/
-		
-		
+	
 	}//main
 	
 }//TestGameStructure
