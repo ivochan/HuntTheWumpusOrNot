@@ -38,8 +38,12 @@ public class TestGameStructure {
 		*/
 		
 		//###############		test riempimento MAPPA: MANUALE		####################
+		//GameMap gm = new GameMap();
+		//System.out.println(gm);
 		GameMap g = new GameMap(hero_side);
 		System.out.println(g);
+		//GameMap ga = new GameMap(!hero_side);
+		//System.out.println(ga);
 		//stampa della dimensione della mappa
 		//System.out.println("Length della mappa "+g.game_map.length);
 		//riempimento mappa 

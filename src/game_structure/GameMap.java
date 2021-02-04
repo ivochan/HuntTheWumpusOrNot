@@ -446,12 +446,12 @@ public class GameMap {
 				}
 				else {
 					//modalita' wumpus
-					game_map[i][j].setCellStatus(CellStatus.HERO);
+					game_map[i][j].setCellStatus(CellStatus.WUMPUS);
 				}
 				//si imposta la variabile boolean
 				found = true;
 				//DEBUG
-				System.out.println("Il PG e' stato posizionato nella cella "+"["+i+",]["+j+"]");
+				//System.out.println("Il PG e' stato posizionato nella cella "+"["+i+",]["+j+"]");
 			}//fi
 			else {
 				//se la cella scelta non era libera si deve ciclare di nuovo 
@@ -519,17 +519,12 @@ public class GameMap {
 		return c==v_trials.length;
 	}//areAllTrials()
 
-	//TODO metodo complessivo che crea la mappa di gioco
-	//tutto in un while 
-	//se non trovo una cella vuota lungo la cornice, dove mettere l'eroe
-	//devo ripopolare la mappa
 	/** metodo createGameMap(): void
 	 * questo metodo si occupa di creare la mappa di gioco, con l'ausilio dei metodi
 	 * fillingGameMap() e putPG(), venendo richiamato proprio nel costruttore della classe.
 	 * Dopo la sua esecuzione, tutti gli elementi che costituiscono il gioco, compreso
 	 * il personaggio giocabile, sono stati inseriti nella matrice che rappresenta
 	 * la mappa di gioco.
-	 * 
 	 */
 	private void createGameMap() {
 		//variabile asiliaria che indica l'avvenuto posizionamento del pg
@@ -538,16 +533,12 @@ public class GameMap {
 		while(!done) {
 			//si riempie la mappa di gioco
 			fillingGameMap();
-			//DEBUG
-			System.out.println(game_map);
 			//si cerca di posizionare il pg
 			done = putPG();
 			//finche' non si esce dal ciclo viene ripopolata la mappa alla ricerca
 			//di una configurazione idonea al posizionamento del pg
-			System.out.println("Posizionamento PG riuscito? "+done);
+			//System.out.println("Posizionamento PG riuscito? "+done);
 		}//while
-		System.out.println("posizionamento corretto!");
-		System.out.println(game_map);
 	}//populateMap
 
 	
