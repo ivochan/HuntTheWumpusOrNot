@@ -1,7 +1,5 @@
 package game_structure;
 
-import java.util.Random;
-
 /** classe GameMap
  * @author ivonne
  * Questa classe realizza la mappa di gioco, i cui elementi saranno:
@@ -549,25 +547,62 @@ public class GameMap {
 		int [] pit_trap_j = new int[game_elements[4]];
 		//si crea un vettore che contiene gli indici di riga e colonna della cella avversario
 		int [] enemy_indices = new int[2];
-		//si cercano le celle che contengono i pozzi o trappole
-		whereIsDanger(pit_trap_i, pit_trap_j);
-		//si cerca la cella con il nemico
-		whereIsEnemy(enemy_indices);
-		//trovati gli indici si possono assegnare i sensori
-		//di default entrambi false
+		//si cercano le celle di interesse e si assegnano i rispettivi indici
+		settingIndices(enemy_indices, pit_trap_i, pit_trap_j);
+		//si specificano i valori dei sensori
+		updateSensors(enemy_indices, pit_trap_i, pit_trap_j);
 	}//defineSensors()
 	
-	private void whereIsEnemy(int[] enemy_indices) {
+	private void updateSensors(int[] enemy_indices, int[] pit_trap_i, int[] pit_trap_j) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void whereIsDanger(int[] pit_trap_i, int[] pit_trap_j) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	//TODO
 	
+	
+		
+	private void settingIndices(int[] enemy_indices, int[] pit_trap_i, int[] pit_trap_j) {
+		//variabile ausiliaria
+		String cstatus = new String("");
+		//indici per iterare i valori dei vettori delle posizioni di pozzi o trappole
+		int i_pt=0;
+		int j_pt=0;
+		//si itera la mappa di gioco dopo che e' stata totalmente popolata
+		for(int i=0;i<r;i++) { //for righe
+			//for colonne
+			for(int j=0;j<c;j++) {
+				//si preleva lo stato della cella attuale sottoforma di stringa
+				cstatus = new String(game_map[i][j].getCellStatusEnum().name());
+				//si cerca la cella che contiene il nemico
+				if(cstatus.equals("WUMPUS") || cstatus.equals("HERO")) {
+					//il nemico, qualunque sia la modalita' e' stato trovato
+					//DEBUG
+					System.out.println(cstatus);
+					//si prelevano gli indici di cella
+					enemy_indices[0]=i; //indice di riga
+					enemy_indices[1]=j; //indice di colonna
+					//TODO il valore dei sensori di queste celle e' false 
+				}//fi
+				else if(cstatus.equals("PIT") || cstatus.equals("TRAP")) {
+					//e' stata trovata una cella contenente il pozzo o trappola
+					pit_trap_i[i_pt] = i; //indice di riga
+					pit_trap_j[j_pt] = j; //indice di colonna
+					//controllo sugli indici e conseguente incremento
+					if(i_pt < pit_trap_i.length && j_pt < pit_trap_j.length) {
+						//si incrementano gli indici per accedere alla cella successiva
+						i_pt++;
+						j_pt++;
+					}
+				}
+				else {
+					System.out.println("non ci sono piu' elementi di interesse");
+				}
+			}
+		}
+		
+	}//settingIndices
+
 	/** metodo toString() : String
 	 * permette di stampare la disposizione delle celle sulla mappa
 	 * stampando il loro contenuto secondo il metodo toString() definito per l'oggetto Cell
