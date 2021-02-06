@@ -381,7 +381,7 @@ public class Cell {
 		else {
 			sense_info=new String("Il vettore dei sensi del mostro:\n||Creak| |Swish||\n");
 		}
-		return sense_info+"||"+sense_vector[0]+"| |"+sense_vector[1]+"||\n";
+		return sense_info+"||"+sense_vector[0]+" | | "+sense_vector[1]+"||\n";
 	}//SenseVectorToString()
 	
 	/** metodo isVisited(): boolean

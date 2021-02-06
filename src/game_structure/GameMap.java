@@ -103,6 +103,8 @@ public class GameMap {
 		//System.out.println(elementsVectorToString(true));
 		//si popola la matrice di gioco
 		createGameMap();
+		//si assegnano le indicazioni
+		sensorAssignement();
 	}//GameMap(boolean)
 
 	/** metodo inizializeMaps(): void
@@ -540,7 +542,7 @@ public class GameMap {
 	}//populateMap
 
 	//TODO metodo per impostare i sensori
-	private void SensorAssignement() {
+	private void sensorAssignement() {
 		//si crea un vettore che conterra' gli indici di riga delle celle
 		//che contengono i pozzi o trappole
 		int [] pit_trap_i = new int[game_elements[4]];
@@ -549,16 +551,99 @@ public class GameMap {
 		int [] enemy_indices = new int[2];
 		//si cercano le celle di interesse e si assegnano i rispettivi indici
 		settingIndices(enemy_indices, pit_trap_i, pit_trap_j);
-		//si specificano i valori dei sensori
-		updateSensors(enemy_indices, pit_trap_i, pit_trap_j);
+		//si specificano i valori dei sensori per il nemico
+		updateEnemySensors(enemy_indices);
+		//si specificano i valori dei sensori per gli indizi
+		updateDangerSensors(pit_trap_i, pit_trap_j);
 	}//defineSensors()
 	
-	private void updateSensors(int[] enemy_indices, int[] pit_trap_i, int[] pit_trap_j) {
-		// TODO Auto-generated method stub
-		
+	private void updateEnemySensors(int[] enemy_indices) {
+		//si prelevano gli indici del nemico
+		int ie = enemy_indices[0];
+		int je = enemy_indices[1];
+		//si controlla di non sforare la dimensione del vettore
+		//System.out.println("Il nemico e' nella cella "+ie+","+je);
+		//si specifica il vettore dei sensori per le celle attorno al nemico
+		//cella a sinistra
+		if(je>0) {
+			//DEBUG
+			//System.out.println("cella "+ie+","+(je-1));
+			//STINK o CREAK
+			game_map[ie][je-1].setSenseVectorCell(0,true);
+			//System.out.println(game_map[ie][je-1].senseVectorToString(hero_side));
+		}
+		//cella in alto
+		if(ie>0) {
+			//DEBUG
+			//System.out.println("cella "+(ie-1)+","+je);
+			//STINK o CREAK
+			game_map[ie-1][je].setSenseVectorCell(0,true);
+			//System.out.println(game_map[ie-1][je].senseVectorToString(hero_side));
+		}
+		//cella a destra
+		if(je<3) {
+			//DEBUG
+			//System.out.println("cella "+ie+","+(je+1));
+			//STINK o CREAK
+			game_map[ie][je+1].setSenseVectorCell(0,true);
+			//System.out.println(game_map[ie][je+1].senseVectorToString(hero_side));
+		}
+		//cella in basso
+		if(ie<3) {
+			//DEBUG
+			//System.out.println("cella "+(ie+1)+","+je);
+			//STINK o CREAK
+			game_map[ie+1][je].setSenseVectorCell(0,true);
+			//System.out.println(game_map[ie+1][je].senseVectorToString(hero_side));
+		}
 	}
 
-	//TODO
+	private void updateDangerSensors(int[] pit_trap_i, int[] pit_trap_j) {
+		//variabili ausiliarie per scorrere i vettori
+		int id=0;
+		int jd=0;
+		//si iterano i vettori per prelevare gli indici riga e colonna
+		for(int p=0; p<pit_trap_i.length; p++) {
+			//si preleva la coppia di indici
+			id = pit_trap_i[p];
+			jd = pit_trap_j[p];
+			//si specifica il vettore dei sensori per le celle attorno al nemico
+			System.out.println("Il pericolo e' nella cella "+id+","+jd);
+			//cella a sinistra
+			if(jd>0) {
+				//DEBUG
+				System.out.println("cella "+id+","+(jd-1));
+				//BREEZE o SWISH
+				game_map[id][jd-1].setSenseVectorCell(1,true);
+				System.out.println(game_map[id][jd-1].senseVectorToString(hero_side));
+			}
+			//cella in alto
+			if(id>0) {
+				//DEBUG
+				System.out.println("cella "+(id-1)+","+jd);
+				//BREEZE o SWISH
+				game_map[id-1][jd].setSenseVectorCell(1,true);
+				System.out.println(game_map[id-1][jd].senseVectorToString(hero_side));
+			}
+			//cella a destra
+			if(jd<3) {
+				//DEBUG
+				System.out.println("cella "+id+","+(jd+1));
+				//BREEZE o SWISH
+				game_map[id][jd+1].setSenseVectorCell(1,true);
+				System.out.println(game_map[id][jd+1].senseVectorToString(hero_side));
+			}
+			//cella in basso
+			if(id<3) {
+				//DEBUG
+				System.out.println("cella "+(id+1)+","+jd);
+				//BREEZE o SWISH
+				game_map[id+1][jd].setSenseVectorCell(1,true);
+				System.out.println(game_map[id+1][jd].senseVectorToString(hero_side));
+			}
+		}//for
+		
+	}//updateDangerSensor
 	
 	
 		
@@ -575,17 +660,24 @@ public class GameMap {
 				//si preleva lo stato della cella attuale sottoforma di stringa
 				cstatus = new String(game_map[i][j].getCellStatusEnum().name());
 				//si cerca la cella che contiene il nemico
-				if(cstatus.equals("WUMPUS") || cstatus.equals("HERO")) {
-					//il nemico, qualunque sia la modalita' e' stato trovato
+				if(cstatus.equals("WUMPUS") && hero_side) {
+					//e'stato trovato il mostro
+					//si prelevano gli indici di cella
+					enemy_indices[0]=i; //indice di riga
+					enemy_indices[1]=j; //indice di colonna 
 					//DEBUG
-					System.out.println(cstatus);
+					//System.out.println(cstatus);
+				}//fi
+				if(cstatus.equals("HERO") && !hero_side) {
+					//e' stato trovato l'eroe
 					//si prelevano gli indici di cella
 					enemy_indices[0]=i; //indice di riga
 					enemy_indices[1]=j; //indice di colonna
-					//TODO il valore dei sensori di queste celle e' false 
-				}//fi
-				else if(cstatus.equals("PIT") || cstatus.equals("TRAP")) {
-					//e' stata trovata una cella contenente il pozzo o trappola
+					//DEBUG
+					//System.out.println(cstatus);
+				}
+				if(cstatus.equals("PIT") && hero_side) {
+					//e' stata trovata una cella contenente il pozzo
 					pit_trap_i[i_pt] = i; //indice di riga
 					pit_trap_j[j_pt] = j; //indice di colonna
 					//controllo sugli indici e conseguente incremento
@@ -594,9 +686,21 @@ public class GameMap {
 						i_pt++;
 						j_pt++;
 					}
+					//DEBUG
+					//System.out.println(cstatus);
 				}
-				else {
-					System.out.println("non ci sono piu' elementi di interesse");
+				if(cstatus.equals("TRAP") && !hero_side) {
+					//e' stata trovata una cella contenente la trappola
+					pit_trap_i[i_pt] = i; //indice di riga
+					pit_trap_j[j_pt] = j; //indice di colonna
+					//controllo sugli indici e conseguente incremento
+					if(i_pt < pit_trap_i.length && j_pt < pit_trap_j.length) {
+						//si incrementano gli indici per accedere alla cella successiva
+						i_pt++;
+						j_pt++;
+					}
+					//DEBUG
+					//System.out.println(cstatus);		
 				}
 			}
 		}
