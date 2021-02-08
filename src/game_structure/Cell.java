@@ -1,4 +1,4 @@
-package game_structure;
+ package game_structure;
 /** classe Cell
  * racchiude le due enumerazioni utilizzate per descrivere il vettore dei sensori
  * associato ad ogni oggetto Cell 
@@ -407,6 +407,27 @@ public class Cell {
 		else
 			return "|"+new String(this.content+"|");
 	}//toString()
-
+	
+	/**
+	 * 
+	 * @param c
+	 */
+	public void cellSpecs(Cell c) {
+		//questo metodo si usa per copiare le specifiche della 
+		//cella che e' stata visitata nella matrice di eplorazione
+		this.isVisited=true;
+		//si copiano le caratteristiche della cella c
+		//in quella su cui il metodo e' invocato
+		this.status=c.status; //stato
+		this.content=c.content; //contenuto
+		//si prelevano le posizioni
+		this.position[0]=c.position[0];//indice di riga
+		this.position[1]=c.position[1];//indice di colonna
+		//vettore dei sensori
+		this.sense_vector[0]=c.sense_vector[0];
+		this.sense_vector[1]=c.sense_vector[1];
+		//questa cella si copia nella matrice di esplorazione
+		//TODO
+	}//cellSpecs
 	
 }//Cell

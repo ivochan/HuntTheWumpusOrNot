@@ -76,6 +76,12 @@ public class GameMap {
 	 */
 	int [] game_elements= new int [5];
 	
+	/** pg_start_position
+	 * vettore che contiene l'indice di riga e colonna che contiene
+	 * la posizione del pg nella mappa
+	 */
+	int [] pg_start_position= new int[2];
+	
 	/**costruttore di default GameMap()
 	 * non riceve nessun parametro
 	 * percio' di default la modalita' di gioco e' hero_side
@@ -105,7 +111,23 @@ public class GameMap {
 		createGameMap();
 		//si assegnano le indicazioni
 		sensorAssignement();
+		//si assegna la posizione del pg come punto di inizio del gioco
+		pgStart();
 	}//GameMap(boolean)
+
+	/**
+	 * 
+	 */
+	private void pgStart() {
+		//si cerca dove sia posizionato il pg
+		for(int i=0; i<r; i++) {
+			for(int j=0; j<c; j++) {
+				//si controlla la modalita'
+				
+			}//for colonne
+		}//for righe
+		
+	}
 
 	/** metodo inizializeMaps(): void
 	 * questo metodo si occupa di inizializzare la matrice di gioco

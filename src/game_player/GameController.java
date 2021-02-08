@@ -38,10 +38,15 @@ public class GameController {
 	//viene creata la mappa di gioco
 	
 	//viene creata la mappa di esplorazione
-	
+	private int [] exploration_map;
 	
 	//posizione in cui si trova il personaggio all'inizio
-	private int [] start_pg_position; 
+	private int [] pg_position; 
+	
+	private void finPG() {
+		//si scorre la matrice di gioco alla ricerca del personaggio
+		
+	}
 	
 	
 	private int getPGIposition() {
