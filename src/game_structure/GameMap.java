@@ -641,38 +641,38 @@ public class GameMap {
 			id = pit_trap_i[p];
 			jd = pit_trap_j[p];
 			//si specifica il vettore dei sensori per le celle attorno al nemico
-			System.out.println("Il pericolo e' nella cella "+id+","+jd);
+			//System.out.println("Il pericolo e' nella cella "+id+","+jd);
 			//cella a sinistra
 			if(jd>0) {
 				//DEBUG
-				System.out.println("cella "+id+","+(jd-1));
+				//System.out.println("cella "+id+","+(jd-1));
 				//BREEZE o SWISH
 				game_map[id][jd-1].setSenseVectorCell(1,true);
-				System.out.println(game_map[id][jd-1].senseVectorToString(hero_side));
+				//System.out.println(game_map[id][jd-1].senseVectorToString(hero_side));
 			}
 			//cella in alto
 			if(id>0) {
 				//DEBUG
-				System.out.println("cella "+(id-1)+","+jd);
+				//System.out.println("cella "+(id-1)+","+jd);
 				//BREEZE o SWISH
 				game_map[id-1][jd].setSenseVectorCell(1,true);
-				System.out.println(game_map[id-1][jd].senseVectorToString(hero_side));
+				//System.out.println(game_map[id-1][jd].senseVectorToString(hero_side));
 			}
 			//cella a destra
 			if(jd<3) {
 				//DEBUG
-				System.out.println("cella "+id+","+(jd+1));
+				//System.out.println("cella "+id+","+(jd+1));
 				//BREEZE o SWISH
 				game_map[id][jd+1].setSenseVectorCell(1,true);
-				System.out.println(game_map[id][jd+1].senseVectorToString(hero_side));
+				//System.out.println(game_map[id][jd+1].senseVectorToString(hero_side));
 			}
 			//cella in basso
 			if(id<3) {
 				//DEBUG
-				System.out.println("cella "+(id+1)+","+jd);
+				//System.out.println("cella "+(id+1)+","+jd);
 				//BREEZE o SWISH
 				game_map[id+1][jd].setSenseVectorCell(1,true);
-				System.out.println(game_map[id+1][jd].senseVectorToString(hero_side));
+				//System.out.println(game_map[id+1][jd].senseVectorToString(hero_side));
 			}
 		}//for
 	}//updateDangerSensor
