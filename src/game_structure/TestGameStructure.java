@@ -42,6 +42,8 @@ public class TestGameStructure {
 		//System.out.println(gm);
 		GameMap g = new GameMap(hero_side);
 		System.out.println(g);
+		boolean info=false;
+		System.out.println(g.toStringExplorationMap(info));
 		//GameMap ga = new GameMap(!hero_side);
 		//System.out.println(ga);
 		//stampa della dimensione della mappa
@@ -176,6 +178,10 @@ public class TestGameStructure {
 		}
 		*/
 	
+		//ultimi test
+		int [] map_dims = GameMap.getMapDimensions();
+		System.out.println("numero di righe "+map_dims[0]);
+		System.out.println("numero di colonne "+map_dims[1]);
 	}//main
 	
 }//TestGameStructure

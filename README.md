@@ -100,12 +100,21 @@ Funzionalità da implementare:
 - ~~specificare i valori del vettore dei sensori per ogni cella vicina a quelle significative;~~
 - ~~testare la coerenza delle informazioni dei sensori in base al contenuto delle celle della mappa;~~
 - ~~testare il popolamento automatico della mappa di gioco;~~
-- definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa;
+- definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa, ad esempio:
+  - ~~definire la enum che indica le direzioni in cui è possibile effettuare una mossa;~~
+  - realizzare i metodi accessori che consentono di avere informazioni sulla enum;
+  - controllare che la mossa sia valida:
+    - in termini di indici che identificano la posizione della cella di arrivo nella mappa di gioco;
+    - in termini di adiacenza alla cella che rappresenta la posizione corrente del pg;
+  - effettuare la mossa scelta, nella direzione specificata:
+    - in base alla direzione dedurre gli indici della nuova cella;
+    - effettuare la mossa inserendo la cella visitata nella mappa di esplorazione nota al giocatore;
+  - controllare e aggiornare la posizione corrente del pg;
 - definire il giocatore "HumanPlayer",
 - dotare la classe HumanPlayer dei metodi necessari allo spostamento del personaggio nella mappa;
 - tenere traccia delle caselle visitate in una copia della mappa di gioco, denominata exploration_map;
 - utilizzare il flag isVisited per identificare le celle che sono state esaminate e copiarle nella exploration_map, nella stessa posizione occupata nella game_map;
-- definire i meccanismi di gioco a disposizione di HumanPlayer come:
+- definire i meccanismi di gioco a disposizione come:
   -  l'inizio della partita, 
   - il calcolo del punteggio, 
   - la scelta della mossa

@@ -40,8 +40,8 @@ public class GameMap {
 	 * -n_cells rappresenta il numero complessivo delle celle della matrice, 
 	 * 	dato dal prodotto delle due dimensioni, r e c.
 	 */
-	private int r = 4; //righe
-	private int c= 4; //colonne
+	private static int r = 4; //righe
+	private static int c= 4; //colonne
 	//numero delle celle
 	private int n_cells = r*c;
 
@@ -76,11 +76,11 @@ public class GameMap {
 	 */
 	int [] game_elements= new int [5];
 	
-	/** pg_start_position
+	/** pg__position
 	 * vettore che contiene l'indice di riga e colonna che contiene
 	 * la posizione del pg nella mappa
 	 */
-	int [] pg_start_position= new int[2];
+	int [] pg_position= new int[2];
 	
 	/**costruttore di default GameMap()
 	 * non riceve nessun parametro
@@ -114,20 +114,6 @@ public class GameMap {
 		//si assegna la posizione del pg come punto di inizio del gioco
 		pgStart();
 	}//GameMap(boolean)
-
-	/**
-	 * 
-	 */
-	private void pgStart() {
-		//si cerca dove sia posizionato il pg
-		for(int i=0; i<r; i++) {
-			for(int j=0; j<c; j++) {
-				//si controlla la modalita'
-				
-			}//for colonne
-		}//for righe
-		
-	}
 
 	/** metodo inizializeMaps(): void
 	 * questo metodo si occupa di inizializzare la matrice di gioco
@@ -803,12 +789,14 @@ public class GameMap {
 	
 	/** metodo toStringExplorationMap() : String
 	 * permette di stampare la disposizione delle celle sulla mappa di esplorazione
-	 * per poter cos' vedere i progressi nel gioco
-	 * ed eventualmente confrontarla con la mappa di gioco
+	 * per poter cosi' vedere i progressi nel gioco ed eventualmente confrontarla con la mappa di gioco
 	 * le celle della mappa sono stampate secondo il metodo toString() definito per l'oggetto Cell
+	 * Se la cella (i,j) non e' stata ancora visitata, anziche' il suo contenuto, verra' stampata come "X".
+	 * @param info: boolean, questo flag indica se si vuole stampare a video la legenda che chiarisce
+	 * 						 quali elementi di gioco siano stati indicati sulla mappa con le lettere.
 	 * @return print_map: String, stringa che contiene la mappa, poi stampata a video.
 	 */
-	public String toStringExplorationMap() {
+	public String toStringExplorationMap(boolean info) {
 		//si crea la stringa che rappresenta la mappa da stampare
 		String print_map = new String();
 		for(int i=0; i<r; i++) {
@@ -818,16 +806,20 @@ public class GameMap {
 				//si scorrono le colonne della matrice
 				//si stampa il contenuto della cella 
 				if(j<c-1) {
-					print_map+=exploration_map[i][j]+ " ";
+					print_map+=(exploration_map[i][j].isVisited()?exploration_map[i][j]:"|X|")+ " ";
 				}
 				else {
-					print_map+=exploration_map[i][j];
+					print_map+=(exploration_map[i][j].isVisited()?exploration_map[i][j]:"|X|");
 				}
 			}//for colonne
 			print_map+="|\n"; //si stampa la fine della riga e si va a capo
 		}//for righe
-		
-		return legenda+"\n"+print_map;
+		if(info) {
+			return legenda+"\n"+print_map;
+		}
+		else {
+			return "\n"+print_map;
+		}
 	}//toString()
 	
 	/** elementsVectortoString() :String
@@ -875,6 +867,23 @@ public class GameMap {
 	public int getMapNCells() {
 		return n_cells;
 	}//getMapDimension
+	
+	/** metodo statico getMapDimensions(): int []
+	 * questo metodo restituisce un vettore di due elementi che contiene:
+	 * -nella prima cella, il numero complessivo di righe della matrice di gioco;
+	 * -nella seconda cella, il numero complessivo di colonne della matrice di gioco;
+	 * @return v_dim: int[], vettore che contiene il numero di righe e colonne della
+	 * 						 matrice di gioco, ovvero le sue dimensioni.
+	 */
+	public static int [] getMapDimensions() {
+		//vettore da restituire
+		int [] v_dim = new int[2];
+		//numero di righw
+		v_dim[0]=r;
+		//numero di colonne
+		v_dim[1]=c;
+		return v_dim;
+	}
 	
 	/** metodo setMapDimension(int) : void
 	 * si vuole definire una mappa di gioco che sia quadrata
@@ -930,4 +939,93 @@ public class GameMap {
 		//restituzione del parametro di interesse
 		return this.hero_side;
 	}//getGameMode
+	
+	/** metodo pgStart(): void
+	 * questo metodo memorizza la coppia di indici che identifica la posizione
+	 * del personaggio giocabile nella matrice di gioco, proprio appena la mappa
+	 * e' stata creata, quindi indica il punto da cui si trovera' ad iniziare la partita.
+	 * Questi indici saranno memorizzati nel vettore pg_start_position, dove la cella conterra'
+	 * l'indice di riga e la cella l'indice di colonna.
+	 * Inoltre, essendo la cella in cui si trova il pg, l'unica cella conosciuta al giocatore
+	 * (umano o automatico che sia), questa verra' inserita nella mappa di esplorazione, poiche'
+	 * e' lu'unica ad essere stata gia' visitata.
+	 */
+	private void pgStart() {
+		//si cerca dove sia posizionato il pg
+		for(int i=0; i<r; i++) {
+			for(int j=0; j<c; j++) {
+				//si preleva lo stato della cella
+				String status = game_map[i][j].getCellStatus();
+				//si controlla il contenuto e la modalita' di gioco
+				if(status.equals("HERO") && hero_side) {
+					//il pg e' l'avventuriero
+					pg_position[0]=i; //indice di riga
+					pg_position[1]=j; //indice di colonna
+				}//fi HERO
+				if(status.equals("WUMPUS") && !hero_side) {
+					//il pg e' il wumpus
+					pg_position[0]=i; //indice di riga
+					pg_position[1]=j; //indice di colonna
+				}//fi WUMPUS
+			}//for colonne
+		}//for righe
+		int i_pg=pg_position[0];
+		int j_pg=pg_position[1];
+		//si inserisce questa cella nella mappa di esplorazione 
+		//(quella visibila al giocatore)
+		exploration_map[i_pg][j_pg].cellSpecs(game_map[i_pg][j_pg]);
+	}//pgStart()
+
+	/** metodo getPGiPosition(): int
+	 * metodo accessorio
+	 * @return pg_position[0]: int, contiene l'indice di riga della cella che contiene
+	 * 						   il personaggio giocabile.
+	 */
+	public int getPGiPosition() {
+		//questo metodo restituisce l'indice di riga in cui si trova il pg
+		return pg_position[0];
+	}//getPGiPosition()
+	
+	/** metodo getPGjPosition(): int
+	 * metodo accessorio
+	 * @return pg_position[1]: int, contiene l'indice di colonna della cella che contiene
+	 * 						   il personaggio giocabile.
+	 */
+	public int getPGjPosition() {
+		//questo metodo restituisce l'indice di riga in cui si trova il pg
+		return pg_position[1];
+	}//getPGjPosition()
+	
+	/** metodo setPGposition(int): void
+	 * metodo accessorio che permette di aggiornare la posizione, espressa in termini di
+	 * indice riga ed indice colonna, della cella in cui si muovera' il personaggio giocabile
+	 * nella matrice di gioco.
+	 * @param i:int, indice di riga della cella in cui si vuole posizionare il personaggio
+	 * @param j:int, indice di riga colonna
+	 */
+	public void setPGPosition(int i, int j) {
+		//controllo sugli indici
+		if(i<0 || i>r-1 || j<0 || j>c-1) {
+			System.err.println("Indici non validi");
+		}
+		//controllo di adiacenza
+		//TODO
+		
+	}//getPGiPosition()
+	
+	/** metodo getCellMap(int, int): Cell
+	 * metodo accessorio che permette di accedere all'oggetto Cell, corrispondente
+	 * alla posizione indicata dagli indici i e j, nella mappa di gioco.
+	 * @param i: int, indice di riga dell'oggetto Cell;
+	 * @param j: int, indice di colonna dell'oggetto Cell;
+	 * @return game_map[i][j]: Cell, la cella contenuta nella mappa nella posizione (i,j)
+	 */
+	public Cell getCellMap(int i, int j) {
+		//controllo sugli indici
+		if(i<0 || i>r-1 || j<0 || j>c-1) {
+			System.out.println("La cella cosi' indicata non esiste nella mappa.");
+		}
+		return game_map[i][j];
+	}//getCellMap()
+	
 }//GameMap
