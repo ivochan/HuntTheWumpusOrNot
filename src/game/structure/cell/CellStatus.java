@@ -1,4 +1,4 @@
-package game_structure;
+package game.structure.cell;
 /** Enumerazione CellStatus
  * caratterizza la tipologia del contenuto di ogni cella
  * che compone la mappa di gioco
@@ -20,5 +20,6 @@ public enum CellStatus {
     HERO,
     GOLD,
     DENIED, 
-    TRAP;
+    TRAP,
+    NONE;
 }//CellStatus

@@ -68,6 +68,28 @@ Inoltre, l'utente sarà nelle condizioni di poter decidere se vuole essere lui d
 
 
 
+## Struttura delle classi
+
+Di seguito verrà riporta una descrizione delle funzionalità realizzate per ciascuna delle classi che costituiscono il gioco.
+
+### Game Map
+
+Questa classe si occupa di definire la struttura basilare del gioco, ovvero la mappa su cui si potrà muovere il personaggio giocabile.
+
+//TODO
+
+### 
+
+### Human Player
+
+//TODO
+
+### IA Player 
+
+//TODO
+
+
+
 
 
 ## TODO 
@@ -100,18 +122,38 @@ Funzionalità da implementare:
 - ~~specificare i valori del vettore dei sensori per ogni cella vicina a quelle significative;~~
 - ~~testare la coerenza delle informazioni dei sensori in base al contenuto delle celle della mappa;~~
 - ~~testare il popolamento automatico della mappa di gioco;~~
+- creare subpackage secondo la notazione comunemente adottata;
+- eliminare il parametro int content dalla classe Cell;
+- revisionare la classe Cell eliminando la scelta della modalità di gioco;
+- Spostare metodo di inizializzazione mappa fuori dal costruttore, riempimento all'esterno della classe GameMap;
+- modificare il costruttore di GameMap in modo che crei un'istanza le cui caratteristiche potranno essere specificate in seguito;
+- creare classe che si occupi delle inizializzazioni della struttura di gioco;
+- creare classe che si occupi dell'avvio del gioco Starter;
+- eliminare mappa di esplorazione dalla classe GameMap per inizializzarla nella classe che rappresenta l'avvio della sessione di gioco;
+- effettuare il controllo della mossa di gioco lavorando su un'istanza di GameMap le cui info si prendono dai metodi accessori;
+- snellire classe GameMap spostando tutti i metodi che non si occupano della sua definizione, ma del suo riempimento;
+- definire diversi metodi di riempimento della mappa in modo che si possa scegliere se:
+  - posizionare il pg sulla cornice;
+  - posizionare il pg al centro della mappa;
+  - poter scegliere tra diverse funizioni di propabilità per il riempimento della mappa;
+
 - definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa, ad esempio:
   - ~~definire la enum che indica le direzioni in cui è possibile effettuare una mossa;~~
   - realizzare i metodi accessori che consentono di avere informazioni sulla enum;
   - controllare che la mossa sia valida:
     - in termini di indici che identificano la posizione della cella di arrivo nella mappa di gioco;
     - in termini di adiacenza alla cella che rappresenta la posizione corrente del pg;
+    - restituire una variabile che descriva lo stato della mossa, ovvero:
+      - se valida;
+      - se errata;
+      - se il pg è morto;
   - effettuare la mossa scelta, nella direzione specificata:
     - in base alla direzione dedurre gli indici della nuova cella;
     - effettuare la mossa inserendo la cella visitata nella mappa di esplorazione nota al giocatore;
-  - controllare e aggiornare la posizione corrente del pg;
-- definire il giocatore "HumanPlayer",
-- dotare la classe HumanPlayer dei metodi necessari allo spostamento del personaggio nella mappa;
+- controllare e aggiornare la posizione corrente del pg nella sessione di gioco;
+- definire la classe Starter che si occupa delle inizializzazioni della struttura di gioco;
+- definire la classe che rappresenta la sessione di gioco LinkStart;
+- definire la classe che definisce alcune regole di gioco;
 - tenere traccia delle caselle visitate in una copia della mappa di gioco, denominata exploration_map;
 - utilizzare il flag isVisited per identificare le celle che sono state esaminate e copiarle nella exploration_map, nella stessa posizione occupata nella game_map;
 - definire i meccanismi di gioco a disposizione come:
@@ -123,10 +165,11 @@ Funzionalità da implementare:
   - movimento nella mappa manuale (tramite metodo accessorio)
   - movimento nella mappa da input (su decisione dell'utente)
   - prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input
+- definire il giocatore "HumanPlayer";
 - definire il giocatore automatico "IAPlayer"
 - dotare la classe "IAPlayer" dei metodi necessari per:
   - esaminare l'ambiente di gioco
   - acquisire le informazioni dal vettore dei sensori
   - stabilire la mossa da effettuare in base ai dati acquisiti
-- testare la modalità di gioco lato utente
-- testare la modalità di gioco automatico
+- testare la modalità di gioco lato utente;
+- testare la modalità di gioco automatico;

@@ -1,8 +1,8 @@
-package game_session;
+package game.session.test;
 
-import game_player.GameController;
-import game_structure.CellStatus;
-import game_structure.GameMap;
+import game.controller.GameController;
+import game.structure.GameMap;
+import game.structure.cell.CellStatus;
 
 public class GameSessionTest {
 

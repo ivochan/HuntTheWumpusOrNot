@@ -1,4 +1,4 @@
-package game_session;
+package game.session;
 
 public class LinkStart {
 //si avvia il gioco

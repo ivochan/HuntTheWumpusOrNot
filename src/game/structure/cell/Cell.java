@@ -1,33 +1,10 @@
- package game_structure;
-/** classe Cell
- * racchiude le due enumerazioni utilizzate per descrivere il vettore dei sensori
- * associato ad ogni oggetto Cell 
- * e la stessa classe Cell, utilizzata per descrivere la tipologia di cella che 
- * costituisce la mappa di gioco.
- * @author ivonne
- * 
- */
-/** Enumerazione utilizzata per il vettore dei sensori: modalita' eroe
- *	STINK, colore marrone, odore del Wumpus
- *	BREEZE, colore bianco, brezza del pozzo
- */
-enum SenseStatusH {
-	STINK,
-	BREEZE
-}//SenseStatusH
+ package game.structure.cell;
 
-/** Enumerazione utilizzata per il vettore dei sensori: modalita' mostro
- *	CREAK, colore marrone, scricchiolio dovuto al passo dell'eroe
- *	SWISH, colore bianco, fruscio di foglie vicino la trappola
- */
-enum SenseStatusW {
-	CREAK,
-	SWISH
-}//SenseStatusW
-
-/** Questa classe Cell implementa la cella di una matrice
+/** class Cell
+ * Questa classe Cell implementa la cella di una matrice
  *	il cui contenuto cambia in base alla enum CellStatus
  *	e secondo altre proprieta' stabilite in questa classe
+ *	@author ivonne
  */
 public class Cell {
 	
@@ -37,156 +14,47 @@ public class Cell {
 
 	//contenuto della cella sulla base della enum CellStatus
 	private CellStatus status;
-	//numero intero associato alla enumerazione CellStatus
-	private int content;
 	//indica se la cella e' stata visitata o meno
 	private boolean isVisited;
 	//vettore che indice la posizione [i][j] della cella nella matrice di gioco
 	private int[] position= {-1, -1};
 
 
-	/** costruttore di default
+	/** Cell()
+	 * costruttore di default
+	 * istanzia un oggetto cella vuoto, con soltanto 
+	 * caratteristiche di default
 	 */
 	public Cell() {
 		//le caratteristiche della cella non sono state specificate
+		//tipologia di cella
 		this.status=null;
-		this.content=-1;
+		//cella non visitata dal pg
 		this.isVisited=false;
 		//inizializzazione vettore dei sensi
 		this.sense_vector[0]=false;
 		this.sense_vector[1]=false;
 	}//Cell()
 
-	/** costruttore con parametri
-	 * @param status
-	 * @param hero_side
-	 * @param sense1
-	 * @param sense2
-	 */
-	public Cell(CellStatus status, boolean hero_side, boolean sense1, boolean sense2) {
-		//stato della cella 
-		this.status=status;
-		//si verifica in quale modalita' si stia giocando
-		if (hero_side) {
-			//e' la modalita' classica, in cui l'avventuriero da' la caccia al wumpus
-			//si assegna lo stato alla cella
-			switch (status) {
-				case SAFE:
-					content = CellStatus.SAFE.ordinal();
-					break;
-				case PIT: //l'avventuriero deve evitare di cadere nel pozzo
-					content = CellStatus.PIT.ordinal();
-					break;
-				case WUMPUS:
-					content = CellStatus.WUMPUS.ordinal();
-					break;
-				case GOLD:
-					content = CellStatus.GOLD.ordinal();
-					break;
-				case DENIED:
-					content = CellStatus.DENIED.ordinal();
-					break;
-				default:
-					break;
-			}//switchcase
-			
-			/* vettore dei sensori 
-			 * se nella cella c'e' l'odore del wumpus si assegna true a sense_vector[0]
-			 *altrimenti false, in base al parametro ricevuto dal costruttore
-			 */
-			sense_vector[SenseStatusH.STINK.ordinal()]= sense1;
-			/*se nella cella c'e' la brezza che arriva dal pozzo, dalla fossa,
-			 *si assegna true a sense_vector[1], altrimenti false, in base al parametro ricevuto dal
-			 *costruttore
-			 */
-			sense_vector[SenseStatusH.BREEZE.ordinal()]= sense2;
-		}//hero_side
-		else {
-			//modalita' wumpus, in cui il wumpus deve fuggire dall'avventuriero
-			//si assegna lo stato alla cella
-			switch (status) {
-				case SAFE:
-					content = CellStatus.SAFE.ordinal();
-					break;
-				case GOLD:
-					content = CellStatus.GOLD.ordinal();
-					break;
-				case HERO:
-					content = CellStatus.HERO.ordinal();
-					break;
-				case TRAP: //il wumpus deve evitare la trappola
-					content = CellStatus.TRAP.ordinal();
-					break;
-				case DENIED:
-					content = CellStatus.DENIED.ordinal();
-					break;
-				default: break;
-			}//switchcase
-			
-			/* vettore dei sensori W
-			 * se nella cella c'e' lo scricchiolio del passo dell'eroe
-			 * si assegna true a sense_vector[0]
-			 * altrimenti false, in base al parametro ricevuto dal costruttore
-			 */
-			sense_vector[SenseStatusW.CREAK.ordinal()]= sense1;
-			/*se nella cella c'e' il fruscio delle foglie vicine alla trappola
-			 *si assegna true a sense_vector[1], altrimenti false,
-			 *in base al parametro ricevuto dal costruttore
-			 */
-			sense_vector[SenseStatusW.SWISH.ordinal()]= sense2;
-		}//wumpus_side
-		//inizialmente la cella non e' mai stata visitata
-		this.isVisited=false;
-	}//costruttore
-	
-
 	/** costruttore Cell(CellStatus)
 	 * questo costruttore crea un oggetto Cell, specificando il suo contenuto attraverso
 	 * il parametro che riceve e mettendo tutti gli altri attribuiti di classe ai loro
 	 * valori di default
-	 * @param status : CellStatus, parametro che attraverso l'enumerazione, descrive la tipologia della cella
+	 * @param status : CellStatus, parametro che attraverso l'enumerazione, 
+	 * 							   descrive la tipologia della cella.
 	 */
 	public Cell(CellStatus status) {
-		//TODO si ipotizza la modalita' hero_side
-		//si assegnano i valori di default agli attribuit di classe
-		//non ricevuti come parametro
+		//valori di default agli altri attributi di classe
 		this.isVisited=false;
 		//inizializzazione vettore dei sensi
 		this.sense_vector[0]=false;
 		this.sense_vector[1]=false;
 		//controllo sul parametro ricevuto
 		if(status==null) {
-			this.status=null;
-			System.out.println("nullo");
-			//allora il contenuto associato sara' -1
-			//perche' non esiste un oggetto enum corrispondente al parametro
-			this.content=-1;
+			System.out.println("stato nullo");
 		}//fi
-		else{
-			//si assegna lo stato alla cella
-			this.status=status;
-			//si assegna il contenuto
-			switch (status) {
-				case SAFE:
-					content = CellStatus.SAFE.ordinal();
-					break;
-				case PIT: //l'avventuriero deve evitare di cadere nel pozzo
-					content = CellStatus.PIT.ordinal();
-					break;
-				case WUMPUS:
-					content = CellStatus.WUMPUS.ordinal();
-					break;
-				case GOLD:
-					content = CellStatus.GOLD.ordinal();
-					break;
-				case DENIED:
-					content = CellStatus.DENIED.ordinal();
-					break;
-				default:
-					break;
-			}//switchcase
-		}
-		//TODO inserire qui l'inizializzazione del vettore dei sensori
+		//si assegna lo stato alla cella
+		this.status=status;
 	}//Cell(CellStatus)
 
 	//metodi accessori
@@ -197,7 +65,7 @@ public class Cell {
 	 */
 	public int getCell() {
 		//contenuto della cella
-		return content;
+		return 0;
 	}//getCell
 	
 	/** metodo setCell(int): void
@@ -226,11 +94,9 @@ public class Cell {
 	public void setCellStatus(CellStatus status) {
 		//controllo sul parametro ricevuto
 		if(status==null) {
+			//non esiste un oggetto enum corrispondente al parametro
 			this.status=null;
-			System.out.println("nullo");
-			//allora il contenuto associato sara' -1
-			//perche' non esiste un oggetto enum corrispondente al parametro
-			this.content=-1;
+			System.out.println("stato nullo");
 		}//fi
 		else{
 			//si assegna lo stato alla cella
@@ -258,28 +124,11 @@ public class Cell {
 		}//else
 	}//setCellStatus()
 	
-	/** metodo getEnumFromInt(int) : CellStatus
-	 * questo metodo restituisce il valore della enum CellStatus associato
-	 * al contenuto della cella, indicato da un valore intero.
-	 * @param content: int, valore intero che rappresenta il contenuto della cella;
-	 * @return c : CellStatus, se alla cella e' stato assegnato un valore,
-	 * 		   null, altrumenti.
-	 */
-	private CellStatus getEnumFromInt(int content) {	
-		//si scorre il vettore delle enumerazioni CellStatus
-		for(CellStatus c : CellStatus.values()) {
-			if(c.ordinal()==content) {
-				return c; 
-			}
-		}
-		return null;
-	}//getEnumFromInt
-	
-	/** metodo getCellStatus() : String
+	/** metodo getCellStatusName() : String
 	 * metodo che restituisce la stringa che rappresenta il contenuto della cella
 	 * @return status.name() : String, la stringa associata alla enum CellStatus
 	 */
-	public String getCellStatus() {
+	public String getCellStatusName() {
 		//ritorna il nome della enum che descrive la cella
 		return this.status.name();
 	}//getCellStatus()
@@ -288,7 +137,7 @@ public class Cell {
 	 * metodo che restituisce l'oggetto CellStatus che rappresenta il contenuto della cella
 	 * @return cs : CellStatus, il valore associato alla enum CellStatus
 	 */
-	public CellStatus getCellStatusEnum() {
+	public CellStatus getCellStatus() {
 		//ritorna il valore della enum che descrive la cella
 		return this.status;
 	}//getCellStatusEnum()
@@ -302,6 +151,7 @@ public class Cell {
 	public String getCellPosition() {
 		//si costruisce il vettore delle posizioni 
 		String p = new String("Cella ["+position[0]+","+position[1]+"]");
+		//si restituisce la posizione
 		return p;
 	}//getCellPosition
 	
@@ -336,6 +186,7 @@ public class Cell {
 	 * che racchiude le informazioni sense1 e sense2 sulle celle circostanti.
 	 */
 	public boolean[] getSenseVector() {
+		//si restituisce il vettore dei sensi
 		return sense_vector;
 	}//getSenseVector
 	
@@ -362,6 +213,9 @@ public class Cell {
 		if(i==0 || i==1) {
 			//si specifica il senso corrispondente
 			this.sense_vector[i]=sense;
+		}
+		else {
+			System.err.println("Indice del vettore dei sensi errato");
 		}
 	}//setSenseVectorCell
 	
@@ -397,29 +251,29 @@ public class Cell {
 	/** metodo toString() : String
 	 * override del metodo toString()
 	 * stampa il contenuto della cella utilizzando come indicativo la prima lettera
-	 * della enum CellStatus corrispontente al contenuto
+	 * della enum CellStatus corrispontente allo stato
 	 */
 	@Override
 	public String toString() {
+		//se il parametro status non e' nullo
 		if(status!=null) {
 			return "|"+new String(this.status.name()).charAt(0)+"|";
 		}
-		else
-			return "|"+new String(this.content+"|");
+		//se il parametro status e' nullo
+		return "|"+new String("X"+"|");
 	}//toString()
 	
 	/**
 	 * 
 	 * @param c
 	 */
-	public void cellSpecs(Cell c) {
+	public void copyCellSpecs(Cell c) {
 		//questo metodo si usa per copiare le specifiche della 
 		//cella che e' stata visitata nella matrice di eplorazione
 		this.isVisited=true;
 		//si copiano le caratteristiche della cella c
 		//in quella su cui il metodo e' invocato
 		this.status=c.status; //stato
-		this.content=c.content; //contenuto
 		//si prelevano le posizioni
 		this.position[0]=c.position[0];//indice di riga
 		this.position[1]=c.position[1];//indice di colonna

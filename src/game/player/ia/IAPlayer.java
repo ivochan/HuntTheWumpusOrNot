@@ -1,4 +1,4 @@
-package game_player;
+package game.player.ia;
 /** IAPlayer
  * 
  * @author ivonne

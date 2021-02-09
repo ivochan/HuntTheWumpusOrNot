@@ -1,4 +1,7 @@
-package game_structure;
+package game.structure;
+
+import game.structure.cell.Cell;
+import game.structure.cell.CellStatus;
 
 /** classe GameMap
  * @author ivonne

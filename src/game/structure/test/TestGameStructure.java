@@ -1,4 +1,7 @@
-package game_structure;
+package game.structure.test;
+
+import game.structure.GameMap;
+
 /** classe di test
  * questa classe e' stata utilizzata per testare la validita' della struttura di 
  * ogni classe utilizzata per creare il campo di gioco
