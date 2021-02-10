@@ -57,37 +57,42 @@ public class Cell {
 		this.status=status;
 	}//Cell(CellStatus)
 
+	/** costruttore Cell(CellStatus, boolean, boolean )
+	 * questo costruttore crea un oggetto Cell, specificando il suo contenuto attraverso
+	 * il parametro che riceve come indicativo dello stato e aggiorna il contenuto delle
+	 * deu celle del vettore dei sensori mettendo i due booleani che sono stati passati
+	 * come parametri.
+	 * @param status : CellStatus, parametro che attraverso l'enumerazione, 
+	 * 							   descrive la tipologia della cella.
+	 * @param sense1: boolean, parametro che specifica il primo valore del vettore dei sensi;
+	 * @param sense2: boolean, parametro che specifica il secondo valore del vettore dei sensi;
+	 */
+	public Cell(CellStatus status, boolean sense1, boolean sense2) {
+		//valori di default agli altri attributi di classe
+		this.isVisited=false;
+		//inizializzazione vettore dei sensi
+		this.sense_vector[0]=sense1;
+		this.sense_vector[1]=sense2;
+		//controllo sul parametro ricevuto
+		if(status==null) {
+			System.out.println("stato nullo");
+		}//fi
+		//si assegna lo stato alla cella
+		this.status=status;
+	}//Cell(CellStatus)
 	//metodi accessori
 	
-	/** metodo getCell() : int
-	 * @return content, l'informazione sul contenuto della cella,
-	 * ovvero l'intero associato alla enumerazine CellStatus
+	/** metodo getCell() : Cell
+	 * questo metodo restituisce l'oggetto cella su cui e' invocato
+	 * @return content, l'informazione sul contenuto della cella;
+	 * @return void
 	 */
-	public int getCell() {
+	public Cell getCell() {
 		//contenuto della cella
-		return 0;
+		return this;
 	}//getCell
 	
-	/** metodo setCell(int): void
-	 * imposta il valore del contenuto della cella
-	 * @param content: int, rappresenta il valore della cella, associato alla enum CellStatus
-	 */
-	public void setCell(int content) {
-		//il valore puo' essere uno tra quelli della enum Cell status
-		if(content >=0 && content <=6) {
-			this.content=content;
-			//al momento della creazione la cella non e' mai stata visitata
-			this.isVisited=false;
-			//aggiornamento del parametro status
-			this.status=getEnumFromInt(content);
-		}
-		else {
-			//il valore ricevuto non e' valido
-			System.exit(-1);
-		}
-	}//setCell
-	
-	/** metodo setCellStauts(CellStatus status): void
+	/** metodo setCell(CellStatus): void
 	 * @param status, stato che si vuole assegnare alla cella per definirne la tipologia;
 	 * @return void
 	 */
@@ -101,34 +106,14 @@ public class Cell {
 		else{
 			//si assegna lo stato alla cella
 			this.status=status;
-			//si assegna il contenuto
-			switch (status) {
-				case SAFE:
-					content = CellStatus.SAFE.ordinal();
-					break;
-				case PIT: //l'avventuriero deve evitare di cadere nel pozzo
-					content = CellStatus.PIT.ordinal();
-					break;
-				case WUMPUS:
-					content = CellStatus.WUMPUS.ordinal();
-					break;
-				case GOLD:
-					content = CellStatus.GOLD.ordinal();
-					break;
-				case DENIED:
-					content = CellStatus.DENIED.ordinal();
-					break;
-				default:
-					break;
-			}//switchcase
-		}//else
+		}	
 	}//setCellStatus()
 	
-	/** metodo getCellStatusName() : String
+	/** metodo getCellStatuID() : String
 	 * metodo che restituisce la stringa che rappresenta il contenuto della cella
 	 * @return status.name() : String, la stringa associata alla enum CellStatus
 	 */
-	public String getCellStatusName() {
+	public String getCellStatusID() {
 		//ritorna il nome della enum che descrive la cella
 		return this.status.name();
 	}//getCellStatus()
@@ -223,7 +208,7 @@ public class Cell {
 	 * metodo che stmapa il contenuto del vettore dei sensori della cella su cui e'
 	 * invocato secondo la formattazione specificata
 	 * @param hero_side, specifica la modalita' di gioco, in modo da sapere quale enum
-	 * sono state utilizzati come identiificativi nel vettore dei sensori;
+	 * sono state utilizzati come identificativi nel vettore dei sensori;
 	 * @return sense_info: String, stringa che rappresenta il contenuto del vettore;
 	 */
 	public String senseVectorToString(boolean hero_side) {
@@ -248,6 +233,16 @@ public class Cell {
 		return isVisited;
 	}//isVisited
 	
+	/** metodo setVisited(): void
+	 * questo metodo consente di cambiare il valore del parametro isVisited
+	 * aggiornando quindi in flag che indica se la cella in questione
+	 * sia stata visitata o meno.
+	 */
+	public void setVisited() {
+		//si cambia il valore del flag
+		this.isVisited=true;
+	}//setVisited
+	
 	/** metodo toString() : String
 	 * override del metodo toString()
 	 * stampa il contenuto della cella utilizzando come indicativo la prima lettera
@@ -263,16 +258,21 @@ public class Cell {
 		return "|"+new String("X"+"|");
 	}//toString()
 	
-	/**
+	/** metodo copyCellSpecs(Cell): void
+	 * questo metodo effettua una copia della cella ricevuta come parametro
+	 * sull'oggetto Cell su cui e' stato invocato.
+	 * Verra' utilizzato quando si vorranno copiare le informazioni di una cella
+	 * della matrice game_map, che rappresenta la struttura della mappa di gioco, 
+	 * nella mappa che tiene traccia delle celle gia' visitate dal personaggio 
+	 * giocabile, cioe' la mappa di esplorazione che verra' istanziata direttamente
+	 * nella sessione di gioco.
 	 * 
-	 * @param c
+	 * @param c: Cell, cella di cui copiare le specifiche.
 	 */
 	public void copyCellSpecs(Cell c) {
-		//questo metodo si usa per copiare le specifiche della 
-		//cella che e' stata visitata nella matrice di eplorazione
-		this.isVisited=true;
-		//si copiano le caratteristiche della cella c
-		//in quella su cui il metodo e' invocato
+		//la cella e'stata appena visitata dal pg
+		this.isVisited=c.isVisited;
+		//si copiano le caratteristiche della cella c su this
 		this.status=c.status; //stato
 		//si prelevano le posizioni
 		this.position[0]=c.position[0];//indice di riga
@@ -281,7 +281,7 @@ public class Cell {
 		this.sense_vector[0]=c.sense_vector[0];
 		this.sense_vector[1]=c.sense_vector[1];
 		//questa cella si copia nella matrice di esplorazione
-		//TODO
 	}//cellSpecs
+	
 	
 }//Cell

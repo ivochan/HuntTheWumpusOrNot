@@ -20,6 +20,6 @@ public enum CellStatus {
     HERO,
     GOLD,
     DENIED, 
-    TRAP,
+    TRAP, // equivale a PIT
     NONE;
 }//CellStatus

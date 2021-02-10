@@ -78,8 +78,6 @@ Questa classe si occupa di definire la struttura basilare del gioco, ovvero la m
 
 //TODO
 
-### 
-
 ### Human Player
 
 //TODO
@@ -122,21 +120,27 @@ Funzionalità da implementare:
 - ~~specificare i valori del vettore dei sensori per ogni cella vicina a quelle significative;~~
 - ~~testare la coerenza delle informazioni dei sensori in base al contenuto delle celle della mappa;~~
 - ~~testare il popolamento automatico della mappa di gioco;~~
-- creare subpackage secondo la notazione comunemente adottata;
-- eliminare il parametro int content dalla classe Cell;
-- revisionare la classe Cell eliminando la scelta della modalità di gioco;
-- Spostare metodo di inizializzazione mappa fuori dal costruttore, riempimento all'esterno della classe GameMap;
-- modificare il costruttore di GameMap in modo che crei un'istanza le cui caratteristiche potranno essere specificate in seguito;
-- creare classe che si occupi delle inizializzazioni della struttura di gioco;
-- creare classe che si occupi dell'avvio del gioco Starter;
+- ~~creare subpackage secondo la notazione comunemente adottata;~~
+- ~~eliminare il parametro int content dalla classe Cell;~~
+- ~~revisionare la classe Cell eliminando la scelta della modalità di gioco;~~
+- ~~testare tutti i metodi della classe Cell dopo averli revisionati;~~
+- definire una classe Rules che determini le regole di gioco, quali:
+  - creare una mappa di gioco che sia quadrata o rettangolare e specificare le dimensioni massime;
+- ~~spostare metodo di inizializzazione mappa fuori dal costruttore, riempimento all'esterno della classe GameMap;~~
+- testare la classe revisionata GameMap, dopo aver spostato tutti i metodi che non si occupano della sua definizione, ma del suo riempimento;
+- ~~modificare il costruttore di GameMap in modo che crei un'istanza le cui caratteristiche potranno essere specificate in seguito;~~
+- ~~creare classe che si occupi delle inizializzazioni della struttura di gioco Starter;~~
+- dotare la classe Starter di tutti i metodi che consentano:
+  - il posizionamento degli elementi di gioco sulla mappa;
+  - il posizionamento del pg sulla mappa;
+  - l'aggiornamento del vettore dei sensori;
+- creare classe che si occupi dell'avvio del gioco LinkStart;
 - eliminare mappa di esplorazione dalla classe GameMap per inizializzarla nella classe che rappresenta l'avvio della sessione di gioco;
 - effettuare il controllo della mossa di gioco lavorando su un'istanza di GameMap le cui info si prendono dai metodi accessori;
-- snellire classe GameMap spostando tutti i metodi che non si occupano della sua definizione, ma del suo riempimento;
 - definire diversi metodi di riempimento della mappa in modo che si possa scegliere se:
   - posizionare il pg sulla cornice;
   - posizionare il pg al centro della mappa;
   - poter scegliere tra diverse funizioni di propabilità per il riempimento della mappa;
-
 - definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa, ad esempio:
   - ~~definire la enum che indica le direzioni in cui è possibile effettuare una mossa;~~
   - realizzare i metodi accessori che consentono di avere informazioni sulla enum;

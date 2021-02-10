@@ -1,8 +1,8 @@
 package game.session.test;
 
 import game.controller.GameController;
-import game.structure.GameMap;
 import game.structure.cell.CellStatus;
+import game.structure.map.GameMap;
 
 public class GameSessionTest {
 

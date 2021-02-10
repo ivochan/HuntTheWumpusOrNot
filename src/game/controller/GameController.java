@@ -1,6 +1,6 @@
 package game.controller;
 
-import game.structure.GameMap;
+import game.structure.map.GameMap;
 
 /** Enum Direction
  * Questa enumerazione definisce la direzione in cui il personaggio giocabile

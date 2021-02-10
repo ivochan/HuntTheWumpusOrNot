@@ -1,6 +1,6 @@
 package game.structure.test;
 
-import game.structure.GameMap;
+
 
 /** classe di test
  * questa classe e' stata utilizzata per testare la validita' della struttura di 
@@ -14,31 +14,8 @@ public class TestGameStructure {
 	public static void main (String [] args) {
 		//attributo della modalita' di gioco
 		boolean hero_side=true;
+		/*
 		
-		/*//############		Test oggetto Cell e SenseVector		##############
-		//test visualizzazione cella
-		Cell c1 = new Cell();
-		//stampa del contenuto della cella
-		System.out.println("cella c1 "+c1);
-		Cell c2 = new Cell(CellStatus.GOLD,hero_side,true,true);
-		//stampa del contenuto della cella
-		System.out.println("cella c2 "+c2);
-		//stampa del vettore dei sensi
-		System.out.println(c2.senseVectorToString(hero_side));
-		//test attributo isVisited
-		System.out.println("La cella e' stata visitata? "+ (hero_side?"si":"no"));
-		//test enum
-		System.out.println("intero associato all'enum "+CellStatus.PIT.ordinal());
-		
-		Cell c = new Cell();
-		System.out.println("Cella "+c);
-		System.out.println("Posizione "+c.getCellPosition());
-		c.setCellPosition(0, -1);
-		c.setCellStatus(CellStatus.HERO);
-		System.out.println(c);
-		c.setCellPosition(0, 0);
-		System.out.println("Posizione "+c.getCellPosition());
-		*/
 		
 		//###############		test riempimento MAPPA: MANUALE		####################
 		//GameMap gm = new GameMap();
@@ -180,11 +157,12 @@ public class TestGameStructure {
 			}
 		}
 		*/
-	
+	/*
 		//ultimi test
 		int [] map_dims = GameMap.getMapDimensions();
 		System.out.println("numero di righe "+map_dims[0]);
 		System.out.println("numero di colonne "+map_dims[1]);
+		*/
 	}//main
 	
 }//TestGameStructure
