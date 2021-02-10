@@ -51,8 +51,7 @@ public class GameMap {
 	 *-inserire vicino le caselle fossa quelle che hanno la cella del vettore dei sensori "brezza";
 	 *-inserire caselle safe, "libere-> prato";
 	 */
-	//inizializzazione della matrice di gioco 
-	private Cell[][] game_map= new Cell[r][c];
+	private Cell[][] game_map;
 	
 	/**costruttore di default GameMap()
 	 * non riceve nessun parametro percio' di defaul la matrice sara' (4 x 4)
@@ -64,6 +63,8 @@ public class GameMap {
 		//si impostano le dimensioni della mappa
 		this.r=4; //righe
 		this.c=4; //colonne
+		//inizializzazione della matrice di gioco 
+		this.game_map = new Cell[r][c];
 		//si itera per righe
 		for(int i=0;i<r;i++) {
 			//si itera per colonne
@@ -77,33 +78,35 @@ public class GameMap {
 	/** costruttore GameMap(int, int)
 	 * riceve come parametro il numero di righe e colonne che dovra' avere
 	 * la matrice di gioco.
-	 * @param r: int, numero di righe;
-	 * @param c: int, numero di colonne;
+	 * @param rows: int, numero di righe;
+	 * @param columns: int, numero di colonne;
 	 */
-	public GameMap(int r, int c) {
+	public GameMap(int rows, int columns) {
+		//TODO
 		//si controllano i parametri ricevuti come dimensioni
-		if(r<4 || c<4) {
-			System.out.println("numero di righe o colonne errato!\n"
-					+ "verranno scelti i valori di default ");
+		if(rows<4 || columns<4) {
+			System.out.println("dimensioni errate! verranno scelti i valori di default");
 			//righe
 			this.r=4;
 			//colonne
 			this.c=4;
-		}//fi
+		}
 		else {
 			//i parametri sono idonei
-			//si impostano le dimensioni della mappa
-			this.r=4; //righe
-			this.c=4; //colonne
-			//si itera per righe
-			for(int i=0;i<r;i++) {
-				//si itera per colonne
-				for(int j=0;j<c;j++) {
+			this.r=rows; //righe
+			this.c=columns; //colonne
+		}//esle
+		//System.out.println("righe "+r+" colonne "+c);
+		//inizializzazione della matrice di gioco 
+		this.game_map = new Cell[r][c];
+		//si itera per righe
+		for(int i=0;i<r;i++) {
+			//si itera per colonne
+			for(int j=0;j<c;j++) {
 				//viene istanziata ogni cella della matrice di gioco
 				this.game_map[i][j]= new Cell();
-				}//for
 			}//for
-		}//esle
+		}//for
 	}//GameMap()
 	
 	/** metodo getRows(): int
@@ -191,7 +194,8 @@ public class GameMap {
 	public Cell getGameCell(int i,int j) {
 		//controllo sugli indici
 		if(i<0 || i>r-1 || j<0 || j>c-1) {
-			System.out.println("La cella cosi' indicata non esiste nella mappa.");
+			System.err.println("La cella cosi' indicata non esiste nella mappa.");
+			System.exit(-1);
 		}
 		return game_map[i][j];
 	}//getCellMap()

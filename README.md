@@ -72,19 +72,29 @@ Inoltre, l'utente sarà nelle condizioni di poter decidere se vuole essere lui d
 
 Di seguito verrà riporta una descrizione delle funzionalità realizzate per ciascuna delle classi che costituiscono il gioco.
 
+
+
+### Cell
+
+Questa classe implementa l'oggetto Cella, quello che costituisce ogni singola casella della matrice che realizza la mappa di gioco.
+
+
+
 ### Game Map
 
 Questa classe si occupa di definire la struttura basilare del gioco, ovvero la mappa su cui si potrà muovere il personaggio giocabile.
 
-//TODO
+
 
 ### Human Player
 
-//TODO
+Questa classe implementa il giocatore controllato dall'utente.
+
+
 
 ### IA Player 
 
-//TODO
+Questa classe implementa il giocatore automatico.
 
 
 
@@ -127,7 +137,7 @@ Funzionalità da implementare:
 - definire una classe Rules che determini le regole di gioco, quali:
   - creare una mappa di gioco che sia quadrata o rettangolare e specificare le dimensioni massime;
 - ~~spostare metodo di inizializzazione mappa fuori dal costruttore, riempimento all'esterno della classe GameMap;~~
-- testare la classe revisionata GameMap, dopo aver spostato tutti i metodi che non si occupano della sua definizione, ma del suo riempimento;
+- ~~testare la classe revisionata GameMap, dopo aver spostato tutti i metodi che non si occupano della sua definizione, ma del suo riempimento;~~
 - ~~modificare il costruttore di GameMap in modo che crei un'istanza le cui caratteristiche potranno essere specificate in seguito;~~
 - ~~creare classe che si occupi delle inizializzazioni della struttura di gioco Starter;~~
 - dotare la classe Starter di tutti i metodi che consentano:
