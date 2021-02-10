@@ -1,5 +1,7 @@
 package game.structure.map;
 
+import javax.sound.midi.SysexMessage;
+
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 
@@ -29,8 +31,6 @@ public class Starter {
 	 * 	 [0] 	 [1] 	[2] 		[3] 			[4]
 	 */
 	private int [] game_elements= new int [5];
-	
-	
 	
 	//################ vettore degli elementi di gioco ########################
 
@@ -125,11 +125,78 @@ public class Starter {
 		}
 	}//setGameElement
 	
+	/** getGameElement(int, boolean): int
+	 * questo metodo restituisce il numero di elementi di gioco della tipologia
+	 * contenuta nella cella identifica da index
+	 * @param index: int, indica l'indice della cella che contiene il numero degli
+	 * 					  elementi di gioco di interesse, della tipologia richiesta;
+	 * @param info: boolean, questo flag, se true, stampa il nome della tipologia
+	 * 						 degli elementi di gioco di cui si vuole conoscere il
+	 * 						 numero, se false invece no;
+	 * @return el: int, numero degli elementi di gioco della tipologia richiesta;
+	 */
+	public int getGameElement(int index, boolean info) {
+		//controllo sull'indice
+		if(index<0 || index>game_elements.length) {
+			System.err.println("Indice di cella del vettore degli elementi di gioco errato");
+			System.exit(-1);
+		}//fi
+		//si preleva l'elemento
+		int el = game_elements[index];
+		if(info) {
+			//stringa da stampare
+			String el_type=new String("");
+			switch(index) {
+			case 0:
+				el_type="numero di celle";
+				break;
+			case 1:
+				el_type="sassi";
+				break;
+			case 2:
+				el_type="oro";
+				break;
+			case 3:
+				el_type="wumpus/eroe";
+				break;
+			case 4:
+				el_type="pozzi o trappole";
+				break;
+			default:break;
+			}//end switch
+			System.out.println(el_type);
+		}//fi info
+		return el;	
+	}//getGameElement()
+	
+	/** metodo getGameElements(): int []
+	 * questo metodo restituisce il vettore degli elementi di gioco
+	 * 							game_elements
+	 * [celle 0] [sassi 1 ] [oro 2] [eroe / wumpus 3] [pozzi / trappole 4]
+	 * @return game_elements: int[], e' un vettore di interi, che contiene, 
+	 * 								 per ogni cella, il numero di elementi
+	 * 								 di quella stessa tipologia, che verranno
+	 * 								 inseriti nella mappa di gioco.
+	 */
+	public int[] getGameElements() {
+		//si restituisce il vettore degli elementi di gioco
+		return game_elements;
+	}//getGameElements
+	
 	//###################### mappa di gioco ###############################
 	
-	/**
-	 * 
-	 * @param gm
+	/** metodo placeMain(GameMap): void
+	 * questo metodo si occupa di trovare una configurazione valida della
+	 * mappa di gioco, generando una struttura di base, in cui sono stati
+	 * posizionati tutti gli elementi di gioco, ad eccezione del personaggio
+	 * giocabile, che verra' posizionato subito dopo.
+	 * Se il posizionamento del pg non va a buon fine, la mappa deve essere
+	 * generata nuovamente.
+	 * Si suppone, di default, che il pg sia HERO ed il nemico sia WUMPUS, 
+	 * poiche' la differenza tra le due modalita' di gioco verra' gestita
+	 * in un'altra classe.
+	 * @param gm: GameMap, e' l'istanza che rappresenta la mappa da costruire,
+	 * 					   su cui verra' poi avviata la sessione di gioco.
 	 */
 	private void placeMain(GameMap gm) {
 		//variabile asiliaria che indica l'avvenuto posizionamento del pg
@@ -139,19 +206,19 @@ public class Starter {
 			//si riempie la mappa di gioco
 			init(gm);
 			//si cerca di posizionare il pg
-			done = putPG();
+			done = placePGonCorner(gm);
 			//finche' non si esce dal ciclo viene ripopolata la mappa alla ricerca
 			//di una configurazione idonea al posizionamento del pg
 			//System.out.println("Posizionamento PG riuscito? "+done);
-		}//while
-	}
+		}//end while
+	}//placeMain()
 	
-	
-	/** metodo createMap(): void
+	/** metodo init(GameMap): void
 	 * questo metodo si occupa del popolamento della mappa di gioco, 
 	 * inserendo tutti gli elementi che possono essere posizionati nella mappa, 
 	 * ad eccezione del personaggio giocabile, che a seconda della modalita- di gioco
 	 * sara' l'eroe oppure il wumpus. 
+	 * Di default, il nemico sara' indicato con il wumpus.
 	 * Il metodo funziona in questo modo:
 	 * dopo aver assegnato ai parametri i valori degli elementi da posizionare, viene
 	 * effettuato un ciclo che terminera' soltanto quando tutti gli elementi siano stati 
@@ -164,10 +231,7 @@ public class Starter {
 	 * risulta maggiore del valore utilizzato come soglia di confronto, cioe' il numero casuale
 	 * calcolato prima ancora che vengano assegnate le porbabilita' ad ogni tipologia di
 	 * elemento da posizionare nella matrice di gioco.
-	 */
-	/**
-	 * 
-	 * @param gm
+	 * @param gm: GameMap, e' la mappa di gioco che deve essere costruita.
 	 */
 	private void init(GameMap gm) {
 		//si prelevano gli elementi di gioco
@@ -189,7 +253,7 @@ public class Starter {
 		int cells=n_cells;
 		//variabili che conterranno la probabilita'
 		double ppitrap=0;
-		double penemy=0;
+		double penemy=0; //di default e' il wumpus
 		double pgold=0;
 		double pstones=0;
 		//ciclo di riempimento della mappa
@@ -268,10 +332,9 @@ public class Starter {
 					//System.out.println(elementsVectorToString(false));
 				}//for colonne
 			}//for righe
-			//DEBUG
 			//System.out.println("pozzir "+pozzi+" wumpusr "+wumpus+" oror "+oro+" sassi "+sassi);	
 		}//while
-	}//createMap()			
+	}//init()			
 		
 	/** metodo prob(int, int, int, int): void
 	 * questo metodo calcola, sfruttando la funzione cosi' definita:
@@ -296,53 +359,50 @@ public class Starter {
 		//numero casuale
 		double random = Math.random();
 		//funzione di probabilita'
-		//TODO implementarne di tipi diversi
 		double prob = ((x/max_x) - (n/max_n) + random*0.3) /3;
 		return prob;
 	}//prob
 
-	/** metodo putPG(): void
+	/** metodo placePGonCorner(): boolean
 	 * questo metodo si occupa di posizionare il personaggio giocabile nella mappa
 	 * dopo che e' stata popolata con gli altri elementi di gico.
 	 * Questo personaggio giocabile puo' essere l'eroe oppure il wumpus, a seconda
 	 * della modalita' di gioco considerata.
-	 * Questo metodo viene eseguito dopo che il metodo fillingGameMap() ha trovato una
+	 * Questo metodo viene eseguito dopo che il metodo init() ha trovato una
 	 * configurazione valida per tutti gli elementi da posizionare.
 	 * Se questo metodo dovesse fallire il posizionamento del PG, allora,
 	 * il metodo di riempimento della mappa andra' rieseguito.
-	 * Per la realizzazione di questo metodo bisogna tenere presente:
-	 * - un vettore di 12 celle, che conterra' un numero identificativo per ogni cella
-	 * 	 ad esempio la cella (1,0) e' la numero 11;
-	 * - un vettore di 24 celle, il doppio del precendente, in cui le celle conterranno, 
-	 *	 a due a due ed in posizioni adiacenti, gli indici della cella a cui si riferiscono,
-	 *	 indicativi della posizione che questa assume nella matrice di gioco
-	 *	 ad esempio: [0][0][...] le prime due celle del vettore sono gli indici della cella
-	 *	 identificata come 0;
+	 * Per la realizzazione di questo metodo bisogna tenere presente che ogni cella
+	 * della cornice sara' indicata con un numero identificativo, 
+	 * ad esempio la cella (1,0) e' la numero 11, per un totale di 12 id.
+	 * Inoltre si utilizzaranno due vettori, quali:
+	 * - un vettore di 12 celle, che conterra' gli indici riga, in ordine, di tutte
+	 * 	 le celle sulla cronice, tenendo conto che gli indici di cella di questo vettore
+	 *	 saranno indicativi della cella considerata.
+	 * - un vettore di 12 celle, analogo al precedente, che conterra' pero' gli indici 
+	 * 	 colonna.
 	 * Segue la numerazione utilizzata:		
-	 * 
 	 * | |0,0| |0,1| |0,2| |0,3| |			|  |0| |1| |2| |3| |
 	 * | |1,0| |1,1| |1,2| |1,3| |			| |11| |X| |X| |4| |
 	 * | |2,0| |2,1| |2,2| |2,3| |			| |10| |X| |X| |5| |
 	 * | |3,0| |3,1| |3,2| |3,3| |			|  |9| |8| |7| |6| |
-	 *
 	 *	Cella i-esima
-	 *
 	 *	{0,		1,	   2,	  3,	 4,		5,	   6,	  7,	 8, 	9,	  10,	 11}
-	 *
-	 *	Coppia di indici [i][j]
-	 *
-	 *	[0][0] [0][1] [0][2] [0][3] [1][3] [2][3] [3][3] [3][2] [3][1] [3][0] [2][0] [1][0]	
-	 *
+	 *	Vettore degli indi riga [i]
+	 *	[0] [0] [0] [0] [1] [2] [3] [3] [3] [3] [2] [1]	
+	 *	Vettore degli indici colonna [j]
+	 *	[0] [1] [2] [3] [3] [3] [3] [2] [1] [0] [0] [0]	
 	 * Quindi, verra' generato un numero casuale tra 0 e 12 (escluso) che indichera' la cella
-	 * predestinata a contenere il personaggio giocabile, verranno estratti dal vettore degli
-	 * indici la coppia che ne descrive la posizione nella matrice e si verifichera' che sia 
-	 * libera, cioe' etichettata come SAFE.
+	 * predestinata a contenere il personaggio giocabile, verranno estratti, rispettivamente,
+	 * dal vettore degli indici di riga, l'indice i-esimo e dal vettore degli indici colonna
+	 * l'indice j-esimo, per estrarre la posizione in cui e' collocata la cella di interesse,
+	 * nella matrice di gioco.
+	 * Se SAFE, la cella sara' idonea al posizionamento del pg.
+	 * @param gm: GameMap, mappa di gioco su cui deve essere posizionato il pg;
+	 * @return found: boolean, flag che indica se il posizionamento del pg sia avvenuto
+	 * 						  o meno con successo.
 	 */
-	/**
-	 * 
-	 * @return
-	 */
-	private boolean putPG(GameMap gm, boolean corner) {
+	private boolean placePGonCorner(GameMap gm) {
 		//si scrive il vettore degli indici riga della matrice, per le celle della cornice
 		int [] r_index = {0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 2, 1};
 		//si scrive il vettore degli indici colonna della matrice, per le celle della cornice
@@ -369,18 +429,11 @@ public class Starter {
 			//si aggiorna il vettore dei tentativi
 			v_trials[rand] = true;
 			//si controlla se la cella della cornice sia libera
-			String cs = game_map[i][j].getCellStatus();
+			String cs = gm.getGameCell(i, j).getCellStatusID();
 			//si controlla che sia libera
 			if(cs.equals(CellStatus.SAFE.name())) {
-				//se la cella e' libera si puo' posizionare il pg
-				if(hero_side) {
-					//modalita' eroe
-					game_map[i][j].setCellStatus(CellStatus.HERO);
-				}
-				else {
-					//modalita' wumpus
-					game_map[i][j].setCellStatus(CellStatus.WUMPUS);
-				}
+				//se la cella e' libera si puo' posizionare il pg, di default hero
+				gm.getGameCell(i, j).setCellStatus(CellStatus.HERO);
 				//si imposta la variabile boolean
 				found = true;
 				//DEBUG
@@ -389,21 +442,21 @@ public class Starter {
 			else {
 				//se la cella scelta non era libera si deve ciclare di nuovo 
 				found =false;
-			}
+			}//esle
 			/* se sono state controllate tutte le celle dei vettori degli indici
 			 * non c'e' una combinazione valida quindi il metodo termina senza aver 
 			 * posizionato il pg
 			 */
-			all_trials = areAllTrials(v_trials);
+			all_trials = allTrials(v_trials);
 			//DEBUG
 			//System.out.println("found "+found);
 			//System.out.println("areAllTrials? "+all_trials);
-		}
-		//indica se e' stata trovata una posizione al pg nella mappa di gioco
+		}//end while
+		//si indica se e' stata trovata una posizione al pg nella mappa di gioco
 		return found;
-	}//putPG()
+	}//putPGonCorner()
 	
-	/** metodo areAllTrials(boolean []): boolean
+	/** metodo allTrials(boolean []): boolean
 	 * questo metodo itera il vettore dei tentativi v_trials, cioe' quello che contiene
 	 * una variabile boolean per ogni cella, in modo da indicare se la casella della 
 	 * matrice di gioco che corrisponde all'indice della cella del vettore e' stata gia'
@@ -412,7 +465,6 @@ public class Starter {
 	 * true in ogni suo elemento, allora il metodo che si occupa di posizionare il pg
 	 * termina senza successo, rendendo necessario rielaborare una nuova configurazione
 	 * per tutti gli elementi di gioco che devono essere posizionati sulla mappa.
-	 *  
 	 * @param v_trials: boolean [], e' il vettore di variabili booleane;
 	 * @return true, se ogni elemento del vettore e' pari a true,
 	 * 		   false, altrimenti. Questo verra' verificato tenendo traccia di una variabile
@@ -420,7 +472,7 @@ public class Starter {
 	 * Se questo valore sara' pari alla lunghezza del vettore allora tutti gli elementi saranno
 	 * true, altrimenti vorra' dire che ci sono ancora celle che non sono state prese in considerazione.
 	 */
-	private boolean areAllTrials(boolean[] v_trials) {
+	private boolean allTrials(boolean[] v_trials) {
 		//contatore che tiene traccia di tutti i valori a true
 		int c = 0;
 		//si itera il vettore
@@ -433,27 +485,10 @@ public class Starter {
 		}//for del vettore
 		//se il contatore e' pari alla lunghezza del vettore vuol dire che tutti 
 		//gli elementi sono pari a true
-		/*
-		//DEBUG stampa vettore
-		System.out.print("[");
-		for(int i=0;i<v_trials.length;i++) {
-			if(i<v_trials.length-1) {
-				//non e' l'ultimo elemento
-				System.out.print(v_trials[i]+"] [");
-			}//fi
-			else {
-				//e' l'ultimo elemento
-				System.out.println(v_trials[i]+"]");
-			}//else
-		}//for
-		*/
-		//DEBUG
-		//System.out.println("cont "+c);
 		return c==v_trials.length;
-	}//areAllTrials()
+	}//allTrials()
 
 	//#################### personaggio giocabile #########################
-	
 	
 	/** metodo getPGPosition(): int[]
 	 * metodo accessorio che restiuisce il vettore che contiene l'indice di riga
@@ -484,14 +519,14 @@ public class Starter {
 
 	//######################## vettore dei sensori #######################
 	
-	/** metodo sensorAssignement(): void
+	/** metodo updateSensors(): void
 	 * questo metodo si occupa si specificare il valore dei sensori per le celle che 
 	 * circoscrivono elementi di gioco di interesse, come il nemico o i pericoli.
 	 * Quindi, avendo a disposizione gli indici di riga e colonna in cui questi risiedono,
 	 * verra' poi specificato, nelle celle ad essi adiacenti, il valore che specifica
 	 * che tipo di elemento si trova nelle vicinanze, rispettando la modalita' di gioco.
 	 */
-	private void sensorAssignement() {
+	private void updateSensors(GameMap gm) {
 		//si crea un vettore che conterra' gli indici di riga delle celle
 		//che contengono i pozzi o trappole
 		int [] pit_trap_i = new int[game_elements[4]];
@@ -499,14 +534,14 @@ public class Starter {
 		//si crea un vettore che contiene gli indici di riga e colonna della cella avversario
 		int [] enemy_indices = new int[2];
 		//si cercano le celle di interesse e si assegnano i rispettivi indici
-		settingIndices(enemy_indices, pit_trap_i, pit_trap_j);
+		setIndices(gm, enemy_indices, pit_trap_i, pit_trap_j);
 		//si specificano i valori dei sensori per il nemico
-		updateEnemySensors(enemy_indices);
+		enemySensor(gm, enemy_indices);
 		//si specificano i valori dei sensori per gli indizi
-		updateDangerSensors(pit_trap_i, pit_trap_j);
+		dangerSensor(gm, pit_trap_i, pit_trap_j);
 	}//sensorAssignement()
 	
-	/** metodo updateEnemySensors(int []): void
+	/** metodo enemySensor(int []): void
 	 * questo metodo, dopo aver ricevuto in ingresso il vettore che contiene gli indici della
 	 * cella in cui e' stato posizionato il nemico, wumpus o avventuriero che sia, a seconda della
 	 * modalita' di gioco specificata al momento delle creazione della mappa, si occupa di impostare
@@ -517,45 +552,39 @@ public class Starter {
 	 * -STINK = true, che indica l'odore del wumpus, se il mostro si trova nelle vicinanze (hero_side);
 	 * -SWISH = true, rappresenta il fruscio di foglie, causato dal nascondersi dell'avventuriero,
 	 * 				  per fare un agguato al wumpus (wumpus_side= !hero_side);
+	 *@param gm: GameMAp, la mappa di gioco per cui devono essere impostati i sensori;
 	 */
-	private void updateEnemySensors(int[] enemy_indices) {
+	private void enemySensor(GameMap gm, int[] enemy_indices) {
 		//si prelevano gli indici del nemico
 		int ie = enemy_indices[0];
 		int je = enemy_indices[1];
 		//si controlla di non sforare la dimensione del vettore
 		//System.out.println("Il nemico e' nella cella "+ie+","+je);
 		//si specifica il vettore dei sensori per le celle attorno al nemico
+		//STINK o CREAK
 		if(je>0) {
-			//DEBUG
 			//System.out.println("cella "+ie+","+(je-1));
-			//STINK o CREAK
-			game_map[ie][je-1].setSenseVectorCell(0,true);
+			gm.getGameCell(ie, je-1).setSenseVectorCell(0,true);
 			//System.out.println(game_map[ie][je-1].senseVectorToString(hero_side));
 		}// fi cella a SINISTRA
 		if(ie>0) {
-			//DEBUG
 			//System.out.println("cella "+(ie-1)+","+je);
-			//STINK o CREAK
-			game_map[ie-1][je].setSenseVectorCell(0,true);
+			gm.getGameCell(ie-1, je).setSenseVectorCell(0,true);
 			//System.out.println(game_map[ie-1][je].senseVectorToString(hero_side));
 		}//fi cella in ALTO
 		if(je<3) {
-			//DEBUG
 			//System.out.println("cella "+ie+","+(je+1));
-			//STINK o CREAK
-			game_map[ie][je+1].setSenseVectorCell(0,true);
+			gm.getGameCell(ie, je+1).setSenseVectorCell(0,true);
 			//System.out.println(game_map[ie][je+1].senseVectorToString(hero_side));
 		}//fi cella a DESTRA
 		if(ie<3) {
-			//DEBUG
 			//System.out.println("cella "+(ie+1)+","+je);
-			//STINK o CREAK
-			game_map[ie+1][je].setSenseVectorCell(0,true);
+			gm.getGameCell(ie+1, je).setSenseVectorCell(0,true);
 			//System.out.println(game_map[ie+1][je].senseVectorToString(hero_side));
 		}//fi cella in BASSO
-	}//updateEnemySensors()
+	}//enemySensor()
 
-	/** metodo updateDangerSensors(int [], int []): void
+	/** metodo dangerSensors(int [], int []): void
 	 * questo metodo, dopo aver ricevuto i vettori che contengono le posizioni in cui si
 	 * trovano i pericoli nella mappa di gioco, pozzi o trappole che siano, in base alla 
 	 * modalita' di gioco scelta, si occupa di aggiornare il valore del secondo elemento 
@@ -573,8 +602,9 @@ public class Starter {
 	 * 							 gli elementi di pericolo;
 	 * @param pit_trap_j: int [], vettore che contiene gli indici colonna delle celle che 
 	 * 							  contengono gli elementi di pericolo;
+	 * @param gm: GameMap, la mappa per cui devono essere definiti i valori dei sensori.
 	 */
-	private void updateDangerSensors(int[] pit_trap_i, int[] pit_trap_j) {
+	private void dangerSensor(GameMap gm, int[] pit_trap_i, int[] pit_trap_j) {
 		//variabili ausiliarie per scorrere i vettori
 		int id=0;
 		int jd=0;
@@ -583,42 +613,32 @@ public class Starter {
 			//si preleva la coppia di indici
 			id = pit_trap_i[p];
 			jd = pit_trap_j[p];
-			//si specifica il vettore dei sensori per le celle attorno al nemico
+			//si specifica il vettore dei sensori per le celle attorno al pericolo
+			//BREEZE o SWISH
 			//System.out.println("Il pericolo e' nella cella "+id+","+jd);
-			//cella a sinistra
 			if(jd>0) {
-				//DEBUG
 				//System.out.println("cella "+id+","+(jd-1));
-				//BREEZE o SWISH
-				game_map[id][jd-1].setSenseVectorCell(1,true);
+				gm.getGameCell(id, jd-1).setSenseVectorCell(1,true);
 				//System.out.println(game_map[id][jd-1].senseVectorToString(hero_side));
-			}
-			//cella in alto
+			}//fi cella a sinistra
 			if(id>0) {
-				//DEBUG
 				//System.out.println("cella "+(id-1)+","+jd);
-				//BREEZE o SWISH
-				game_map[id-1][jd].setSenseVectorCell(1,true);
+				gm.getGameCell(id-1, jd).setSenseVectorCell(1,true);
 				//System.out.println(game_map[id-1][jd].senseVectorToString(hero_side));
-			}
-			//cella a destra
+			}//fi cella in alto
 			if(jd<3) {
-				//DEBUG
 				//System.out.println("cella "+id+","+(jd+1));
-				//BREEZE o SWISH
-				game_map[id][jd+1].setSenseVectorCell(1,true);
+				gm.getGameCell(id, jd+1).setSenseVectorCell(1,true);
 				//System.out.println(game_map[id][jd+1].senseVectorToString(hero_side));
-			}
+			}//cella a destra
 			//cella in basso
 			if(id<3) {
-				//DEBUG
 				//System.out.println("cella "+(id+1)+","+jd);
-				//BREEZE o SWISH
-				game_map[id+1][jd].setSenseVectorCell(1,true);
+				gm.getGameCell(id+1, jd).setSenseVectorCell(1,true);
 				//System.out.println(game_map[id+1][jd].senseVectorToString(hero_side));
-			}
+			}//cella in basso
 		}//for
-	}//updateDangerSensor
+	}///dangerSensor
 	
 	/** metodo settingIndices(int[], int[], int[]):void
 	 * questo metodo, che riceve in ingresso i tre vettore che conterranno gli indici riga e 
@@ -634,37 +654,31 @@ public class Starter {
 	 * @param pit_trap_j: int[], vettore che contiene gli indici colonna di tutte le celle della mappa
 	 *							 di gioco che contengono un pericolo, cioe' un pozzo oppure una trappola,
 	 *							 in base alla modalita' in cui si sta giocando;
+	 *@param gm: GameMap, la mappa di gioco sulla base della quale si devono aggiornare
+	 *					  i valori dei due sensi del vettore dei sensori.
 	 */
-	private void settingIndices(int[] enemy_indices, int[] pit_trap_i, int[] pit_trap_j) {
+	private void setIndices(GameMap gm, int[] enemy_indices, int[] pit_trap_i, int[] pit_trap_j) {
 		//variabile ausiliaria
 		String cstatus = new String("");
 		//indici per iterare i valori dei vettori delle posizioni di pozzi o trappole
 		int i_pt=0;
 		int j_pt=0;
 		//si itera la mappa di gioco dopo che e' stata totalmente popolata
-		for(int i=0;i<r;i++) { //for righe
+		for(int i=0;i<gm.getRows();i++) { //for righe
 			//for colonne
-			for(int j=0;j<c;j++) {
+			for(int j=0;j<gm.getColumns();j++) {
 				//si preleva lo stato della cella attuale sottoforma di stringa
-				cstatus = new String(game_map[i][j].getCellStatusEnum().name());
+				cstatus = new String(gm.getGameCell(i, j).getCellStatusID());
 				//si cerca la cella che contiene il nemico
-				if(cstatus.equals("WUMPUS") && hero_side) {
+				if(cstatus.equals("WUMPUS")) {
 					//e'stato trovato il mostro
 					//si prelevano gli indici di cella
 					enemy_indices[0]=i; //indice di riga
 					enemy_indices[1]=j; //indice di colonna 
-					//DEBUG
 					//System.out.println(cstatus);
 				}//fi WUMPUS
-				if(cstatus.equals("HERO") && !hero_side) {
-					//e' stato trovato l'eroe
-					//si prelevano gli indici di cella
-					enemy_indices[0]=i; //indice di riga
-					enemy_indices[1]=j; //indice di colonna
-					//DEBUG
-					//System.out.println(cstatus);
-				}//fi AVVENTURIERO
-				if(cstatus.equals("PIT") && hero_side) {
+				//modalita' eroe di default: ci sono i pozzi
+				if(cstatus.equals("PIT")) {
 					//e' stata trovata una cella contenente il pozzo
 					pit_trap_i[i_pt] = i; //indice di riga
 					pit_trap_j[j_pt] = j; //indice di colonna
@@ -674,24 +688,10 @@ public class Starter {
 						i_pt++;
 						j_pt++;
 					}//fi indici
-					//DEBUG
 					//System.out.println(cstatus);
 				}//fi POZZO
-				if(cstatus.equals("TRAP") && !hero_side) {
-					//e' stata trovata una cella contenente la trappola
-					pit_trap_i[i_pt] = i; //indice di riga
-					pit_trap_j[j_pt] = j; //indice di colonna
-					//controllo sugli indici e conseguente incremento
-					if(i_pt < pit_trap_i.length && j_pt < pit_trap_j.length) {
-						//si incrementano gli indici per accedere alla cella successiva
-						i_pt++;
-						j_pt++;
-					}//fi indici
-					//DEBUG
-					//System.out.println(cstatus);		
-				}//fi TRAPPOLA
 			}//for colonne
 		}//for righe
-	}//settingIndices
+	}//setndices
 
 }//Starter
