@@ -140,17 +140,24 @@ Funzionalità da implementare:
 - ~~testare la classe revisionata GameMap, dopo aver spostato tutti i metodi che non si occupano della sua definizione, ma del suo riempimento;~~
 - ~~modificare il costruttore di GameMap in modo che crei un'istanza le cui caratteristiche potranno essere specificate in seguito;~~
 - ~~creare classe che si occupi delle inizializzazioni della struttura di gioco Starter;~~
+- ~~generalizzare la enum CellStatus, in modo da specificare in seguito chi sia il pg, chi il nemico e quali trappole si possono incontrare, in base alla modalità di gioco;~~
+- creare delle traduzioni degli elementi di gioco, in base alla modalità scelta in una classe apposita:
+  - mappa delle traduzioni se il pg è il cacciatore;
+  - mappa delle traduzioni se il pg è il wumpus;
+- ~~definire la classe Starter che si occupa delle inizializzazioni della struttura di gioco;~~
 - dotare la classe Starter di tutti i metodi che consentano:
-  - il posizionamento degli elementi di gioco sulla mappa;
-  - il posizionamento del pg sulla mappa;
-  - l'aggiornamento del vettore dei sensori;
+  - ~~il posizionamento degli elementi di gioco sulla mappa;~~
+  - ~~il posizionamento del pg sulla mappa;~~
+  - ~~l'aggiornamento del vettore dei sensori;~~
+- ~~testare la classe Starter e verificare il riempimento automatico della mappa di gioco;~~
 - creare classe che si occupi dell'avvio del gioco LinkStart;
 - eliminare mappa di esplorazione dalla classe GameMap per inizializzarla nella classe che rappresenta l'avvio della sessione di gioco;
 - effettuare il controllo della mossa di gioco lavorando su un'istanza di GameMap le cui info si prendono dai metodi accessori;
 - definire diversi metodi di riempimento della mappa in modo che si possa scegliere se:
-  - posizionare il pg sulla cornice;
+  - ~~posizionare il pg sulla cornice;~~
   - posizionare il pg al centro della mappa;
-  - poter scegliere tra diverse funizioni di propabilità per il riempimento della mappa;
+  - posizionare il pg in un qualsiasi punto della mappa;
+  - poter scegliere tra diverse funizioni di probabilità per il riempimento della mappa;
 - definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa, ad esempio:
   - ~~definire la enum che indica le direzioni in cui è possibile effettuare una mossa;~~
   - realizzare i metodi accessori che consentono di avere informazioni sulla enum;
@@ -165,7 +172,6 @@ Funzionalità da implementare:
     - in base alla direzione dedurre gli indici della nuova cella;
     - effettuare la mossa inserendo la cella visitata nella mappa di esplorazione nota al giocatore;
 - controllare e aggiornare la posizione corrente del pg nella sessione di gioco;
-- definire la classe Starter che si occupa delle inizializzazioni della struttura di gioco;
 - definire la classe che rappresenta la sessione di gioco LinkStart;
 - definire la classe che definisce alcune regole di gioco;
 - tenere traccia delle caselle visitate in una copia della mappa di gioco, denominata exploration_map;

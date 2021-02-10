@@ -19,28 +19,28 @@ public class Starter {
 	 * vettore che contiene l'indice di riga e colonna che contiene
 	 * la posizione del pg nella mappa
 	 */
-	int [] pg_position= new int[2];
+	static int [] pg_position= new int[2];
 	
 	/** vettore degli elementi di gioco game_elements
 	 * questo vettore di nove celle conterra' le informazioni riguardanti 
 	 * il numero massimo per ciascun tipologia di elementi con cui dovra' 
 	 * essere popolata la mappa.
-	 * N.B. nella modalita' hero_side verranno posizionati il wumpus ed i pozzi,
+	 * N.B. nella modalita' hero_side verranno visualizzati il wumpus ed i pozzi,
 	 * 		nella modalita' wumpus_side, invece, l'eroe e le trappole.
 	 * [celle] [sassi] [oro] [eroe / wumpus] [pozzi / trappole]
 	 * 	 [0] 	 [1] 	[2] 		[3] 			[4]
 	 */
-	private int [] game_elements= new int [5];
+	private static int [] game_elements= new int [5];
 	
 	//################ vettore degli elementi di gioco ########################
 
 	/** metodo elementsVectorFilling(): void
 	 * questo metodo e' utilizzato per riempire automaticamente il vettore degli elementi di 
 	 * gioco che dovranno poi essere utilizzati per popolare la mappa
-	 * @param elem_gioco
+	 * @param gm: GameMap, e' la mappa di gioco, una matrice di oggetti di tipo Cell.
 	 */
-	public void elementsVectorFilling(GameMap gm) {
-		//[celle 0] [sassi 1 ] [oro 2] [eroe / wumpus 3] [pozzi / trappole 4]
+	public static void elementsVectorFilling(GameMap gm) {
+		//[celle 0] [sassi 1 ] [oro 2] [pg / enemy 3] [danger 4]
 		//numero massimo delle caselle della mappa
 		game_elements[0]=gm.getNCells();
 		//si sceglie casualmente il numero di celle non giocabili (da 0 a 2)
@@ -157,10 +157,10 @@ public class Starter {
 				el_type="oro";
 				break;
 			case 3:
-				el_type="wumpus/eroe";
+				el_type="nemico";
 				break;
 			case 4:
-				el_type="pozzi o trappole";
+				el_type="pericolo";
 				break;
 			default:break;
 			}//end switch
@@ -178,9 +178,43 @@ public class Starter {
 	 * 								 di quella stessa tipologia, che verranno
 	 * 								 inseriti nella mappa di gioco.
 	 */
-	public int[] getGameElements() {
+	public static int[] getGameElements() {
 		//si restituisce il vettore degli elementi di gioco
 		return game_elements;
+	}//getGameElements
+	
+	/** metodo getGameElementsToString(boolean): String
+	 * questo metodo restituisce una stringa che rappresenta il contenuto
+	 * del vettore degli elementi di gioco.
+	 * @param info: boolean, flag che indica se si vuole la legenda del contenuto;
+	 * @return game_els: String, stringa che mostra il contenuto del vettore
+	 * 					 game_elements.
+	 */
+	public static String getGameElementsToString(boolean info) {
+		//stringa di informazioni
+		String legend=new String("||celle|  |sassi|  |oro|  |pg-nemico|  |pericolo||\n");
+		//contenuto del vettore sottoforma di stringa
+		String game_els= new String("");
+		//si itera il vettore game_elements
+		game_els="|";
+		for(int i=0;i<game_elements.length;i++) {
+			//si mette il contenuto della cella
+			if(i != game_elements.length-1) {
+				game_els+=" |"+game_elements[i]+"|";
+			}
+			else {
+				//e' l'ultimo elemento
+				game_els+=" |"+game_elements[i]+"| |\n";
+			}
+		}//end for
+		//se info richiesta
+		if(info) {
+			return ""+legend+game_els;
+		}
+		else {
+			//si restituisce il vettore degli elementi di gioco
+			return game_els;
+		}
 	}//getGameElements
 	
 	//###################### mappa di gioco ###############################
@@ -198,7 +232,7 @@ public class Starter {
 	 * @param gm: GameMap, e' l'istanza che rappresenta la mappa da costruire,
 	 * 					   su cui verra' poi avviata la sessione di gioco.
 	 */
-	private void placeMain(GameMap gm) {
+	public static void placeMain(GameMap gm) {
 		//variabile asiliaria che indica l'avvenuto posizionamento del pg
 		boolean done = false;
 		//ciclo
@@ -233,7 +267,7 @@ public class Starter {
 	 * elemento da posizionare nella matrice di gioco.
 	 * @param gm: GameMap, e' la mappa di gioco che deve essere costruita.
 	 */
-	private void init(GameMap gm) {
+	public static void init(GameMap gm) {
 		//si prelevano gli elementi di gioco
 		//[celle 0] [sassi 1] [oro 2] [eroe / wumpus 3] [pozzi/ trappole 4]
 		//pozzi o trappole
@@ -283,7 +317,7 @@ public class Starter {
 					//confronto delle probabilita' con la soglia random
 					if(random < ppitrap) {
 						//la cella e' un pozzo/trappola
-						c.setCellStatus(CellStatus.PIT);
+						c.setCellStatus(CellStatus.DANGER);
 						//si impostano gli indici che descrivono la posizione della cella
 						c.setCellPosition(i, j);
 						//si decrementa la variabile, perche' un elemento e' stato posizionato
@@ -295,7 +329,7 @@ public class Starter {
 						 * -l'eroe, nella modalita' wumpus;
 						 */
 						 //la cella conterra' il wumpus
-						 c.setCellStatus(CellStatus.WUMPUS);
+						 c.setCellStatus(CellStatus.ENEMY);
 						//si impostano gli indici che descrivono la posizione della cella
 						c.setCellPosition(i, j);
 						//si decrementa la variabile, perche' un elemento e' stato posizionato
@@ -313,7 +347,7 @@ public class Starter {
 						/* la cella non sara' giocabile, non ci si potra' posizionare il
 						 * personaggio giocabile perche' contiene un sasso
 						 */
-						c.setCellStatus(CellStatus.DENIED);
+						c.setCellStatus(CellStatus.FORBIDDEN);
 						//si impostano gli indici che descrivono la posizione della cella
 						c.setCellPosition(i, j);
 						//si decrementa la variabile, perche' un elemento e' stato posizionato
@@ -353,7 +387,7 @@ public class Starter {
 	 * @return prob: double, il valore di probabilita' che, in base ai parametri ricevuti, e' stato 
 	 * 						 calcolato per la cella in esame.
 	 */
-	private double prob(int x,int max_x, int n, int max_n) {
+	private static double prob(int x,int max_x, int n, int max_n) {
 		//controllo sui parametri
 		if(max_x==0 || max_n==0)return 0;
 		//numero casuale
@@ -402,7 +436,7 @@ public class Starter {
 	 * @return found: boolean, flag che indica se il posizionamento del pg sia avvenuto
 	 * 						  o meno con successo.
 	 */
-	private boolean placePGonCorner(GameMap gm) {
+	private static boolean placePGonCorner(GameMap gm) {
 		//si scrive il vettore degli indici riga della matrice, per le celle della cornice
 		int [] r_index = {0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 2, 1};
 		//si scrive il vettore degli indici colonna della matrice, per le celle della cornice
@@ -432,12 +466,14 @@ public class Starter {
 			String cs = gm.getGameCell(i, j).getCellStatusID();
 			//si controlla che sia libera
 			if(cs.equals(CellStatus.SAFE.name())) {
-				//se la cella e' libera si puo' posizionare il pg, di default hero
-				gm.getGameCell(i, j).setCellStatus(CellStatus.HERO);
+				//se la cella e' libera si puo' posizionare il pg
+				gm.getGameCell(i, j).setCellStatus(CellStatus.PG);
 				//si imposta la variabile boolean
 				found = true;
-				//DEBUG
 				//System.out.println("Il PG e' stato posizionato nella cella "+"["+i+",]["+j+"]");
+				//si aggiorna il vettore che indica la posizione del og sulla mappa
+				pg_position[0]=i; // indice di riga
+				pg_position[1]=j; //indice di colonna
 			}//fi
 			else {
 				//se la cella scelta non era libera si deve ciclare di nuovo 
@@ -448,7 +484,6 @@ public class Starter {
 			 * posizionato il pg
 			 */
 			all_trials = allTrials(v_trials);
-			//DEBUG
 			//System.out.println("found "+found);
 			//System.out.println("areAllTrials? "+all_trials);
 		}//end while
@@ -472,7 +507,7 @@ public class Starter {
 	 * Se questo valore sara' pari alla lunghezza del vettore allora tutti gli elementi saranno
 	 * true, altrimenti vorra' dire che ci sono ancora celle che non sono state prese in considerazione.
 	 */
-	private boolean allTrials(boolean[] v_trials) {
+	private static boolean allTrials(boolean[] v_trials) {
 		//contatore che tiene traccia di tutti i valori a true
 		int c = 0;
 		//si itera il vettore
@@ -493,10 +528,9 @@ public class Starter {
 	/** metodo getPGPosition(): int[]
 	 * metodo accessorio che restiuisce il vettore che contiene l'indice di riga
 	 * e l'indice di colonna della cella in cui e' contenuto il personaggio giocabile.
-	 * @param gm: GameMap, la mappa di gioco.
 	 * @return pg_position: int[], il vettore della posizione del personaggio giocabile.
 	 */
-	public int [] getPGPosition(GameMap gm) {
+	public static int [] getPGPosition() {
 		//questo metodo restituisce l'indice di riga in cui si trova il pg
 		return pg_position;
 	}//getPGposition()
@@ -669,17 +703,16 @@ public class Starter {
 			for(int j=0;j<gm.getColumns();j++) {
 				//si preleva lo stato della cella attuale sottoforma di stringa
 				cstatus = new String(gm.getGameCell(i, j).getCellStatusID());
-				//si cerca la cella che contiene il nemico
-				if(cstatus.equals("WUMPUS")) {
-					//e'stato trovato il mostro
+				//si analizza lo stato della cella corrente
+				if(cstatus.equals("ENEMY")) {
+					//e'stato trovato l'avversario del pg
 					//si prelevano gli indici di cella
 					enemy_indices[0]=i; //indice di riga
 					enemy_indices[1]=j; //indice di colonna 
 					//System.out.println(cstatus);
-				}//fi WUMPUS
-				//modalita' eroe di default: ci sono i pozzi
-				if(cstatus.equals("PIT")) {
-					//e' stata trovata una cella contenente il pozzo
+				}//fi ENEMY
+				if(cstatus.equals("DANGER")) {
+					//e' stata trovata una cella contenente un pericolo
 					pit_trap_i[i_pt] = i; //indice di riga
 					pit_trap_j[j_pt] = j; //indice di colonna
 					//controllo sugli indici e conseguente incremento
@@ -689,9 +722,9 @@ public class Starter {
 						j_pt++;
 					}//fi indici
 					//System.out.println(cstatus);
-				}//fi POZZO
+				}//fi DANGER
 			}//for colonne
 		}//for righe
-	}//setndices
+	}//setIndices()
 
 }//Starter

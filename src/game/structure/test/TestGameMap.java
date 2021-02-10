@@ -4,8 +4,8 @@ import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
 
 /** classe di test
- * questa classe e' stata utilizzata per testare la validita' della struttura
- * utilizzata per creare il campo di gioco.
+ * questa classe e' stata utilizzata per testare la validita' 
+ * delle funzionalita' della classe GameMap
  * @author ivonne
  */
 public class TestGameMap {
@@ -24,9 +24,9 @@ public class TestGameMap {
 		System.out.println("Colonne "+g.getColumns());
 		System.out.println("Numero di celle "+g.getNCells());
 		//test sulla modifica del contenuto
-		g.getGameCell(0,0).setCellStatus(CellStatus.HERO);
+		g.getGameCell(0,0).setCellStatus(CellStatus.PG);
 		System.out.println(g);
-		//g.getGameCell(0,-1).setCellStatus(CellStatus.HERO);
+		//g.getGameCell(0,-1).setCellStatus(CellStatus.PG);
 		g.clear();
 		System.out.println("Mappa svuotata!\n"+g);
 	

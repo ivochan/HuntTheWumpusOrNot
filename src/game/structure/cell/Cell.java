@@ -205,22 +205,28 @@ public class Cell {
 	}//setSenseVectorCell
 	
 	/** metodo senseVectorToString(boolean) : String
-	 * metodo che stmapa il contenuto del vettore dei sensori della cella su cui e'
-	 * invocato secondo la formattazione specificata
-	 * @param hero_side, specifica la modalita' di gioco, in modo da sapere quale enum
-	 * sono state utilizzati come identificativi nel vettore dei sensori;
+	 * metodo che stampa il contenuto del vettore dei sensori della cella su cui e'
+	 * invocato secondo questo criterio:
+	 * -la prima cella contiene il sensore che indica se nelle vicinanze sia presente
+	 *  l'avversario del pg, ovvero il mostro (STINK), oppure il cacciatore (SWISH),
+	 *  in base alla modalita' scelta per la sessione di gioco;
+	 * -la seconda cella contiene il sensore che indica se nelle vicinanze sia presente
+	 *  un pericolo per il pg, ovvero il pozzo (BREEZE), oppure la trappola (CREAK),
+	 *  in base alla modalita' scelta, per la sessione di gioco, che sara', rispettivamente,
+	 *  la modalita' eroe oppure la modalita' wumpus.
+	 *  @param legend: boolean, se true verra' stampato a cosa si riferisce ogni valore
+	 *  					  del vettore dei sensori.
 	 * @return sense_info: String, stringa che rappresenta il contenuto del vettore;
 	 */
-	public String senseVectorToString(boolean hero_side) {
-		//Stringa da stampare come informazioni sui sensori
-		String sense_info;
-		if(hero_side) {
-			sense_info=new String("Il vettore dei sensi dell'eroe:\n||Stink| |Breeze||\n");
+	public String senseVectorToString(boolean info) {
+		//stringa di informazioni
+		String legend=new String("||nemico| |pericolo||\n");
+		//se info richiesta
+		if(info) {
+			return ""+legend+"||"+sense_vector[0]+" | | "+sense_vector[1]+"||\n";
 		}
-		else {
-			sense_info=new String("Il vettore dei sensi del mostro:\n||Creak| |Swish||\n");
-		}
-		return sense_info+"||"+sense_vector[0]+" | | "+sense_vector[1]+"||\n";
+		//contenuto del vettore dei sensori
+		return "||"+sense_vector[0]+" | | "+sense_vector[1]+"||\n";
 	}//SenseVectorToString()
 	
 	/** metodo isVisited(): boolean
@@ -282,6 +288,5 @@ public class Cell {
 		this.sense_vector[1]=c.sense_vector[1];
 		//questa cella si copia nella matrice di esplorazione
 	}//cellSpecs
-	
-	
+		
 }//Cell

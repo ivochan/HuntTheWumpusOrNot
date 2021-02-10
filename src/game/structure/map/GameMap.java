@@ -29,7 +29,7 @@ public class GameMap {
 	//legenda
 	private String legenda = new String("Questa e' la mappa di gioco! :)\n"
 			+ "Il significato delle caselle e' il seguente:\n"
-			+ "[G] Oro, [S] Sicura, [W] Wumpus,[H] Avventuriero, [D] Divieto, [T] Trappola, [P] Pozzo.\n");
+			+ "[G] Oro, [S] Sicura, [P] Giocatore, [E] Nemico, [D] Pericolo, [F] Vietato.\n");
 
 	/** dimensioni della matrice
 	 * -r e' il numero di righe
@@ -82,7 +82,6 @@ public class GameMap {
 	 * @param columns: int, numero di colonne;
 	 */
 	public GameMap(int rows, int columns) {
-		//TODO
 		//si controllano i parametri ricevuti come dimensioni
 		if(rows<4 || columns<4) {
 			System.out.println("dimensioni errate! verranno scelti i valori di default");
@@ -183,7 +182,6 @@ public class GameMap {
 		return legenda+"\n"+print_map;
 	}//toString()
 	
-	//TODO forse non serve
 	/** metodo getGameCell(int, int): Cell
 	 * metodo accessorio che permette di accedere all'oggetto Cell, corrispondente
 	 * alla posizione indicata dagli indici i e j, nella mappa di gioco.
@@ -219,7 +217,9 @@ public class GameMap {
 	/** metodo getGameMap(): Cell[][]
 	 * questo metodo restituisce il puntatore alla matrice
 	 * di gioco, costiuita dagli oggetti di tipo Cell
-	 * 
+	 * @return game_map: GameMap, restituisce l'attributo di classe che
+	 * 					 rappresenta la matrice di oggetti Cell, cioe' la 
+	 * 					 mappa di gioco.
 	 */
 	public Cell[][] getGameMap(){
 		//mappa di gioco
