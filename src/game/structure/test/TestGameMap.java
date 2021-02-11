@@ -18,7 +18,7 @@ public class TestGameMap {
 		GameMap gm  =new GameMap(-1,4);
 		GameMap gm1  =new GameMap(5,0);
 		GameMap gm2 =new GameMap(5,5);
-		//System.out.println(gm2);
+		System.out.println(gm2.mapToString());
 		//stampa della dimensione della mappa
 		System.out.println("Righe "+g.getRows());
 		System.out.println("Colonne "+g.getColumns());

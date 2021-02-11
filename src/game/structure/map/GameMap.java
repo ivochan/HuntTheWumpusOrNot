@@ -179,6 +179,34 @@ public class GameMap {
 			print_map+="|\n"; //si stampa la fine della riga e si va a capo
 		}//for righe
 		
+		return print_map;
+	}//toString()
+	
+	/** metodo MaptoString() : String
+	 * permette di stampare la disposizione delle celle sulla mappa
+	 * stampando il loro contenuto secondo il metodo toString() definito per l'oggetto Cell
+	 * Viene stampata la legenda del contenuto delle celle
+	 * @return print_map: String, stringa che rappresenta l'oggetto mappa da stampare a video.
+	 */
+	public String mapToString() {
+		//si crea la stringa che rappresenta la mappa da stampare
+		String print_map = new String();
+		for(int i=0; i<r; i++) {
+			//si scorrono le righe della matrice
+			print_map+=" |"; //si stampa l'inizio della riga
+			for(int j=0; j<c; j++) {
+				//si scorrono le colonne della matrice
+				//si stampa il contenuto della cella 
+				if(j<c-1) {
+					print_map+=game_map[i][j]+ " ";
+				}
+				else {
+					print_map+=game_map[i][j];
+				}
+			}//for colonne
+			print_map+="|\n"; //si stampa la fine della riga e si va a capo
+		}//for righe
+		
 		return legenda+"\n"+print_map;
 	}//toString()
 	
@@ -209,7 +237,7 @@ public class GameMap {
 			//si itera per colonne
 			for(int j=0;j<c;j++) {
 				//viene istanziata ogni cella della matrice di gioco
-				game_map[i][j].setCellPosition(-1,-1);
+				game_map[i][j]=new Cell();
 			}//for colonne
 		}//for righe 
 	}//clear()

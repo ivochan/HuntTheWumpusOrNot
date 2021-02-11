@@ -15,8 +15,9 @@ package game.structure.cell;
  * 		  -l'Avventuriero, se ci si trova nella modalita' mostro; 
  * 		  (colore ROSSO)
  * 
- * GOLD, e' un premio che puo' essere trovato dal PG. 
- * 		  In questo caso sara' un lingotto d'oro.
+ * AWARD, e' un premio che puo' essere trovato dal PG. 
+ * 		  Nella modalita' eroe sara' un lingotto d'oro, in quella wumpus, invece,
+ * 		  sara' una via di fuga dal dungeon, in modo da sfuggire al cacciatore.
  * 		  (colore GIALLO)
  * 
  * DANGER, e' il pericolo in cui puo' incorrere il PG, che in base alla modalita' 
@@ -33,13 +34,15 @@ package game.structure.cell;
  * FORBIDDEN, e' una cella non accessibile, rappresenta un sasso, un punto della
  * 		   mappa in cui il PG non puo' essere posizionato.
  * 		   (colore NERO)
+ * BAT 
  * 
  */
 public enum CellStatus {
 	PG,
 	ENEMY,
-	GOLD,
+	AWARD,
 	DANGER,
 	SAFE,
-	FORBIDDEN;
+	FORBIDDEN,
+	BAT;
 }//CellStatus

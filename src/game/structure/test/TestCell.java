@@ -18,7 +18,7 @@ public class TestCell {
 		//stampa del contenuto della cella
 		System.out.println("cella c1 "+c1);
 		//secondo costruttore
-		Cell c2 = new Cell(CellStatus.GOLD);
+		Cell c2 = new Cell(CellStatus.AWARD);
 		//stampa del contenuto della cella
 		System.out.println("cella c2 "+c2);
 		//test attributo isVisited

@@ -8,8 +8,7 @@
  */
 public class Cell {
 	
-	//vettore dei sensori H: STINK, BREEZE
-	//vettore dei sensori W: CREAK, SWISH
+	//vettore dei sensori : ENEMY_SENSE, DANGER_SENSE
 	private boolean[] sense_vector = new boolean[2];
 
 	//contenuto della cella sulla base della enum CellStatus

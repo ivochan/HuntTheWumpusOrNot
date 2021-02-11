@@ -28,13 +28,12 @@ La mappa di gioco sarà costituita come una matrice di dimensioni ( 4 x 4 ).
 
 Le celle potranno essere di questo tipo:
 
-- **SAFE**, colore verde, cella accessibile e LIBERA, con il valore intero indicativo 0;
-- **PIT**, colore blu, FOSSA in cui puo' cadere l'avventuriero, se si gioca nella modalità Eroe (hero_side = true), con il valore intero indicativo 1;
-- **WUMPUS**, colore rosso, MOSTRO, con il valore intero indicativo 2;
-- **HERO**, colore arancione, AVVENTURIERO, con il valore intero indicativo 3;
-- **GOLD**, colore giallo, ORO, con il valore intero indicativo 4;
-- **DENIED**, colore nero, cella non accessibile, SASSO, con il valore intero indicativo 5;
-- **TRAP**, colore viola, trappola in cui può cadere il wumpus, se si gioca nella modalità Wumpus (hero_side = false), con il valore intero indicativo 6;
+- **SAFE**, colore verde, cella accessibile e LIBERA;
+- **DANGER**, colore blu, PIT, fossa in cui puo' cadere l'avventuriero, se si gioca nella modalità Eroe oppure TRAP, trappola, in cui può cadere il wumpus, se si gioca nella modalità Wumpus;
+- **ENEMY**, colore rosso, AVVERSARIO, che può essere il Wumpus se si gioca nella modalità Eroe, altrimenti è il Cacciatore;
+- **PG**,  colore arancione,  è il Giocatore, che sarà l'Avventuriero se si gioca nella modalità Eroe, altrimenti sarà il Wumpus;
+- **AWARD** , colore giallo,  Premio;
+- **FORBIDDEN**, colore nero, cella non accessibile, SASSO;
 
 Per come è stato strutturato il gioco, gli elementi che, in totale, verranno posizionati sulla mappa di gioco sono:
 
@@ -46,12 +45,10 @@ Per come è stato strutturato il gioco, gli elementi che, in totale, verranno po
 
 Per quanto riguarda il vettore dei sensori, i cui elementi sono stati rappresentati come valori di tipo boolean, descritti da un'enumerazione, potrà essere definito nel modo seguente:
 
-- *SenseHStatus* , ovvero il vettore dei sensori nella modalità Eroe, sarà costituito, per ogni cella, da due elementi, quali:
-   *	STINK, colore marrone, odore del Wumpus, con indice di cella 0;
-   *	BREEZE, colore bianco, brezza del pozzo, icon indice di cella 1;
-- *SenseWStauts*, ovvero il vettore dei sensori nella modalità Wumpus,  sarà costituito, per ogni cella, da due elementi, quali:
-  - CREAK, colore marrone, scricchiolio dovuto al passo dell'eroe, con indice di cella 0;
-  - SWISH, colore bianco, fruscio di foglie vicino la trappola, con indice di cella 1;
+*SenseStatus* , ovvero il vettore dei sensori nella modalità Eroe, sarà costituito, per ogni cella, da due elementi, quali:
+
+*	ENEMY_SENSE;
+*	DANGER_SENSE;
 
 
 
@@ -107,12 +104,13 @@ Funzionalità da implementare:
 - ~~creazione della classe Cell per implementare la generica casella della mappa di gioco;~~
 - ~~creazione dell'enumerazioni per indicare i tipi di celle che possono costituire la mappa e i tipi di sensori;~~
 - ~~creazione della struttura della mappa di gioco tramite la classe GameMap;~~
-- inserire i super-pipistrelli come tipologia di cella della mappa (CellStatus.BAT);
+- ~~inserire i super-pipistrelli come tipologia di cella della mappa (CellStatus.BAT);~~
+- implementare il posizionamento casuale dei super pipistrelli nella mappa di gioco;
 - prevedere lo spostamento del personaggio giocabile in una cella casuale, se in presenza di un super-pipistrello; 
 - definire il meccanismo del punteggio, in base alle tipologie di celle esaminate;
 - memorizzare il valore del punteggio acquisito via via durante la partita di gioco;
 - sostituire i messaggi di errore e le stampe di debug con il sollevamento delle eccezioni;
-- ~~correggere funzione di probabilità per il popolamento della mappa;~~ grazie a PsykeDady :3
+- ~~correggere funzione di probabilità per il popolamento della mappa;~~        grazie a PsykeDady <3
 - prevedere il popolamento della mappa in entrambe le modalità di gioco;
 - ~~integrare le funzionalità relative alla mappa nella classe GameMap;~~
 - ~~testare il popolamento manuale della mappa di gioco;~~
@@ -141,6 +139,7 @@ Funzionalità da implementare:
 - ~~modificare il costruttore di GameMap in modo che crei un'istanza le cui caratteristiche potranno essere specificate in seguito;~~
 - ~~creare classe che si occupi delle inizializzazioni della struttura di gioco Starter;~~
 - ~~generalizzare la enum CellStatus, in modo da specificare in seguito chi sia il pg, chi il nemico e quali trappole si possono incontrare, in base alla modalità di gioco;~~
+- ~~implementazione di un unica enum SenseStatus, eliminando la distinzione tra le due modalità di gioco;~~
 - creare delle traduzioni degli elementi di gioco, in base alla modalità scelta in una classe apposita:
   - mappa delle traduzioni se il pg è il cacciatore;
   - mappa delle traduzioni se il pg è il wumpus;
@@ -150,8 +149,22 @@ Funzionalità da implementare:
   - ~~il posizionamento del pg sulla mappa;~~
   - ~~l'aggiornamento del vettore dei sensori;~~
 - ~~testare la classe Starter e verificare il riempimento automatico della mappa di gioco;~~
-- creare classe che si occupi dell'avvio del gioco LinkStart;
-- eliminare mappa di esplorazione dalla classe GameMap per inizializzarla nella classe che rappresenta l'avvio della sessione di gioco;
+- ~~verificare l'assegnamento dei sensori dopo aver popolato la mappa;~~
+- creare classe che si occupi dell'avvio del gioco LinkStart:
+  - inizializzare la mappa di esplorazione;
+  - implementare ciclo di avvio della sessione di gioco;
+- implementare la sessione di gioco, in cui prevedere:
+  - la scelta dellla modalità di gioco;
+  - l'inizio della partita;
+  - la possibilità di terminare il gioco;
+  - la possibilità di effettuare delle mosse;
+  - aggiornare la mappa di esplorazione, tenendo traccia delle celle già visitate;
+  - conoscere la posizione corrente del pg;
+  - il calcolo del punteggio;
+  - movimento nella mappa manuale (tramite metodo accessorio)
+  - movimento nella mappa da input (su decisione dell'utente)
+    - prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input;
+  - fornire dei messaggi esplicativi della situazione attuale nel gioco;
 - effettuare il controllo della mossa di gioco lavorando su un'istanza di GameMap le cui info si prendono dai metodi accessori;
 - definire diversi metodi di riempimento della mappa in modo che si possa scegliere se:
   - ~~posizionare il pg sulla cornice;~~
@@ -171,20 +184,7 @@ Funzionalità da implementare:
   - effettuare la mossa scelta, nella direzione specificata:
     - in base alla direzione dedurre gli indici della nuova cella;
     - effettuare la mossa inserendo la cella visitata nella mappa di esplorazione nota al giocatore;
-- controllare e aggiornare la posizione corrente del pg nella sessione di gioco;
-- definire la classe che rappresenta la sessione di gioco LinkStart;
-- definire la classe che definisce alcune regole di gioco;
-- tenere traccia delle caselle visitate in una copia della mappa di gioco, denominata exploration_map;
-- utilizzare il flag isVisited per identificare le celle che sono state esaminate e copiarle nella exploration_map, nella stessa posizione occupata nella game_map;
-- definire i meccanismi di gioco a disposizione come:
-  -  l'inizio della partita, 
-  - il calcolo del punteggio, 
-  - la scelta della mossa
-  - l'esplorazione dell'ambiente di gioco tramite il vettore dei sensori
-  - il termine della partita
-  - movimento nella mappa manuale (tramite metodo accessorio)
-  - movimento nella mappa da input (su decisione dell'utente)
-  - prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input
+- definire la classe che definisce alcune regole di gioco Rules;
 - definire il giocatore "HumanPlayer";
 - definire il giocatore automatico "IAPlayer"
 - dotare la classe "IAPlayer" dei metodi necessari per:
