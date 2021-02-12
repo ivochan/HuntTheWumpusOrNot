@@ -10,7 +10,7 @@ import game.structure.cell.CellStatus;
  * gioco, in base alla modalita' che verra' selezionata nella sezione di
  * gioco vera e propria.
  * 
- * PG	ENEMY	GOLD	DANGER	SAFE	FORBIDDEn
+ * PG	ENEMY	GOLD	DANGER	SAFE	FORBIDDEN
  * @author ivonne
  */
 public class GameModeTranslation {
@@ -84,7 +84,7 @@ public class GameModeTranslation {
 	private static void initHeroMessages() {
 		hero_side_mex.put(CellStatus.PG, "Benvenuto avventuriero!\nAndiamo a caccia del Wumpus e dei suoi tesori.");
 		hero_side_mex.put(CellStatus.ENEMY, "");
-		hero_side_mex.put(CellStatus.AWARD, "");
+		hero_side_mex.put(CellStatus.AWARD, "Hai trovato il tesoro del Wumpus!");
 		hero_side_mex.put(CellStatus.DANGER, "Sei caduto nella fossa piena d'acqua...");
 		hero_side_mex.put(CellStatus.SAFE, "");
 		hero_side_mex.put(CellStatus.FORBIDDEN, "");
@@ -99,7 +99,7 @@ public class GameModeTranslation {
 	private static void initWumpusMessages() {
 		wumpus_side_mex.put(CellStatus.PG, "Benvenuto Wumpus!\nAttenzione, il cacciatore e' in agguato, scappa.");
 		wumpus_side_mex.put(CellStatus.ENEMY, "");
-		wumpus_side_mex.put(CellStatus.AWARD, "");
+		wumpus_side_mex.put(CellStatus.AWARD, "Hai trovato una via di fuga, sbrigati!");
 		wumpus_side_mex.put(CellStatus.DANGER, "Sei caduto in trappola...");
 		wumpus_side_mex.put(CellStatus.SAFE, "");
 		wumpus_side_mex.put(CellStatus.FORBIDDEN, "");
