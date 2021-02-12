@@ -151,8 +151,9 @@ Funzionalità da implementare:
 - ~~testare la classe Starter e verificare il riempimento automatico della mappa di gioco;~~
 - ~~verificare l'assegnamento dei sensori dopo aver popolato la mappa;~~
 - creare classe che si occupi dell'avvio del gioco LinkStart:
-  - inizializzare la mappa di esplorazione;
-  - implementare ciclo di avvio della sessione di gioco;
+  - ~~inizializzare la mappa di esplorazione;~~
+  - ~~implementare ciclo di avvio della sessione di gioco;~~
+  - gestisca la ricezione di un comando;
 - implementare la sessione di gioco, in cui prevedere:
   - la scelta dellla modalità di gioco;
   - l'inizio della partita;

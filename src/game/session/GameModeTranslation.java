@@ -19,6 +19,8 @@ public class GameModeTranslation {
 	public final static String winner = new String("Hai vinto !!!");
 	//messaggi d'errore
 	public final static String denied_move = new String("Posizione non consentita!");
+	//messaggi di info
+	public final static String credits = "E' Ivochan che ha tentato di sviluppare questo gioco...";
 	
 	/** HERO_SIDE
 	 * Questa HashMap conterra' tutti gli elementi di gioco che costituiscono
