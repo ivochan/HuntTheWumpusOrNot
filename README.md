@@ -141,8 +141,8 @@ Funzionalità da implementare:
 - ~~generalizzare la enum CellStatus, in modo da specificare in seguito chi sia il pg, chi il nemico e quali trappole si possono incontrare, in base alla modalità di gioco;~~
 - ~~implementazione di un unica enum SenseStatus, eliminando la distinzione tra le due modalità di gioco;~~
 - creare delle traduzioni degli elementi di gioco, in base alla modalità scelta in una classe apposita:
-  - mappa delle traduzioni se il pg è il cacciatore;
-  - mappa delle traduzioni se il pg è il wumpus;
+  - ~~mappa delle traduzioni se il pg è il cacciatore;~~
+  - ~~mappa delle traduzioni se il pg è il wumpus;~~
 - ~~definire la classe Starter che si occupa delle inizializzazioni della struttura di gioco;~~
 - dotare la classe Starter di tutti i metodi che consentano:
   - ~~il posizionamento degli elementi di gioco sulla mappa;~~

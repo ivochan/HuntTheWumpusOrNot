@@ -1,4 +1,4 @@
-package game.structure.test;
+package game.test;
 
 import game.structure.map.GameMap;
 import game.structure.map.Starter;

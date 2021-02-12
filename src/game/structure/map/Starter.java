@@ -2,7 +2,6 @@ package game.structure.map;
 
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
-import game.structure.cell.SenseStatus;
 
 /** class Starter
  * questa classe si occupa di effettuare tutte le configurazioni necessarie
@@ -14,7 +13,7 @@ import game.structure.cell.SenseStatus;
  */
 public class Starter {
 	
-	/** pg__position
+	/** pg_position
 	 * vettore che contiene l'indice di riga e colonna che contiene
 	 * la posizione del pg nella mappa
 	 */
@@ -646,19 +645,19 @@ public class Starter {
 			//System.out.println("Il pericolo e' nella cella "+id+","+jd);
 			if(jd>0) {
 				//System.out.println("cella "+id+","+(jd-1));
-				gm.getGameCell(id, jd-1).setSenseVectorCell(SenseStatus.DANGER_SENSE.ordinal(),true);
+				gm.getGameCell(id, jd-1).setSenseVectorCell(CellStatus.DANGER_SENSE.ordinal(),true);
 			}//fi cella a sinistra
 			if(id>0) {
 				//System.out.println("cella "+(id-1)+","+jd);
-				gm.getGameCell(id-1, jd).setSenseVectorCell(SenseStatus.DANGER_SENSE.ordinal(),true);
+				gm.getGameCell(id-1, jd).setSenseVectorCell(CellStatus.DANGER_SENSE.ordinal(),true);
 			}//fi cella in alto
 			if(jd<3) {
 				//System.out.println("cella "+id+","+(jd+1));
-				gm.getGameCell(id, jd+1).setSenseVectorCell(SenseStatus.DANGER_SENSE.ordinal(),true);
+				gm.getGameCell(id, jd+1).setSenseVectorCell(CellStatus.DANGER_SENSE.ordinal(),true);
 			}//fi cella a destra
 			if(id<3) {
 				//System.out.println("cella "+(id+1)+","+jd);
-				gm.getGameCell(id+1, jd).setSenseVectorCell(SenseStatus.DANGER_SENSE.ordinal(),true);
+				gm.getGameCell(id+1, jd).setSenseVectorCell(CellStatus.DANGER_SENSE.ordinal(),true);
 			}//fi cella in basso
 		}//for
 	}///dangerSensor

@@ -1,4 +1,4 @@
-package game.structure.test;
+package game.test;
 
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
