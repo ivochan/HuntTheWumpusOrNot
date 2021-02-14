@@ -12,7 +12,7 @@ public class LinkStart {
 	public static void main(String [] args) {
 		//############ inizializzazioni ###############
 		//stringa descrizione comandi
-		String legenda = "Ecco la lista dei comandi:\n"+
+		String legenda_comandi = "Ecco la lista dei comandi:\n"+
 						"[q -quit] [g - game start] [s - score] [c - credits]";
 		//stringa modalita' di gioco
 		String mode = "Sarai il cacciatore oppure il Wumpus?\n"
@@ -35,7 +35,7 @@ public class LinkStart {
 		//si crea la mappa di esplorazione
 		GameMap ge = new GameMap();
 		//intro al gioco
-		System.out.println(legenda);
+		System.out.println(legenda_comandi);
 		System.out.println("Cosa vuoi fare?");
 		//ciclo di avvio della sessione di gioco
 		while(comando != 'q') {
@@ -90,28 +90,39 @@ public class LinkStart {
 				System.out.println("Il PG e' stato posizionato nella cella ("+pg_p[0]+","+pg_p[1]+")\n");
 				System.out.println((trad_mex.get(CellStatus.PG)));
 				ge.getGameCell(pg_p[0], pg_p[1]).copyCellSpecs(gm.getGameCell(pg_p[0],pg_p[1]));
-				System.out.println("\nEcco la mappa di esplorazione...");
-				System.out.println(ge);
+				System.out.println("\nEccoti la mappa di esplorazione...");
+				System.out.println("\n"+ge.mapAndLegend());
+				System.out.println("Inserisci comando :> ");
+				//sessione di gioco: movimento del pg
+				while(true){
+					System.out.println("Inserisci comando :> ");
+					//int mossa=INPUT(); 
+					//int stato=Controller.move(hero_pos,mappa,esplorazione); 
+					//switch(stato) {
+						//case -1 : stato di errore ripeti mossa            ; 
+						//case  0 : stato normale, controlla stato del gioco;  
+						//case  1 : eroe morto termina gioco                ;
+					//}//switch
+				
+				}//while mossa
+	
+	
 				
 				
 				
-				
-				
-				
-				
-				
-			}
+			}//fi 'g'
 			
 			else {
-				System.out.println("Comando non valido!\n"+legenda);
-			}
+				System.out.println("Comando non valido!\n"+legenda_comandi);
+			}//esle
 		
 		}//end while
-		System.out.println("Chiusura del gioco...");
+		
+	System.out.println("Chiusura del gioco...");
 				
 		
-	}//main
+	}//end main
 
-}
+}//end class
 
 

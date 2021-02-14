@@ -26,6 +26,7 @@ public class TestGameMap {
 		//test sulla modifica del contenuto
 		g.getGameCell(0,0).setCellStatus(CellStatus.PG);
 		System.out.println(g);
+		System.out.println(g.mapAndLegend());
 		//g.getGameCell(0,-1).setCellStatus(CellStatus.PG);
 		g.clear();
 		System.out.println("Mappa svuotata!\n"+g);

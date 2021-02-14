@@ -254,4 +254,54 @@ public class GameMap {
 		return game_map;
 	}//getGameMap()
 
+	/** metodo mapAndLegend(): String
+	 * questo metodo stampa la mappa di gioco visibile all'utente,
+	 * quella di esplorazione, accompagnata da una legenda che esplica
+	 * il contenuto delle celle ed i comandi da premere per muovere il pg.
+	 * @return tot:String, stringa che contiene la mappa e la legenda.
+	 */
+	 public String mapAndLegend() {
+		String inizio = new String("       MAPPA				LEGENDA	\n"+
+				 "			-----------------------------------------\n");
+		String fine = new String(" 												 \n"+
+				 " Comandi:										 \n"+
+				 " 												 \n"+
+				 " w = sopra									 \n"+
+				 " a = sinistra									 \n"+
+				 " s = sotto									 \n"+
+				 " d = destra									 \n"+
+				 "												 \n");
+		//vettore colonna per la legenda
+		String [] v_leg = new String [4];
+		v_leg[0] = "	| S = SPAZIO VUOTO | D = PERICOLO	|\n";
+		v_leg[1] = "	| E = NEMICO       | F = SPAZIO VIETATO |\n";
+		v_leg[2] = "	| P = GIOCATORE	   | A = PREMIO		|\n";
+		v_leg[3] = "	-----------------------------------------\n";
+		//stringa da stampare
+		String tot = new String();
+		tot+=inizio;
+		//si crea la stringa che rappresenta la mappa da stampare
+		String print_map = new String();
+		//iterazione sulla matrice di gioco
+		for(int i=0; i<r; i++) {
+			//si scorrono le righe della matrice
+			print_map+=" |"; //si stampa l'inizio della riga
+			for(int j=0; j<c; j++) {
+			//si scorrono le colonne della matrice
+			//si stampa il contenuto della cella 
+				if(j<c-1) {
+					print_map+=game_map[i][j]+ " ";
+				}
+				else {
+					print_map+=game_map[i][j];
+				}
+			}//for colonne
+			print_map+="|"+v_leg[i]; //si stampa la fine della riga e si va a capo
+		}//for righe
+		tot += print_map + fine; 
+		return tot;
+	 }//mapAndLegend()
+				
+	
+
 }//GameMap
