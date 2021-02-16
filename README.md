@@ -153,12 +153,12 @@ Funzionalità da implementare:
 - creare classe che si occupi dell'avvio del gioco LinkStart:
   - ~~inizializzare la mappa di esplorazione;~~
   - ~~implementare ciclo di avvio della sessione di gioco;~~
-  - gestisca la ricezione di un comando;
+  - ~~gestisca la ricezione di un comando;~~
 - implementare la sessione di gioco, in cui prevedere:
-  - la scelta dellla modalità di gioco;
-  - l'inizio della partita;
-  - la possibilità di terminare il gioco;
-  - la possibilità di effettuare delle mosse;
+  - ~~la scelta dellla modalità di gioco;~~
+  - ~~l'inizio della partita;~~
+  - ~~la possibilità di terminare il gioco;~~
+  - ~~la possibilità di effettuare delle mosse;~~~~
   - aggiornare la mappa di esplorazione, tenendo traccia delle celle già visitate;
   - conoscere la posizione corrente del pg;
   - il calcolo del punteggio;
@@ -166,7 +166,7 @@ Funzionalità da implementare:
   - movimento nella mappa da input (su decisione dell'utente)
     - prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input;
   - fornire dei messaggi esplicativi della situazione attuale nel gioco;
-- effettuare il controllo della mossa di gioco lavorando su un'istanza di GameMap le cui info si prendono dai metodi accessori;
+- ~~effettuare il controllo della mossa di gioco lavorando su un'istanza di GameMap le cui info si prendono dai metodi accessori;~~
 - definire diversi metodi di riempimento della mappa in modo che si possa scegliere se:
   - ~~posizionare il pg sulla cornice;~~
   - posizionare il pg al centro della mappa;
@@ -174,17 +174,23 @@ Funzionalità da implementare:
   - poter scegliere tra diverse funizioni di probabilità per il riempimento della mappa;
 - definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa, ad esempio:
   - ~~definire la enum che indica le direzioni in cui è possibile effettuare una mossa;~~
-  - realizzare i metodi accessori che consentono di avere informazioni sulla enum;
+  - prevedere i casi di fine partita:
+    - il pg perde se incontra il nemico:
+    - il pg vince se:
+      - trova l'uscita segreta, se Wumpus;
+      - uccide il Wumpus, se è il Cacciatore;
   - controllare che la mossa sia valida:
-    - in termini di indici che identificano la posizione della cella di arrivo nella mappa di gioco;
-    - in termini di adiacenza alla cella che rappresenta la posizione corrente del pg;
+    - ~~in termini di indici che identificano la posizione della cella di arrivo nella mappa di gioco;~~
+    - ~~in termini di adiacenza alla cella che rappresenta la posizione corrente del pg;~~
     - restituire una variabile che descriva lo stato della mossa, ovvero:
-      - se valida;
-      - se errata;
-      - se il pg è morto;
+      - ~~se valida;~~
+      - ~~se errata;~~
+      - ~~se il pg è morto;~~
   - effettuare la mossa scelta, nella direzione specificata:
-    - in base alla direzione dedurre gli indici della nuova cella;
+    - ~~in base alla direzione dedurre gli indici della nuova cella;~~
     - effettuare la mossa inserendo la cella visitata nella mappa di esplorazione nota al giocatore;
+    - effettuare la mossa restituendo le variabili che descrivono il contenuto dei sensori della cella di arrivo;
+    - richiedere la mossa successiva;
 - definire la classe che definisce alcune regole di gioco Rules;
 - definire il giocatore "HumanPlayer";
 - definire il giocatore automatico "IAPlayer"

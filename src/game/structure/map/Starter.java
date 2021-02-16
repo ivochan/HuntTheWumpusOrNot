@@ -13,11 +13,11 @@ import game.structure.cell.CellStatus;
  */
 public class Starter {
 	
-	/** pg_position
+	/** pg_start_position
 	 * vettore che contiene l'indice di riga e colonna che contiene
 	 * la posizione del pg nella mappa
 	 */
-	static int [] pg_position= new int[2];
+	static int [] pg_start_position= new int[2];
 	
 	/** vettore degli elementi di gioco game_elements
 	 * questo vettore di nove celle conterra' le informazioni riguardanti 
@@ -470,8 +470,8 @@ public class Starter {
 				found = true;
 				//System.out.println("Il PG e' stato posizionato nella cella "+"["+i+",]["+j+"]");
 				//si aggiorna il vettore che indica la posizione del og sulla mappa
-				pg_position[0]=i; // indice di riga
-				pg_position[1]=j; //indice di colonna
+				pg_start_position[0]=i; // indice di riga
+				pg_start_position[1]=j; //indice di colonna
 			}//fi
 			else {
 				//se la cella scelta non era libera si deve ciclare di nuovo 
@@ -523,30 +523,15 @@ public class Starter {
 
 	//#################### personaggio giocabile #########################
 	
-	/** metodo getPGPosition(): int[]
+	/** metodo getPGstartPosition(): int[]
 	 * metodo accessorio che restiuisce il vettore che contiene l'indice di riga
 	 * e l'indice di colonna della cella in cui e' contenuto il personaggio giocabile.
 	 * @return pg_position: int[], il vettore della posizione del personaggio giocabile.
 	 */
-	public static int [] getPGPosition() {
+	public static int [] getPGstartPosition() {
 		//questo metodo restituisce l'indice di riga in cui si trova il pg
-		return pg_position;
+		return pg_start_position;
 	}//getPGposition()
-
-	/** metodo setPGposition(int, int): void
-	 * metodo accessorio che permette di aggiornare la posizione, espressa in termini di
-	 * indice riga ed indice colonna, della cella in cui si muovera' il personaggio giocabile
-	 * nella matrice di gioco.
-	 * @param i:int, indice di riga della cella in cui si vuole posizionare il personaggio
-	 * @param j:int, indice di riga colonna
-	 */
-	public void setPGPosition(GameMap gm, int i, int j) {
-		//controllo sugli indici
-		if(i<0 || i>gm.getRows()-1 || j<0 || j>gm.getColumns()-1) {
-			System.err.println("Indici non validi");
-		}
-		//TODO controllo di adiacenza
-	}//getPGiPosition()
 
 	//######################## vettore dei sensori #######################
 	

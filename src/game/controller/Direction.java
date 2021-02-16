@@ -7,7 +7,7 @@ package game.controller;
  * sopra, sotto, destra e sinistra.
  */
 public enum Direction {
-	UP,
+	UP, 
 	DOWN,
 	LEFT,
 	RIGHT;

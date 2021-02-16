@@ -3,6 +3,9 @@ package game.session;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import game.controller.Controller;
+import game.controller.Direction;
+import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
 import game.structure.map.Starter;
@@ -11,6 +14,7 @@ public class LinkStart {
 
 	public static void main(String [] args) {
 		//############ inizializzazioni ###############
+		
 		//stringa descrizione comandi
 		String legenda_comandi = "Ecco la lista dei comandi:\n"+
 						"[q -quit] [g - game start] [s - score] [c - credits]";
@@ -86,41 +90,99 @@ public class LinkStart {
 				//si aggiorna il vettore dei sensori
 				Starter.updateSensors(gm);
 				//coordinate pg
-				int [] pg_p= Starter.getPGPosition();
-				System.out.println("Il PG e' stato posizionato nella cella ("+pg_p[0]+","+pg_p[1]+")\n");
+				int [] pg_pos= Starter.getPGstartPosition();
+				System.out.println("Il PG e' stato posizionato nella cella ("+pg_pos[0]+","+pg_pos[1]+")\n");
 				System.out.println((trad_mex.get(CellStatus.PG)));
-				ge.getGameCell(pg_p[0], pg_p[1]).copyCellSpecs(gm.getGameCell(pg_p[0],pg_p[1]));
+				ge.getGameCell(pg_pos[0], pg_pos[1]).copyCellSpecs(gm.getGameCell(pg_pos[0],pg_pos[1]));
 				System.out.println("\nEccoti la mappa di esplorazione...");
 				System.out.println("\n"+ge.mapAndLegend());
-				System.out.println("Inserisci comando :> ");
+				//flag sessione di gioco
+				boolean game_start = true;
+				//flag comando valido
+				boolean valid_move = false;
+				//mossa da acquisire da input
+				char move = ' ';
+				//mossa codificata in intero
+				Direction pg_move = null;
 				//sessione di gioco: movimento del pg
-				while(true){
-					System.out.println("Inserisci comando :> ");
-					//int mossa=INPUT(); 
-					//int stato=Controller.move(hero_pos,mappa,esplorazione); 
-					//switch(stato) {
-						//case -1 : stato di errore ripeti mossa            ; 
-						//case  0 : stato normale, controlla stato del gioco;  
-						//case  1 : eroe morto termina gioco                ;
-					//}//switch
-				
-				}//while mossa
-	
-	
-				
-				
-				
+				while(game_start){
+					//si acquisisce il comando
+					while(!valid_move) {
+						System.out.println("Inserisci comando :> ");
+						move = input.next().charAt(0);
+						//controllo sul comando
+						if(move=='w') {
+							pg_move=Direction.UP;
+							valid_move=true;
+						}
+						if(move=='a') {
+							pg_move=Direction.LEFT;
+							valid_move=true;
+						}
+						 if(move=='s') {
+							 pg_move=Direction.DOWN;
+							valid_move=true;
+						}
+						if(move=='d') {
+							pg_move= Direction.RIGHT;
+							valid_move=true;
+						}
+						else {
+							System.out.println("Mossa errata!");
+						}
+					}//while mossa
+					System.out.println("Comado inserito: "+move);
+					//si controlla il comando
+					int status=Controller.movePG(pg_move, pg_pos, gm); 
+					switch(status) {
+						case -1 : 
+							System.out.println("Comando non valido!\nRipeti la mossa...");
+							valid_move=false;
+							break;
+						case 0 : 
+							//TODO
+							System.out.println("Il pg si sta muovendo...");
+							pg_pos = Controller.getPGpos();
+							System.out.println("Il pg si trova in ("+pg_pos[0]+','+pg_pos[1]+')');
+							//si preleva la cella in cui si sposta il pg
+							Cell c = gm.getGameCell(pg_pos[0], pg_pos[1]);
+							//si segna la cella in gm come visitata
+							c.setVisited();
+							//si copia questa cella nella matrice di esplorazione
+							ge.getGameCell(pg_pos[0], pg_pos[1]).copyCellSpecs(c);
+							//TODO
+							//aggiornare la posizione del pg
+							System.out.println("Il pg si trova in ("+pg_pos[0]+','+pg_pos[1]+')');
+							System.out.println(ge.mapAndLegend());
+							System.out.println("Ecco cosa vede-");
+							//stampa del vettore dei sensori
+							//aggiornamento della posizione del pg
+							//richiesta della mossa successiva
+							valid_move=false;
+							game_start=true;
+							break;
+						case 1:
+							System.out.println("Sei morto");
+							//richiesta di iniziare una nuova partita
+							valid_move=true;
+							game_start=false;
+							break;
+						default: break;
+					}//switch
+					
+				}//while sessione di gioco
+				System.out.println("THE END!");
+				System.out.println(legenda_comandi);
+				System.out.println("Che si fa? :> ");				
 			}//fi 'g'
-			
+			else if(comando == 'q') {
+				System.out.println("Ciao ciao!");
+			}//fi 'q'
 			else {
-				System.out.println("Comando non valido!\n"+legenda_comandi);
+				System.out.println("Comando errato!\n"+legenda_comandi);
 			}//esle
-		
 		}//end while
-		
-	System.out.println("Chiusura del gioco...");
-				
-		
+		System.out.println("Chiusura del gioco...");
 	}//end main
 
 }//end class

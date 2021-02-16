@@ -28,7 +28,7 @@ public class TestGameStructure {
 		//si stampa il risultato
 		System.out.println(g);
 		//coordinate pg
-		int [] pg_p= Starter.getPGPosition();
+		int [] pg_p= Starter.getPGstartPosition();
 		System.out.println("Il PG e' stato posizionato nella cella ("+pg_p[0]+","+pg_p[1]+")\n");
 		//test delle traduzioni hero_side
 		//si inizializzano le classi delle traduzioni
