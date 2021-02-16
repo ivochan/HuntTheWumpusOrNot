@@ -270,6 +270,7 @@ public class GameMap {
 				 " a = sinistra									 \n"+
 				 " s = sotto									 \n"+
 				 " d = destra									 \n"+
+				 " c = chiudi									 \n"+
 				 "												 \n");
 		//vettore colonna per la legenda
 		String [] v_leg = new String [4];

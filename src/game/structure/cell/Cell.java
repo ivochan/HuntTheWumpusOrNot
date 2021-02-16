@@ -256,11 +256,19 @@ public class Cell {
 	@Override
 	public String toString() {
 		//se il parametro status non e' nullo
-		if(status!=null) {
-			return "|"+new String(this.status.name()).charAt(0)+"|";
+		if(!isVisited) {
+			if(status!=null)
+				return "|"+new String(this.status.name()).charAt(0)+"|";
+			else {
+				//se il parametro status e' nullo
+				return "|"+new String("X"+"|");
+			}
 		}
-		//se il parametro status e' nullo
-		return "|"+new String("X"+"|");
+		else {
+			//isVisited
+			return "|o|";
+		}
+		
 	}//toString()
 	
 	/** metodo copyCellSpecs(Cell): void

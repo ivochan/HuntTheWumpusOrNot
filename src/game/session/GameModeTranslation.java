@@ -16,7 +16,7 @@ import game.structure.cell.CellStatus;
 public class GameModeTranslation {
 	//messaggi sullo stato della partita
 	public final static String looser = new String("Hai perso :(");
-	public final static String winner = new String("Hai vinto !!!");
+	public final static String winner = new String("Hai vinto !!! =) ");
 	//messaggi d'errore
 	public final static String denied_move = new String("Posizione non consentita!");
 	//messaggi di info
@@ -86,9 +86,10 @@ public class GameModeTranslation {
 	 */
 	private static void initHeroMessages() {
 		hero_side_mex.put(CellStatus.PG, "Benvenuto avventuriero!\nAndiamo a caccia del Wumpus e dei suoi tesori.");
-		hero_side_mex.put(CellStatus.ENEMY, "");
+		hero_side_mex.put(CellStatus.ENEMY, "Ahi ahi, sei stato ferito dal Wumpus!");
 		hero_side_mex.put(CellStatus.AWARD, "Hai trovato il tesoro del Wumpus!");
 		hero_side_mex.put(CellStatus.DANGER, "Sei caduto nella fossa piena d'acqua...");
+		//TODO
 		hero_side_mex.put(CellStatus.SAFE, "");
 		hero_side_mex.put(CellStatus.FORBIDDEN, "");
 		hero_side_mex.put(CellStatus.ENEMY_SENSE, "Pufff! Che puzza...Il mostro deve essere vicino!");
@@ -101,9 +102,10 @@ public class GameModeTranslation {
 	 */
 	private static void initWumpusMessages() {
 		wumpus_side_mex.put(CellStatus.PG, "Benvenuto Wumpus!\nAttenzione, il cacciatore e' in agguato, scappa.");
-		wumpus_side_mex.put(CellStatus.ENEMY, "");
+		wumpus_side_mex.put(CellStatus.ENEMY, "Oh no, il cacciatore ti ha colpito!");
 		wumpus_side_mex.put(CellStatus.AWARD, "Hai trovato una via di fuga, sbrigati!");
 		wumpus_side_mex.put(CellStatus.DANGER, "Sei caduto in trappola...");
+		//TODO
 		wumpus_side_mex.put(CellStatus.SAFE, "");
 		wumpus_side_mex.put(CellStatus.FORBIDDEN, "");
 		wumpus_side_mex.put(CellStatus.ENEMY_SENSE, "Swiiiish...si muovono le foglie...c'e' qualcuno che ti osserva...");

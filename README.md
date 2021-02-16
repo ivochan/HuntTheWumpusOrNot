@@ -159,13 +159,13 @@ Funzionalità da implementare:
   - ~~l'inizio della partita;~~
   - ~~la possibilità di terminare il gioco;~~
   - ~~la possibilità di effettuare delle mosse;~~~~
-  - aggiornare la mappa di esplorazione, tenendo traccia delle celle già visitate;
-  - conoscere la posizione corrente del pg;
+  - ~~aggiornare la mappa di esplorazione, tenendo traccia delle celle già visitate;~~
+  - ~~conoscere la posizione corrente del pg;~~
   - il calcolo del punteggio;
   - movimento nella mappa manuale (tramite metodo accessorio)
-  - movimento nella mappa da input (su decisione dell'utente)
+  - ~~movimento nella mappa da input (su decisione dell'utente)~~
     - prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input;
-  - fornire dei messaggi esplicativi della situazione attuale nel gioco;
+  - ~~fornire dei messaggi esplicativi della situazione attuale nel gioco;~~
 - ~~effettuare il controllo della mossa di gioco lavorando su un'istanza di GameMap le cui info si prendono dai metodi accessori;~~
 - definire diversi metodi di riempimento della mappa in modo che si possa scegliere se:
   - ~~posizionare il pg sulla cornice;~~
@@ -175,10 +175,10 @@ Funzionalità da implementare:
 - definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa, ad esempio:
   - ~~definire la enum che indica le direzioni in cui è possibile effettuare una mossa;~~
   - prevedere i casi di fine partita:
-    - il pg perde se incontra il nemico:
+    - ~~il pg perde se incontra il nemico;~~
     - il pg vince se:
-      - trova l'uscita segreta, se Wumpus;
-      - uccide il Wumpus, se è il Cacciatore;
+      - ~~trova l'uscita segreta, se Wumpus;~~
+      - ~~trova l'oro, se è il Cacciatore;~~
   - controllare che la mossa sia valida:
     - ~~in termini di indici che identificano la posizione della cella di arrivo nella mappa di gioco;~~
     - ~~in termini di adiacenza alla cella che rappresenta la posizione corrente del pg;~~
@@ -188,9 +188,10 @@ Funzionalità da implementare:
       - ~~se il pg è morto;~~
   - effettuare la mossa scelta, nella direzione specificata:
     - ~~in base alla direzione dedurre gli indici della nuova cella;~~
-    - effettuare la mossa inserendo la cella visitata nella mappa di esplorazione nota al giocatore;
-    - effettuare la mossa restituendo le variabili che descrivono il contenuto dei sensori della cella di arrivo;
-    - richiedere la mossa successiva;
+    - ~~effettuare la mossa inserendo la cella visitata nella mappa di esplorazione nota al giocatore;~~
+    - ~~effettuare la mossa restituendo le variabili che descrivono il contenuto dei sensori della cella di arrivo;~~
+    - ~~richiedere la mossa successiva;~~
+    - ~~personalizzare i messaggi del gioco in base alla modalità;~~
 - definire la classe che definisce alcune regole di gioco Rules;
 - definire il giocatore "HumanPlayer";
 - definire il giocatore automatico "IAPlayer"

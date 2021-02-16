@@ -14,7 +14,8 @@ public class LinkStart {
 
 	public static void main(String [] args) {
 		//############ inizializzazioni ###############
-		
+		//vettore dei sensori
+		boolean [] sense = new boolean[2];
 		//stringa descrizione comandi
 		String legenda_comandi = "Ecco la lista dei comandi:\n"+
 						"[q -quit] [g - game start] [s - score] [c - credits]";
@@ -91,8 +92,16 @@ public class LinkStart {
 				Starter.updateSensors(gm);
 				//coordinate pg
 				int [] pg_pos= Starter.getPGstartPosition();
-				System.out.println("Il PG e' stato posizionato nella cella ("+pg_pos[0]+","+pg_pos[1]+")\n");
+				System.out.println("Ehi "+trad_el.get(CellStatus.PG)+", inizia la tua avventura dalla cella ("+pg_pos[0]+","+pg_pos[1]+")\n");
 				System.out.println((trad_mex.get(CellStatus.PG)));
+				//debug
+				System.out.println(gm.getGameCell(pg_pos[0], pg_pos[1]).senseVectorToString(true));
+				//informazioni sull'ambiente all'inizio del gioco
+				sense = gm.getGameCell(pg_pos[0], pg_pos[1]).getSenseVector();
+				//informazioni sulla posizione del nemico
+				if(sense[0])System.out.println(trad_mex.get(CellStatus.ENEMY_SENSE));
+				//informazioni sulla posizione del pericolo
+				if(sense[1])System.out.println(trad_mex.get(CellStatus.DANGER_SENSE));
 				ge.getGameCell(pg_pos[0], pg_pos[1]).copyCellSpecs(gm.getGameCell(pg_pos[0],pg_pos[1]));
 				System.out.println("\nEccoti la mappa di esplorazione...");
 				System.out.println("\n"+ge.mapAndLegend());
@@ -115,63 +124,77 @@ public class LinkStart {
 							pg_move=Direction.UP;
 							valid_move=true;
 						}
-						if(move=='a') {
+						else if(move=='a') {
 							pg_move=Direction.LEFT;
 							valid_move=true;
 						}
-						 if(move=='s') {
+						else if(move=='s') {
 							 pg_move=Direction.DOWN;
 							valid_move=true;
 						}
-						if(move=='d') {
+						else if(move=='d') {
 							pg_move= Direction.RIGHT;
 							valid_move=true;
+						}
+						else if(move=='c') {
+							valid_move=true;
+							game_start=false;
+							System.out.println("Interruzione della partita ...");
 						}
 						else {
 							System.out.println("Mossa errata!");
 						}
 					}//while mossa
-					System.out.println("Comado inserito: "+move);
-					//si controlla il comando
-					int status=Controller.movePG(pg_move, pg_pos, gm); 
-					switch(status) {
-						case -1 : 
-							System.out.println("Comando non valido!\nRipeti la mossa...");
-							valid_move=false;
-							break;
-						case 0 : 
-							//TODO
-							System.out.println("Il pg si sta muovendo...");
-							pg_pos = Controller.getPGpos();
-							System.out.println("Il pg si trova in ("+pg_pos[0]+','+pg_pos[1]+')');
-							//si preleva la cella in cui si sposta il pg
-							Cell c = gm.getGameCell(pg_pos[0], pg_pos[1]);
-							//si segna la cella in gm come visitata
-							c.setVisited();
-							//si copia questa cella nella matrice di esplorazione
-							ge.getGameCell(pg_pos[0], pg_pos[1]).copyCellSpecs(c);
-							//TODO
-							//aggiornare la posizione del pg
-							System.out.println("Il pg si trova in ("+pg_pos[0]+','+pg_pos[1]+')');
-							System.out.println(ge.mapAndLegend());
-							System.out.println("Ecco cosa vede-");
-							//stampa del vettore dei sensori
-							//aggiornamento della posizione del pg
-							//richiesta della mossa successiva
-							valid_move=false;
-							game_start=true;
-							break;
-						case 1:
-							System.out.println("Sei morto");
-							//richiesta di iniziare una nuova partita
-							valid_move=true;
-							game_start=false;
-							break;
-						default: break;
-					}//switch
-					
+					//System.out.println("Comado inserito: "+move);
+					if(move!='c') {//se non e'stato ricevuto il comando di interruzione
+						//si controlla il comando
+						int status=Controller.movePG(pg_move, pg_pos, gm, ge); 
+						switch(status) {
+							case -1 : 
+								System.out.println("Comando non valido!\nRipeti la mossa...");
+								valid_move=false;
+								break;
+							case 0 : 
+								//si acquisisce la posizione del pg
+								pg_pos = Controller.getPGpos();
+								//aggiornare la posizione del pg
+								System.out.println(trad_el.get(CellStatus.PG)+" posizionato in ("+pg_pos[0]+','+pg_pos[1]+')');
+								System.out.println(ge.mapAndLegend());
+								//stampa del vettore dei sensori
+								//System.out.println("Ecco cosa vedi attorno a te:\n"+gm.getGameCell(pg_pos[0], pg_pos[1]).senseVectorToString(true));
+								//comunicazione all'utente del valore dei sensori
+								sense= gm.getGameCell(pg_pos[0], pg_pos[1]).getSenseVector();
+								//vicinanza del nemico
+								if(sense[0])System.out.println(trad_mex.get(CellStatus.ENEMY_SENSE));
+								//vicinanza del pericolo
+								if(sense[1])System.out.println(trad_mex.get(CellStatus.DANGER_SENSE));
+								//richiesta della mossa successiva
+								valid_move=false;
+								game_start=true;
+								break;
+							case 1:
+								//si prendono le informazioni della cella in cui si e' mosso il pg
+								CellStatus cs = gm.getGameCell(pg_pos[0], pg_pos[1]).getCellStatus();
+								//se nemico o pericolo, verra' stampato il messaggio appropriato
+								System.out.println(trad_mex.get(cs)+"\n"+GameModeTranslation.looser);
+								//richiesta di iniziare una nuova partita
+								valid_move=true;
+								game_start=false;
+								break;
+							case 2:
+								System.out.println("Wow!"+trad_mex.get(CellStatus.AWARD)
+												+"\n"+GameModeTranslation.winner);
+								//richiesta di iniziare una nuova partita
+								valid_move=true;
+								game_start=false;
+								break;
+							default: break;
+						}//switch
+						//si pulisce la matrice di esplorazione
+						ge.clear();
+					}//fi 
 				}//while sessione di gioco
-				System.out.println("THE END!");
+				System.out.println("THE E.N.D.");
 				System.out.println(legenda_comandi);
 				System.out.println("Che si fa? :> ");				
 			}//fi 'g'
@@ -181,7 +204,7 @@ public class LinkStart {
 			else {
 				System.out.println("Comando errato!\n"+legenda_comandi);
 			}//esle
-		}//end while
+		}//end while schermata di avvio
 		System.out.println("Chiusura del gioco...");
 	}//end main
 
