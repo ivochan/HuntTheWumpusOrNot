@@ -23,6 +23,14 @@ public class LinkStart {
 		char game_mode = ' ';
 		boolean game_mode_choosen=false;
 		boolean hero_side=false;
+		//flag sessione di gioco
+		boolean game_start = false;
+		//flag comando valido
+		boolean valid_move = false;
+		//mossa da acquisire da input
+		char move = ' ';
+		//mossa codificata in intero
+		Direction pg_move = null;
 		//inizializzazione delle traduzioni
 		GameModeTranslation.initHeroTranslation();
 		GameModeTranslation.initWumpusTranslation();
@@ -51,6 +59,9 @@ public class LinkStart {
 			}
 			//comando per iniziare una partita
 			else if(comando == 'g') {
+				//flag per avviare la sessione di gioco
+				game_start= true;
+				//avvio del gioco
 				System.out.println("Ciao :3\nDimmi di te..."+GameModeTranslation.mode);
 				while(!game_mode_choosen) {
 					game_mode = input.next().charAt(0);
@@ -67,8 +78,6 @@ public class LinkStart {
 					}
 				}//end while scelta modalita'
 				System.out.println("Preparazione del terreno di gioco....\n");
-				//si pulisce la mappa di esplorazione
-				ge.clear();
 				//si prelevano le traduzioni necessarie: elementi di gioco
 				HashMap<CellStatus, String> trad_el = (hero_side?(GameModeTranslation.hero_side_map)
 						:(GameModeTranslation.wumpus_side_map));
@@ -99,18 +108,8 @@ public class LinkStart {
 				//posizione del pg
 				ge.getGameCell(pg_pos[0], pg_pos[1]).copyCellSpecs(gm.getGameCell(pg_pos[0],pg_pos[1]));
 				System.out.println("\n"+ge.mapToString());
-				//flag sessione di gioco
-				boolean game_start = true;
-				//flag comando valido
-				boolean valid_move = false;
-				//mossa da acquisire da input
-				char move = ' ';
-				//mossa codificata in intero
-				Direction pg_move = null;
-				//pulizia console ad ogni nuova partita
-				clearConsole();
-				//si pulisce la matrice di esplorazione
-				ge.clear();
+				//scelta della modalita' da ripetere al prossimo avvio
+				game_mode_choosen=false;
 				//sessione di gioco: movimento del pg
 				while(game_start){
 					//si acquisisce il comando
@@ -141,6 +140,7 @@ public class LinkStart {
 						}
 						else {
 							System.out.println("Mossa errata!");
+							valid_move=false;
 						}
 					}//while mossa
 					if(move!='c') {//se non e'stato ricevuto il comando di interruzione
@@ -174,7 +174,7 @@ public class LinkStart {
 								//si prendono le informazioni della cella in cui si e' mosso il pg
 								CellStatus cs = gm.getGameCell(pg_pos[0], pg_pos[1]).getCellStatus();
 								//se nemico o pericolo, verra' stampato il messaggio appropriato
-								System.out.println("Oh no...\n"+trad_mex.get(cs)+"\n"+GameModeTranslation.looser);
+								System.out.println(trad_mex.get(cs)+"\n"+GameModeTranslation.looser);
 								//richiesta di iniziare una nuova partita
 								valid_move=true;
 								game_start=false;
@@ -192,7 +192,11 @@ public class LinkStart {
 				}//while sessione di gioco
 				System.out.println("THE E.N.D.");
 				System.out.println(GameModeTranslation.legenda_comandi);
-				System.out.println("Che si fa? :> ");				
+				System.out.println("Che si fa? :> ");
+				ge.clear();
+				clearConsole();
+				valid_move=false;
+				
 			}//fi 'g'
 			else if(comando == 'q') {
 				System.out.println("Ciao ciao!");
@@ -204,7 +208,7 @@ public class LinkStart {
 		System.out.println("Chiusura del gioco...");
 	}//end main
 
-	
+
 	/** metodo clearConsole(): void
 	 * utilizzato per pulire la console dopo ogni stampa 
 	 * della matrice di gioco
