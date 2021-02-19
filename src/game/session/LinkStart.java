@@ -1,5 +1,6 @@
 package game.session;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -29,13 +30,13 @@ public class LinkStart {
 		GameModeTranslation.initWumpusTranslation();
 		//inizializzazione delle due mappe (da pulire al termine della sessione di gioco
 		System.out.println("Link... Start-o!");
+		//intro al gioco
+		System.out.println(GameModeTranslation.legenda_comandi);
+		System.out.println("Cosa vuoi fare?");
 		//si crea la mappa di gioco
 		GameMap gm = new GameMap();
 		//si crea la mappa di esplorazione
 		GameMap ge = new GameMap();
-		//intro al gioco
-		System.out.println(GameModeTranslation.legenda_comandi);
-		System.out.println("Cosa vuoi fare?");
 		//ciclo di avvio della sessione di gioco
 		while(comando != 'q') {
 			//si controlla se e' stato ricevuto il comando di chiusura
@@ -87,14 +88,17 @@ public class LinkStart {
 				//coordinate pg
 				int [] pg_pos= Starter.getPGstartPosition();
 				System.out.println((trad_mex.get(CellStatus.PG)));
-				System.out.println("Inizia la tua avventura dalla cella ("+pg_pos[0]+","+pg_pos[1]+")\n");
-				System.out.println(gm.getGameCell(pg_pos[0], pg_pos[1]).senseVectorToString(true));
+				//System.out.println("Inizia la tua avventura dalla cella ("+pg_pos[0]+","+pg_pos[1]+")\n");
 				//informazioni sull'ambiente all'inizio del gioco
 				sense = gm.getGameCell(pg_pos[0], pg_pos[1]).getSenseVector();
+				//System.out.println(gm.getGameCell(pg_pos[0], pg_pos[1]).senseVectorToString(true));
 				//informazioni sulla posizione del nemico
 				if(sense[0])System.out.println(trad_mex.get(CellStatus.ENEMY_SENSE));
 				//informazioni sulla posizione del pericolo
 				if(sense[1])System.out.println(trad_mex.get(CellStatus.DANGER_SENSE));
+				//se non ci sono informazioni
+				if(!sense[0] && !sense[1])System.out.println("Tutto a posto all'orizzonte!");
+				//posizione del pg
 				ge.getGameCell(pg_pos[0], pg_pos[1]).copyCellSpecs(gm.getGameCell(pg_pos[0],pg_pos[1]));
 				System.out.println("\n"+ge.mapToString());
 				//flag sessione di gioco
@@ -105,6 +109,8 @@ public class LinkStart {
 				char move = ' ';
 				//mossa codificata in intero
 				Direction pg_move = null;
+				//pulizia console ad ogni nuova partita
+				clearConsole();
 				//sessione di gioco: movimento del pg
 				while(game_start){
 					//si acquisisce il comando
@@ -200,20 +206,17 @@ public class LinkStart {
 	}//end main
 
 	
-	//####################### metodi per la classe ##################
-	public static void initGameData() {
-		//############ inizializzazioni ###############
-		//vettore dei sensori
-		boolean [] sense = new boolean[2];
-		//stringa descrizione comandi
-		String legenda_comandi = "Ecco la lista dei comandi:\n"+
-							"[q -quit] [g - game start] [s - score] [c - credits]";
-		//stringa modalita' di gioco
-		String mode = "Sarai il cacciatore oppure il Wumpus?\n"
-								+"[h - cacciatore] [w -wumpus]";
-	}
+	/** metodo clearConsole(): void
+	 * utilizzato per pulire la console dopo ogni stampa 
+	 * della matrice di gioco
+	 */
+	public static void clearConsole() {
+		//System.out.print("\033[H\033[2J");
+		//System.out.flush();
 	
+	}//clearConsole()
 	
+
 	
 	
 }//end class
