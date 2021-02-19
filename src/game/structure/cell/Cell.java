@@ -13,8 +13,6 @@ public class Cell {
 
 	//contenuto della cella sulla base della enum CellStatus
 	private CellStatus status;
-	//indica se la cella e' stata visitata o meno
-	private boolean isVisited;
 	//vettore che indice la posizione [i][j] della cella nella matrice di gioco
 	private int[] position= {-1, -1};
 
@@ -28,8 +26,6 @@ public class Cell {
 		//le caratteristiche della cella non sono state specificate
 		//tipologia di cella
 		this.status=null;
-		//cella non visitata dal pg
-		this.isVisited=false;
 		//inizializzazione vettore dei sensi
 		this.sense_vector[0]=false;
 		this.sense_vector[1]=false;
@@ -43,8 +39,6 @@ public class Cell {
 	 * 							   descrive la tipologia della cella.
 	 */
 	public Cell(CellStatus status) {
-		//valori di default agli altri attributi di classe
-		this.isVisited=false;
 		//inizializzazione vettore dei sensi
 		this.sense_vector[0]=false;
 		this.sense_vector[1]=false;
@@ -67,8 +61,6 @@ public class Cell {
 	 * @param sense2: boolean, parametro che specifica il secondo valore del vettore dei sensi;
 	 */
 	public Cell(CellStatus status, boolean sense1, boolean sense2) {
-		//valori di default agli altri attributi di classe
-		this.isVisited=false;
 		//inizializzazione vettore dei sensi
 		this.sense_vector[0]=sense1;
 		this.sense_vector[1]=sense2;
@@ -228,26 +220,7 @@ public class Cell {
 		return "||"+sense_vector[0]+" | | "+sense_vector[1]+"||\n";
 	}//SenseVectorToString()
 	
-	/** metodo isVisited(): boolean
-	 * metodo che verifica se la cella in questione e' stata visitata dal giocatore
-	 * @return isVisited: boolean, e' il flag che indica se e' stata visitata (true) o meno (false),
-	 * e' un parametro dell'oggetto Cell
-	 */
-	public boolean isVisited() {
-		//restituisce true se la cella e' stata gia' visitata, altrimenti false
-		return isVisited;
-	}//isVisited
-	
-	/** metodo setVisited(): void
-	 * questo metodo consente di cambiare il valore del parametro isVisited
-	 * aggiornando quindi in flag che indica se la cella in questione
-	 * sia stata visitata o meno.
-	 */
-	public void setVisited() {
-		//si cambia il valore del flag
-		this.isVisited=true;
-	}//setVisited
-	
+
 	/** metodo toString() : String
 	 * override del metodo toString()
 	 * stampa il contenuto della cella utilizzando come indicativo la prima lettera
@@ -256,19 +229,13 @@ public class Cell {
 	@Override
 	public String toString() {
 		//se il parametro status non e' nullo
-		if(!isVisited) {
-			if(status!=null)
-				return "|"+new String(this.status.name()).charAt(0)+"|";
-			else {
-				//se il parametro status e' nullo
-				return "|"+new String("X"+"|");
-			}
-		}
+		if(status!=null) {
+			return "|"+new String(this.status.name()).charAt(0)+"|";
+		}//fi
 		else {
-			//isVisited
-			return "|O|";
-		}
-		
+			//se il parametro status e' nullo
+			return "|"+new String("X"+"|");
+		}//else
 	}//toString()
 	
 	/** metodo copyCellSpecs(Cell): void
@@ -283,8 +250,6 @@ public class Cell {
 	 * @param c: Cell, cella di cui copiare le specifiche.
 	 */
 	public void copyCellSpecs(Cell c) {
-		//la cella e'stata appena visitata dal pg
-		this.isVisited=c.isVisited;
 		//si copiano le caratteristiche della cella c su this
 		this.status=c.status; //stato
 		//si prelevano le posizioni

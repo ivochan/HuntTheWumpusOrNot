@@ -94,7 +94,7 @@ public class Controller {
 		if(im_ok && jm_ok) { //la cella in cui si vuole effettuare la mossa esiste
 			//si aggiorna la posizione del pg
 			//System.out.println("Spostamento in ("+im+','+jm+')');
-			setPGpos(im,jm);
+			//setPGpos(im,jm);
 			//si controlla il contenuto della cella in questione
 			String cs = gm.getGameCell(im, jm).getCellStatusID();
 			//controllo sullo stato
@@ -108,7 +108,7 @@ public class Controller {
 				System.out.println("Il passaggio e' bloccato da un sasso.");
 				//si aggiunge alla mappa di esplorazione
 				ge.getGameCell(im, jm).copyCellSpecs(gm.getGameCell(im, jm));
-				System.out.println(ge.mapAndLegend());
+				//il pg rimane dove si trova
 			}
 			else if(cs.equals(CellStatus.AWARD.name())) {
 				//il pg vince
@@ -120,13 +120,15 @@ public class Controller {
 			}
 			else {
 				//la cella in cui si trovava prima il pg si segna come visitata
-				ge.getGameCell(ipg,jpg).setVisited();
+				//gm.getGameCell(ipg,jpg).setIsVisited(true);
 				//si preleva il contenuto della cella
 				Cell c = gm.getGameCell(im, jm);
 				//si copia questa cella nella matrice di esplorazione
 				ge.getGameCell(im, jm).copyCellSpecs(c);
 				//il contenuto di questa cella ora e' il pg
 				ge.getGameCell(im, jm).setCellStatus(CellStatus.PG);
+				//ai aggiorna la posizione del pg
+				setPGpos(im,jm);
 				//ci si spostera' in questa cella, mostrando anche i sensori
 				status = 0;
 			}//esle

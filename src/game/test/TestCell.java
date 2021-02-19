@@ -21,8 +21,6 @@ public class TestCell {
 		Cell c2 = new Cell(CellStatus.AWARD);
 		//stampa del contenuto della cella
 		System.out.println("cella c2 "+c2);
-		//test attributo isVisited
-		System.out.println("La cella e' stata visitata? "+ (c2.isVisited()?"si":"no"));
 		//terzo costruttore
 		Cell c3 = new Cell(CellStatus.PG,false,true);
 		//stampa del contenuto di c3
@@ -46,9 +44,7 @@ public class TestCell {
 		System.out.println("Posizione "+c.getCellPosition());
 		//test metodo di copia
 		copy.copyCellSpecs(c);
-		System.out.println("Cella c "+c+" e' stata visitata? "+c.isVisited());
 		System.out.println(c.senseVectorToString(info));
-		System.out.println("Cella copy "+copy+" e' stata visitata? "+copy.isVisited());
 		System.out.println(copy.senseVectorToString(!info));
 		
 
