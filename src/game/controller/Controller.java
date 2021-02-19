@@ -92,13 +92,13 @@ public class Controller {
 		}//fi RIGHT
 		//si controlla il risultato della direzione scelta
 		if(im_ok && jm_ok) { //la cella in cui si vuole effettuare la mossa esiste
-			//si aggiorna la posizione del pg
 			//System.out.println("Spostamento in ("+im+','+jm+')');
-			//setPGpos(im,jm);
 			//si controlla il contenuto della cella in questione
 			String cs = gm.getGameCell(im, jm).getCellStatusID();
 			//controllo sullo stato
 			if(cs.equals(CellStatus.ENEMY.name())) {
+				//si aggiorna la posizione 
+				setPGpos(im,jm);
 				//il pg e' morto
 				status = 1;
 			}//fi
@@ -111,16 +111,20 @@ public class Controller {
 				//il pg rimane dove si trova
 			}
 			else if(cs.equals(CellStatus.AWARD.name())) {
+				//si aggiorna la posizione 
+				setPGpos(im,jm);
 				//il pg vince
 				status = 2 ;
 			}
 			else if(cs.equals(CellStatus.DANGER.name())) {
+				//si aggiorna la posizione 
+				setPGpos(im,jm);
 				//il pg e' morto
 				status = 1;
 			}
 			else {
 				//la cella in cui si trovava prima il pg si segna come visitata
-				//gm.getGameCell(ipg,jpg).setIsVisited(true);
+				ge.getGameCell(ipg,jpg).setCellStatus(CellStatus.OBSERVED);
 				//si preleva il contenuto della cella
 				Cell c = gm.getGameCell(im, jm);
 				//si copia questa cella nella matrice di esplorazione

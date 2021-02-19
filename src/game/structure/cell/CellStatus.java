@@ -59,5 +59,7 @@ public enum CellStatus {
 	DANGER,
 	SAFE,
 	FORBIDDEN,
-	BAT;
+	BAT,
+	//indica se la cella e' stata esaminata
+	OBSERVED;
 }//CellStatus

@@ -1,12 +1,10 @@
 package game.session;
 
-import java.io.Console;
 import java.util.HashMap;
 import java.util.Scanner;
 
 import game.controller.Controller;
 import game.controller.Direction;
-import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
 import game.structure.map.Starter;
@@ -111,6 +109,8 @@ public class LinkStart {
 				Direction pg_move = null;
 				//pulizia console ad ogni nuova partita
 				clearConsole();
+				//si pulisce la matrice di esplorazione
+				ge.clear();
 				//sessione di gioco: movimento del pg
 				while(game_start){
 					//si acquisisce il comando
@@ -153,10 +153,11 @@ public class LinkStart {
 								break;
 							case 0 : 
 								//si acquisisce la posizione del pg
+								//verifyPGpos(ge );
 								pg_pos = Controller.getPGpos();
 								//aggiornare la posizione del pg
 								System.out.println(trad_el.get(CellStatus.PG)+" posizionato in ("+pg_pos[0]+','+pg_pos[1]+')');
-								System.out.println(ge.mapAndLegend());
+								System.out.println(ge.mapToString());
 								//stampa del vettore dei sensori
 								//System.out.println("Ecco cosa vedi attorno a te:\n"+gm.getGameCell(pg_pos[0], pg_pos[1]).senseVectorToString(true));
 								//comunicazione all'utente del valore dei sensori
@@ -173,7 +174,7 @@ public class LinkStart {
 								//si prendono le informazioni della cella in cui si e' mosso il pg
 								CellStatus cs = gm.getGameCell(pg_pos[0], pg_pos[1]).getCellStatus();
 								//se nemico o pericolo, verra' stampato il messaggio appropriato
-								System.out.println(trad_mex.get(cs)+"\n"+GameModeTranslation.looser);
+								System.out.println("Oh no...\n"+trad_mex.get(cs)+"\n"+GameModeTranslation.looser);
 								//richiesta di iniziare una nuova partita
 								valid_move=true;
 								game_start=false;
@@ -187,8 +188,6 @@ public class LinkStart {
 								break;
 							default: break;
 						}//switch
-						//si pulisce la matrice di esplorazione
-						ge.clear();
 					}//fi 
 				}//while sessione di gioco
 				System.out.println("THE E.N.D.");
@@ -211,8 +210,9 @@ public class LinkStart {
 	 * della matrice di gioco
 	 */
 	public static void clearConsole() {
-		//System.out.print("\033[H\033[2J");
-		//System.out.flush();
+		//linux
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
 	
 	}//clearConsole()
 	

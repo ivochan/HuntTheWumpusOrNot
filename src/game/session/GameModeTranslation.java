@@ -95,7 +95,6 @@ public class GameModeTranslation {
 		hero_side_mex.put(CellStatus.ENEMY, "Ahi ahi, sei stato ferito dal Wumpus!");
 		hero_side_mex.put(CellStatus.AWARD, "Hai trovato il tesoro del Wumpus!");
 		hero_side_mex.put(CellStatus.DANGER, "Sei caduto nella fossa piena d'acqua...");
-		//TODO
 		hero_side_mex.put(CellStatus.SAFE, "");
 		hero_side_mex.put(CellStatus.FORBIDDEN, "");
 		hero_side_mex.put(CellStatus.ENEMY_SENSE, "Pufff! Che puzza...Il mostro deve essere vicino!");
@@ -107,11 +106,10 @@ public class GameModeTranslation {
 	 * per fornire delle informazioni all'utente, nella modalita' wumpus.
 	 */
 	private static void initWumpusMessages() {
-		wumpus_side_mex.put(CellStatus.PG, "Benvenuto Wumpus!\nAttenzione, il cacciatore e' in agguato, scappa.");
+		wumpus_side_mex.put(CellStatus.PG, "Benvenuto Wumpus!\nAttenzione al cacciatore, scappa.");
 		wumpus_side_mex.put(CellStatus.ENEMY, "Oh no, il cacciatore ti ha colpito!");
 		wumpus_side_mex.put(CellStatus.AWARD, "Hai trovato una via di fuga, sbrigati!");
 		wumpus_side_mex.put(CellStatus.DANGER, "Sei caduto in trappola...");
-		//TODO
 		wumpus_side_mex.put(CellStatus.SAFE, "");
 		wumpus_side_mex.put(CellStatus.FORBIDDEN, "");
 		wumpus_side_mex.put(CellStatus.ENEMY_SENSE, "Swiiiish...si muovono le foglie...c'e' qualcuno che ti osserva...");
