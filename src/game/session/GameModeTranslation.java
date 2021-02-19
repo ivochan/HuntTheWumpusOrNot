@@ -14,6 +14,12 @@ import game.structure.cell.CellStatus;
  * @author ivonne
  */
 public class GameModeTranslation {
+	//stringa modalita' di gioco
+	public final static String mode = "Sarai il cacciatore oppure il Wumpus?\n"
+							+"[h - cacciatore] [w -wumpus]";
+	//stringa descrizione comandi
+	public final static String legenda_comandi = "Ecco la lista dei comandi:\n"+
+							"[q -quit] [g - game start] [s - score] [c - credits]";
 	//messaggi sullo stato della partita
 	public final static String looser = new String("Hai perso :(");
 	public final static String winner = new String("Hai vinto !!! =) ");

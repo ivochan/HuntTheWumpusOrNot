@@ -266,7 +266,7 @@ public class Cell {
 		}
 		else {
 			//isVisited
-			return "|o|";
+			return "|O|";
 		}
 		
 	}//toString()

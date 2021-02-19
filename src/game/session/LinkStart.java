@@ -16,12 +16,6 @@ public class LinkStart {
 		//############ inizializzazioni ###############
 		//vettore dei sensori
 		boolean [] sense = new boolean[2];
-		//stringa descrizione comandi
-		String legenda_comandi = "Ecco la lista dei comandi:\n"+
-						"[q -quit] [g - game start] [s - score] [c - credits]";
-		//stringa modalita' di gioco
-		String mode = "Sarai il cacciatore oppure il Wumpus?\n"
-						+"[h - cacciatore] [w -wumpus]";
 		//inizializzazione acquisizione da riga di comando
 		Scanner input = new Scanner(System.in);
 		//carattere che rappresenta il comando
@@ -40,7 +34,7 @@ public class LinkStart {
 		//si crea la mappa di esplorazione
 		GameMap ge = new GameMap();
 		//intro al gioco
-		System.out.println(legenda_comandi);
+		System.out.println(GameModeTranslation.legenda_comandi);
 		System.out.println("Cosa vuoi fare?");
 		//ciclo di avvio della sessione di gioco
 		while(comando != 'q') {
@@ -58,7 +52,7 @@ public class LinkStart {
 			}
 			//comando per iniziare una partita
 			else if(comando == 'g') {
-				System.out.println("Ciao :3\nDimmi di te..."+mode);
+				System.out.println("Ciao :3\nDimmi di te..."+GameModeTranslation.mode);
 				while(!game_mode_choosen) {
 					game_mode = input.next().charAt(0);
 					if(game_mode=='h') {
@@ -73,7 +67,7 @@ public class LinkStart {
 						System.out.println("Dai, scegli!");
 					}
 				}//end while scelta modalita'
-				System.out.println("Preparazione del terreno di gioco....");
+				System.out.println("Preparazione del terreno di gioco....\n");
 				//si pulisce la mappa di esplorazione
 				ge.clear();
 				//si prelevano le traduzioni necessarie: elementi di gioco
@@ -86,15 +80,14 @@ public class LinkStart {
 				Starter.elementsVectorFilling(gm);
 				//si cerca di creare la mappa
 				Starter.placeMain(gm);
-				//si stampa il risultato
-				System.out.println(gm);
+				//si stampa il risultato per debug
+				System.out.println(gm.mapAndLegend());
 				//si aggiorna il vettore dei sensori
 				Starter.updateSensors(gm);
 				//coordinate pg
 				int [] pg_pos= Starter.getPGstartPosition();
-				System.out.println("Ehi "+trad_el.get(CellStatus.PG)+", inizia la tua avventura dalla cella ("+pg_pos[0]+","+pg_pos[1]+")\n");
 				System.out.println((trad_mex.get(CellStatus.PG)));
-				//debug
+				System.out.println("Inizia la tua avventura dalla cella ("+pg_pos[0]+","+pg_pos[1]+")\n");
 				System.out.println(gm.getGameCell(pg_pos[0], pg_pos[1]).senseVectorToString(true));
 				//informazioni sull'ambiente all'inizio del gioco
 				sense = gm.getGameCell(pg_pos[0], pg_pos[1]).getSenseVector();
@@ -103,8 +96,7 @@ public class LinkStart {
 				//informazioni sulla posizione del pericolo
 				if(sense[1])System.out.println(trad_mex.get(CellStatus.DANGER_SENSE));
 				ge.getGameCell(pg_pos[0], pg_pos[1]).copyCellSpecs(gm.getGameCell(pg_pos[0],pg_pos[1]));
-				System.out.println("\nEccoti la mappa di esplorazione...");
-				System.out.println("\n"+ge.mapAndLegend());
+				System.out.println("\n"+ge.mapToString());
 				//flag sessione di gioco
 				boolean game_start = true;
 				//flag comando valido
@@ -145,7 +137,6 @@ public class LinkStart {
 							System.out.println("Mossa errata!");
 						}
 					}//while mossa
-					//System.out.println("Comado inserito: "+move);
 					if(move!='c') {//se non e'stato ricevuto il comando di interruzione
 						//si controlla il comando
 						int status=Controller.movePG(pg_move, pg_pos, gm, ge); 
@@ -195,19 +186,36 @@ public class LinkStart {
 					}//fi 
 				}//while sessione di gioco
 				System.out.println("THE E.N.D.");
-				System.out.println(legenda_comandi);
+				System.out.println(GameModeTranslation.legenda_comandi);
 				System.out.println("Che si fa? :> ");				
 			}//fi 'g'
 			else if(comando == 'q') {
 				System.out.println("Ciao ciao!");
 			}//fi 'q'
 			else {
-				System.out.println("Comando errato!\n"+legenda_comandi);
+				System.out.println("Comando errato!\n"+GameModeTranslation.legenda_comandi);
 			}//esle
 		}//end while schermata di avvio
 		System.out.println("Chiusura del gioco...");
 	}//end main
 
+	
+	//####################### metodi per la classe ##################
+	public static void initGameData() {
+		//############ inizializzazioni ###############
+		//vettore dei sensori
+		boolean [] sense = new boolean[2];
+		//stringa descrizione comandi
+		String legenda_comandi = "Ecco la lista dei comandi:\n"+
+							"[q -quit] [g - game start] [s - score] [c - credits]";
+		//stringa modalita' di gioco
+		String mode = "Sarai il cacciatore oppure il Wumpus?\n"
+								+"[h - cacciatore] [w -wumpus]";
+	}
+	
+	
+	
+	
 }//end class
 
 

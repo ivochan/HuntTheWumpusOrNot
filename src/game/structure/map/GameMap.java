@@ -26,11 +26,7 @@ import game.structure.cell.CellStatus;
  * @author ivonne
  */
 public class GameMap {
-	//legenda
-	private String legenda = new String("Questa e' la mappa di gioco! :)\n"
-			+ "Il significato delle caselle e' il seguente:\n"
-			+ "[G] Oro, [S] Sicura, [P] Giocatore, [E] Nemico, [D] Pericolo, [F] Vietato.\n");
-
+	
 	/** dimensioni della matrice
 	 * -r e' il numero di righe
 	 * -c e' il numero di colonne
@@ -189,14 +185,35 @@ public class GameMap {
 	 * @return print_map: String, stringa che rappresenta l'oggetto mappa da stampare a video.
 	 */
 	public String mapToString() {
+		String inizio = new String("       MAPPA				LEGENDA	\n"+
+				 "			                                         \n");
+		String fine = new String(" 												 \n"+
+				 " Comandi:										 \n"+
+				 " 												 \n"+
+				 " w = sopra									 \n"+
+				 " a = sinistra									 \n"+
+				 " s = sotto									 \n"+
+				 " d = destra									 \n"+
+				 " c = chiudi									 \n"+
+				 "												 \n");
+		//vettore colonna per la legenda
+		String [] v_leg = new String [4];
+		v_leg[0] = "       --------------------------------------------\n";
+		v_leg[1] = "	| X = LUOGO DA VISITARE | O = LUOGO VISITATO |\n";
+		v_leg[2] = "	| P = GIOCATORE         | F = LUOGO VIETATO  |\n";
+		v_leg[3] = "       --------------------------------------------\n";
+		//stringa da stampare
+		String tot = new String();
+		tot+=inizio;
 		//si crea la stringa che rappresenta la mappa da stampare
 		String print_map = new String();
+		//iterazione sulla matrice di gioco
 		for(int i=0; i<r; i++) {
 			//si scorrono le righe della matrice
 			print_map+=" |"; //si stampa l'inizio della riga
 			for(int j=0; j<c; j++) {
-				//si scorrono le colonne della matrice
-				//si stampa il contenuto della cella 
+			//si scorrono le colonne della matrice
+			//si stampa il contenuto della cella 
 				if(j<c-1) {
 					print_map+=game_map[i][j]+ " ";
 				}
@@ -204,11 +221,12 @@ public class GameMap {
 					print_map+=game_map[i][j];
 				}
 			}//for colonne
-			print_map+="|\n"; //si stampa la fine della riga e si va a capo
+			print_map+="|"+v_leg[i]; //si stampa la fine della riga e si va a capo
 		}//for righe
-		
-		return legenda+"\n"+print_map;
+		tot += print_map + fine; 
+		return tot;
 	}//toString()
+	
 	
 	/** metodo getGameCell(int, int): Cell
 	 * metodo accessorio che permette di accedere all'oggetto Cell, corrispondente
