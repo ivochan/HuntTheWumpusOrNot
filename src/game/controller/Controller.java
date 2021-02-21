@@ -17,7 +17,7 @@ import game.structure.map.GameMap;
  * -aggiornare la mappa di esplorazione;
  */
 public class Controller {
-
+	
 	/** current_move : int[]
 	 * vettore di due celle che contiene gli indici della cella in cui si 
 	 * vuole che venga effettuata la mossa del pg

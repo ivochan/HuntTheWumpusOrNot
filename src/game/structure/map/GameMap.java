@@ -194,7 +194,7 @@ public class GameMap {
 				 " a = sinistra									 \n"+
 				 " s = sotto									 \n"+
 				 " d = destra									 \n"+
-				 " c = chiudi									 \n"+
+				 " i = interrompi partita									 \n"+
 				 "												 \n");
 		//vettore colonna per la legenda
 		String [] v_leg = new String [4];
@@ -281,15 +281,6 @@ public class GameMap {
 	 public String mapAndLegend() {
 		String inizio = new String("       MAPPA				LEGENDA	\n"+
 				 "			-----------------------------------------\n");
-		String fine = new String(" 												 \n"+
-				 " Comandi:										 \n"+
-				 " 												 \n"+
-				 " w = sopra									 \n"+
-				 " a = sinistra									 \n"+
-				 " s = sotto									 \n"+
-				 " d = destra									 \n"+
-				 " c = chiudi									 \n"+
-				 "												 \n");
 		//vettore colonna per la legenda
 		String [] v_leg = new String [4];
 		v_leg[0] = "	| S = SPAZIO VUOTO | D = PERICOLO	|\n";
@@ -316,9 +307,8 @@ public class GameMap {
 				}
 			}//for colonne
 			print_map+="|"+v_leg[i]; //si stampa la fine della riga e si va a capo
-		}//for righe
-		tot += print_map + fine; 
-		return tot;
+		}//for righe 
+		return inizio+print_map;
 	 }//mapAndLegend()
 				
 	

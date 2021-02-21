@@ -5,8 +5,9 @@ import java.util.HashMap;
 import game.session.GameModeTranslation;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
+import game.structure.map.GameConfiguration;
 import game.structure.map.GameMap;
-import game.structure.map.Starter;
+
 
 /**
  * classe di test 
@@ -20,15 +21,15 @@ public class TestGameStructure {
 		//si istanzia la mappa di gioco
 		GameMap g  =new GameMap();
 		//si riempie il vettore degli elementi di gioco
-		Starter.elementsVectorFilling(g);
+		GameConfiguration.elementsVectorFilling(g);
 		//si popola la mappa
-		Starter.placeMain(g);
+		GameConfiguration.placeMain(g);
 		//si aggiorna il vettore dei sensori
-		Starter.updateSensors(g);
+		GameConfiguration.updateSensors(g);
 		//si stampa il risultato
 		System.out.println(g);
 		//coordinate pg
-		int [] pg_p= Starter.getPGstartPosition();
+		int [] pg_p= GameConfiguration.getPGstartPosition();
 		System.out.println("Il PG e' stato posizionato nella cella ("+pg_p[0]+","+pg_p[1]+")\n");
 		//test delle traduzioni hero_side
 		//si inizializzano le classi delle traduzioni

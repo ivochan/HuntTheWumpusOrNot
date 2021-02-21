@@ -3,7 +3,7 @@ package game.structure.map;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 
-/** class Starter
+/** class GameConfiguration
  * questa classe si occupa di effettuare tutte le configurazioni necessarie
  * a preparare il campo di gioco, inizializzando gli elementi di gioco, con cui il 
  * personaggio giocabile dovra' irterfacciarsi durante la sua esplorazione della mappa
@@ -11,7 +11,7 @@ import game.structure.cell.CellStatus;
  * questa classe contiene dei metodi di servizio, static, che quindi verranno invocati
  * sulla classe stasse e non su una sua istanza.
  */
-public class Starter {
+public class GameConfiguration {
 	
 	/** pg_start_position
 	 * vettore che contiene l'indice di riga e colonna che contiene
