@@ -1,4 +1,4 @@
- package game.structure.cell;
+package game.structure.cell;
 
 /** class Cell
  * Questa classe Cell implementa la cella di una matrice

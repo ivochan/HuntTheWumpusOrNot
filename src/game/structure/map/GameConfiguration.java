@@ -224,9 +224,6 @@ public class GameConfiguration {
 	 * giocabile, che verra' posizionato subito dopo.
 	 * Se il posizionamento del pg non va a buon fine, la mappa deve essere
 	 * generata nuovamente.
-	 * Si suppone, di default, che il pg sia HERO ed il nemico sia WUMPUS, 
-	 * poiche' la differenza tra le due modalita' di gioco verra' gestita
-	 * in un'altra classe.
 	 * @param gm: GameMap, e' l'istanza che rappresenta la mappa da costruire,
 	 * 					   su cui verra' poi avviata la sessione di gioco.
 	 */
@@ -244,6 +241,84 @@ public class GameConfiguration {
 			//System.out.println("Posizionamento PG riuscito? "+done);
 		}//end while
 	}//placeMain()
+	
+	/** metodo placeMainAward(GameMap): void
+	 * questo metodo si occupa di trovare una configurazione valida della
+	 * mappa di gioco, generando una struttura di base, in cui sono stati
+	 * posizionati tutti gli elementi di gioco, ad eccezione del premio e
+	 * del personaggio giocabile, che verranno posizionati subito dopo.
+	 * Se il posizionamento del pg o del premio non vanno a buon fine,
+	 * la mappa deve essere generata nuovamente.
+	 * @param gm: GameMap, e' l'istanza che rappresenta la mappa da costruire,
+	 * 					   su cui verra' poi avviata la sessione di gioco.
+	 */
+	public static void placeMainAward(GameMap gm) {
+		//variabile asiliarie 
+		boolean done = false;
+		boolean award=false;
+		//ciclo
+		while(!done || !award) {
+			//si riempie la mappa di gioco
+			initWithoutAward(gm);
+			//si cerca di psizionare il premio
+			award = placeAward(gm);
+			//si cerca di posizionare il pg
+			done = placePGonCorner(gm);
+		}//end while
+	}//placeMain()
+	
+	/** metodo placeAward(GameMap): boolean
+	 * questo metodo si occupa di poszionare il premio in un punto
+	 * qualsiasi della mappa di gioco, purche' sia raggiungibile dal
+	 * pg. Questo vuol dire che da almeno un lato, su quattro, dovra'
+	 * avere una cella adiacente che sia etichettata come Safe.
+	 * @param gm: GameMap, mappa di gioco.
+	 * @return found: boolean, flag che indica se il premio e' stato posizionato.
+	 */
+	private static boolean placeAward(GameMap gm) {
+		//variabile booleana che indica se e' stata trovata la posizione idonea 
+		boolean found = false;
+		//valore di probabilita
+		double paward;
+		//numero di premi
+		int n_award=1;
+		int award=1;
+		int n_cells=gm.getNCells();
+		int cells = n_cells;
+		while(award!=0) {
+			//si iterano le celle della matrice
+			for(int i=0;i<gm.getRows();i++) { //for righe
+				for(int j=0;j<gm.getColumns();j++) { //for colonne
+					//si genera un numero casuale (da 0 a 1) da utilizzare come soglia 
+					double random = Math.random();
+					paward = prob(award, n_award, cells, n_cells);
+					//si preleva la cella attuale
+					Cell c = gm.getGameCell(i,j);
+					//si aggiorna il numero di celle gia' esaminate
+					cells = cells-1;
+					//confronto delle probabilita' con la soglia random
+					if(random < paward) {
+						//si controllano le celle adiacenti
+						if(gm.getGameCell(i-1, j)!=null) {
+							//esiste la cella sopra
+							
+						}
+						
+						
+						
+						c.setCellStatus(CellStatus.AWARD);
+						//si impostano gli indici che descrivono la posizione della cella
+					c.setCellPosition(i, j);
+					//si decrementa la variabile, perche' un elemento e' stato posizionato
+					award-=1;
+				}
+			}//for colonne
+		}//for righe
+		}
+					return found;
+	}//placeAward()
+	
+	
 	
 	/** metodo init(GameMap): void
 	 * questo metodo si occupa del popolamento della mappa di gioco, 
@@ -326,7 +401,6 @@ public class GameConfiguration {
 						 * -il wumpus, nella modalita' eroe;
 						 * -l'eroe, nella modalita' wumpus;
 						 */
-						 //la cella conterra' il wumpus
 						 c.setCellStatus(CellStatus.ENEMY);
 						//si impostano gli indici che descrivono la posizione della cella
 						c.setCellPosition(i, j);
@@ -334,7 +408,11 @@ public class GameConfiguration {
 						enemy-=1;
 					}
 					else if(random < paward) {
-						//la cella conterra' un lingotto d'oro
+						/* la cella conterra' un premio, che sara':
+						 * -per l'avventuriero, un lingotto d'oro;
+						 * -per il wumpus, una via di fuga;
+						 * quindi dipendera' dalla modalita' di gioco
+						 */
 						c.setCellStatus(CellStatus.AWARD);
 						//si impostano gli indici che descrivono la posizione della cella
 						c.setCellPosition(i, j);
@@ -367,6 +445,91 @@ public class GameConfiguration {
 			//System.out.println("pozzir "+pozzi+" wumpusr "+wumpus+" oror "+oro+" sassi "+sassi);	
 		}//while
 	}//init()			
+	
+	/**
+	 * 
+	 * @param gm
+	 */
+	public static void initWithoutAward(GameMap gm) {
+		//si prelevano gli elementi di gioco
+		//pozzi o trappole
+		int n_pit_trap=game_elements[4];
+		int pit_trap=n_pit_trap;
+		//sassi
+		int n_stones=game_elements[1];
+		int stones=n_stones;
+		//nemico
+		int n_enemy=game_elements[3];
+		int enemy=n_enemy;
+		//numero di celle della mappa di gioco
+		int n_cells=game_elements[0]; 
+		int cells=n_cells;
+		//variabili che conterranno la probabilita'
+		double ppitrap=0;
+		double penemy=0; //di default e' il wumpus
+		double pstones=0;
+		//ciclo di riempimento della mappa
+		while( pit_trap!=0 || enemy!=0 || stones!=0) {
+			//si riassegnano alle variabili i valori di default
+			pit_trap=n_pit_trap;
+			enemy=n_enemy;
+			cells=n_cells;
+			stones=n_stones;
+			//svuotare la matrice per ripristinarla alla situazione iniziale
+			gm.clear();
+			//riempimento delle celle della matrice
+			for(int i=0;i<gm.getRows();i++) { //for righe
+				for(int j=0;j<gm.getColumns();j++) { //for colonne
+					//si genera un numero casuale (da 0 a 1) da utilizzare come soglia 
+					double random = Math.random();
+					//calcolo delle probabilita' per ogni tipologia di cella
+					ppitrap = prob(pit_trap, n_pit_trap, cells, n_cells);
+					penemy = prob(enemy, n_enemy, cells, n_cells);
+					pstones = prob(stones, n_stones, cells, n_cells);
+					//si preleva la cella attuale
+					Cell c = gm.getGameCell(i, j);
+					//confronto delle probabilita' con la soglia random
+					if(random < ppitrap) {
+						//la cella e' un pozzo/trappola
+						c.setCellStatus(CellStatus.DANGER);
+						//si impostano gli indici che descrivono la posizione della cella
+						c.setCellPosition(i, j);
+						//si decrementa la variabile, perche' un elemento e' stato posizionato
+						pit_trap-=1;
+					}
+					else if(random < penemy) {
+						/* la cella conterra' l'avversario del pg, che sara':
+						 * -il wumpus, nella modalita' eroe;
+						 * -l'eroe, nella modalita' wumpus;
+						 */
+						 c.setCellStatus(CellStatus.ENEMY);
+						//si impostano gli indici che descrivono la posizione della cella
+						c.setCellPosition(i, j);
+						//si decrementa la variabile, perche' un elemento e' stato posizionato
+						enemy-=1;
+					}
+					else if(random < pstones) {
+						/* la cella non sara' giocabile, non ci si potra' posizionare il
+						 * personaggio giocabile perche' contiene un sasso
+						 */
+						c.setCellStatus(CellStatus.FORBIDDEN);
+						//si impostano gli indici che descrivono la posizione della cella
+						c.setCellPosition(i, j);
+						//si decrementa la variabile, perche' un elemento e' stato posizionato
+						stones-=1;
+					}
+					else {
+						//la cella e' etichettata come sicura, libera
+						c.setCellStatus(CellStatus.SAFE);
+						//si impostano gli indici che descrivono la posizione della cella
+						c.setCellPosition(i,j);
+					}
+					//si decrementa il numero di celle rimaste da riempire
+					cells=cells-1;	
+				}//for colonne
+			}//for righe
+		}//while
+	}//initWithoutAward()			
 		
 	/** metodo prob(int, int, int, int): void
 	 * questo metodo calcola, sfruttando la funzione cosi' definita:

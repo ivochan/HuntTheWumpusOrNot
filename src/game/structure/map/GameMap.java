@@ -239,7 +239,8 @@ public class GameMap {
 		//controllo sugli indici
 		if(i<0 || i>r-1 || j<0 || j>c-1) {
 			System.err.println("La cella cosi' indicata non esiste nella mappa.");
-			System.exit(-1);
+			//TODO
+			return null;
 		}
 		return game_map[i][j];
 	}//getCellMap()

@@ -6,6 +6,7 @@ import game.controller.Controller;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameConfiguration;
 import game.structure.map.GameMap;
+import game.structure.map.Starter;
 
 public class LinkStart {
 	//acquisizione input
@@ -14,7 +15,7 @@ public class LinkStart {
 	private static char comando = ' ';
 	//posizione attuale del pg
 	private static int [] pg_pos = new int [2];
-	
+	//main
 	public static void main(String [] args) {
 		//inizializzazione dei dati di gioco
 		Starter.initGameData();
@@ -30,11 +31,11 @@ public class LinkStart {
 			//comando info sul gioco
 			if(comando == 'c') {
 				System.out.println(GameModeTranslation.credits);
-			}
+			}//fi 'c'
 			//comando punteggi
 			else if(comando == 's') {
 				System.out.println("TODO lista dei 5 punteggi piu' alti");
-			}
+			}//fi 's'
 			//comando per iniziare una partita
 			else if(comando == 'g') {
 				//flag avvio partita
@@ -99,10 +100,10 @@ public class LinkStart {
 				//fine partita
 				System.out.println("THE E.N.D.");
 				Starter.resetGameData(ge);
-			}
+			}//fi 'g'
 			else if(comando == 'q') {
 				System.out.println("Chiusura del gioco...");
-			}
+			}//fi 'q'
 			//comando errato
 			else {
 				System.out.println("Comando errato!\n"+GameModeTranslation.command_legend);
