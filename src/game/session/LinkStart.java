@@ -46,7 +46,8 @@ public class LinkStart {
 				//elementi della mappa
 				GameConfiguration.elementsVectorFilling(gm);
 				//creazione della mappa
-				GameConfiguration.placeMain(gm);
+				//GameConfiguration.placeMain(gm);
+				GameConfiguration.placeMainAward(gm);
 				//DEBUG
 				System.out.println(gm.mapAndLegend());
 				//si aggiorna il vettore dei sensori

@@ -238,12 +238,29 @@ public class GameMap {
 	public Cell getGameCell(int i,int j) {
 		//controllo sugli indici
 		if(i<0 || i>r-1 || j<0 || j>c-1) {
-			System.err.println("La cella cosi' indicata non esiste nella mappa.");
+			//System.err.println("La cella cosi' indicata non esiste nella mappa.");
 			//TODO
 			return null;
 		}
-		return game_map[i][j];
+		else {
+			return game_map[i][j];
+		}
 	}//getCellMap()
+	
+	public void setGameCell(int i, int j, CellStatus status){
+		//controllo sugli indici
+		if(i<0 || i>r-1 || j<0 || j>c-1) {
+			System.err.println("La cella cosi' indicata non esiste nella mappa.");
+		}
+		else {
+			if(status!=null){
+				game_map[i][j].setCellStatus(status);
+			}
+			else {
+				System.err.println("parametro di stato della cella non valido.");
+			}
+		}
+	}//setGameCell()
 	
 	/** metodo clear(): void
 	 * questo metodo consente di cancellare le informazioni con cui sono

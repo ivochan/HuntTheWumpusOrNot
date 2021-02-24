@@ -16,9 +16,6 @@ public class TestGameMap {
 		System.out.println(g);
 		//costruttore con parametri
 		GameMap gm  =new GameMap(-1,4);
-		GameMap gm1  =new GameMap(5,0);
-		GameMap gm2 =new GameMap(5,5);
-		System.out.println(gm2.mapToString());
 		//stampa della dimensione della mappa
 		System.out.println("Righe "+g.getRows());
 		System.out.println("Colonne "+g.getColumns());
@@ -26,10 +23,27 @@ public class TestGameMap {
 		//test sulla modifica del contenuto
 		g.getGameCell(0,0).setCellStatus(CellStatus.PG);
 		System.out.println(g);
+		System.out.println("cella "+g.getGameCell(0, 0));
 		System.out.println(g.mapAndLegend());
 		//g.getGameCell(0,-1).setCellStatus(CellStatus.PG);
 		g.clear();
 		System.out.println("Mappa svuotata!\n"+g);
-	
+		//confronto fra celle
+		boolean uguali = false;
+		GameMap mappa = new GameMap();
+		mappa.getGameCell(0,0).setCellStatus(CellStatus.SAFE);
+		System.out.println(mappa);
+		mappa.getGameCell(3, 3).setCellStatus(CellStatus.SAFE);
+		System.out.println(mappa);
+		uguali= mappa.getGameCell(0, 0).getCellStatus().
+				equals(mappa.getGameCell(3, 3).getCellStatus());
+		System.out.println("cella (0,0) uguale a cella (3,3)? "+uguali);
+		mappa.getGameCell(1, 3).setCellStatus(CellStatus.PG);
+		System.out.println(mappa);
+		uguali= mappa.getGameCell(0, 0).getCellStatus().
+				equals(mappa.getGameCell(1, 3).getCellStatus());
+		System.out.println("cella (0,0) uguale a cella (1,3)? "+uguali);
+		System.out.println(mappa);
+		
 		}//main
 }

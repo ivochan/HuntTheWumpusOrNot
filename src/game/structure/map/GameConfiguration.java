@@ -278,7 +278,7 @@ public class GameConfiguration {
 	private static boolean placeAward(GameMap gm) {
 		//variabile booleana che indica se e' stata trovata la posizione idonea 
 		boolean found = false;
-		//valore di probabilita
+		//probabilita
 		double paward;
 		//numero di premi
 		int n_award=1;
@@ -291,6 +291,7 @@ public class GameConfiguration {
 				for(int j=0;j<gm.getColumns();j++) { //for colonne
 					//si genera un numero casuale (da 0 a 1) da utilizzare come soglia 
 					double random = Math.random();
+					//probabilita
 					paward = prob(award, n_award, cells, n_cells);
 					//si preleva la cella attuale
 					Cell c = gm.getGameCell(i,j);
@@ -299,23 +300,49 @@ public class GameConfiguration {
 					//confronto delle probabilita' con la soglia random
 					if(random < paward) {
 						//si controllano le celle adiacenti
-						if(gm.getGameCell(i-1, j)!=null) {
-							//esiste la cella sopra
-							
+						//cella sopra
+						if(gm.getGameCell(i-1, j)!=null && 
+								gm.getGameCell(i-1, j).getCellStatus().equals(CellStatus.SAFE)){
+							found=true;
+							System.out.println("cella sopra "+found);
 						}
-						
-						
-						
-						c.setCellStatus(CellStatus.AWARD);
-						//si impostano gli indici che descrivono la posizione della cella
-					c.setCellPosition(i, j);
-					//si decrementa la variabile, perche' un elemento e' stato posizionato
-					award-=1;
-				}
-			}//for colonne
-		}//for righe
-		}
-					return found;
+						//cella sotto
+						else if(gm.getGameCell(i+1, j)!=null &&
+								gm.getGameCell(i+1, j).getCellStatus().equals(CellStatus.SAFE)){
+							found=true;
+							System.out.println("cella sotto "+found);
+						}
+						//cella a sinistra
+						else if(gm.getGameCell(i, j-1)!=null &&
+								gm.getGameCell(i, j-1).getCellStatus().equals(CellStatus.SAFE)){
+							found=true;	
+							System.out.println("cella sinistra "+found);
+						}
+						//cella a destra
+						else if(gm.getGameCell(i, j+1)!=null && 
+								gm.getGameCell(i, j+1).getCellStatus().equals(CellStatus.SAFE)){
+							found=true;
+							System.out.println("cella destra "+found);
+						}
+						else {
+							//nessuna delle celle adiacenti esistenti e' libera
+							found=false;
+						}
+						//se e'stata trovata una posizione
+						if(found){
+							//si posiziona il premio
+							c.setCellStatus(CellStatus.AWARD);
+							//si impostano gli indici che descrivono la posizione della cella
+							c.setCellPosition(i, j);
+							//si decrementa la variabile, perche' un elemento e' stato posizionato
+							award = award -1;
+							return found;
+						}//fi posizionamento
+					}//fi probabilita'
+				}//for colonne
+			}//for righe
+		}//end while
+		return found;
 	}//placeAward()
 	
 	
