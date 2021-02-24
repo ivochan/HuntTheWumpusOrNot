@@ -1,5 +1,6 @@
 package game.controller;
 
+import game.highscore.HighScore;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
@@ -94,15 +95,15 @@ public class Controller {
 		if(im_ok && jm_ok) { //la cella in cui si vuole effettuare la mossa esiste
 			//System.out.println("Spostamento in ("+im+','+jm+')');
 			//si controlla il contenuto della cella in questione
-			String cs = gm.getGameCell(im, jm).getCellStatusID();
+			CellStatus cs = gm.getGameCell(im, jm).getCellStatus();
 			//controllo sullo stato
-			if(cs.equals(CellStatus.ENEMY.name())) {
+			if(cs.equals(CellStatus.ENEMY)) {
 				//si aggiorna la posizione 
 				setPGpos(im,jm);
 				//il pg e' morto
 				status = 1;
 			}//fi
-			else if(cs.equals(CellStatus.FORBIDDEN.name())) {
+			else if(cs.equals(CellStatus.FORBIDDEN)) {
 				//questa cella non e' selezionabile, e' vietata perche' e' un sasso
 				status = -1;
 				System.out.println("Il passaggio e' bloccato da un sasso.");
@@ -110,19 +111,19 @@ public class Controller {
 				ge.getGameCell(im, jm).copyCellSpecs(gm.getGameCell(im, jm));
 				//il pg rimane dove si trova
 			}
-			else if(cs.equals(CellStatus.AWARD.name())) {
+			else if(cs.equals(CellStatus.AWARD)) {
 				//si aggiorna la posizione 
 				setPGpos(im,jm);
 				//il pg vince
 				status = 2 ;
 			}
-			else if(cs.equals(CellStatus.DANGER.name())) {
+			else if(cs.equals(CellStatus.DANGER)) {
 				//si aggiorna la posizione 
 				setPGpos(im,jm);
 				//il pg e' morto
 				status = 1;
 			}
-			else {
+			else {//CellStatus.SAFE				
 				//la cella in cui si trovava prima il pg si segna come visitata
 				ge.getGameCell(ipg,jpg).setCellStatus(CellStatus.OBSERVED);
 				//si preleva il contenuto della cella
@@ -136,6 +137,7 @@ public class Controller {
 				//ci si spostera' in questa cella, mostrando anche i sensori
 				status = 0;
 			}//esle
+						
 		}//fi indici di mossa corretti
 		else { //comando non valido, oppure la cella non esiste
 			//l'input ricevuto non e' tra le direzioni ammesse

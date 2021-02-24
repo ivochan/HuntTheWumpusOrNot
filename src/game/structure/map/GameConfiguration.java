@@ -304,25 +304,25 @@ public class GameConfiguration {
 						if(gm.getGameCell(i-1, j)!=null && 
 								gm.getGameCell(i-1, j).getCellStatus().equals(CellStatus.SAFE)){
 							found=true;
-							System.out.println("cella sopra "+found);
+							//System.out.println("cella sopra "+found);
 						}
 						//cella sotto
 						else if(gm.getGameCell(i+1, j)!=null &&
 								gm.getGameCell(i+1, j).getCellStatus().equals(CellStatus.SAFE)){
 							found=true;
-							System.out.println("cella sotto "+found);
+							//System.out.println("cella sotto "+found);
 						}
 						//cella a sinistra
 						else if(gm.getGameCell(i, j-1)!=null &&
 								gm.getGameCell(i, j-1).getCellStatus().equals(CellStatus.SAFE)){
 							found=true;	
-							System.out.println("cella sinistra "+found);
+							//System.out.println("cella sinistra "+found);
 						}
 						//cella a destra
 						else if(gm.getGameCell(i, j+1)!=null && 
 								gm.getGameCell(i, j+1).getCellStatus().equals(CellStatus.SAFE)){
 							found=true;
-							System.out.println("cella destra "+found);
+							//System.out.println("cella destra "+found);
 						}
 						else {
 							//nessuna delle celle adiacenti esistenti e' libera

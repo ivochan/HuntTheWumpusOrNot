@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import game.controller.Controller;
 import game.controller.Direction;
+import game.highscore.Score;
 import game.session.GameModeTranslation;
 import game.structure.cell.CellStatus;
 
@@ -23,6 +24,8 @@ public class Starter {
 	//acquisizione mossa 
 	private static char move = ' ';
 	private static Direction pg_move;	
+
+
 	
 	/** metodo chooseMove(): void
 	 * questo metodo si occupa di acquisire il comando che 
@@ -100,6 +103,8 @@ public class Starter {
 	 * @param ge:GameMap, la mappa di esplorazione.
 	 */
 	public static void resetGameData(GameMap ge) {
+		//punteggio del giocatore
+		
 		//scelta della modalita' di gioco
 		game_mode_choosen=false;
 		//stato della partita attuale
@@ -107,7 +112,7 @@ public class Starter {
 		//pulizia della mappa di esplorazione
 		ge.clear();
 		//pulizia della console
-		clearConsole();
+		//clearConsole();
 	}//resetGameData()
 
 	/** metodo chooseGameMode(): void
@@ -192,4 +197,6 @@ public class Starter {
 		System.out.flush();
 	}//clearConsole()
 
+
+	
 }//class

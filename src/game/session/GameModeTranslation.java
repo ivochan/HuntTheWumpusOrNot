@@ -16,7 +16,7 @@ import game.structure.cell.CellStatus;
 public class GameModeTranslation {
 	//stringa modalita' di gioco
 	public final static String mode = "Sarai il cacciatore oppure il Wumpus?\n"
-							+"[h - cacciatore] [w -wumpus]";
+							+"[h - cacciatore] [w - wumpus]";
 	//stringa descrizione comandi
 	public final static String command_legend = "Ecco la lista dei comandi:\n"+
 							"[q - quit] [g - game start] [s - score] [c - credits]";

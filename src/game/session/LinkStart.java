@@ -3,6 +3,8 @@ package game.session;
 import java.util.Scanner;
 
 import game.controller.Controller;
+import game.highscore.HighScore;
+import game.highscore.Score;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameConfiguration;
 import game.structure.map.GameMap;
@@ -15,6 +17,9 @@ public class LinkStart {
 	private static char comando = ' ';
 	//posizione attuale del pg
 	private static int [] pg_pos = new int [2];
+	//punteggio
+	private static Score highscore;
+	
 	//main
 	public static void main(String [] args) {
 		//inizializzazione dei dati di gioco
@@ -38,6 +43,8 @@ public class LinkStart {
 			}//fi 's'
 			//comando per iniziare una partita
 			else if(comando == 'g') {
+				//azzeramento punteggio
+				highscore = new Score();
 				//flag avvio partita
 				Starter.setGameStart(true);
 				System.out.println("Preparazione del terreno di gioco....\n");
@@ -80,6 +87,8 @@ public class LinkStart {
 								System.out.println(ge.mapToString());
 								//informazioni sulla posizione
 								Starter.verifyPGpos(gm,pg_pos);
+								//aggiornamento punteggio
+								highscore.updateScore(CellStatus.SAFE);
 								break;
 							case 1:
 								//si prendono le informazioni della cella in cui si e' mosso il pg
@@ -87,12 +96,16 @@ public class LinkStart {
 								//se nemico o pericolo, verra' stampato il messaggio appropriato
 								System.out.println(Starter.trad_mex.get(cs)+"\n"+GameModeTranslation.looser);
 								Starter.setGameStart(false);
+								//aggiornamento punteggio
+								highscore.updateScore(cs);
 								break;
 							case 2:
 								System.out.println("Wow!"+Starter.trad_mex.get(CellStatus.AWARD)
 								+"\n"+GameModeTranslation.winner);
 								//richiesta di iniziare una nuova partita
 								Starter.setGameStart(false);
+								//aggiornamento punteggio
+								highscore.updateScore(CellStatus.AWARD);
 								break;
 							default: break;
 						}//switch
@@ -100,6 +113,9 @@ public class LinkStart {
 				}//end while
 				//fine partita
 				System.out.println("THE E.N.D.");
+				// punteggio
+				highscore.totalScore();
+				System.out.println("Questo e' il tuo punteggio:\n"+highscore);
 				Starter.resetGameData(ge);
 			}//fi 'g'
 			else if(comando == 'q') {
@@ -114,6 +130,8 @@ public class LinkStart {
 		System.out.println("Ciao, alla prossima!");
 	
 	}//end main
+
+
 	
 }//end class
 
