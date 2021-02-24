@@ -31,6 +31,7 @@ public class LinkStart {
 		//avvio sessione di gioco
 		while(comando != 'q') {
 			System.out.println(GameModeTranslation.command_request);
+			System.out.println(GameModeTranslation.command_legend);
 			//acquisizione del comando
 			comando = input.next().charAt(0);
 			//comando info sul gioco
@@ -123,7 +124,7 @@ public class LinkStart {
 			}//fi 'q'
 			//comando errato
 			else {
-				System.out.println("Comando errato!\n"+GameModeTranslation.command_legend);
+				System.out.println("Comando errato!\n");
 			}//esle
 					
 		}//end while schermata di avvio

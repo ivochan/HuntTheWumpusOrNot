@@ -90,9 +90,8 @@ public class Starter {
 		//traduzioni
 		GameModeTranslation.initHeroTranslation();
 		GameModeTranslation.initWumpusTranslation();
-		System.out.println("Link... Start-o!");
 		//intro al gioco
-		System.out.println(GameModeTranslation.command_legend);
+		System.out.println("Link... Start-o!");
 	}//initGameData
 	
 	/** metodo resetGameData(GameMap): void
@@ -112,7 +111,7 @@ public class Starter {
 		//pulizia della mappa di esplorazione
 		ge.clear();
 		//pulizia della console
-		//clearConsole();
+		clearConsole();
 	}//resetGameData()
 
 	/** metodo chooseGameMode(): void
@@ -193,8 +192,14 @@ public class Starter {
 	 */
 	public static void clearConsole() {
 		//linux
-		System.out.print("\033[H\033[2J");
-		System.out.flush();
+		//System.out.print("\033[H\033[2J");
+		//System.out.flush();
+		System.out.println("\n");
+		System.out.println("\n");
+		System.out.println("\n");
+		System.out.println("\n");
+		System.out.println("\n");
+		System.out.println("\n");
 	}//clearConsole()
 
 
