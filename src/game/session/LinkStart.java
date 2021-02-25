@@ -134,6 +134,7 @@ public class LinkStart {
 	
 	}//end main
 
+	//TODO prevedere la possibilita' di sparare al wumpus nella modalita' cacciatore
 
 	
 }//end class

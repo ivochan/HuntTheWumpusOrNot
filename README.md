@@ -10,7 +10,7 @@ Il giocatore interpreta il ruolo di un *cacciatore*, che durante l'esplorazione 
 
 La sola possibilità che si ha di sfuggire al mostro è quella di ucciderlo scoccando una freccia da una qualsiasi stanza adiacente a quella in cui è nascosto.
 
-Inoltre, bisogna evitare le stanze con i pozzi, in cui si corre il rischio di caderci dentro, attigue a quelle in cui giunge la brezza (nel gioco originale era presente il muschio). Un ulteriore rischio, nel gioco di Yob, è costituito da dei super-pipistrelli, che possono catturare il giocatore e rilasciarlo in una stanza differente, scelta in maniera casuale.
+Inoltre, bisogna evitare le stanze con i pozzi, in cui si corre il rischio di caderci dentro, attigue a quelle in cui giunge la brezza (nel gioco originale era presente il muschio). Un ulteriore rischio, nel gioco di Yob, è costituito dai super-pipistrelli, che possono catturare il giocatore e rilasciarlo in una stanza differente, scelta in maniera casuale.
 
 ## Struttura del progetto
 
@@ -34,18 +34,19 @@ Le celle potranno essere di questo tipo:
 - **PG**,  colore arancione,  è il Giocatore, che sarà l'Avventuriero se si gioca nella modalità Eroe, altrimenti sarà il Wumpus;
 - **AWARD** , colore giallo,  Premio;
 - **FORBIDDEN**, colore nero, cella non accessibile, SASSO;
+- **OBSERVED**, colore grifio, per indicare una cella che è stata già visitata;
 
 Per come è stato strutturato il gioco, gli elementi che, in totale, verranno posizionati sulla mappa di gioco sono:
 
 - un mostro;
 - un eroe;
-- un lingotto d'oro;
+- un premio;
 - due pozzi (modalità hero_side) oppure due trappole (modalità !hero_side);
-- un numero casuale da 0 a 4 di pietre, che rappresentano le celle non giocabili;
+- un numero casuale da 0 a 2 di pietre, che rappresentano le celle non giocabili;
 
 Per quanto riguarda il vettore dei sensori, i cui elementi sono stati rappresentati come valori di tipo boolean, descritti da un'enumerazione, potrà essere definito nel modo seguente:
 
-*SenseStatus* , ovvero il vettore dei sensori nella modalità Eroe, sarà costituito, per ogni cella, da due elementi, quali:
+*SenseStatus* , ovvero il vettore dei sensori, valido per entrambe le modalità di gioco, sarà costituito, per ogni cella, da due elementi, quali:
 
 *	ENEMY_SENSE;
 *	DANGER_SENSE;
@@ -59,9 +60,9 @@ Per quanto riguarda la modalità di gioco, è stata prevista l'introduzione di d
 - il giocatore vero e proprio, *HumanPlayer*, pilotato dall'utente;
 - il giocatore automatico,  *IAPlayer*, l'implementazione di un agente dotato di una semplice intelligenza artificiale;
 
-Quindi, al momento dell'avvio del gioco, sarà l'utente finale a poter decidere in che modalità giocare, se nella versione classica, *Hero Side*, in cui l'avventuriero deve uccidere il Wumpus o se nella versione in cui dovrà impersonare proprio il mostro del gioco e riuscire a sopravvivere al cacciatore.
+Quindi, al momento dell'avvio del gioco, sarà l'utente finale a poter decidere in che modalità giocare, se nella versione classica, *Hero Side*, in cui l'avventuriero deve uccidere il Wumpus o se nella versione *Wumpus Side*, in cui dovrà impersonare proprio il mostro del gioco e riuscire a sopravvivere al cacciatore.
 
-Inoltre, l'utente sarà nelle condizioni di poter decidere se vuole essere lui direttamente a controllare le mosse del suo personaggio oppure lasciare che la risoluzione del gioco e quindi l'esplorazione del labirinto venga affidata al giocatore automatico, provvisto di intelligenza artificiale.
+Inoltre, l'utente sarà nelle condizioni di poter decidere se vuole essere lui direttamente a controllare le mosse del suo personaggio oppure lasciare che la risoluzione del gioco e quindi l'esplorazione del labirinto siano affidate al giocatore automatico, ovvero un agente provvisto di intelligenza artificiale.
 
 
 
@@ -69,29 +70,140 @@ Inoltre, l'utente sarà nelle condizioni di poter decidere se vuole essere lui d
 
 Di seguito verrà riporta una descrizione delle funzionalità realizzate per ciascuna delle classi che costituiscono il gioco.
 
-
-
 ### Cell
 
-Questa classe implementa l'oggetto Cella, quello che costituisce ogni singola casella della matrice che realizza la mappa di gioco.
+Questa classe implementa l'oggetto Cell, quello che costituisce ogni singola casella della matrice che realizza la mappa di gioco.
 
+### Cell Status
 
+Questa classe implementa una enumerazione che si occupa di definire le tipologie che può assumere l'oggetto Cell, nella mappa di gioco.
 
 ### Game Map
 
 Questa classe si occupa di definire la struttura basilare del gioco, ovvero la mappa su cui si potrà muovere il personaggio giocabile.
 
+### Game Configuration
 
+Questa classe si occupa della generazione della mappa di gioco, popolandola di tutti i suoi elementi.
+
+La struttura sarà di questo tipo:
+
+```visualizzazione del terreno di gioco
+      MAPPA							LEGENDA	
+||S| |D| |A| |S||	-----------------------------------------
+||D| |S| |S| |P||	| S = SPAZIO VUOTO | D = PERICOLO		|
+||S| |S| |S| |S||	| E = NEMICO       | F = SPAZIO VIETATO |
+||S| |S| |S| |E||	| P = GIOCATORE	   | A = PREMIO			|
+					-----------------------------------------
+```
+
+
+### Starter
+
+Questa classe si occupa di gestire le configurazioni necessarie all'esecuzione della sessione di gioco, come:
+
+- la schermata introduttiva,
+
+  ```	intro
+  Link... Start-o!
+  Cosa vuoi fare?
+  Ecco la lista dei comandi:
+  [q - quit] [g - game start] [s - score] [c - credits]```
+  ```
+
+- l'avvio della partita,
+
+  ```schermata di gioco
+     MAPPA									LEGENDA	
+   ||X| |X| |X| |X||       --------------------------------------------
+   ||X| |X| |X| |P||		| X = LUOGO DA VISITARE | O = LUOGO VISITATO |
+   ||X| |X| |X| |X||		| P = GIOCATORE         | F = LUOGO VIETATO  |
+   ||X| |X| |X| |X||       --------------------------------------------
+   												 
+   Comandi:										 
+   												 
+   w = sopra									 
+   a = sinistra									 
+   s = sotto									 
+   d = destra									 
+   i = interrompi partita									 
+  												
+  ```
+
+   
+
+  Inserisci comando :> 
+
+- la scelta della modalità di gioco ,
+
+  ```scelta della modalità di gioco
+  Preparazione del terreno di gioco....
+  
+  Ciao :3
+  Dimmi di te...Sarai il cacciatore oppure il Wumpus?
+  [h - cacciatore] [w - wumpus]
+  
+  ```
+
+- l'inizializzazione della mappa.
+
+
+
+### Direction
+
+Questa classe definisce le possibili direzioni in cui il personaggio giocabile può muoversi nella mappa di gioco, tramite un'enenumerazione.
+
+I movimenti consenti sono, quindi, quelli nelle quattro direzioni: 
+
+- UP,
+- DOWN,
+- LEFT,
+- RIGHT.
+
+Il comando corrispondente verrà fornito da input, secondo la disposizione WASD.
+
+### Controller
+
+Questa classe definisce i comandi di gioco, cioe' il modo in cui si potrà interagire con il programma, facendo muovere il personaggio giocabile, nelle direzioni consentite.
+
+Bisogna:
+
+ * verificare se la direzione in cui si vuole fare la mossa sia valida;
+ * effettuare la mossa;
+ * aggiornare la posizione del pg;
+ * mostrare le informazioni dei sensori;
+ * aggiornare la mappa di esplorazione;
+
+### Game Mode Translation
+
+Questa classe contiene delle strutture dati che immagazzinano le informazioni da fornire all'utente, durante la sessione di gioco, sullo stato della partita, per ciascuna delle due modalità.
+
+### Link Start
+
+Questa classe implementa l'esecuzione dell'applicazione, permettendo all'utente di iniziare una sessione di gioco, chiudere il programma oppure ricominciare una nuova partita, dopo aver terminato la precedente.
+
+### Highscore
+
+Questa classe rappresenta l'oggetto Highscore, costituito da due attributi di classe significativi, ovvero:
+ * il nickname del giocatore;
+ * il punteggio raggiunto, **score**;
+
+Il punteggio verrà calcolato tenendo conto delle seguenti penalità/ ricompense, in base alle azioni che saranno compiute dal personaggio giocabile durante la partita:
+
+-  +100, è il valore che viene aggiunto al punteggio, se si trova la posizione del premio **AWARD**, *WIN = 100*;
+- -50; è la penalità che si subisce se si il personaggio giocabile si posiziona in corrispondenza di un pericolo, sia questo il pozzo **PIT** oppure la trappola **TRAP**, a seconda della modalità in cui si sta giocando, *TRAP = -50*;
+- -100, è il valore che viene sottratto al punteggio complessivo se il giocatore incontra il nemico **ENEMY**, ovvero se viene ferito dal Wumpus, se sta impersonando l'Avventuriero, oppure se viene ucciso dal cacciatore, se si sta giocando nel ruolo del Wumpus, *ENEMY = -100;
+- -1, è la penalità che viene assegnata per ogni mossa compiuta, cioè per ogni cella in  cui verrà posizionato il personaggio giocabile, perciò saranno escluse dal conteggio le celle non accessibili, **FORBIDDEN**, *STEP = -1*;
 
 ### Human Player
 
 Questa classe implementa il giocatore controllato dall'utente.
 
-
-
 ### IA Player 
 
 Questa classe implementa il giocatore automatico.
+
+### 
 
 
 
@@ -161,7 +273,7 @@ Funzionalità da implementare:
   - ~~la possibilità di effettuare delle mosse;~~~~
   - ~~aggiornare la mappa di esplorazione, tenendo traccia delle celle già visitate;~~
   - ~~conoscere la posizione corrente del pg;~~
-  - il calcolo del punteggio;
+  - ~~il calcolo del punteggio;~~
   - movimento nella mappa manuale (tramite metodo accessorio)
   - ~~movimento nella mappa da input (su decisione dell'utente)~~
     - prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input;
