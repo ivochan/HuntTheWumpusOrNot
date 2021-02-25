@@ -3,8 +3,8 @@ package game.session;
 import java.util.Scanner;
 
 import game.controller.Controller;
-import game.highscore.HighScore;
-import game.highscore.Score;
+import game.highscore.Highscore;
+import game.highscore.ScoreFile;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameConfiguration;
 import game.structure.map.GameMap;
@@ -18,7 +18,7 @@ public class LinkStart {
 	//posizione attuale del pg
 	private static int [] pg_pos = new int [2];
 	//punteggio
-	private static Score highscore;
+	private static Highscore highscore;
 	
 	//main
 	public static void main(String [] args) {
@@ -40,12 +40,13 @@ public class LinkStart {
 			}//fi 'c'
 			//comando punteggi
 			else if(comando == 's') {
-				System.out.println("TODO lista dei 5 punteggi piu' alti");
+				System.out.println("Record!\nRiuscirai a battere questi punteggi?");
+				ScoreFile.readScoreFile();
 			}//fi 's'
 			//comando per iniziare una partita
 			else if(comando == 'g') {
 				//azzeramento punteggio
-				highscore = new Score();
+				highscore = new Highscore();
 				//flag avvio partita
 				Starter.setGameStart(true);
 				System.out.println("Preparazione del terreno di gioco....\n");
@@ -117,6 +118,7 @@ public class LinkStart {
 				// punteggio
 				highscore.totalScore();
 				System.out.println("Questo e' il tuo punteggio:\n"+highscore);
+				ScoreFile.saveHighscore(highscore);
 				Starter.resetGameData(ge);
 			}//fi 'g'
 			else if(comando == 'q') {

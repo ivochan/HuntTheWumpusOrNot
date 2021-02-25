@@ -1,6 +1,5 @@
 package game.controller;
 
-import game.highscore.HighScore;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;

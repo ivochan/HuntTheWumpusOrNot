@@ -6,13 +6,19 @@ import game.structure.cell.CellStatus;
 
 
 /** class Score
- * questa classe rappresenta l'oggetto Score, costituito da due attributi:
+ * questa classe rappresenta l'oggetto Highscore, costituito da due attributi
+ * di classe significativi:
  * -il nickname del giocatore;
  * -il punteggio raggiunto;
  * @author ivonne
  *
  */
-public class Score {
+public class Highscore {
+	//punteggi assegnati alle azioni da compiere nel gioco
+	public static final int WIN = 100; //premio
+	public static final int TRAP = -50; //pericolo
+	public static final int DEAD = -100; //nemico
+	public static final int STEP = -1; //mossa
 	//valore del punteggio
 	private int score=0;
 	//nickname del giocatore
@@ -26,7 +32,7 @@ public class Score {
 	 * costruttore di default
 	 * senza paramentri
 	 */
-	public Score(){
+	public Highscore(){
 		//gli attributi di classe avranno i valori di default
 		this.score=0;
 		this.score_date=new Date().toString();
@@ -37,7 +43,7 @@ public class Score {
 	 * costruttore con parametro
 	 * @param score: int, punteggio raggiunto dal giocatore
 	 */
-	public Score(int score){
+	public Highscore(int score){
 		this.score=score;
 		//nickname resta con il valore di default
 		this.score_date=new Date().toString();
@@ -49,7 +55,7 @@ public class Score {
 	 * @param nickname: String, nome che il giocatore ha inserito al termine della
 	 * 							partita;
 	 */
-	public Score(int score, String nickname){
+	public Highscore(int score, String nickname){
 		this.score=score;
 		this.score_date=new Date().toString();
 		this.nickname=nickname;
@@ -62,7 +68,7 @@ public class Score {
 		//punteggio
 		String highscore = new String(""+score);
 		if(this!=null){
-			highscore = new String(nickname+"  "+score+"  "+score_date);
+			highscore = new String(score+"  "+nickname+"  "+score_date);
 		}
 		return highscore;
 	}//toString()
@@ -79,13 +85,13 @@ public class Score {
 		//in base alla cella in cui ci si trova verra' aggiornato il valore del punteggio
 		switch(cs){
 		case ENEMY : 
-			score= score + HighScore.DEAD;
+			score= score + DEAD;
 			break;
 		case DANGER :
-			score = score + HighScore.TRAP;
+			score = score + TRAP;
 			break;
 		case AWARD:
-			score = score + HighScore.WIN;
+			score = score + WIN;
 			break;
 		default: //include anche SAFE
 			break;
@@ -94,7 +100,7 @@ public class Score {
 	}
 	
 	public void totalScore(){
-		score = score + HighScore.STEP*move_count;
+		score = score + STEP*move_count;
 	}
 		
 }//end class

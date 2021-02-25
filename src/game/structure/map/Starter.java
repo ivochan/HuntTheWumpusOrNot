@@ -3,9 +3,7 @@ package game.structure.map;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import game.controller.Controller;
 import game.controller.Direction;
-import game.highscore.Score;
 import game.session.GameModeTranslation;
 import game.structure.cell.CellStatus;
 
