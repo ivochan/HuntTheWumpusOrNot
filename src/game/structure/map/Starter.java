@@ -22,7 +22,7 @@ public class Starter {
 	//acquisizione mossa 
 	private static char move = ' ';
 	private static Direction pg_move;	
-
+	//
 
 	
 	/** metodo chooseMove(): void
@@ -157,7 +157,11 @@ public class Starter {
 		//si acquisiscono le informazioni del vettore dei sensori
 		sensors=gm.getGameCell(pg_pos[0], pg_pos[1]).getSenseVector();
 		//vicinanza del nemico
-		if(sensors[0])System.out.println(trad_mex.get(CellStatus.ENEMY_SENSE));
+		if(sensors[0]) {
+			System.out.println(trad_mex.get(CellStatus.ENEMY_SENSE));
+			//si chiede all'utente se vuole sparare
+			
+		}
 		//vicinanza del pericolo
 		if(sensors[1])System.out.println(trad_mex.get(CellStatus.DANGER_SENSE));
 		//nessun tipo di pericolo

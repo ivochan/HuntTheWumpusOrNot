@@ -126,13 +126,15 @@ Questa classe si occupa di gestire le configurazioni necessarie all'esecuzione d
    a = sinistra									 
    s = sotto									 
    d = destra									 
-   i = interrompi partita									 
+   i = interrompi partita		
+   
+   Inserisci comando :> 
   												
   ```
 
    
 
-  Inserisci comando :> 
+  
 
 - la scelta della modalità di gioco ,
 
@@ -203,7 +205,7 @@ Questa classe implementa il giocatore controllato dall'utente.
 
 Questa classe implementa il giocatore automatico.
 
-### 
+
 
 
 
@@ -304,9 +306,10 @@ Funzionalità da implementare:
     - ~~effettuare la mossa restituendo le variabili che descrivono il contenuto dei sensori della cella di arrivo;~~
     - ~~richiedere la mossa successiva;~~
     - ~~personalizzare i messaggi del gioco in base alla modalità;~~
+  - definire l'azione di colpire il nemico, scegliendo la direzione;
 - definire la classe che definisce alcune regole di gioco Rules;
 - definire il giocatore "HumanPlayer";
-- definire il giocatore automatico "IAPlayer"
+- definire il giocatore automatico "IAPlayer";
 - dotare la classe "IAPlayer" dei metodi necessari per:
   - esaminare l'ambiente di gioco
   - acquisire le informazioni dal vettore dei sensori
