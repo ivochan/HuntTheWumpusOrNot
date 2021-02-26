@@ -1,5 +1,6 @@
 package game.controller;
 
+import game.session.GameModeTranslation;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
@@ -18,146 +19,21 @@ import game.structure.map.GameMap;
  */
 public class Controller {
 	
-	 /* vettore di due celle che contiene gli indici della cella in cui si 
+	/* vettore di due celle che contiene gli indici della cella in cui si 
 	 * vuole che venga effettuata la mossa del pg
 	 */
 	private static int [] pg_pos = new int[2];
-	/*
-	 * vettore di due celle che contiene gli indici della cella in cui si vuole
+	
+	/* vettore di due celle che contiene gli indici della cella in cui si vuole
 	 * tentare di effettuare la mossa successiva 
 	 */
 	private static int [] next_pos = new int[2];
 
 	 /* il giocatore ha a disposizione un colpo per cercare di uccidere il nemio
-	 */
+	  *
+	  */
 	private static int hit=1;
 	
-	
-	/** metodo movePG(Direction, int[], GameMap, GameMap): int
-	 * questo metodo si occupa di verificare se la mossa scelta dal giocatore sia
-	 * valida oppure meno, controllando se la cella in cui effettuare la mossa esista,
-	 * che tipo di contenuto abbia e cosa comporti spostarvici il pg.
-	 * Il risultato delle operazioni di controllo verra' indiicato da una variabile
-	 * di tipo intero.
-	 * @param move: Direction, direzione in cui effettuare lo spostamento del pg;
-	 * @param pg_position: int[], vettore che contiene la posizione corrente del pg,
-	 * 							  espressa come coppia di indici i,j della cella in cui
-	 * 							  si trova attualmente;
-	 * @param gm: GameMap, mappa che racchiude le informazioni con cui e' stato configurata
-	 * 					   la partita di gioco corrente;
-	 * @param ge: GameMap, mappa che racchiude le infomazioni del gioco conosciute all'utente,
-	 * 					   come le celle gia' visitate;
-	 * @return status: int, intero che indica il risultato dell'esecuzione di questo metodo,
-	 * 				   nello specifico, se questa variabile assume il valore:
-	 * 				 -  1, allora il pg e' finito nella cella del nemico, ha perso;
-	 * 				 -  2, il pg e' finito nella cella con il premio, ha vinto;
-	 * 				 - -1, la mossa non era valida oppure prevedeva di andare in una cella non accessibile;
-	 * 				 -  0, la mossa e' valida e il pg viene spostato, aggiornando la mappa di esplorazione
-	 * 					   e la sua posizione corrente, segnando la cella in cui si trovata prima come visitata.
-	 */
-	/*
-	public static int movePG(Direction move, int [] pg_position, GameMap gm, GameMap ge) {
-		//variabile da restituire
-		int status = 0;
-		//flag che indicano la validita' degli indici in cui effettuare la mossa
-		boolean im_ok=false;
-		boolean jm_ok=false;
-		//si inizializzano gli indici della cella in cui si vuole effettuare la mossa
-		int im=0; int jm=0;
-		//si prelevano gli indici di cella in cui si trova il pg
-		int ipg = pg_position[0];
-		int jpg = pg_position[1];
-		//si controlla la direzione in cui effettuare la mossa
-		if(move == Direction.UP) { //move = 0 
-			//si stabiliscono gli indici della cella in cui si vuole muovere il pg
-			im = ipg-1;
-			jm = jpg;
-			//si controlla se la cella cosi' indicata esiste
-			if(im>=0 && im<gm.getRows())im_ok=true;
-			if(jm>=0 && jm<gm.getColumns())jm_ok=true;
-		}//fi UP
-		if(move == Direction.DOWN) { //move = 1
-			//si stabiliscono gli indici della cella in cui si vuole muovere il pg
-			im = ipg+1;
-			jm = jpg;
-			//si controlla se la cella cosi' indicata esiste
-			if(im>=0 && im<gm.getRows())im_ok=true;
-			if(jm>=0 && jm<gm.getColumns())jm_ok=true;
-		}//fi DOWN
-		if(move == Direction.LEFT) { //move = 2
-			//si stabiliscono gli indici della cella in cui si vuole muovere il pg
-			im = ipg;
-			jm = jpg-1;
-			//si controlla se la cella cosi' indicata esiste
-			if(im>=0 && im<gm.getRows())im_ok=true;
-			if(jm>=0 && jm<gm.getColumns())jm_ok=true;
-		}//fi LEFT
-		if (move == Direction.RIGHT) { //move = 3
-			//si stabiliscono gli indici della cella in cui si vuole muovere il pg
-			im = ipg;
-			jm = jpg+1;
-			//si controlla se la cella cosi' indicata esiste
-			if(im>=0 && im<gm.getRows())im_ok=true;
-			if(jm>=0 && jm<gm.getColumns())jm_ok=true;
-		}//fi RIGHT
-		//si controlla il risultato della direzione scelta
-		if(im_ok && jm_ok) { //la cella in cui si vuole effettuare la mossa esiste
-			//System.out.println("Spostamento in ("+im+','+jm+')');
-			//si controlla il contenuto della cella in questione
-			CellStatus cs = gm.getGameCell(im, jm).getCellStatus();
-			//controllo sullo stato
-			if(cs.equals(CellStatus.ENEMY)) {
-				//si aggiorna la posizione 
-				setPGpos(im,jm);
-				//il pg e' morto
-				status = 1;
-			}//fi
-			else if(cs.equals(CellStatus.FORBIDDEN)) {
-				//questa cella non e' selezionabile, e' vietata perche' e' un sasso
-				status = -1;
-				System.out.println("Il passaggio e' bloccato da un sasso.");
-				//si aggiunge alla mappa di esplorazione
-				ge.getGameCell(im, jm).copyCellSpecs(gm.getGameCell(im, jm));
-				//il pg rimane dove si trova
-			}
-			else if(cs.equals(CellStatus.AWARD)) {
-				//si aggiorna la posizione 
-				setPGpos(im,jm);
-				//il pg vince
-				status = 2 ;
-			}
-			else if(cs.equals(CellStatus.DANGER)) {
-				//si aggiorna la posizione 
-				setPGpos(im,jm);
-				//il pg e' morto
-				status = 1;
-			}
-			else {//CellStatus.SAFE				
-				//la cella in cui si trovava prima il pg si segna come visitata
-				ge.getGameCell(ipg,jpg).setCellStatus(CellStatus.OBSERVED);
-				//si preleva il contenuto della cella
-				Cell c = gm.getGameCell(im, jm);
-				//si copia questa cella nella matrice di esplorazione
-				ge.getGameCell(im, jm).copyCellSpecs(c);
-				//il contenuto di questa cella ora e' il pg
-				ge.getGameCell(im, jm).setCellStatus(CellStatus.PG);
-				//ai aggiorna la posizione del pg
-				setPGpos(im,jm);
-				//ci si spostera' in questa cella, mostrando anche i sensori
-				status = 0;
-			}//esle
-						
-		}//fi indici di mossa corretti
-		else { //comando non valido, oppure la cella non esiste
-			//l'input ricevuto non e' tra le direzioni ammesse
-			status = -1;
-		}//esle
-		//System.out.println("status = "+status);
-		//si restituisce il codice associato al tipo di mossa
-		return status;
-	}//movePG
-	*/
-	/*
 	/** metodo getPGpos(): int[]
 	 * questo metodo restiutisce la posizione del pg all'interno della mappa di
 	 * gioco, espressa come indice di riga e di colonna della cella in cui si trova.	 * 
@@ -186,56 +62,19 @@ public class Controller {
 		}
 	}//setPGpos()
 
-	/*
-	public static void hitEnemy() {
-		//si controlla se il colpo e' disposibile
-		if(hit==1) {
-			//allora si puo' tentare di colpire il nemico
-			boolean valid_dir=false;
-			//input
-			Scanner input = new Scanner(System.in);
-			//si chiede la direzione
-			System.out.println("Inserisci la direzione :> ");
-			char dir = input.netx().chartAt(0);
-			while(!valid_dir) {
-				//sopra
-				if(dir=='w') {
-					//
-				}
-				else if (Direction.DOWN) {
-						
-				}
-				else if (Direction.LEFT) {
-					
-						
-				}
-				else if (Direction.RIGHT) {
-						
-				}
-				else {
-					//direzione non valida
-				}
-				}//comando ricevuto
-				//si controlla quale sia la cella scelta
-				//se c'e' il nemico allora e' stato ucciso dal colpo
-				//altrimenti si perde il colpo
-			}
-		}
-*/
-
-	/** metodo findCell(Direction, GameMap): boolean
-	 * 
+	/** metodo findCell(Direction, GameMap): int[]
+	 * questo metodo idenfica gli indici di cella in cui si vuole
+	 * muovere il pg, calcolandoli a partire dalla posizione corrente.
 	 * @param move
-	 * @param gm
-	 * @return im_ok && jm_ok: boolean, ovvero restituisce true se entrambi gli indici
-	 * 							di cella sono validi, poiche' vuol dire che la cella
-	 * 							indicata dalla direzione ricevuta come parametro esiste
+	 * @return cell_indices: int[], coppia di indici della cella; 
 	 */
-	private static void findCell(Direction move, int [] pg_pos){
+	private static int[] findCell(Direction move){
+		//vettore della posizione successiva
+		int [] cell_indices = new int[2];
 		//si preleva la posizione del pg
 		int ipg = pg_pos[0];
 		int jpg = pg_pos[1];
-		System.out.println("posizione corrente "+ipg+" e "+jpg);
+		//System.out.println("posizione corrente "+ipg+" e "+jpg);
 		//si inizializza la coppia di indici ausiliari
 		int im=0;
 		int jm=0;
@@ -262,37 +101,63 @@ public class Controller {
 				jm = jpg+1;
 				break;
 			default: break;
-		}
+		}//end switch
 		//si memorizzano questi indici nel vettore della posizione successiva
-		next_pos[0]=im;
-		next_pos[1]=jm;
-		System.out.println("prossima posizione "+im+" e "+jm);
-	}
+		cell_indices[0]=im;
+		cell_indices[1]=jm;
+		//System.out.println("prossima posizione "+im+" e "+jm);
+		//si restituisce il vettore contenente i due indici
+		return cell_indices;
+	}//findCell()
 	
-	
+	/** metodo checkCell(GameMap): boolean
+	 * questo metodo si occupa di controllare che la cella in cui
+	 * si vuole fare la prossima mossa, dati gli indici contenuti
+	 * nel vettore che descrive la prossima posizione del pg.
+	 * @param gm: GameMap, e' la mappa che contiene gli elementi di gioco.
+	 * @return true, se la cella descritta dagli indici di riga e colonna
+	 * 				esiste, false altrimenti.
+	 */
 	private static boolean checkCell(GameMap gm) {
 		//variabili boolean ausiliarie
 		boolean iok=false;
 		boolean jok=false;
 		//indice riga
 		int i=next_pos[0];
-		System.out.println("riga "+i);
 		//indice colonna
 		int j=next_pos[1];
-		System.out.println("colonna "+j);
 		//controllo sull'indice riga
 		if(i>=0 && i<gm.getRows())iok=true;
 		//controllo sull'indice colonna
 		if(j>=0 && j<gm.getColumns())jok=true;
 		//la cella esiste se entrambi gli indici sono validi
 		return (iok && jok);
-	}
+	}//checkCell()
 	
-	public static int movePG(Direction move, int [] pg_position, GameMap gm, GameMap ge) {
+	/** metodo movePG(Direction, int[], GameMap, GameMap): int
+	 * questo metodo si occupa di verificare se la mossa scelta dal giocatore sia
+	 * valida oppure meno, controllando se la cella in cui effettuare la mossa esista,
+	 * che tipo di contenuto abbia e cosa comporti spostarvici il pg.
+	 * Il risultato delle operazioni di controllo verra' indiicato da una variabile
+	 * di tipo intero.
+	 * @param move: Direction, direzione in cui effettuare lo spostamento del pg;
+	 * @param gm: GameMap, mappa che racchiude le informazioni con cui e' stato configurata
+	 * 					   la partita di gioco corrente;
+	 * @param ge: GameMap, mappa che racchiude le infomazioni del gioco conosciute all'utente,
+	 * 					   come le celle gia' visitate;
+	 * @return status: int, intero che indica il risultato dell'esecuzione di questo metodo,
+	 * 				   nello specifico, se questa variabile assume il valore:
+	 * 				 -  1, allora il pg e' finito nella cella del nemico, ha perso;
+	 * 				 -  2, il pg e' finito nella cella con il premio, ha vinto;
+	 * 				 - -1, la mossa non era valida oppure prevedeva di andare in una cella non accessibile;
+	 * 				 -  0, la mossa e' valida e il pg viene spostato, aggiornando la mappa di esplorazione
+	 * 					   e la sua posizione corrente, segnando la cella in cui si trovata prima come visitata.
+	 */
+	public static int movePG(Direction move,GameMap gm, GameMap ge) {
 		//variabile da restituire
 		int status = 0;
 		//si controlla il risultato della direzione scelta
-		findCell(move, pg_position);
+		next_pos = findCell(move);
 		//si controlla la validita' della mossa
 		if(checkCell(gm)) { //la cella in cui si vuole effettuare la mossa esiste
 			//si controlla il contenuto della cella in questione
@@ -326,7 +191,7 @@ public class Controller {
 			}
 			else {//CellStatus.SAFE				
 				//la cella in cui si trovava prima il pg si segna come visitata
-				ge.getGameCell(pg_position[0],pg_position[1]).setCellStatus(CellStatus.OBSERVED);
+				ge.getGameCell(pg_pos[0],pg_pos[1]).setCellStatus(CellStatus.OBSERVED);
 				//si preleva il contenuto della cella
 				Cell c = gm.getGameCell(next_pos[0], next_pos[1]);
 				//si copia questa cella nella matrice di esplorazione
@@ -337,18 +202,41 @@ public class Controller {
 				setPGpos(next_pos[0],next_pos[1]);
 				//ci si spostera' in questa cella, mostrando anche i sensori
 				status = 0;
-			}//esle
-						
+			}//esle				
 		}//fi indici di mossa corretti
 		else { //comando non valido, oppure la cella non esiste
-			//l'input ricevuto non e' tra le direzioni ammesse
 			status = -1;
 		}//esle
-		//System.out.println("status = "+status);
 		//si restituisce il codice associato al tipo di mossa
 		return status;
-	}//movePG
+	}//movePG()
 	
+	public static void hitEnemy(Direction dir, GameMap gm) {
+		//vettore degli indici di cella
+		int[] enemy_indices=new int[2];
+		//variabili ausiliarie per la validita' degli indici
+		boolean iok=false;
+		boolean jok=false;
+		//si preleva la direzione in cui si vuole colpire
+		enemy_indices = findCell(dir);
+		//si controlla se si puo' tentare il colpo
+		//TODO
+		//indice riga
+		int i=enemy_indices[0];
+		//indice colonna
+		int j=enemy_indices[1];
+		//controllo sull'indice riga
+		if(i>=0 && i<gm.getRows())iok=true;
+		//controllo sull'indice colonna
+		if(j>=0 && j<gm.getColumns())jok=true;
+		//la cella esiste se entrambi gli indici sono validi
+		if(iok && jok) {//TODO
+			//si controlla se questa cella contiene il nemico
+		}
+		else {
+			System.out.println(GameModeTranslation.failed_shot);
+		}
+	}
 	
 	
 }//Controller

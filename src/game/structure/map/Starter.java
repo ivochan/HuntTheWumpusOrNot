@@ -22,7 +22,7 @@ public class Starter {
 	//acquisizione mossa 
 	private static char move = ' ';
 	private static Direction pg_move;	
-	//
+	
 
 	
 	/** metodo chooseMove(): void

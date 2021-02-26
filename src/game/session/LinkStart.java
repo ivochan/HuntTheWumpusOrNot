@@ -41,7 +41,7 @@ public class LinkStart {
 			//comando punteggi
 			else if(comando == 's') {
 				System.out.println("Record!\nRiuscirai a battere questi punteggi?");
-				ScoreFile.readScoreFile();
+				//ScoreFile.readScoreFile();
 			}//fi 's'
 			//comando per iniziare una partita
 			else if(comando == 'g') {
@@ -61,8 +61,11 @@ public class LinkStart {
 				System.out.println(gm.mapAndLegend());
 				//si aggiorna il vettore dei sensori
 				GameConfiguration.updateSensors(gm);
-				//coordinate pg
-				pg_pos= GameConfiguration.getPGstartPosition();
+				//coordinate iniziali del pg
+				pg_pos=GameConfiguration.getPGstartPosition();
+				//si aggiorna la posizione
+				Controller.setPGpos(pg_pos[0],pg_pos[1]);
+				//stampa
 				System.out.println((Starter.trad_mex.get(CellStatus.PG)));
 				//informazioni sull'ambiente all'inizio del gioco
 				Starter.verifyPGpos(gm,pg_pos);
@@ -76,7 +79,7 @@ public class LinkStart {
 					//se non si e' interrotta la partita si valuta la mossa
 					if(Starter.getGameStart()) {
 						//verifica della mossa
-						int status=Controller.movePG(Starter.getPGmove(), pg_pos, gm, ge); 
+						int status=Controller.movePG(Starter.getPGmove(), gm, ge); 
 						//realizzazione della mossa
 						switch(status) {
 							case -1 : 
@@ -118,7 +121,7 @@ public class LinkStart {
 				// punteggio
 				highscore.totalScore();
 				System.out.println("Questo e' il tuo punteggio:\n"+highscore);
-				ScoreFile.saveHighscore(highscore);
+				//ScoreFile.saveHighscore(highscore);
 				Starter.resetGameData(ge);
 			}//fi 'g'
 			else if(comando == 'q') {

@@ -28,6 +28,12 @@ public class GameModeTranslation {
 	public final static String denied_move = new String("Posizione non consentita!");
 	//messaggi di info
 	public final static String credits = "E' Ivonne che ha tentato di sviluppare questo gioco...";
+	//messaggi relativi al tentativo di colpire il nemico 
+	public final static String wasted_shot ="Ooops...La tua arma ormai e' andata, come la possibilità di battere il nemico!";
+	public final static String failed_shot ="Che mira pessima...Non hai colpito niente!";
+	public final static String hit="Yu-hu!Hai colpito il nemico!";
+			
+	
 	
 	
 	/** HERO_SIDE

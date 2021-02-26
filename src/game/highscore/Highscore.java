@@ -19,6 +19,7 @@ public class Highscore {
 	public static final int TRAP = -50; //pericolo
 	public static final int DEAD = -100; //nemico
 	public static final int STEP = -1; //mossa
+	public static final int HIT = 50; //colpo andato a segno
 	//valore del punteggio
 	private int score=0;
 	//nickname del giocatore
@@ -62,7 +63,9 @@ public class Highscore {
 	}//Score(int,String)
 	
 
-	
+	/** metodo toString(): String
+	 * @return highscore: String, stampa del punteggio.
+	 */
 	@Override
 	public String toString(){
 		//punteggio
@@ -97,10 +100,22 @@ public class Highscore {
 			break;
 		}//end switch
 		//System.out.println("numero di mosse "+move_count);
-	}
+	}//updateScore()
 	
+	/** metodo hitScore(): void
+	 * questo metodo si occupa di aggiornare il punteggio
+	 * se e' stato colpito il nemico
+	 */
+	public void hitScore() {
+		score = score + HIT;
+	}//hitScore()
+	
+	/** metodo totalScore(): void
+	 * 
+	 */
 	public void totalScore(){
 		score = score + STEP*move_count;
 	}
 		
+	
 }//end class
