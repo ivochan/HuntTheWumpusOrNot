@@ -3,6 +3,7 @@ package game.structure.map;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import game.controller.Controller;
 import game.controller.Direction;
 import game.session.GameModeTranslation;
 import game.structure.cell.CellStatus;
@@ -22,8 +23,11 @@ public class Starter {
 	//acquisizione mossa 
 	private static char move = ' ';
 	private static Direction pg_move;	
+	//tentativo di colpire il nemico
+	private static boolean try_to_hit=false;
+	private static char dir_command = ' ';
+	private static Direction shot_dir;
 	
-
 	
 	/** metodo chooseMove(): void
 	 * questo metodo si occupa di acquisire il comando che 
@@ -54,12 +58,57 @@ public class Starter {
 				game_start=false;
 				System.out.println("Interruzione della partita ...");
 				break;
+			case 'l':
+				try_to_hit=true;
+				break;
 			default:
 				System.out.println("Mossa errata!");
 				break;
 			}//end switch
 		}//chooseMove()
 	
+	public static boolean getTryToHit() {
+		return try_to_hit;
+	}
+	
+	
+	public static boolean tryToHitEnemy(GameMap gm, GameMap ge) {
+		//flag che indica se il nemico e' stato colpito
+		boolean defeated=false;
+		//si chiede la direzione in cui provare a colpire il nemico
+		chooseShotDir();
+		//si cerca di colpire il nemico
+		defeated = Controller.hitEnemy(shot_dir, gm, ge);
+		return defeated;
+	}
+
+
+
+
+	private static void chooseShotDir() {
+		//si acquisisce il comando
+		System.out.println("Prendi la mira ed inserisci la direzione :> ");
+		dir_command = input.next().charAt(0);
+		//si valuta il comando
+		switch(move) {
+			case 'w':
+				shot_dir = Direction.UP;
+				break;
+			case 'a':
+				shot_dir = Direction.LEFT;
+				break;
+			case 's':
+				shot_dir = Direction.DOWN;
+				break;
+			case 'd':
+				shot_dir = Direction.RIGHT;
+				break;
+			default:
+				System.out.println("Direzione errata!");
+				break;
+		}//end switch
+	}
+
 	/** metodo getGameStart(): boolean
 	 * quesot metodo accessorio fornisce lo stato della variabile
 	 * di interesse.
@@ -101,7 +150,7 @@ public class Starter {
 	 */
 	public static void resetGameData(GameMap ge) {
 		//punteggio del giocatore
-		
+		//TODO controllare
 		//scelta della modalita' di gioco
 		game_mode_choosen=false;
 		//stato della partita attuale

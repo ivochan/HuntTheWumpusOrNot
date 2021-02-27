@@ -111,11 +111,12 @@ public class Highscore {
 	}//hitScore()
 	
 	/** metodo totalScore(): void
-	 * 
+	 * questo metoto aggiorna il punteggio totale, tenenedo conto
+	 * del numero di mosse compiute.
 	 */
 	public void totalScore(){
 		score = score + STEP*move_count;
-	}
+	}//totalScore()
 		
 	
 }//end class

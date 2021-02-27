@@ -78,6 +78,13 @@ public class LinkStart {
 					Starter.chooseMove();
 					//se non si e' interrotta la partita si valuta la mossa
 					if(Starter.getGameStart()) {
+						//si verifica se si vuole provare a colpire il nemico
+						if(Starter.getTryToHit()) {
+							//si prova a colpire
+							boolean hit = Starter.tryToHitEnemy(gm, ge);
+							//si aggiorna il punteggio
+							if(hit)highscore.hitScore();
+						}//fi hit
 						//verifica della mossa
 						int status=Controller.movePG(Starter.getPGmove(), gm, ge); 
 						//realizzazione della mossa

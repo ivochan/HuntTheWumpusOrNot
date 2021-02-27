@@ -307,6 +307,7 @@ Funzionalità da implementare:
     - ~~richiedere la mossa successiva;~~
     - ~~personalizzare i messaggi del gioco in base alla modalità;~~
   - definire l'azione di colpire il nemico, scegliendo la direzione;
+- correggere il posizionamento del pg, controllando che il passaggio dalla sua cella non sia bloccato;
 - definire la classe che definisce alcune regole di gioco Rules;
 - definire il giocatore "HumanPlayer";
 - definire il giocatore automatico "IAPlayer";
@@ -314,5 +315,6 @@ Funzionalità da implementare:
   - esaminare l'ambiente di gioco
   - acquisire le informazioni dal vettore dei sensori
   - stabilire la mossa da effettuare in base ai dati acquisiti
+- aggiornare path di salvataggio del file del punteggio con la variabile d'ambiente;
 - testare la modalità di gioco lato utente;
 - testare la modalità di gioco automatico;

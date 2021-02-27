@@ -31,6 +31,7 @@ public class GameModeTranslation {
 	//messaggi relativi al tentativo di colpire il nemico 
 	public final static String wasted_shot ="Ooops...La tua arma ormai e' andata, come la possibilità di battere il nemico!";
 	public final static String failed_shot ="Che mira pessima...Non hai colpito niente!";
+	public final static String no_hit="Eh eh, non hai piu' nulla con cui colpire il nemico...";
 	public final static String hit="Yu-hu!Hai colpito il nemico!";
 			
 	

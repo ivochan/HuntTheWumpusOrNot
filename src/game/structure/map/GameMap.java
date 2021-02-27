@@ -194,7 +194,8 @@ public class GameMap {
 				 " a = sinistra									 \n"+
 				 " s = sotto									 \n"+
 				 " d = destra									 \n"+
-				 " i = interrompi partita									 \n"+
+				 " i = interrompi partita						 \n"+
+				 " l = prova a colpire il nemico                 \n"+
 				 "												 \n");
 		//vettore colonna per la legenda
 		String [] v_leg = new String [4];

@@ -211,32 +211,65 @@ public class Controller {
 		return status;
 	}//movePG()
 	
-	public static void hitEnemy(Direction dir, GameMap gm) {
+	/** metodo hitEnemy(Direction, GameMap, GameMap): boolean
+	 * questo metodo controlla la direzione in cui si vuole provare
+	 * a colpire il nemico, verifica se la cella indicata dall'utente
+	 * esiste e verifica se in essa sia posizionato il nemico oppure no.
+	 * Se il colpo va a segno, il giocatore guadagna punti, altrimenti
+	 * ha perso l'unico tentativo di poterlo sconfiggere.
+	 * @param dir: Direction, direzione in cui si vuole lanciare il colpo;
+	 * @param gm: GameMap, mappa che rappresenta il terreno di gioco;
+	 * @param ge: GameMap, mappa di esplorazione, visibile all'utente;
+	 * @return defeated: boolean, indica se il nemico e' stato colpito o meno
+	 */
+	public static boolean hitEnemy(Direction dir, GameMap gm, GameMap ge) {
+		//flag per indicare se il nemico e' stato colpito
+		boolean defeated=false;
 		//vettore degli indici di cella
 		int[] enemy_indices=new int[2];
 		//variabili ausiliarie per la validita' degli indici
 		boolean iok=false;
 		boolean jok=false;
+		//TODO fare metodo findCell adatto
 		//si preleva la direzione in cui si vuole colpire
 		enemy_indices = findCell(dir);
 		//si controlla se si puo' tentare il colpo
-		//TODO
-		//indice riga
-		int i=enemy_indices[0];
-		//indice colonna
-		int j=enemy_indices[1];
-		//controllo sull'indice riga
-		if(i>=0 && i<gm.getRows())iok=true;
-		//controllo sull'indice colonna
-		if(j>=0 && j<gm.getColumns())jok=true;
-		//la cella esiste se entrambi gli indici sono validi
-		if(iok && jok) {//TODO
-			//si controlla se questa cella contiene il nemico
-		}
+		if(hit>0) {
+			//indice riga
+			int i=enemy_indices[0];
+			//indice colonna
+			int j=enemy_indices[1];
+			//controllo sull'indice riga
+			if(i>=0 && i<gm.getRows())iok=true;
+			//controllo sull'indice colonna
+			if(j>=0 && j<gm.getColumns())jok=true;
+			//la cella esiste se entrambi gli indici sono validi
+			if(iok && jok) {
+				//si controlla se questa cella contiene il nemico
+				CellStatus cs = gm.getGameCell(i, j).getCellStatus();
+				//si controlla se contiene il nemico
+				if(cs.equals(CellStatus.ENEMY)) {
+					//e' stato colpito nemico
+					hit--;
+					//si aggiorna la mappa di esplorazione
+					ge.getGameCell(i, j).setCellStatus(CellStatus.OBSERVED);
+				}//fi
+				else {
+					//la cella non contiene il nemico
+					System.out.println(GameModeTranslation.wasted_shot);
+				}//esle
+			}//fi indici cella
+			else {
+				//gli indici di cella non sono validi
+				System.out.println(GameModeTranslation.failed_shot);
+			}//esle
+		}//fi colpo disponibile
 		else {
-			System.out.println(GameModeTranslation.failed_shot);
-		}
-	}
+			//non ci sono colpi disponibili
+			System.out.println(GameModeTranslation.no_hit);
+		}//esle
+		return defeated;
+	}//hitEnemy()
 	
 	
 }//Controller
