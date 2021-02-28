@@ -27,7 +27,7 @@ public class Starter {
 	private static boolean try_to_hit=false;
 	private static char dir_command = ' ';
 	private static Direction shot_dir;
-	
+	private static int hit_avaible = 1;
 	
 	/** metodo chooseMove(): void
 	 * questo metodo si occupa di acquisire il comando che 
@@ -72,13 +72,26 @@ public class Starter {
 	}
 	
 	
+	
+	
 	public static boolean tryToHitEnemy(GameMap gm, GameMap ge) {
 		//flag che indica se il nemico e' stato colpito
 		boolean defeated=false;
-		//si chiede la direzione in cui provare a colpire il nemico
-		chooseShotDir();
-		//si cerca di colpire il nemico
-		defeated = Controller.hitEnemy(shot_dir, gm, ge);
+		//si controlla che si abbia la possibilita' di colpire
+		if(hit_avaible>0) {
+			//si chiede la direzione in cui provare a colpire il nemico
+			chooseShotDir();
+			//si cerca di colpire il nemico
+			defeated = Controller.hitEnemy(shot_dir, gm, ge);
+			//si disattiva il flag che abilita il tentativo al colpo
+			try_to_hit=false;
+			//si decrementa il numero di tentativi
+			hit_avaible--;
+		}
+		else {
+			System.out.println(GameModeTranslation.no_hit);
+		}
+		//si restituisce la variabile booleana
 		return defeated;
 	}
 
@@ -90,7 +103,7 @@ public class Starter {
 		System.out.println("Prendi la mira ed inserisci la direzione :> ");
 		dir_command = input.next().charAt(0);
 		//si valuta il comando
-		switch(move) {
+		switch(dir_command) {
 			case 'w':
 				shot_dir = Direction.UP;
 				break;
@@ -159,6 +172,8 @@ public class Starter {
 		ge.clear();
 		//pulizia della console
 		clearConsole();
+		//ripristino del numeto di tentativi
+		hit_avaible=1;
 	}//resetGameData()
 
 	/** metodo chooseGameMode(): void

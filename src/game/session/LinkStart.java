@@ -84,7 +84,9 @@ public class LinkStart {
 							boolean hit = Starter.tryToHitEnemy(gm, ge);
 							//si aggiorna il punteggio
 							if(hit)highscore.hitScore();
+						
 						}//fi hit
+						else {
 						//verifica della mossa
 						int status=Controller.movePG(Starter.getPGmove(), gm, ge); 
 						//realizzazione della mossa
@@ -121,6 +123,7 @@ public class LinkStart {
 								break;
 							default: break;
 						}//switch
+						}
 					}//fi game_start
 				}//end while
 				//fine partita
