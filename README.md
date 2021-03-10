@@ -308,12 +308,17 @@ Funzionalità da implementare:
   - ~~definire l'azione di colpire il nemico, scegliendo la direzione~~;
 - ~~correggere il posizionamento del pg, controllando che il passaggio dalla sua cella non sia bloccato~~;
 - definire la classe che definisce alcune regole di gioco Rules;
-- definire il giocatore "HumanPlayer";
-- definire il giocatore automatico "IAPlayer";
-- dotare la classe "IAPlayer" dei metodi necessari per:
-  - esaminare l'ambiente di gioco
-  - acquisire le informazioni dal vettore dei sensori
-  - stabilire la mossa da effettuare in base ai dati acquisiti
 - ~~aggiornare path di salvataggio del file del punteggio con la variabile d'ambiente~~;
 - ~~testare la modalità di gioco lato utente~~;
+- ordinare i punteggi in maniera decrescente;
+- controllare che il posizionamento del nemico sia realizzato;
+- realizzare metodo di posizionamento del pg al centro della mappa;
+- fare in modo che il wumpus sia posizionato al centro, se scelto come pg;
+- definire l'interfaccia Agent, che delinea la struttura del giocatore automatico;
+- definire il giocatore automatico "RandomAgent":
+  - si esamina la griglia di gioco, la "situazione iniziale" dell'ambiente circostante;
+  - si sceglie la mossa da effettuare in base allo stato dei sensori;
+  - ad ogni passo, si salvano gli indici della cella che è stata visitata;
+  - al termine della partita mostra il percorso effettuato;
+- definire il giocatore automatico "ScoreAgent";
 - testare la modalità di gioco automatico;
