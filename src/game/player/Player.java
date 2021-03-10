@@ -1,5 +1,5 @@
-package game.session.player;
-//serie di import
+package game.player;
+import game.session.configuration.AutomaticGameSession;
 import game.session.configuration.GameSession;
 import game.structure.text.GameMessages;
 import game.structure.text.GameTranslations;
@@ -59,9 +59,17 @@ public class Player {
 		}//end while	
 	}//chooseType()
 	
-
-	
+	/** metodo automaticMode(): void
+	 * 
+	 */
 	public static void automaticMode() {
 		System.out.println(GameMessages.automatic_player);
-	}
-}
+		//inizio della partita
+		AutomaticGameSession.start();
+		//partita in corso
+		//TODO
+		//fine della partita
+		//TODO
+	}//automaticMode()
+	
+}//end Player

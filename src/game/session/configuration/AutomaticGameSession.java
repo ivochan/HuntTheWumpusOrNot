@@ -1,6 +1,4 @@
-package game.session.iaplayer;
-//serie di import
-import game.session.configuration.Starter;
+package game.session.configuration;
 import game.session.controller.Controller;
 import game.session.controller.Direction;
 import game.session.score.Score;
@@ -17,6 +15,7 @@ import game.structure.text.GameMessages;
  */
 public class AutomaticGameSession {
 	//##### attributi di classe #####
+	//TODO revisionare
 	//mappe di gioco
 	private static GameMap gm;
 	private static GameMap em;
@@ -66,13 +65,13 @@ public class AutomaticGameSession {
 		//avvio della partita
 		while(Starter.getGameStart()){
 			//acquisizione dell'azione del giocatore
-			Starter.chooseMove();
+			//TODO chooseMove();
 			//si verifica se si vuole sparare
 			if(Starter.getTryToHit()) {
 				//si verifica se si ha un colpo a disposizione
 				if(Starter.getChanceToHit()) {
 					//si chiede la direzione in cui sparare
-					Starter.chooseDirection();
+					//TODO chooseDirection();
 					//si preleva la direzione
 					dir = Starter.getShotDir();
 					//si tenta il colpo
@@ -111,6 +110,8 @@ public class AutomaticGameSession {
 		Starter.setGameStart(false);
 		//si resetta la disponibilita' del colpo
 		Starter.setChanceToHit(true);
+		//percorso compiuto
+		//TODO
 		//punteggio
 		Score.totalScore();
 		System.out.println("Questo e' il tuo punteggio:\n"+Score.getScore());

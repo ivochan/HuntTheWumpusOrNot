@@ -132,14 +132,12 @@ public class Controller {
 				System.out.println(GameMessages.looser);
 				//fine della partita
 				Starter.setGameStart(false);
-				//TODO aggiornamento punteggio
 				break;
 			case 2:
 				System.out.println("Wow!"+Starter.trad_mex.get(CellStatus.AWARD));
 				System.out.println(GameMessages.winner);
 				//fine della partita
 				Starter.setGameStart(false);
-				//TODO aggiornamento punteggio
 				break;
 			default: 
 				break;
@@ -160,7 +158,7 @@ public class Controller {
 		//vettore dei sensori
 		boolean [] sensors = new boolean[2];
 		//stampa della posizione corrente del pg
-		System.out.println("Ti trovi nella cella ("+pg_pos[0]+','+pg_pos[1]+')');
+		//System.out.println("Ti trovi nella cella ("+pg_pos[0]+','+pg_pos[1]+')');
 		//si acquisiscono le informazioni del vettore dei sensori
 		sensors=gm.getMapCell(pg_pos[0], pg_pos[1]).getSenseVector();
 		//vicinanza del nemico

@@ -1,9 +1,10 @@
-package game.session.play;
+package game.session.start;
 //serie di import
 import java.util.Scanner;
+
+import game.player.Player;
 import game.session.configuration.GameSession;
 import game.session.configuration.Starter;
-import game.session.player.Player;
 import game.session.score.ScoreMemo;
 import game.structure.text.GameMessages;
 /** class LinkStart
