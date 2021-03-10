@@ -117,11 +117,7 @@ public class Score {
 		case AWARD:
 			score = score + WIN;
 			break;
-		case FORBIDDEN:
-			//TODO
-			//il pg non e' stato spostato
-			move_count--;
-		default: //SAFE
+		default: //SAFE e FORBIDDEN
 			break;
 		}//end switch
 	}//updateScore(CellStatus)

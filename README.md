@@ -34,7 +34,6 @@ Le celle potranno essere di questo tipo:
 - **PG**,  colore arancione,  è il Giocatore, che sarà l'Avventuriero se si gioca nella modalità Eroe, altrimenti sarà il Wumpus;
 - **AWARD** , colore giallo,  Premio;
 - **FORBIDDEN**, colore nero, cella non accessibile, SASSO;
-- **OBSERVED**, colore grifio, per indicare una cella che è stata già visitata;
 
 Per come è stato strutturato il gioco, gli elementi che, in totale, verranno posizionati sulla mappa di gioco sono:
 
@@ -42,14 +41,12 @@ Per come è stato strutturato il gioco, gli elementi che, in totale, verranno po
 - un eroe;
 - un premio;
 - due pozzi (modalità hero_side) oppure due trappole (modalità !hero_side);
-- un numero casuale da 0 a 2 di pietre, che rappresentano le celle non giocabili;
+- da 0 a 2 di pietre, che rappresentano le celle non giocabili;
 
-Per quanto riguarda il vettore dei sensori, i cui elementi sono stati rappresentati come valori di tipo boolean, descritti da un'enumerazione, potrà essere definito nel modo seguente:
+Per quanto riguarda il vettore dei sensori, valido per entrambe le modalità di gioco, sarà costituito, per ogni cella, da due elementi, quali:
 
-*SenseStatus* , ovvero il vettore dei sensori, valido per entrambe le modalità di gioco, sarà costituito, per ogni cella, da due elementi, quali:
-
-*	ENEMY_SENSE;
-*	DANGER_SENSE;
+*	**ENEMY_SENSE**;
+*	**DANGER_SENSE**;
 
 
 
@@ -134,8 +131,6 @@ Questa classe si occupa di gestire le configurazioni necessarie all'esecuzione d
 
    
 
-  
-
 - la scelta della modalità di gioco ,
 
   ```scelta della modalità di gioco
@@ -157,12 +152,12 @@ Questa classe definisce le possibili direzioni in cui il personaggio giocabile p
 
 I movimenti consenti sono, quindi, quelli nelle quattro direzioni: 
 
-- UP,
-- DOWN,
-- LEFT,
-- RIGHT.
+- **UP**,
+- **DOWN**,
+- **LEFT**,
+- **RIGHT**.
 
-Il comando corrispondente verrà fornito da input, secondo la disposizione WASD.
+Il comando corrispondente verrà fornito da input, secondo la disposizione WASD, come carattere.
 
 ### Controller
 
@@ -176,26 +171,34 @@ Bisogna:
  * mostrare le informazioni dei sensori;
  * aggiornare la mappa di esplorazione;
 
-### Game Mode Translation
+### Game Translations
 
 Questa classe contiene delle strutture dati che immagazzinano le informazioni da fornire all'utente, durante la sessione di gioco, sullo stato della partita, per ciascuna delle due modalità.
+
+### Game Messages
+
+Questa classe contiene delle stringhe, dei messaggi di testo, che forniscono informazioni all'utente, durante la sua interazione con lìapplicazione.
 
 ### Link Start
 
 Questa classe implementa l'esecuzione dell'applicazione, permettendo all'utente di iniziare una sessione di gioco, chiudere il programma oppure ricominciare una nuova partita, dopo aver terminato la precedente.
 
-### Highscore
+### Score
 
-Questa classe rappresenta l'oggetto Highscore, costituito da due attributi di classe significativi, ovvero:
- * il nickname del giocatore;
- * il punteggio raggiunto, **score**;
+Questa classe rappresenta l'oggetto Score, costituito da due attributi di classe significativi, ovvero:
+ * il *nickname* del giocatore;
+ * lo *score*, ovveroil punteggio raggiunto;
 
 Il punteggio verrà calcolato tenendo conto delle seguenti penalità/ ricompense, in base alle azioni che saranno compiute dal personaggio giocabile durante la partita:
 
--  +100, è il valore che viene aggiunto al punteggio, se si trova la posizione del premio **AWARD**, *WIN = 100*;
-- -50; è la penalità che si subisce se si il personaggio giocabile si posiziona in corrispondenza di un pericolo, sia questo il pozzo **PIT** oppure la trappola **TRAP**, a seconda della modalità in cui si sta giocando, *TRAP = -50*;
-- -100, è il valore che viene sottratto al punteggio complessivo se il giocatore incontra il nemico **ENEMY**, ovvero se viene ferito dal Wumpus, se sta impersonando l'Avventuriero, oppure se viene ucciso dal cacciatore, se si sta giocando nel ruolo del Wumpus, *ENEMY = -100;
-- -1, è la penalità che viene assegnata per ogni mossa compiuta, cioè per ogni cella in  cui verrà posizionato il personaggio giocabile, perciò saranno escluse dal conteggio le celle non accessibili, **FORBIDDEN**, *STEP = -1*;
+-  **+100**, è il valore che viene aggiunto al punteggio, se si trova la posizione del premio **AWARD**, *WIN = 100*;
+- **-50**, è la penalità che si subisce se si il personaggio giocabile si posiziona in corrispondenza di un pericolo **DANGER**, sia questo il pozzo oppure la trappola, a seconda della modalità in cui si sta giocando, *TRAP = -50*;
+- **-100**, è il valore che viene sottratto al punteggio complessivo se il giocatore incontra il nemico **ENEMY**, ovvero se viene ferito dal Wumpus, se sta impersonando l'Avventuriero, oppure se viene ucciso dal cacciatore, se si sta giocando nel ruolo del Wumpus, DEAD = -100;
+- **-1**, è la penalità che viene assegnata per ogni mossa compiuta, cioè per ogni cella in  cui verrà scelto di posizionare il personaggio giocabile, *STEP = -1*;
+
+### Score Memo
+
+Questa classe si occupa di memorizzare il punteggio del giocatore al termine di ogni partita, utilizzando un file di testo, denominato *Punteggi.txt*. Alla chiusura dell'applicazione questo file verrà eliminato.
 
 ### Human Player
 
@@ -204,10 +207,6 @@ Questa classe implementa il giocatore controllato dall'utente.
 ### IA Player 
 
 Questa classe implementa il giocatore automatico.
-
-
-
-
 
 
 
@@ -306,8 +305,8 @@ Funzionalità da implementare:
     - ~~effettuare la mossa restituendo le variabili che descrivono il contenuto dei sensori della cella di arrivo;~~
     - ~~richiedere la mossa successiva;~~
     - ~~personalizzare i messaggi del gioco in base alla modalità;~~
-  - definire l'azione di colpire il nemico, scegliendo la direzione;
-- correggere il posizionamento del pg, controllando che il passaggio dalla sua cella non sia bloccato;
+  - ~~definire l'azione di colpire il nemico, scegliendo la direzione~~;
+- ~~correggere il posizionamento del pg, controllando che il passaggio dalla sua cella non sia bloccato~~;
 - definire la classe che definisce alcune regole di gioco Rules;
 - definire il giocatore "HumanPlayer";
 - definire il giocatore automatico "IAPlayer";
@@ -315,6 +314,6 @@ Funzionalità da implementare:
   - esaminare l'ambiente di gioco
   - acquisire le informazioni dal vettore dei sensori
   - stabilire la mossa da effettuare in base ai dati acquisiti
-- aggiornare path di salvataggio del file del punteggio con la variabile d'ambiente;
-- testare la modalità di gioco lato utente;
+- ~~aggiornare path di salvataggio del file del punteggio con la variabile d'ambiente~~;
+- ~~testare la modalità di gioco lato utente~~;
 - testare la modalità di gioco automatico;
