@@ -1,5 +1,4 @@
-package game.controller;
-
+package game.session.controller;
 /** Enum Direction
  * Questa enumerazione definisce la direzione in cui il personaggio giocabile
  * puo' effettuare una mossa e quindi muoversi sulla mappa di gioco.
@@ -11,4 +10,4 @@ public enum Direction {
 	DOWN,
 	LEFT,
 	RIGHT;
-}//Direction
+}//end Direction
