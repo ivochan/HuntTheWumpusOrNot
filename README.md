@@ -315,6 +315,7 @@ Funzionalità da implementare:
 - realizzare metodo di posizionamento del pg al centro della mappa;
 - fare in modo che il wumpus sia posizionato al centro, se scelto come pg;
 - definire l'interfaccia Agent, che delinea la struttura del giocatore automatico;
+- definire la classe astratta "BasicAgent";
 - definire il giocatore automatico "RandomAgent":
   - si esamina la griglia di gioco, la "situazione iniziale" dell'ambiente circostante;
   - si sceglie la mossa da effettuare in base allo stato dei sensori;

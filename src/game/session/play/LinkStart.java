@@ -2,6 +2,8 @@ package game.session.play;
 //serie di import
 import java.util.Scanner;
 import game.session.configuration.GameSession;
+import game.session.configuration.Starter;
+import game.session.player.Player;
 import game.session.score.ScoreMemo;
 import game.structure.text.GameMessages;
 /** class LinkStart
@@ -31,12 +33,15 @@ public class LinkStart {
 				ScoreMemo.readScoreFile();
 			}//fi score
 			else if(command == 'g') {
-				//sessione di gioco iniziata
-				GameSession.start();
-				//gioco
-				GameSession.play();
-				//sessione di gioco terminata
-				GameSession.end();
+				//variabile ausiliaria per il tipo di giocatore
+				boolean human = Player.chooseType();
+				//verifica della scelta
+				if(human) {
+					Player.humanMode();
+				}
+				else {
+					Player.automaticMode();
+				}
 			}//fi game
 			else if(command == 'q') {
 				System.out.println("Chiusura del gioco...");

@@ -23,5 +23,8 @@ public class GameMessages {
 	//messaggi sullo stato della mossa
 	public final static String denied_move = new String("Posizione non consentita!");
 	public final static String safe_place = new String("Tutto a posto all'orizzonte!");
-	
+	//tipo di giocatore
+	public final static String player_type = new String("Vuoi metterti alla prova? [s - si] [n - no]");
+	public final static String human_player = new String("Uh uh, coraggio allora!");
+	public final static String automatic_player = new String("Bene, lascia tutto a me, ci penso io!");
 }//end GameMessages

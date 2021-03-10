@@ -4,19 +4,7 @@ import game.session.controller.Direction;
 import game.structure.cell.Cell;
 import game.structure.map.GameMap;
 
-public class ScoreAgent implements Agent {
-
-	@Override
-	public void seeEnvironment(GameMap em) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void checkEnvironment(GameMap em) {
-		// TODO Auto-generated method stub
-		
-	}
+public class ScoreAgent extends BasicAgent{
 
 	@Override
 	public Direction chooseMove(GameMap em) {
@@ -53,5 +41,6 @@ public class ScoreAgent implements Agent {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

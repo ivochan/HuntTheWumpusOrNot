@@ -16,10 +16,7 @@ public interface Agent {
 	
 	//lista contenente la coppia di indici di ogni cella visitata
 	LinkedList<Cell> run = new LinkedList<Cell>();
-	
-	//modalita' di gioco
-	//TODO da scegliere prima della risoluzione
-	
+
 	//##### metodi #####
 	
 	//metodo che legge la mappa di gioco allo stato attuale: mappa di esplorazione

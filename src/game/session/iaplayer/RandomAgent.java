@@ -1,33 +1,15 @@
 package game.session.iaplayer;
-//serie di import
+
 import game.session.controller.Direction;
 import game.structure.cell.Cell;
 import game.structure.map.GameMap;
+
+//serie di import
 /**
  * 
  * @author ivonne
  */
-public class RandomAgent implements Agent {
-
-	//##### attributi di classe #####
-	
-	
-	
-	
-	
-	//##### metodi #####
-	
-	@Override
-	public void seeEnvironment(GameMap em) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void checkEnvironment(GameMap em) {
-		// TODO Auto-generated method stub
-		
-	}
+public class RandomAgent extends BasicAgent {
 
 	@Override
 	public Direction chooseMove(GameMap em) {
@@ -64,9 +46,7 @@ public class RandomAgent implements Agent {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-	
+
 	
 	
 }//end 

@@ -1,5 +1,6 @@
-package game.session.configuration;
+package game.session.iaplayer;
 //serie di import
+import game.session.configuration.Starter;
 import game.session.controller.Controller;
 import game.session.controller.Direction;
 import game.session.score.Score;
@@ -8,18 +9,18 @@ import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
 import game.structure.map.MapConfiguration;
 import game.structure.text.GameMessages;
-/** class GameSession
- * questa classe implementa la sessione di gioco
- * avviata nella classe LinkStart
+/** class AutomaticGameSession
+ * classe che realizza una sessione di gioco
+ * in cui la partita viene svolta utilizzando
+ * un giocatore automatico
  * @author ivonne
  */
-public class GameSession {
+public class AutomaticGameSession {
 	//##### attributi di classe #####
-	
 	//mappe di gioco
 	private static GameMap gm;
 	private static GameMap em;
-	
+		
 	/** metodo start(): void
 	 * questo metodo avvia la sezione di gioco, preparando il terreno
 	 * su cui si svolgera' la partita, popolando la mappa di tutti
@@ -50,7 +51,7 @@ public class GameSession {
 		//si inizializza il file
 		ScoreMemo.createScoreFile();;
 	}//start()
-	
+		
 	/** metodo play(): void
 	 * questo metodo si occupa di scegliere la modalita' in cui
 	 * giocare e di gestire le mosse effettuate dal giocatore.
@@ -99,7 +100,7 @@ public class GameSession {
 			}//fi
 		}//end while sessione di gioco
 	}//play()
-	
+		
 	/** metodo end(): void
 	 * questo metodo si occupa delle operazioni che devono essere
 	 * eseguite al termine della partita.
@@ -118,7 +119,7 @@ public class GameSession {
 		//pulizia della console
 		clearConsole();
 	}//end()
-	
+		
 	/** metodo clearConsole(): void
 	 * utilizzato per pulire la console dopo ogni stampa 
 	 * della matrice di gioco
@@ -131,5 +132,13 @@ public class GameSession {
 		System.out.println("\n");
 		System.out.println("\n");
 	}//clearConsole()
-	
+		
+	/**
+	 * 
+	 */
+	public void HumanPlayer() {
+		
+	}
+		
 }//end GameSession
+

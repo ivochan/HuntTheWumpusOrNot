@@ -318,5 +318,5 @@ public class Starter {
 		//si restituisce il valore della variabile
 		return chance_to_hit;
 	}//getChanceToHit()
-	
+
 }//end Starter
