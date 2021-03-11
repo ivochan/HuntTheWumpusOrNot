@@ -22,7 +22,7 @@ public abstract class BasicAgent implements Agent {
 	 * questo metodo valuta la mossa da fare
 	 * @param em: GameMap
 	 */
-	public abstract Direction chooseMove(GameMap em);
+	public abstract void chooseMove(GameMap em, GameMap gm);
 	
 	//##### metodi per il percorso #####
 	

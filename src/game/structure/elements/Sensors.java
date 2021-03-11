@@ -13,10 +13,10 @@ public class Sensors {
 	 * verra' poi specificato, nelle celle ad essi adiacenti, il valore che specifica
 	 * che tipo di elemento si trova nelle vicinanze, rispettando la modalita' di gioco.
 	 */
-	public static void updateSensors(GameMap gm, int [] game_elements) {
+	public static void updateSensors(GameMap gm) {
 		//vettore che conterra' gli indici di riga delle celle che contengono i pericoli
-		int [] danger_i = new int[game_elements[4]];
-		int [] danger_j = new int[game_elements[4]];
+		int [] danger_i = new int[GameElements.getDanger()];
+		int [] danger_j = new int[GameElements.getDanger()];
 		//si crea un vettore che contiene gli indici di riga e colonna della cella avversario
 		int [] enemy_indices = new int[2];
 		//si cercano le celle di interesse e si assegnano i rispettivi indici
@@ -119,7 +119,7 @@ public class Sensors {
 	}///dangerSensor(Map, int[], int[])
 	
 	/** metodo setIndices(Map, int[], int[], int[]):void
-	 * questo metodo, che riceve in ingresso i tre vettore che conterranno gli indici riga e 
+	 * questo metodo, che riceve in ingresso i tre vettori che conterranno gli indici riga e 
 	 * colonna delle celle che conterranno il nemico ed i pericoli che dovra' affrontare il 
 	 * personaggio giocabile, si occupa di iterare tutta la mappa di gioco, andando a prelevare
 	 * proprio questi indici di interesse, per memorizzarli nei vettori ricevuti come parametro.
@@ -153,16 +153,10 @@ public class Sensors {
 				}//fi ENEMY
 				if(cs.equals(CellStatus.DANGER)) {
 					//e' stata trovata una cella contenente un pericolo
-					danger_i[i_pt] = i; //indice di riga
-					danger_j[j_pt] = j; //indice di colonna
-					//controllo sugli indici e conseguente incremento
-					if(i_pt < danger_i.length && j_pt < danger_j.length) {
-						//si incrementano gli indici per accedere alla cella successiva
-						i_pt++;
-						j_pt++;
-					}//fi indici
-					//System.out.println(cs);
+					danger_i[i_pt++] = i; //indice di riga
+					danger_j[j_pt++] = j; //indice di colonna
 				}//fi DANGER
+				//System.out.println(cs);
 			}//for colonne
 		}//for righe
 	}//setIndices(Map, int[], int[], int[])

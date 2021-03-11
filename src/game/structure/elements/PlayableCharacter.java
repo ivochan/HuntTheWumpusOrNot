@@ -96,7 +96,7 @@ public class PlayableCharacter {
 			//si controlla che sia libera
 			if(cs.equals(CellStatus.SAFE)) {
 				//si controlla se tra le celle adiacenti ce n'e' una libera
-				found = GameMap.areAdjacentCellsSafe(gm, i, j);
+				found = gm.areAdjacentCellsSafe(i, j);
 				//si verifica se la condizione e' soddisfatta
 				if(found) {
 					//si puo' posizionare il pg

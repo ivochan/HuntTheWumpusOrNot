@@ -26,7 +26,7 @@ public interface Agent {
 	//void checkEnvironment(GameMap em);
 	
 	//metodo che valuta la mossa da fare
-	Direction chooseMove(GameMap em);
+	void chooseMove(GameMap em, GameMap gm);
 	
 	//metodo che effettua la moosa: utilizzare quello di Controller
 	//void makeMove(Direction dir);

@@ -325,7 +325,7 @@ public class Controller {
 		cell[0] = i;
 		cell[1] = j;
 		//si verifica se la cella attuale contiene il nemico
-		while(gm.cellExists(cell[0], cell[1], gm)) {
+		while(gm.cellExists(cell[0], cell[1])) {
 			//si esamina la cella attuale
 			CellStatus cs = gm.getMapCell(cell[0], cell[1]).getCellStatus();
 			//si controlla se contiene il nemico

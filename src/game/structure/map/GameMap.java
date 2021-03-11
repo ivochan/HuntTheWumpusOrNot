@@ -103,7 +103,6 @@ public class GameMap {
 		return game_map[i][j];
 	}//getMapCell(int, int)
 	
-	//TODO controllare se utilizzato
 	/** metodo setMapCell(int, int, CellStatus)
 	 * questo metodo modifica il contenuto della cella (i, j) con il
 	 * parametro ricevuto come stato
@@ -120,24 +119,23 @@ public class GameMap {
 		game_map[i][j].setCellStatus(status);
 	}//setGameCell(int, int, CellStatus)
 	
-	/** metodo cellExists(int, int, GameMap): boolean
+	/** metodo cellExists(int, int): boolean
 	 * questo metodo verifica se la cella indicata dagli indici (i,j) esiste
 	 * nella mappa, ovvero se la coppia di indici rispetta la dimensione della
 	 * matrice che descrive il terreno di gioco.
 	 * @param i: int, indice riga;
 	 * @param j: int, indice colonna;
-	 * @param gm: GameMap, mappa di gioco
 	 * @return true, se la cella indicata dagli indici fa parte della matrice,
 	 * 			false altrimenti.
 	 */
-	public boolean cellExists(int i, int j, GameMap gm) {
+	public boolean cellExists(int i, int j) {
 		//controllo sull'indice della riga
-		if(i<0 || i>= gm.getRows())return false;
+		if(i<0 || i>= this.getRows())return false;
 		//controllo sull'indice della colonna
-		if(j<0 || j>=gm.getColumns())return false;
+		if(j<0 || j>= this.getColumns())return false;
 		//indici di cella corretti
 		return true;
-	}//cellExists(int, int, GameMap)
+	}//cellExists(int, int)
 	
 	//##### metodi accessori: struttura della mappa di gioco #####
 	
@@ -351,40 +349,39 @@ public class GameMap {
 		return tot;
 	}//MaptoString()
 
-	/** metodo areAdjacentCellsSafe(GameMap, int, int)
+	/** metodo areAdjacentCellsSafe(int, int)
 	 * questo metodo verifica se le celle adiacenti a quella indicata
 	 * dalla coppia di indici ricevuta come parametro siano libere
 	 * oppure no, in modo da garantire che la cella di interesse
 	 * sia circondata almeno da una SAFE.
-	 * @param gm: GameMap, matrice che rappresenta la mappa di gioco.
 	 * @param i: int, indice di riga della cella di interesse;
 	 * @param j: int, indice della colonna della cella di interesse;
 	 * @return true, se la cella di interesse e' circondada da almeno
 	 * 				 una cella libera, false altrimenti.
 	 */
-	public static boolean areAdjacentCellsSafe(GameMap gm, int i, int j) {
+	public boolean areAdjacentCellsSafe(int i, int j) {
 		//variabile ausiliaria
 		CellStatus cs;
 		//controllo
-		if(gm.cellExists(i-1, j, gm)) {
-			cs = gm.getMapCell(i-1, j).getCellStatus();
+		if(this.cellExists(i-1, j)) {
+			cs = this.getMapCell(i-1, j).getCellStatus();
 			return cs.equals(CellStatus.SAFE);
 		}//fi cella sopra
-		else if(gm.cellExists(i+1, j, gm)) {
-			cs = gm.getMapCell(i+1, j).getCellStatus();
+		else if(this.cellExists(i+1, j)) {
+			cs = this.getMapCell(i+1, j).getCellStatus();
 			return cs.equals(CellStatus.SAFE);
 		}//fi cella sotto
-		else if(gm.cellExists(i, j-1, gm)) {
-			cs = gm.getMapCell(i, j-1).getCellStatus();
+		else if(this.cellExists(i, j-1)) {
+			cs = this.getMapCell(i, j-1).getCellStatus();
 			return cs.equals(CellStatus.SAFE);
 		}//fi cella a sinistra
-		else if(gm.cellExists(i, j+1, gm)) {
-			cs = gm.getMapCell(i, j+1).getCellStatus();
+		else if(this.cellExists(i, j+1)) {
+			cs = this.getMapCell(i, j+1).getCellStatus();
 			return cs.equals(CellStatus.SAFE);
 		}//fi cella a destra
 		else {
 			return false;
 		}
-	}//areAdjacentCellsSafe(GameMAp, int, int)
+	}//areAdjacentCellsSafe(int, int)
 	
 }//end GameMap

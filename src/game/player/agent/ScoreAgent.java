@@ -7,9 +7,9 @@ import game.structure.map.GameMap;
 public class ScoreAgent extends BasicAgent{
 
 	@Override
-	public Direction chooseMove(GameMap em) {
+	public void chooseMove(GameMap em, GameMap gm) {
 		// TODO Auto-generated method stub
-		return null;
+
 	}
 
 	

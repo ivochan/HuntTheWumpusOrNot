@@ -1,5 +1,5 @@
 package game.structure.map;
-
+//serie di import
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.elements.GameElements;
@@ -25,29 +25,26 @@ public class MapConfiguration {
 	 * si sta valutando, se il valore ottenuto tramite la funzione 
 	 * prob(int,int,int, int) risulta maggiore del valore utilizzato come soglia.
 	 * @param gm: GameMap, e' la mappa di gioco che deve essere costruita.
-	 * @param game_elements: int[], vettore che contiene i dati relativi agli 
-	 * 								elementi di gioco.
-	 */
-	private static void placeGameElements(GameMap gm, int[] game_elements) {
+		 */
+	private static void placeGameElements(GameMap gm) {
 		//numero di celle della mappa di gioco
-		int n_cells=game_elements[0]; 
+		int n_cells=GameElements.getNumberOfCells(); 
 		int cells=n_cells;
 		//sassi
-		int n_stones=game_elements[1];
+		int n_stones=GameElements.getStones();
 		int stones=n_stones;
-		//premio game_elements[2]		
 		//nemico
-		int n_enemy=game_elements[3];
+		int n_enemy=GameElements.getEnemy();
 		int enemy=n_enemy;
 		//pericolo
-		int n_danger=game_elements[4];
+		int n_danger=GameElements.getDanger();
 		int danger=n_danger;
 		//variabili che conterranno la probabilita'
 		double pdanger=0;
 		double penemy=0;
 		double pstones=0;
 		//ciclo di riempimento della mappa
-		while( enemy>0 || danger>0 || stones>0 ) {
+		while( enemy!=0 || danger!=0 || stones!=0 ) {
 			/*si riassegnano alle variabili i valori di default
 			 *in modo da resettare la situazione se la configurazione ottenuta
 			 *per la mappa di gioco non e' idonea */
@@ -121,7 +118,7 @@ public class MapConfiguration {
 		//probabilita
 		double paward;
 		//numero di premi
-		int n_award=1;
+		int n_award=GameElements.getAward();
 		int award=1;
 		//numero di celle
 		int n_cells=gm.getMapDimension();
@@ -143,7 +140,7 @@ public class MapConfiguration {
 					//confronto delle probabilita' con la soglia random
 					if(random < paward) {
 						//si controllano le celle adiacenti
-						found = GameMap.areAdjacentCellsSafe(gm, i, j);
+						found = gm.areAdjacentCellsSafe(i, j);
 						//se e'stata trovata una posizione
 						if(found){
 							//si posiziona il premio
@@ -176,21 +173,20 @@ public class MapConfiguration {
 		boolean done = false;
 		boolean award=false;
 		//generazione degli elementi di gioco
-		GameElements gels =new GameElements(gm);
-		//System.out.println(gels.gameElementsToString());
-		//si preleva il vettore degli elementi di gioco
-		int[] game_elements = gels.getGameElements();
+		GameElements game_els =new GameElements(gm);
+		//DEBUG
+		System.out.println(game_els.gameElements());
 		//ciclo
 		while(!done | !award) {
 			//si riempie la mappa di gioco
-			placeGameElements(gm, game_elements);
+			placeGameElements(gm);
 			//si cerca di psizionare il premio
 			award = placeAward(gm);
 			//si cerca di posizionare il pg
 			done = PlayableCharacter.placePGonCorner(gm);
 		}//end while
 		//si aggiorna il vettore dei sensori per ogni cella
-		Sensors.updateSensors(gm, game_elements);
+		Sensors.updateSensors(gm);
 	}//init()
 	
 
@@ -213,7 +209,7 @@ public class MapConfiguration {
 	 */
 	private static double prob(int x,int max_x, int n, int max_n) {
 		//controllo sui parametri
-		if(max_x==0 || max_n==0)return 0;
+		if(x==0)return 0;
 		//numero casuale
 		double random = Math.random();
 		//funzione di probabilita'
