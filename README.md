@@ -86,12 +86,12 @@ Questa classe si occupa della generazione della mappa di gioco, popolandola di t
 La struttura sarà di questo tipo:
 
 ```visualizzazione del terreno di gioco
-      MAPPA							LEGENDA	
-||S| |D| |A| |S||	-----------------------------------------
-||D| |S| |S| |P||	| S = SPAZIO VUOTO | D = PERICOLO		|
-||S| |S| |S| |S||	| E = NEMICO       | F = SPAZIO VIETATO |
-||S| |S| |S| |E||	| P = GIOCATORE	   | A = PREMIO			|
+      MAPPA				LEGENDA	
 					-----------------------------------------
+ ||S| |A| |S| |S||	| S = SPAZIO VUOTO | D = PERICOLO		|
+ ||D| |S| |S| |S||	| E = NEMICO       | F = SPAZIO VIETATO |
+ ||S| |S| |S| |E||	| P = GIOCATORE	   | A = PREMIO			|
+ ||P| |S| |S| |D||	-----------------------------------------
 ```
 
 
@@ -142,7 +142,9 @@ Questa classe si occupa di gestire le configurazioni necessarie all'esecuzione d
   
   ```
 
-- l'inizializzazione della mappa.
+- l'inizializzazione della mappa,
+
+- la risoluzione sfruttando il giocatore automatico.
 
 
 
