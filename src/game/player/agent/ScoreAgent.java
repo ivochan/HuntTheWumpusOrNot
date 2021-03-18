@@ -12,5 +12,11 @@ public class ScoreAgent extends BasicAgent{
 
 	}
 
+	@Override
+	public Direction chooseDirection(int i, int j, GameMap em) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

@@ -18,22 +18,13 @@ public interface Agent {
 	LinkedList<Cell> run = new LinkedList<Cell>();
 
 	//##### metodi #####
-	
-	//metodo che legge la mappa di gioco allo stato attuale: mappa di esplorazione
-	//void seeEnvironment(GameMap em);
-	
-	//metodo che esamina il contenuto dei sensori
-	//void checkEnvironment(GameMap em);
-	
+
 	//metodo che valuta la mossa da fare
 	void chooseMove(GameMap em, GameMap gm);
 	
-	//metodo che effettua la moosa: utilizzare quello di Controller
-	//void makeMove(Direction dir);
+	//metodo che sceglie la direzione in cui effettuare la mossa
+	Direction chooseDirection(int i, int j, GameMap em);
 	
-	//metodo che tenta il colpo al nemico
-	//void hitEnemy(Direction dir, GameMap gm, GameMap em);
-
 	//metodo che tiene traccia del punteggio accumulato: utilizzare quello di Score
 	//void updateScore();
 	
