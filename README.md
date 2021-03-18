@@ -316,11 +316,11 @@ Funzionalità da implementare:
 - controllare che il posizionamento del nemico sia realizzato;
 - realizzare metodo di posizionamento del pg al centro della mappa;
 - fare in modo che il wumpus sia posizionato al centro, se scelto come pg;
-- definire l'interfaccia Agent, che delinea la struttura del giocatore automatico;
-- definire la classe astratta "BasicAgent";
+- ~~definire l'interfaccia Agent, che delinea la struttura del giocatore automatico;~~
+- ~~definire la classe astratta "BasicAgent";~~
 - definire il giocatore automatico "RandomAgent":
   - si esamina la griglia di gioco, la "situazione iniziale" dell'ambiente circostante;
-  - si sceglie la mossa da effettuare in base allo stato dei sensori;
+  - si sceglie la mossa da effettuare in base allo stato dei sensori (**TODO** da testare);
   - ad ogni passo, si salvano gli indici della cella che è stata visitata;
   - al termine della partita mostra il percorso effettuato;
 - definire il giocatore automatico "ScoreAgent";
