@@ -1,5 +1,5 @@
 package game.player.agent;
-
+//serie di import
 import java.util.LinkedList;
 
 import game.session.controller.Direction;
@@ -14,7 +14,7 @@ public abstract class BasicAgent implements Agent {
 	//##### attribuiti di classe #####
 	
 	//lista contenente la coppia di indici di ogni cella visitata
-	protected LinkedList<Cell> run = new LinkedList<Cell>();
+	protected static LinkedList<Cell> run = new LinkedList<Cell>();
 	
 	//##### metodi per la scelta della mossa #####
 	
@@ -26,11 +26,6 @@ public abstract class BasicAgent implements Agent {
 	
 	//##### metodi per il percorso #####
 	
-	/** metodo getRunPath(): LinkedList<Cell>
-	 * questo metodo restituisce la lista che tiene traccia
-	 * del percorso svolto dal giocatore automatico
-	 * @return run: LinkedList<Cell>, lista delle celle visitate.
-	 */
 	public LinkedList<Cell> getRunPath(){
 		//si restituisce la lista del percorso compiuto
 		return run;

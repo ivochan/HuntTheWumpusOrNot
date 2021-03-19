@@ -24,8 +24,9 @@ public class RandomAgent extends BasicAgent {
 	/** metodo chooseMove(GameMap): Direction
 	 * 
 	 */
-	@Override
 	public void chooseMove(GameMap em, GameMap gm) {
+		//variabile ausiliaria per lo stato della mossa
+		int status = 0;
 		//variabile ausiliaria per la direzione
 		Direction dir;
 		//variabile ausiliaria per i sensori
@@ -57,8 +58,10 @@ public class RandomAgent extends BasicAgent {
 				System.out.println(GameMessages.no_hit);
 				//si sceglie la direzione in cui fare muovere il pg
 				dir =chooseDirection(pg_pos[0], pg_pos[1], gm);
-				//si muove il pg
-				Controller.movePG(dir, gm, em);
+				//si sceglie la direzione in cui muovere il pg
+				status = Controller.movePG(dir, gm, em);
+				//si controlla la mossa
+				Controller.makeMove(status, gm, em);
 			}
 			
 		}
@@ -67,16 +70,20 @@ public class RandomAgent extends BasicAgent {
 			System.out.println("Il pericolo e' vicino...");
 			//si preferisce come direzione una cella non visitata
 			dir = chooseDirection(pg_pos[0], pg_pos[1], gm);
-			//si muove il pg
-			Controller.movePG(dir, gm, em);
+			//si sceglie la direzione in cui muovere il pg
+			status = Controller.movePG(dir, gm, em);
+			//si controlla la mossa
+			Controller.makeMove(status, gm, em);
 		}
 		else {
 			//entrambi i sensori sono spenti
 			System.out.println(GameMessages.safe_place);
 			//si sceglie una direzione a caso, tra quelle non esplorate
 			dir = chooseDirection(pg_pos[0], pg_pos[1], gm);
-			//si muove il pg
-			Controller.movePG(dir, gm, em);
+			//si sceglie la direzione in cui muovere il pg
+			status = Controller.movePG(dir, gm, em);
+			//si controlla la mossa
+			Controller.makeMove(status, gm, em);
 		}
 	}//chooseMove(GameMap)
 
@@ -93,17 +100,20 @@ public class RandomAgent extends BasicAgent {
 			//si verifica la cella e si aggiorna il vettore
 			ok_cells[Direction.UP.ordinal()] = verifyCell(i-1,j, em);
 		}
-		if(em.cellExists(i+1, j)) { //DOWN
+		else if(em.cellExists(i+1, j)) { //DOWN
 			//si verifica la cella e si aggiorna il vettore
 			ok_cells[Direction.DOWN.ordinal()] = verifyCell(i+1,j, em);
 		}
-		if(em.cellExists(i, j-1)) { // LEFT
+		else if(em.cellExists(i, j-1)) { // LEFT
 			//si verifica la cella e si aggiorna il vettore
 			ok_cells[Direction.LEFT.ordinal()] = verifyCell(i,j-1, em);
 		}
-		if(em.cellExists(i, j+1)) { //RIGHT
+		else if(em.cellExists(i, j+1)) { //RIGHT
 			//si verifica la cella e si aggiorna il vettore
 			ok_cells[Direction.RIGHT.ordinal()] = verifyCell(i,j+1, em);
+		}
+		else {
+			System.out.println("cella non esistente");
 		}
 		//si sceglie casualmente una cella
 		while(!found) {
@@ -122,7 +132,7 @@ public class RandomAgent extends BasicAgent {
 
 	private boolean verifyCell(int i, int j, GameMap em) {
 		//si preleva la cella
-		CellStatus cs = em.getMapCell(i-1, j).getCellStatus();
+		CellStatus cs = em.getMapCell(i, j).getCellStatus();
 		//si verifica che non e' un sasso
 		if(!cs.equals(CellStatus.FORBIDDEN)) {
 			//si verifica che la cella non e' stata visitata

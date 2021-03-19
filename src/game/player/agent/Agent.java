@@ -20,10 +20,10 @@ public interface Agent {
 	//##### metodi #####
 
 	//metodo che valuta la mossa da fare
-	void chooseMove(GameMap em, GameMap gm);
+	abstract void chooseMove(GameMap em, GameMap gm);
 	
 	//metodo che sceglie la direzione in cui effettuare la mossa
-	Direction chooseDirection(int i, int j, GameMap em);
+	abstract Direction chooseDirection(int i, int j, GameMap em);
 	
 	//metodo che tiene traccia del punteggio accumulato: utilizzare quello di Score
 	//void updateScore();

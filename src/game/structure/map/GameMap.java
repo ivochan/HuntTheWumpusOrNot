@@ -293,13 +293,14 @@ public class GameMap {
 		return inizio+print_map;
 	 }//gameMapToString()
 	 
-	/** metodo MaptoString() : String
+	/** metodo maptoStringAndLegend() : String
 	 * permette di stampare la disposizione delle celle sulla mappa
 	 * e la legenda esemplificativa del contenuto delle stesse.
 	 * Serve per la mappa di esplorazione, visibile al giocatore.
-	 * @return print_map: String, stringa che rappresenta l'oggetto mappa.
+	 * @return print_map: String, stringa che rappresenta l'oggetto mappa,
+	 * 							  comprensiva di legenda dei comandi.
 	 */
-	public String mapToString() {
+	public String mapToStringAndLegend() {
 		//intestazione
 		String inizio = new String("       MAPPA				LEGENDA	\n"+
 				 "			                                         \n");
@@ -349,6 +350,51 @@ public class GameMap {
 		return tot;
 	}//MaptoString()
 
+	/** metodo maptoString() : String
+	 * permette di stampare la disposizione delle celle sulla mappa
+	 * e la legenda esemplificativa del contenuto delle stesse.
+	 * Serve per la mappa di esplorazione, visibile al giocatore.
+	 * @return print_map: String, stringa che rappresenta l'oggetto mappa.
+	 */
+	public String mapToString() {
+		//intestazione
+		String inizio = new String("       MAPPA				LEGENDA	\n"+
+				 "			                                         \n");
+		//vettore colonna per la legenda del contenuto delle celle
+		String [] v_leg = new String [4];
+		v_leg[0] = "       --------------------------------------------\n";
+		v_leg[1] = "	| X = LUOGO DA VISITARE | O = LUOGO VISITATO |\n";
+		v_leg[2] = "	| P = GIOCATORE         | F = LUOGO VIETATO  |\n";
+		v_leg[3] = "       --------------------------------------------\n";
+		//stringa da stampare
+		String tot = new String();
+		tot+=inizio;
+		//si crea la stringa che rappresenta la mappa da stampare
+		String print_map = new String();
+		//si scorrono le righe della matrice
+		for(int i=0; i<r; i++) {
+			//si stampa l'inizio della riga
+			print_map+=" |";
+			//si scorrono le colonne della matrice
+			for(int j=0; j<c; j++) {
+				//si stampa il contenuto della cella 
+				if(j<c-1) {
+					//tutti gli elementi della riga tranne l'ultimo
+					print_map+=game_map[i][j]+ " ";
+				}//fi
+				else {
+					//ultimo elemento della riga
+					print_map+=game_map[i][j];
+				}//esle
+			}//for colonne
+			//si stampa la fine della riga e si va a capo
+			print_map+="|"+v_leg[i]; 
+		}//for righe
+		//stringa complessiva
+		tot += print_map; 
+		return tot;
+	}//maptoString()
+	
 	/** metodo areAdjacentCellsSafe(int, int)
 	 * questo metodo verifica se le celle adiacenti a quella indicata
 	 * dalla coppia di indici ricevuta come parametro siano libere

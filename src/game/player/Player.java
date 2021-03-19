@@ -67,9 +67,9 @@ public class Player {
 		//inizio della partita
 		AutomaticGameSession.start();
 		//partita in corso
-		//TODO
+		AutomaticGameSession.play();
 		//fine della partita
-		//TODO
+		AutomaticGameSession.end();
 	}//automaticMode()
 	
 }//end Player
