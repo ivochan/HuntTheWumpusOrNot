@@ -1,15 +1,14 @@
 package game.player.agent;
-
+//serie di import
 import java.util.LinkedList;
-
 import game.session.controller.Direction;
 import game.structure.cell.Cell;
 import game.structure.map.GameMap;
-
 /** interface Agent
- * 
+ * questa interfaccia definisce la struttura di un agente generico,
+ * che verra' utilizzato per risolvere il gioco in maniera automatica,
+ * su richiesta dell'utente.
  * @author ivonne
- *
  */
 public interface Agent {
 	//##### attribuiti #####

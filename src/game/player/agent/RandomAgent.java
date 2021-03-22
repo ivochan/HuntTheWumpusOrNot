@@ -1,28 +1,32 @@
 package game.player.agent;
+//serie di import
 import game.session.configuration.Starter;
 import game.session.controller.Controller;
-//serie di import
 import game.session.controller.Direction;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.elements.PlayableCharacter;
 import game.structure.map.GameMap;
 import game.structure.text.GameMessages;
-import game.structure.text.GameTranslations;
 /** class RandomAgent
- * giocatore automatico
+ * questa classe implementa un giocatore automatico,
+ * che si occupera' di risolvere il gioco, effettuando delle scelte
+ * casuali, a parita' del contenuto dei sensori.
  * @author ivonne
  */
 public class RandomAgent extends BasicAgent {
 	//###### attributi di classe #####
+	
 	//posizione del pg
 	private int[] pg_pos = new int[2];
-	
-	
+		
 	//##### gli altri metodi sono ereditati dalla classe madre #####
 	
-	/** metodo chooseMove(GameMap): Direction
-	 * 
+	/** metodo chooseMove(GameMap, GameMap): Direction
+	 * questo metodo si occupa di scegliere la mossa 
+	 * da effettuare, sulla base del contenuto dei sensori.
+	 * @param em: GameMap, mappa di esplorazione;
+	 * @param gm: GameMap, mappa di gioco;
 	 */
 	public void chooseMove(GameMap em, GameMap gm) {
 		//variabile ausiliaria per lo stato della mossa
@@ -62,8 +66,7 @@ public class RandomAgent extends BasicAgent {
 				status = Controller.movePG(dir, gm, em);
 				//si controlla la mossa
 				Controller.makeMove(status, gm, em);
-			}
-			
+			}		
 		}
 		else if(sensors[CellStatus.DANGER_SENSE.ordinal()]) {
 			//il pericolo e' vicino
@@ -85,51 +88,119 @@ public class RandomAgent extends BasicAgent {
 			//si controlla la mossa
 			Controller.makeMove(status, gm, em);
 		}
-	}//chooseMove(GameMap)
+	}//chooseMove(GameMap, GameMap)
 
 	@Override
+	/** metodo chooseDirection(int, int, GameMap)
+	 * questo metodo serve a determinare la direzione in 
+	 * cui muovere il personaggio giocabile, scegliendo in
+	 * maniera casuale, una cella tra le direzioni consentite,
+	 * a partire dalle cella in cui e' situato il pg.
+	 * @param i: int, indice di riga della cella in cui si trova il pg;
+	 * @param j: int, indice di colonna della cella in cui si trova il pg;
+	 * @param em: GameMap, mappa di esplorazione, visibile al pg;
+	 * @return dirn: Direction, direzione in cui si vuole spostare il pg;
+	 */
 	public Direction chooseDirection(int i, int j, GameMap em) {
 		//variabile ausiliaria
 		boolean found = false;
-		//vettore ausiliario
+		//vettore ausiliario per le celle accessibili e non visitata
 		boolean [] ok_cells = new boolean[4];
+		//vettore ausiliario per le celle esistenti
+		boolean [] cells = new boolean[4];
 		//indice di cella casuale
 		int random = 0;
+		//variabile ausiliaria per l'indice di cella
+		int index = 0;
+		//si prelevano le direzioni possibili
+		Direction [] directions = Direction.values();
 		//si verificano le celle dispoonibili
-		if(em.cellExists(i-1, j)) { //UP
+		if(em.cellExists(i-1, j)) {
+			//si calcola l'indice
+			index = Direction.UP.ordinal();
+			//la cella esiste
+			cells[index] = true;
 			//si verifica la cella e si aggiorna il vettore
-			ok_cells[Direction.UP.ordinal()] = verifyCell(i-1,j, em);
-		}
-		else if(em.cellExists(i+1, j)) { //DOWN
+			ok_cells[index] = verifyCell(i-1,j, em);
+		}//UP
+		if(em.cellExists(i+1, j)) {
+			//si calcola l'indice
+			index = Direction.DOWN.ordinal();
+			//la cella esiste
+			cells[index] = true;
 			//si verifica la cella e si aggiorna il vettore
-			ok_cells[Direction.DOWN.ordinal()] = verifyCell(i+1,j, em);
-		}
-		else if(em.cellExists(i, j-1)) { // LEFT
+			ok_cells[index] = verifyCell(i+1,j, em);
+		}//DOWN
+		if(em.cellExists(i, j-1)) {
+			//si calcola l'indice
+			index = Direction.LEFT.ordinal();
+			//la cella esiste
+			cells[index] = true;
 			//si verifica la cella e si aggiorna il vettore
-			ok_cells[Direction.LEFT.ordinal()] = verifyCell(i,j-1, em);
-		}
-		else if(em.cellExists(i, j+1)) { //RIGHT
+			ok_cells[index] = verifyCell(i,j-1, em);
+		}// LEFT
+		if(em.cellExists(i, j+1)) {
+			//si calcola l'indice
+			index = Direction.RIGHT.ordinal();
+			//la cella esiste
+			cells[index] = true;
 			//si verifica la cella e si aggiorna il vettore
-			ok_cells[Direction.RIGHT.ordinal()] = verifyCell(i,j+1, em);
-		}
+			ok_cells[index] = verifyCell(i,j+1, em);
+		}//RIGHT
+		//controllo sul contenuto del vettore ok_cells
+		if(checkCells(ok_cells)){
+			//si sceglie casualmente una cella tra quelle idonee
+			random = pickCell(ok_cells);
+		}//fi
 		else {
-			System.out.println("cella non esistente");
-		}
-		//si sceglie casualmente una cella
+			//si prende una cella a caso tra quelle accessibili ma gia' visitate 
+			random = pickCell(cells);
+		}//else
+		//si estrae la direzione scelta
+		Direction dir = directions[random];
+		//si restituisce la direzione
+		return dir;
+	}//chooseDirection(int, int, GameMap)
+
+	/** metodo pickCell(boolean []): int
+	 * questo metodo seleziona casualmente una cella
+	 * tra quelle indicate come true, nel vettore ricevuto come
+	 * parametro.
+	 * @param vcells: boolean[], vettore delle celle tra cui
+	 * 							 selezionare quella in cui effettuare
+	 * 							 la mossa;
+	 * @return random: int, indice della cella da estrarre.
+	 */
+	private int pickCell(boolean [] vcells) {
+		//range del numero casuale
+		int range = vcells.length;
+		//variabile ausiliaria
+		boolean found = false;
+		//numero casuale
+		int random = 0;
+		//si sceglie casualmente una cella tra quelle idonee
 		while(!found) {
 			//si genera un numero casuale
-			random = (int)(Math.random()*4);
+			random = (int)(Math.random()*range);
 			System.out.println("random "+random);
 			//si accede alla cella corrispondente
-			found = ok_cells[random];
+			found = vcells[random];
 			//se true si esce dal ciclo
-		}
-		//si prelevano le direzioni possibili
-		Direction direction = Direction.values()[random];
-		//la cella idonea e' quella indicata da random
-		return direction;
-	}
-
+		}//end while
+		//si restituisce l'indice della cella selezionata
+		return random;
+	}//pickCell(boolean[])
+	
+	/** metodo verifyCell(int, int, GameMap): boolean
+	 * questo metodo verifica se la cella in cui si vuole spostare
+	 * il personaggio giocabile sia idonea o no, in base al suo contenuto.
+	 * Infatti, per essere una scelta valida, la cella non deve essere ne'+
+	 * un sasso ne' essere stata gia' visitata.
+	 * @param i: int, indice di riga della cella in cui si trova il pg;
+	 * @param j: int, indice di colonna della cella in cui si trova il pg;
+	 * @param em: GameMap, mappa di esplorazione, visibile al pg;
+	 * @return boolean: true, se la cella e' idonea, false altrimenti,. .
+	 */
 	private boolean verifyCell(int i, int j, GameMap em) {
 		//si preleva la cella
 		CellStatus cs = em.getMapCell(i, j).getCellStatus();
@@ -139,11 +210,32 @@ public class RandomAgent extends BasicAgent {
 			if(!cs.equals(CellStatus.OBSERVED)) {
 				//la cella e' idonea
 				return true;
-			}
+			}//fi
 			return false;
-		}
+		}//fi
 		//la cella non e' idonea
 		return false;	
-	}
+	}//verifyCell(int, int, GameMap)
+	
+	/** metodo checkCells(boolean []): boolean
+	 * questo metodo verifica se questo vettore contiene almeno una
+	 * cella che sia pari a true. Se cosi' non e' sceglie una cella
+	 * a caso tra quelle gia' visitate.
+	 * @param ok_cells: boolean [], vettore di celle risultate idonee
+	 * @return check: boolean, questo flag sara' true se almeno una cella
+	 * 						   del vettore e' risultata idonea, false altrimenti.
+	 */
+	private boolean checkCells(boolean [] ok_cells) {
+		//variabile ausiliaria per il controllo
+		boolean check = false;
+		//si itera il vettore
+		for(int i=0; i<ok_cells.length;i++) {
+			System.out.println("cella "+i+" = "+ok_cells[i]);
+			//si preleva il contenuto della cella
+			if(ok_cells[i]) check = true;
+		}//end for
+		System.out.println("check = "+check);
+		return check;
+	}//checkCells(boolean [])
 	
 }//end RandomAgent
