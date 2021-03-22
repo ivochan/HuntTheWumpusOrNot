@@ -121,12 +121,12 @@ public class ScoreMemo {
 			//il file esiste
 			if(f.delete()) {
 				//si tenta di eliminarlo
-				System.out.println("File eliminato!");
+				System.out.println("File dei punteggi eliminato!");
 			}//fi
 		}//fi
 		else {
 			//file non trovato
-			System.out.println("Il file non esiste!");
+			System.out.println("Il file dei punteggi non esiste!");
 		}//esle
 	}//deleteScoreFile()
 	

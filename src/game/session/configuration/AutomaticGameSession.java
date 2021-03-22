@@ -43,7 +43,7 @@ public class AutomaticGameSession {
 		gm = new GameMap();
 		System.out.println("Preparazione del terreno di gioco....\n");
 		//creazione della mappa
-		MapConfiguration.init(gm);
+		MapConfiguration.init(gm,em);
 		//stampa della mappa
 		System.out.println(gm.gameMaptoString());
 		//si inizializza il punteggio

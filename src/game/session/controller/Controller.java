@@ -114,11 +114,9 @@ public class Controller {
 		//realizzazione della mossa
 		switch(status) {
 			case -1 : 
-				System.out.println("Comando non valido!\nRipeti la mossa...");
+				System.out.println("Comando non valido!Ripeti la mossa...");
 				break;
 			case 0 : 
-				//debug
-				System.out.println(em.mapToString());
 				//informazioni sulla posizione
 				checkEnvironment(pg_pos, gm);
 				break;

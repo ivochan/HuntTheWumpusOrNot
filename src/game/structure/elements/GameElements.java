@@ -11,16 +11,14 @@ public class GameElements {
 	private static int ENEMY;
 	private static int DANGER;
 	
-	//##### costruttori #####
-	
-	/** GameElements(GameMap)
-	 * costruttore che si occupa di inizializzare ed assegnare un valore
+	/** metodo generatingGameElements(GameMap)
+	 * metodo che si occupa di inizializzare ed assegnare un valore
 	 * ad ogni cella del vettore degli elementi di gioco, specificando
 	 * il massimo numero di elementi che potranno essere posizionati
 	 * nella mappa di gioco, per ciascuna tipologia
 	 * @param gm: GameMap, mappa di gioco.
 	 */
-	public GameElements(GameMap gm) {
+	public static void generatingGameElements(GameMap gm) {
 		//controllo sul parametro
 		if(gm==null) throw new IllegalArgumentException("mappa da utilizzare per il vettore"
 				+ "dei sensori nulla");
@@ -34,8 +32,8 @@ public class GameElements {
 		ENEMY = 1;
 		//pericoli
 		DANGER = 2;
-	}//GameElements(GameMap)
-
+	}//generatingGameElements(GameMap)
+	
 	//##### metodi accessori #####
 	
 	/** metodo getNumberOfCells(): int
@@ -84,13 +82,13 @@ public class GameElements {
 		return DANGER;
 	}//getDanger()	
 
-	/**metodo gameElements() :String
+	/**metodo printGameElements(): String
 	 * metodo che restituisce una stringa che rappresenta il contenuto del vettore
 	 * degli elementi di gioco, comprensivo di legenda indicativa
 	 *@return game_els: String, stringa che comprensiva della legenda e del
 	 *		  contenuto del vettore degli elementi di gioco.
 	 */
-	public String gameElements() {
+	public static String printGameElements() {
 		//inizializzazione della stringa
 		String game_els = new String();
 		//informazioni riguardanti gli elementi di gioco

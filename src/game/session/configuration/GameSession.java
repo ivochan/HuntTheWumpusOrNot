@@ -5,6 +5,7 @@ import game.session.controller.Direction;
 import game.session.score.Score;
 import game.session.score.ScoreMemo;
 import game.structure.cell.CellStatus;
+import game.structure.elements.PlayableCharacter;
 import game.structure.map.GameMap;
 import game.structure.map.MapConfiguration;
 import game.structure.text.GameMessages;
@@ -40,11 +41,16 @@ public class GameSession {
 		em = new GameMap(); 
 		//creazione della mappa di gioco
 		gm = new GameMap();
-		System.out.println("Preparazione del terreno di gioco....\n");
-		//creazione della mappa
-		MapConfiguration.init(gm);
-		//stampa della mappa
+		//riempimento della mappa della mappa
+		MapConfiguration.init(gm, em);
+		//DEBUG: stampa della mappa di gioco
 		System.out.println(gm.gameMaptoString());
+		//stampa per l'utente
+		System.out.println("Preparazione del terreno di gioco....\n");
+		//mappa di esplorazione
+		System.out.println(em.mapToStringAndLegend());
+		//stampa della posizione del pg
+		System.out.println("Ti trovi nella cella "+PlayableCharacter.positionToString());
 		//si inizializza il punteggio
 		Score.resetScoreData();
 		//si inizializza il file
@@ -94,6 +100,8 @@ public class GameSession {
 				status = Controller.movePG(move, gm, em);
 				//si effettua la mossa
 				Controller.makeMove(status, gm, em);
+				//si stampa la mappa con la legenda
+				if(status==0)System.out.println(em.mapToStringAndLegend());
 				//reset flag
 				Starter.setWalk(false);
 			}//fi

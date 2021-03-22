@@ -168,14 +168,14 @@ public class MapConfiguration {
 	 * @param gm: GameMap, e' l'istanza che rappresenta la mappa da costruire,
 	 * 					   su cui verra' poi avviata la sessione di gioco.
 	 */
-	public static void init(GameMap gm) {
+	public static void init(GameMap gm, GameMap em) {
 		//variabile asiliarie 
 		boolean done = false;
 		boolean award=false;
 		//generazione degli elementi di gioco
-		GameElements game_els =new GameElements(gm);
+		GameElements.generatingGameElements(gm);
 		//DEBUG
-		System.out.println(game_els.gameElements());
+		//System.out.println(GameElements.printGameElements());
 		//ciclo
 		while(!done | !award) {
 			//si riempie la mappa di gioco
@@ -187,6 +187,10 @@ public class MapConfiguration {
 		}//end while
 		//si aggiorna il vettore dei sensori per ogni cella
 		Sensors.updateSensors(gm);
+		//si preleva la posizione del pg
+		int [] pg_pos = PlayableCharacter.getPGposition();
+		//si aggiorna la mappa di esplorazione
+		em.getMapCell(pg_pos[0], pg_pos[1]).setCellStatus(CellStatus.PG);;		
 	}//init()
 	
 

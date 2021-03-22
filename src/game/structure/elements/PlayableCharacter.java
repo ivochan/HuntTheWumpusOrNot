@@ -41,7 +41,7 @@ public class PlayableCharacter {
 	//##### attributi di classe #####
 	
 	//posizione (i,j) del pg nella mappa di gioco
-	private static int [] pg_position= new int[2];
+	private static int [] pg_position = new int[2];
 	
 	//per una matrice di gioco (4 x 4)
 	//vettore degli indici riga, per le celle della cornice
@@ -106,7 +106,7 @@ public class PlayableCharacter {
 					pg_position[1]=j; //indice di colonna
 					//si restituisce il flag
 					return true;
-				}
+				}//fi
 			}//fi
 			else {
 				//se la cella scelta non era libera si deve ciclare di nuovo 
@@ -189,14 +189,14 @@ public class PlayableCharacter {
 	
 	//##### altri metodi #####
 	
-	/** metodo toString(): String
-	 * metodo che stampa la posizione del pg all'interno della mappa di gico
+	/** metodo positionToString(): String
+	 * metodo che restituisce la posizione del pg all'interno della mappa
+	 * di gioco sotto forma di stringa
 	 * @return p
 	 */
-	@Override
-	public String toString() {
+	public static String positionToString() {
 		//si restituisce la stringa che rappresenta il contenuto del vettore posizione
-		return "["+pg_position[0]+","+pg_position[1]+"]";
+		return "("+pg_position[0]+','+pg_position[1]+')';
 	}//toString()
 	
 }//PG

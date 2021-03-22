@@ -18,6 +18,10 @@ public class LinkStart {
 	public static void main(String [] args) {
 		//avvio sessione di gioco
 		do {
+			//si elimina il file dei punteggi
+			ScoreMemo.deleteScoreFile();
+			System.out.println("\nLoading the G4M3.......");
+			//stampe all'utente
 			System.out.println(GameMessages.command_legend);
 			System.out.println(GameMessages.command_request);
 			//acquisizione del comando
@@ -49,8 +53,6 @@ public class LinkStart {
 				System.out.println("Comando errato!\n");
 			}//esle	
 		}while(command != 'q') ;//end while avvio dell'applicazione
-		//si cancella il file dei punteggi
-		ScoreMemo.deleteScoreFile();
 		System.out.println("Ciao, alla prossima!");
 	}//end main
 }//end LinkStart

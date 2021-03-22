@@ -44,11 +44,11 @@ public class Player {
 			//acquisizione da input
 			player_type = input.next().charAt(0);
 			//controllo della variabile
-			if(player_type=='n') {
+			if(player_type =='n') {
 				//giocatore automatico
 				return false;
 			}//fi
-			else if(player_type == 's') {
+			else if(player_type == 'y') {
 				//giocatore umano
 				return true;
 			}//fi

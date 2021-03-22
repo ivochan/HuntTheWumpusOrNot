@@ -1,8 +1,6 @@
 package game.player.agent;
 //serie di import
 import java.util.LinkedList;
-
-import game.session.controller.Direction;
 import game.structure.cell.Cell;
 import game.structure.map.GameMap;
 /** abstract class BasicAgent
@@ -18,7 +16,7 @@ public abstract class BasicAgent implements Agent {
 	
 	//##### metodi per la scelta della mossa #####
 	
-	/**
+	/** metodo chooseMove(GameMap, GameMap): void
 	 * questo metodo valuta la mossa da fare
 	 * @param em: GameMap
 	 */
@@ -26,6 +24,10 @@ public abstract class BasicAgent implements Agent {
 	
 	//##### metodi per il percorso #####
 	
+	/** metodo getRunPath(): LinkedList<Cell>
+	 * questo metodo restituisce il percorso compiuto dal giocatore
+	 * automatico, durante l'ultima partita.
+	 */
 	public LinkedList<Cell> getRunPath(){
 		//si restituisce la lista del percorso compiuto
 		return run;
@@ -77,6 +79,5 @@ public abstract class BasicAgent implements Agent {
 		System.out.println("Ecco il percorso:\n");
 		System.out.println(runPathToString());
 	}//showRunPath()
-		
 	
 }//BasicAgent

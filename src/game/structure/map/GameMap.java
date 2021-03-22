@@ -265,9 +265,6 @@ public class GameMap {
 		v_leg[1] = "	| E = NEMICO       | F = SPAZIO VIETATO |\n";
 		v_leg[2] = "	| P = GIOCATORE	   | A = PREMIO		|\n";
 		v_leg[3] = "	-----------------------------------------\n";
-		//stringa da stampare
-		String tot = new String();
-		tot+=inizio;
 		//si crea la stringa che rappresenta la mappa da stampare
 		String print_map = new String();
 		//si scorrono le righe della matrice
