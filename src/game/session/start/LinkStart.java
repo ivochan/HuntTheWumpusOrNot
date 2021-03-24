@@ -40,10 +40,10 @@ public class LinkStart {
 				//verifica della scelta
 				if(human) {
 					Player.humanMode();
-				}
+				}//fi
 				else {
 					Player.automaticMode();
-				}
+				}//else
 			}//fi game
 			else if(command == 'q') {
 				System.out.println("Chiusura del gioco...");

@@ -21,7 +21,7 @@ public class Player {
 		System.out.println(GameMessages.human_player);
 		//sessione di gioco iniziata
 		GameSession.start();
-		//gioco
+		//gioco in corso
 		GameSession.play();
 		//sessione di gioco terminata
 		GameSession.end();

@@ -12,7 +12,7 @@ public abstract class BasicAgent implements Agent {
 	//##### attribuiti di classe #####
 	
 	//lista contenente la coppia di indici di ogni cella visitata
-	protected static LinkedList<Cell> run = new LinkedList<Cell>();
+	protected LinkedList<Cell> run = new LinkedList<Cell>();
 	
 	//##### metodi per la scelta della mossa #####
 	
@@ -44,12 +44,12 @@ public abstract class BasicAgent implements Agent {
 		//variabile ausiliaria
 		int [] position = new int[2];
 		//stringa da stampare
-		String run_list = new String("Percorso:\n");
+		String run_list = new String("");
 		for(Cell c: run) {
 			//si preleva la posizione della cella in esame
 			position = c.getPosition();
 			//si inserisce nella lista
-			run_list += '['+position[0]+','+position[1]+"]\n";
+			run_list += "("+position[0]+','+position[1]+")\n";
 		}//end for
 		return run_list;
 	}//runPathToString()

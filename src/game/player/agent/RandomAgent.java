@@ -61,11 +61,13 @@ public class RandomAgent extends BasicAgent {
 				//non si hanno munizioni
 				System.out.println(GameMessages.no_hit);
 				//si sceglie la direzione in cui fare muovere il pg
-				dir =chooseDirection(pg_pos[0], pg_pos[1], gm);
+				dir = chooseDirection(pg_pos[0], pg_pos[1], gm);
 				//si sceglie la direzione in cui muovere il pg
 				status = Controller.movePG(dir, gm, em);
 				//si controlla la mossa
 				Controller.makeMove(status, gm, em);
+				//aggiornamento del percorso
+				if(status!=-1)super.updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
 			}		
 		}
 		else if(sensors[CellStatus.DANGER_SENSE.ordinal()]) {
@@ -77,6 +79,8 @@ public class RandomAgent extends BasicAgent {
 			status = Controller.movePG(dir, gm, em);
 			//si controlla la mossa
 			Controller.makeMove(status, gm, em);
+			//aggiornamento del percorso
+			if(status!=-1)super.updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
 		}
 		else {
 			//entrambi i sensori sono spenti
@@ -87,7 +91,9 @@ public class RandomAgent extends BasicAgent {
 			status = Controller.movePG(dir, gm, em);
 			//si controlla la mossa
 			Controller.makeMove(status, gm, em);
-		}
+			//aggiornamento del percorso
+			if(status!=-1)super.updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
+		}	
 	}//chooseMove(GameMap, GameMap)
 
 	@Override
@@ -102,8 +108,6 @@ public class RandomAgent extends BasicAgent {
 	 * @return dirn: Direction, direzione in cui si vuole spostare il pg;
 	 */
 	public Direction chooseDirection(int i, int j, GameMap em) {
-		//variabile ausiliaria
-		boolean found = false;
 		//vettore ausiliario per le celle accessibili e non visitata
 		boolean [] ok_cells = new boolean[4];
 		//vettore ausiliario per le celle esistenti
@@ -182,7 +186,7 @@ public class RandomAgent extends BasicAgent {
 		while(!found) {
 			//si genera un numero casuale
 			random = (int)(Math.random()*range);
-			System.out.println("random "+random);
+			//System.out.println("random "+random);
 			//si accede alla cella corrispondente
 			found = vcells[random];
 			//se true si esce dal ciclo
@@ -230,11 +234,10 @@ public class RandomAgent extends BasicAgent {
 		boolean check = false;
 		//si itera il vettore
 		for(int i=0; i<ok_cells.length;i++) {
-			System.out.println("cella "+i+" = "+ok_cells[i]);
+			//System.out.println("cella "+i+" = "+ok_cells[i]);
 			//si preleva il contenuto della cella
 			if(ok_cells[i]) check = true;
 		}//end for
-		System.out.println("check = "+check);
 		return check;
 	}//checkCells(boolean [])
 	

@@ -1,13 +1,11 @@
 package game.session.configuration;
+//serie di import
 import game.player.agent.RandomAgent;
-import game.session.controller.Controller;
-import game.session.controller.Direction;
 import game.session.score.Score;
 import game.session.score.ScoreMemo;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
 import game.structure.map.MapConfiguration;
-import game.structure.text.GameMessages;
 /** class AutomaticGameSession
  * classe che realizza una sessione di gioco
  * in cui la partita viene svolta utilizzando
@@ -61,10 +59,13 @@ public class AutomaticGameSession {
 		RandomAgent player = new RandomAgent();
 		//avvio della partita
 		while(Starter.getGameStart()){
-			System.out.println("Giochiamo");
 			//si effettua la mossa
 			player.chooseMove(em, gm);
 		}//end while sessione di gioco
+		//si stampa la mappa di esplorazione
+		System.out.println(em.gameMaptoString());
+		//si mostra il percorso compiuto
+		player.showRunPath();
 	}//play()
 		
 	/** metodo end(): void
@@ -77,8 +78,6 @@ public class AutomaticGameSession {
 		Starter.setGameStart(false);
 		//si resetta la disponibilita' del colpo
 		Starter.setChanceToHit(true);
-		//percorso compiuto
-		//TODO
 		//punteggio
 		Score.totalScore();
 		System.out.println("Questo e' il tuo punteggio:\n"+Score.getScore());
@@ -100,62 +99,5 @@ public class AutomaticGameSession {
 		System.out.println("\n");
 		System.out.println("\n");
 	}//clearConsole()
-		
-	/**
-	 * 
-	 */
-	public void HumanPlayer() {
-		
-	}
-		
+
 }//end GameSession
-/*
- * public static void play() {
-		//si istanzia il giocatore automatico
-		RandomAgent player = new RandomAgent();
-		//variabile ausiliaria per il colpo
-		Direction dir;
-		//variabile asusiliaria per la mossa
-		Direction move;
-		//variabile ausiliaria per lo stato della mossa
-		int status = 0;
-		//avvio della partita
-		while(Starter.getGameStart()){
-			//si effettua la mossa
-			player.chooseMove(em, gm);
-			//acquisizione dell'azione del giocatore
-			player.chooseMove(gm, em);
-			//si verifica se si vuole sparare
-			if(Starter.getTryToHit()) {
-				//si verifica se si ha un colpo a disposizione
-				if(Starter.getChanceToHit()) {
-					//si chiede la direzione in cui sparare
-					player.chooseDirection();
-					//si preleva la direzione
-					dir = Starter.getShotDir();
-					//si tenta il colpo
-					Controller.hitEnemy(dir, gm);
-					//il colpo a disposizione e' stato utilizzato
-					Starter.setChanceToHit(false);
-				}//fi
-				//non si ja piu' la possibilita' di colpire
-				else {
-					System.out.println(GameMessages.no_hit);
-				}//esle
-				//reset flag relativo al tentare il colpo
-				Starter.setTryToHit(false);
-			}//fi
-			//si verifica se si deve spostare il personaggio
-			if(Starter.getWalk()) {
-				//si preleva la direzione in cui muovere il pg
-				move = Starter.getPGmove();
-				//verifica dell'azione
-				status = Controller.movePG(move, gm, em);
-				//si effettua la mossa
-				Controller.makeMove(status, gm, em);
-				//reset flag
-				Starter.setWalk(false);
-			}//fi
-		}//end while sessione di gioco
-	}//play()
-*/
