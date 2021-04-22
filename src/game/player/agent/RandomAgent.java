@@ -16,7 +16,7 @@ import game.structure.text.GameMessages;
  */
 public class RandomAgent extends BasicAgent {
 	//###### attributi di classe #####
-	
+	//TODO revisionare l'algoritmo di gioco
 	//posizione del pg
 	private int[] pg_pos = new int[2];
 		
@@ -44,10 +44,10 @@ public class RandomAgent extends BasicAgent {
 		//verifica del contenuto
 		if(sensors[CellStatus.ENEMY_SENSE.ordinal()]) {
 			//il nemico e' nelle vicinanze
-			System.out.println("Il nemico e' in agguato!");
+			//System.out.println("Il nemico e' in agguato!");
 			if(Starter.getChanceToHit()) {
 				//si verifica la disponibilita' del colpo
-				System.out.println("Si tenta il colpo");
+				//System.out.println("Si tenta il colpo");
 				//si sceglie la direzione in cui colpire
 				//almeno una delle celle non e' stata visitata se il sensore e' acceso
 				Direction shot_dir = chooseDirection(pg_pos[0], pg_pos[1], gm);
@@ -56,7 +56,7 @@ public class RandomAgent extends BasicAgent {
 				Controller.hitEnemy(shot_dir, gm);
 				//si resetta il flag
 				Starter.setChanceToHit(false);
-			}
+			}//fi
 			else {
 				//non si hanno munizioni
 				System.out.println(GameMessages.no_hit);
@@ -68,11 +68,11 @@ public class RandomAgent extends BasicAgent {
 				Controller.makeMove(status, gm, em);
 				//aggiornamento del percorso
 				if(status!=-1)super.updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
-			}		
-		}
+			}//else	
+		}//fi
 		else if(sensors[CellStatus.DANGER_SENSE.ordinal()]) {
 			//il pericolo e' vicino
-			System.out.println("Il pericolo e' vicino...");
+			//System.out.println("Il pericolo e' vicino...");
 			//si preferisce come direzione una cella non visitata
 			dir = chooseDirection(pg_pos[0], pg_pos[1], gm);
 			//si sceglie la direzione in cui muovere il pg

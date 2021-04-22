@@ -19,7 +19,7 @@ public class LinkStart {
 		//avvio sessione di gioco
 		do {
 			//si elimina il file dei punteggi
-			ScoreMemo.deleteScoreFile();
+			//ScoreMemo.deleteScoreFile();
 			System.out.println("\nLoading the G4M3.......");
 			//stampe all'utente
 			System.out.println(GameMessages.command_legend);

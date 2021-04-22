@@ -14,7 +14,6 @@ import game.structure.map.MapConfiguration;
  */
 public class AutomaticGameSession {
 	//##### attributi di classe #####
-	//TODO revisionare
 	//mappe di gioco
 	private static GameMap gm;
 	private static GameMap em;
@@ -61,6 +60,8 @@ public class AutomaticGameSession {
 		while(Starter.getGameStart()){
 			//si effettua la mossa
 			player.chooseMove(em, gm);
+			//si mostra il punteggio
+			System.out.println("Punteggio parziale: "+Score.printScore());
 		}//end while sessione di gioco
 		//si stampa la mappa di esplorazione
 		System.out.println(em.gameMaptoString());
@@ -79,10 +80,9 @@ public class AutomaticGameSession {
 		//si resetta la disponibilita' del colpo
 		Starter.setChanceToHit(true);
 		//punteggio
-		Score.totalScore();
 		System.out.println("Questo e' il tuo punteggio:\n"+Score.getScore());
 		//si memorizza il punteggio
-		ScoreMemo.saveScore(Score.ScoreToString());
+		ScoreMemo.saveScore(Score.scoreToString());
 		//pulizia della console
 		clearConsole();
 	}//end()

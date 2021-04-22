@@ -105,6 +105,8 @@ public class GameSession {
 				//reset flag
 				Starter.setWalk(false);
 			}//fi
+			//punteggio parziale
+			System.out.println("Punteggio attuale: "+Score.printScore());
 		}//end while sessione di gioco
 	}//play()
 	
@@ -119,10 +121,9 @@ public class GameSession {
 		//si resetta la disponibilita' del colpo
 		Starter.setChanceToHit(true);
 		//punteggio
-		Score.totalScore();
 		System.out.println("Questo e' il tuo punteggio:\n"+Score.getScore());
 		//si memorizza il punteggio
-		ScoreMemo.saveScore(Score.ScoreToString());
+		ScoreMemo.saveScore(Score.scoreToString());
 		//pulizia della console
 		clearConsole();
 	}//end()

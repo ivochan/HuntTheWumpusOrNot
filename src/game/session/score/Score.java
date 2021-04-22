@@ -88,15 +88,29 @@ public class Score {
 	
 	//##### altri metodi #####
 	
-	/** metodo ScoreToString(): String
+	/** metodo scoreToString(): String
 	 * @return score: String, stampa del punteggio.
 	 */
-	public static String ScoreToString(){
+	public static String scoreToString(){
 		//stringa con i dati del punteggio
 		String s = new String(score+"  "+nickname+"  "+score_date);
 		//si restituisce
 		return s;
 	}//toString()
+	
+	/** metodo printScore(): String
+	 * questo metodo restituisce una stringa
+	 * che contiene solamente il valore del punteggio
+	 * @return print_score: String, valore del punteggio corrente
+	 */
+	public static String printScore() {
+		//stringa ausiliaria
+		String print_score;
+		//si assegna il valore
+		print_score=new String(""+score);
+		//si restituisce
+		return print_score;
+	}//printScore()
 	
 	/** updateScore(CellStatus): void
 	 * questo metoodo viene invocato, durante la sessione di gioco, ogni volta che
@@ -108,6 +122,7 @@ public class Score {
 		move_count++;
 		//si aggiorna il valore del punteggio
 		switch(cs){
+		//calcolo del punteggio in base alla cella
 		case ENEMY : 
 			score= score + DEAD;
 			break;
@@ -120,6 +135,8 @@ public class Score {
 		default: //SAFE e FORBIDDEN
 			break;
 		}//end switch
+		//nel punteggio si deve considerare anche il numero di mosse
+		score = score + STEP;
 	}//updateScore(CellStatus)
 
 	/** metodo hitScore(): void
@@ -129,14 +146,6 @@ public class Score {
 	public static void hitScore() {
 		score = score + HIT;
 	}//hitScore()
-		
-	/** metodo totalScore(): void
-	 * questo metoto aggiorna il punteggio totale, tenenedo conto
-	 * del numero di mosse compiute.
-	 */
-	public static void totalScore(){
-		score = score + STEP*move_count;
-	}//totalScore()
 		
 	/** metodo resetScoreData(): void
 	 * resetta il punteggio attuale
