@@ -160,7 +160,6 @@ public class Cell {
 		this.sense_vector[1]=sense2;
 	}//setSenseVector(boolean, boolean)
 	
-	//TODO verificare se utilizzato
 	/** metodo setSenseVectorCell(int, boolean) : void
 	 * metodo che imposta il contenuto di una delle due celle del vettore dei
 	 * sensori, in base all'indice ricevuto
@@ -218,6 +217,26 @@ public class Cell {
 			return "|"+new String("X"+"|");
 		}//else
 	}//toString()
+	
+	/** metodo statusToString(): String
+	 * questo metodo serve per stampare il carattere iniziale
+	 * dello stato della cella, sottoforma di stringa
+	 * @return cell_status: String, stringa che contiene il carattere
+	 * 						iniziale dello stato della cella di interesse, 
+	 * 						se lo stato non e' specificato allora la stringa
+	 * 						sara' vuota.
+	 */
+	public String statusToString() {
+		//stringa ausiliaria
+		String cell_status=new String(" ");
+		//se il parametro status non e' nullo
+		if(status!=null) {
+			//si assegna il carattere corrispondente allo stato
+			cell_status=new String(""+this.status.name().charAt(0));
+		}//fi
+		//si restituisce la stringa
+		return cell_status;
+	}//getCellStatusToString()
 	
 	/** metodo copyCellSpecs(Cell): void
 	 * questo metodo effettua una copia della cella ricevuta come parametro
