@@ -325,3 +325,4 @@ Funzionalità da implementare:
   - al termine della partita mostra il percorso effettuato;
 - definire il giocatore automatico "ScoreAgent";
 - testare la modalità di gioco automatico;
+

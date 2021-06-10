@@ -44,7 +44,7 @@ public class MapConfiguration {
 		double penemy=0;
 		double pstones=0;
 		//ciclo di riempimento della mappa
-		while( enemy!=0 || danger!=0 || stones!=0 ) {
+		while( enemy>0 || danger>0 || stones>0 ) {
 			/*si riassegnano alle variabili i valori di default
 			 *in modo da resettare la situazione se la configurazione ottenuta
 			 *per la mappa di gioco non e' idonea */
@@ -208,7 +208,7 @@ public class MapConfiguration {
 		//si preleva la posizione del pg
 		int [] pg_pos = PlayableCharacter.getPGposition();
 		//si aggiorna la mappa di esplorazione
-		em.getMapCell(pg_pos[0], pg_pos[1]).setCellStatus(CellStatus.PG);;		
+		em.getMapCell(pg_pos[0], pg_pos[1]).setCellStatus(CellStatus.PG);	
 	}//init()
 	
 	/** metodo prob(int, int, int, int): void

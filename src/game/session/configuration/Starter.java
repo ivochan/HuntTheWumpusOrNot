@@ -179,7 +179,7 @@ public class Starter {
 	 * vuole muovere il pg
 	 * @param dir: Direction, direzione in cui effettuare la mossa
 	 */
-	private static void setPGmove(Direction dir) {
+	public static void setPGmove(Direction dir) {
 		//si imposta la direzione
 		pg_move= dir;
 	}//setPGmove(Direction)
@@ -202,7 +202,7 @@ public class Starter {
 		 * vuole tentare il colpo
 		 * @param dir: Direction, direzione in cui effettuare il colpo
 		 */
-		private static void setShotDir(Direction dir) {
+		public static void setShotDir(Direction dir) {
 			//si imposta la direzione
 			shot_dir= dir;
 		}//setShotDir(Direction)

@@ -96,12 +96,12 @@ public class Controller {
 		}//fi indici di mossa corretti
 		else { 
 			//comando non valido, oppure la cella non esiste
-			status = -1;
+			status = -2;
 		}//esle
 		//si restituisce il codice associato al tipo di mossa
 		return status;
 	}//movePG(Direction, GameMap, GameMap)
-
+	
 	/** metodo makeMove(int, GameMap, GameMap): void
 	 * questo metodo effettua la mossa vera e propria nella mappa di gioco
 	 * @param status: int, rappresenta il risultato della mossa effettuata;ù
@@ -113,8 +113,10 @@ public class Controller {
 		int [] pg_pos = PlayableCharacter.getPGposition();
 		//realizzazione della mossa
 		switch(status) {
+			case -2:
+				System.out.println("Comando non valido...\nRipeti la mossa!");
 			case -1 : 
-				System.out.println("Comando non valido!Ripeti la mossa...");
+				System.out.println("Il passaggio e' bloccato da un sasso.\nRipeti la mossa!");
 				break;
 			case 0 : 
 				//informazioni sulla posizione
@@ -140,7 +142,7 @@ public class Controller {
 			default: 
 				break;
 		}//end switch
-	}//checkMove(int)
+	}//makeMove(int)
 	
 	/** metodo checkEnvironment(int[], GameMap): void
 	 * questo metodo fornisce il contenuto del vettore dei sensori
@@ -181,7 +183,7 @@ public class Controller {
 	 * 						 calcolata a partire dalla posizione corrente
 	 * 						 del pg.
 	 */
-	private static int[] findCell(Direction move, int[] pg_pos){
+	public static int[] findCell(Direction move, int[] pg_pos){
 		//vettore della posizione da restituire
 		int [] cell_pos= new int[2];
 		//si prelevano gli indici della posizione del pg
@@ -233,7 +235,7 @@ public class Controller {
 	 * @return true, se la cella descritta dagli indici di riga e colonna
 	 * 				esiste, false altrimenti.
 	 */
-	private static boolean checkCell(int[] cell_pos, GameMap gm) {
+	public static boolean checkCell(int[] cell_pos, GameMap gm) {
 		//variabili boolean ausiliarie
 		boolean iok=false;
 		boolean jok=false;
@@ -316,7 +318,7 @@ public class Controller {
 	 * @param gm: GameMap, mappa di gioco;
 	 * @return true, se il nemico e' stato colpito, false altrimenti.
 	 */
-	private static boolean searchForEnemy(int i, int j, Direction dir, GameMap gm) {
+	public static boolean searchForEnemy(int i, int j, Direction dir, GameMap gm) {
 		//vettore per gli indici della  cella da verificare
 		int [] cell = new int[2];
 		//si assegnano gli indici
@@ -352,7 +354,7 @@ public class Controller {
 	 * dopo che il nemico e' stato colpito.
 	 * @param gm: GameMap, mappa di gioco.
 	 */
-	private static void resetEnemySensor(GameMap gm) {
+	public static void resetEnemySensor(GameMap gm) {
 		//si iterano le righe della mappa
 		for(int i=0;i<gm.getRows(); i++) {
 			//si iterano le colonne della mappa
