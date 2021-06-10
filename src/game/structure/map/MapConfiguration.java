@@ -119,7 +119,7 @@ public class MapConfiguration {
 		double paward;
 		//numero di premi
 		int n_award=GameElements.getAward();
-		int award=1;
+		int award=n_award;
 		//numero di celle
 		int n_cells=gm.getMapDimension();
 		int cells = n_cells;
@@ -177,6 +177,7 @@ public class MapConfiguration {
 		//DEBUG
 		//System.out.println(GameElements.printGameElements());
 		//ciclo
+		/*
 		while(!done | !award) {
 			//si riempie la mappa di gioco
 			placeGameElements(gm);
@@ -184,7 +185,24 @@ public class MapConfiguration {
 			award = placeAward(gm);
 			//si cerca di posizionare il pg
 			done = PlayableCharacter.placePGonCorner(gm);
-		}//end while
+		}//end while*/
+		do {
+			//flag che indica se e' stato posizionato il premio
+			//viene resettato per generare tutta la mappa da capo
+			//se non si riesce a posizionare il pg
+			award = false;
+			//ciclo di riempimento della mappa
+			while(!award) {
+				//si posizionano tutti gli elementi sulla mappa
+				placeGameElements(gm);
+				//si posiziona il premio
+				award = placeAward(gm);
+				//si esce dal ciclo se il premio e' stato posizionato
+			}//end while
+			//si cerca di posizionare il personaggio giocabile
+			done = PlayableCharacter.placePGonCorner(gm);
+			//si esce dal ciclo se il pg e' stato posizionato
+		}while(!done);
 		//si aggiorna il vettore dei sensori per ogni cella
 		Sensors.updateSensors(gm);
 		//si preleva la posizione del pg
@@ -193,7 +211,6 @@ public class MapConfiguration {
 		em.getMapCell(pg_pos[0], pg_pos[1]).setCellStatus(CellStatus.PG);;		
 	}//init()
 	
-
 	/** metodo prob(int, int, int, int): void
 	 * questo metodo calcola, sfruttando la funzione cosi' definita:
 	 * ((x/max_x) - (n/max_n) + random*0.3) /3
