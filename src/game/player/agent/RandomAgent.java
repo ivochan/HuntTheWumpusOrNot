@@ -103,7 +103,6 @@ public class RandomAgent extends BasicAgent {
 		}	
 	}//chooseMove(GameMap, GameMap)
 
-	@Override
 	/** metodo chooseDirection(int, int, GameMap)
 	 * questo metodo serve a determinare la direzione in 
 	 * cui muovere il personaggio giocabile, scegliendo in

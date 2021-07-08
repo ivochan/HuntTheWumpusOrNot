@@ -1,7 +1,6 @@
 package game.structure.map;
+//import
 import java.io.Serializable;
-
-//serie di import
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 /** classe GameMap
