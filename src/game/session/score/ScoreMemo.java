@@ -8,7 +8,6 @@ import java.io.IOException;
 /** class ScoreMemo
  * questa classe serve per interagire con il file di testo su
  * cui verranno memorizzati tutti i punteggi ottenuti dall'utente
- * 
  * @author ivonne
  */
 public class ScoreMemo {

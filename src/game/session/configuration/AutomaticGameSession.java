@@ -76,7 +76,7 @@ public class AutomaticGameSession {
 	public static void end() {
 		System.out.println("THE E.N.D.");
 		//stato della partita attuale
-		Starter.setGameStart(false);
+		//Starter.setGameStart(false);
 		//si resetta la disponibilita' del colpo
 		Starter.setChanceToHit(true);
 		//punteggio

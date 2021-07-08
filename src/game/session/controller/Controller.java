@@ -104,7 +104,7 @@ public class Controller {
 	
 	/** metodo makeMove(int, GameMap, GameMap): void
 	 * questo metodo effettua la mossa vera e propria nella mappa di gioco
-	 * @param status: int, rappresenta il risultato della mossa effettuata;ù
+	 * @param status: int, rappresenta il risultato della mossa effettuata;
 	 * @param gm: GameMap, mappa di gioco;
 	 * @param em: GameMap, mappa di esplorazione;
 	 */
@@ -264,7 +264,6 @@ public class Controller {
 	 * @param em: GameMap, mappa di esplorazione, visibile all'utente;
 	 * @return defeated: boolean, indica se il nemico e' stato colpito o meno
 	 */
-	//TODO aggiornare i sensori se il nemico e' stato colpito
 	public static void hitEnemy(Direction dir, GameMap gm) {
 		//si preleva la posizione attuale del pg
 		int [] pg_pos = PlayableCharacter.getPGposition();

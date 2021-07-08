@@ -1,8 +1,9 @@
 package game.structure.map;
+import java.io.Serializable;
 
+//serie di import
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
-
 /** classe GameMap
  * 
  * Questa classe implementa il terreno di gioco, che sara' popolato da
@@ -30,8 +31,13 @@ import game.structure.cell.CellStatus;
  * 								| |3,0| |3,1| |3,2| |3,3| |
  * @author ivonne
  */
-public class GameMap {
+public class GameMap implements Serializable {
 	//##### attributi di classe #####
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	//nuemro di righe della matrice
 	private int r;

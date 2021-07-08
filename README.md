@@ -273,7 +273,7 @@ Funzionalità da implementare:
   - ~~la scelta dellla modalità di gioco;~~
   - ~~l'inizio della partita;~~
   - ~~la possibilità di terminare il gioco;~~
-  - ~~la possibilità di effettuare delle mosse;~~~~
+  - ~~la possibilità di effettuare delle mosse;~~
   - ~~aggiornare la mappa di esplorazione, tenendo traccia delle celle già visitate;~~
   - ~~conoscere la posizione corrente del pg;~~
   - ~~il calcolo del punteggio;~~
@@ -324,5 +324,11 @@ Funzionalità da implementare:
   - ad ogni passo, si salvano gli indici della cella che è stata visitata;
   - al termine della partita mostra il percorso effettuato;
 - definire il giocatore automatico "ScoreAgent";
+- controllare la probabilità dei pericoli e del nemico perchè non vengono sempre posizionati
+  - scrivere un if a fine ciclo di posizionamento con le stesse condizioni del while
+  - utilizzare il debugger
 - testare la modalità di gioco automatico;
+- testare il popolamento della mappa di gioco;
+- modificata la classe RandomAgent, ridefinendo il metodo updateRunPath(Cell) in maniera esplicita
+- implementare l'interfaccia Serializable nella classe GameMap
 

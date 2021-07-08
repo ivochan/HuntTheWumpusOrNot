@@ -1,4 +1,6 @@
 package game.player.agent;
+import java.util.LinkedList;
+
 //serie di import
 import game.session.configuration.Starter;
 import game.session.controller.Controller;
@@ -46,8 +48,7 @@ public class RandomAgent extends BasicAgent {
 			//il nemico e' nelle vicinanze
 			//System.out.println("Il nemico e' in agguato!");
 			if(Starter.getChanceToHit()) {
-				//si verifica la disponibilita' del colpo
-				//System.out.println("Si tenta il colpo");
+				//si verifica la disponibilita' del colpo e
 				//si sceglie la direzione in cui colpire
 				//almeno una delle celle non e' stata visitata se il sensore e' acceso
 				Direction shot_dir = chooseDirection(pg_pos[0], pg_pos[1], gm);
@@ -67,7 +68,9 @@ public class RandomAgent extends BasicAgent {
 				//si controlla la mossa
 				Controller.makeMove(status, gm, em);
 				//aggiornamento del percorso
-				if(status!=-1)super.updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
+				if(status!=-1) {
+					updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
+				}
 			}//else	
 		}//fi
 		else if(sensors[CellStatus.DANGER_SENSE.ordinal()]) {
@@ -80,7 +83,9 @@ public class RandomAgent extends BasicAgent {
 			//si controlla la mossa
 			Controller.makeMove(status, gm, em);
 			//aggiornamento del percorso
-			if(status!=-1)super.updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
+			if(status!=-1) {
+				updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
+			}
 		}
 		else {
 			//entrambi i sensori sono spenti
@@ -92,7 +97,9 @@ public class RandomAgent extends BasicAgent {
 			//si controlla la mossa
 			Controller.makeMove(status, gm, em);
 			//aggiornamento del percorso
-			if(status!=-1)super.updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
+			if(status!=-1) {
+				updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
+			}
 		}	
 	}//chooseMove(GameMap, GameMap)
 
@@ -240,5 +247,23 @@ public class RandomAgent extends BasicAgent {
 		}//end for
 		return check;
 	}//checkCells(boolean [])
+	
+	//##### metodi per il percorso #####
+	
+
+	
+	/** metodo updateRunPath(Cell): void
+	 * questo metodo inserisce la cella ricevuta come parametro
+	 * nella lista delle celle visitate durante la partita del
+	 * giocatore automatico.
+	 * @param c: Cell, cella della mappa di esplorazione che e'
+	 * 					stata gia' visitata.
+	 */
+	@Override
+	public void updateRunPath(Cell c) {
+		//si richiama il metodo della super classe
+		super.updateRunPath(c);
+	}//updateRunPath(Cell)
+		
 	
 }//end RandomAgent

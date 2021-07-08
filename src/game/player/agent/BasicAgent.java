@@ -45,6 +45,7 @@ public abstract class BasicAgent implements Agent {
 		int [] position = new int[2];
 		//stringa da stampare
 		String run_list = new String("");
+		//si iterano le celle visitate
 		for(Cell c: run) {
 			//si preleva la posizione della cella in esame
 			position = c.getPosition();

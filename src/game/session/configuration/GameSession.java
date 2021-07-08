@@ -51,6 +51,8 @@ public class GameSession {
 		System.out.println(em.mapToStringAndLegend());
 		//stampa della posizione del pg
 		System.out.println("Ti trovi nella cella "+PlayableCharacter.positionToString());
+		//TODO stampare lo stato dei sensori attorno al personaggio giocabile
+		
 		//si inizializza il punteggio
 		Score.resetScoreData();
 		//si inizializza il file
