@@ -329,6 +329,6 @@ Funzionalità da implementare:
   - utilizzare il debugger
 - testare la modalità di gioco automatico;
 - testare il popolamento della mappa di gioco;
-- modificata la classe RandomAgent, ridefinendo il metodo updateRunPath(Cell) in maniera esplicita
-- implementare l'interfaccia Serializable nella classe GameMap
+- ~~modificata la classe RandomAgent, ridefinendo il metodo updateRunPath(Cell) in maniera esplicita~~
+- ~~implementare l'interfaccia Serializable nella classe GameMap~~
 

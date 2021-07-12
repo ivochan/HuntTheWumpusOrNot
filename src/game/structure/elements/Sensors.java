@@ -1,9 +1,13 @@
 package game.structure.elements;
-
+//import
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
-
+/** class Sensors
+ * 
+ * @author ivochan
+ *
+ */
 public class Sensors {
 		
 	/** metodo updateSensors(GameMap, int[]): void

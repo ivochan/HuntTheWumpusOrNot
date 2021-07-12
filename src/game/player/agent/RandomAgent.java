@@ -1,6 +1,4 @@
 package game.player.agent;
-import java.util.LinkedList;
-
 //serie di import
 import game.session.configuration.Starter;
 import game.session.controller.Controller;
@@ -181,7 +179,7 @@ public class RandomAgent extends BasicAgent {
 	 * 							 la mossa;
 	 * @return random: int, indice della cella da estrarre.
 	 */
-	private int pickCell(boolean [] vcells) {
+	public static int pickCell(boolean [] vcells) {
 		//range del numero casuale
 		int range = vcells.length;
 		//variabile ausiliaria
@@ -211,7 +209,7 @@ public class RandomAgent extends BasicAgent {
 	 * @param em: GameMap, mappa di esplorazione, visibile al pg;
 	 * @return boolean: true, se la cella e' idonea, false altrimenti,. .
 	 */
-	private boolean verifyCell(int i, int j, GameMap em) {
+	public static boolean verifyCell(int i, int j, GameMap em) {
 		//si preleva la cella
 		CellStatus cs = em.getMapCell(i, j).getCellStatus();
 		//si verifica che non e' un sasso
@@ -235,7 +233,7 @@ public class RandomAgent extends BasicAgent {
 	 * @return check: boolean, questo flag sara' true se almeno una cella
 	 * 						   del vettore e' risultata idonea, false altrimenti.
 	 */
-	private boolean checkCells(boolean [] ok_cells) {
+	public static boolean checkCells(boolean [] ok_cells) {
 		//variabile ausiliaria per il controllo
 		boolean check = false;
 		//si itera il vettore

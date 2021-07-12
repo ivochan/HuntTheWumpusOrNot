@@ -31,12 +31,12 @@ import game.structure.cell.CellStatus;
  * @author ivonne
  */
 public class GameMap implements Serializable {
-	//##### attributi di classe #####
-	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5948888928665296259L;
+	
+	//##### attributi di classe #####
 	
 	//nuemro di righe della matrice
 	private int r;

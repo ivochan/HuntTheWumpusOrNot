@@ -115,6 +115,7 @@ public class Controller {
 		switch(status) {
 			case -2:
 				System.out.println("Comando non valido...\nRipeti la mossa!");
+				break;
 			case -1 : 
 				System.out.println("Il passaggio e' bloccato da un sasso.\nRipeti la mossa!");
 				break;

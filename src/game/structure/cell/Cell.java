@@ -1,11 +1,19 @@
 package game.structure.cell;
+
+import java.io.Serializable;
+
 /** Cell
  * Questa classe implementa la cella della matrice di gioco
  * il cui contenuto e' indicato dalla enum CellStatus
  * 
  * @author ivonne
  */
-public class Cell {
+public class Cell implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6063662208178208918L;
+
 	//##### attributi di classe #####
 	
 	//vettore dei sensori : ENEMY_SENSE, DANGER_SENSE

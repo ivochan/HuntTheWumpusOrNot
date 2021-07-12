@@ -25,7 +25,8 @@ public class MapConfiguration {
 	 * si sta valutando, se il valore ottenuto tramite la funzione 
 	 * prob(int,int,int, int) risulta maggiore del valore utilizzato come soglia.
 	 * @param gm: GameMap, e' la mappa di gioco che deve essere costruita.
-		 */
+	 */
+	//TODO Controllare probabilita'
 	private static void placeGameElements(GameMap gm) {
 		//numero di celle della mappa di gioco
 		int n_cells=GameElements.getNumberOfCells(); 
