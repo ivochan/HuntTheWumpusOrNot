@@ -4,7 +4,7 @@ import game.session.controller.Direction;
 import game.structure.cell.Cell;
 import game.structure.map.GameMap;
 //TODO algoritmo del giocatore automatico a punteggio
-public class ScoreAgent extends BasicAgent{
+public class ScoreAgent extends AbstractAgent{
 
 	@Override
 	public void chooseMove(GameMap em, GameMap gm) {

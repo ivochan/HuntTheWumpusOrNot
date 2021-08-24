@@ -8,7 +8,7 @@ import game.structure.map.GameMap;
  * generico giocatore automatico
  * @author Ivonne
  */
-public abstract class BasicAgent implements Agent {
+public abstract class AbstractAgent implements Agent {
 	//##### attribuiti di classe #####
 	
 	//lista contenente la coppia di indici di ogni cella visitata

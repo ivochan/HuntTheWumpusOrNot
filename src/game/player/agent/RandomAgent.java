@@ -14,7 +14,7 @@ import game.structure.text.GameMessages;
  * casuali, a parita' del contenuto dei sensori.
  * @author ivonne
  */
-public class RandomAgent extends BasicAgent {
+public class RandomAgent extends AbstractAgent {
 	//###### attributi di classe #####
 	//TODO revisionare l'algoritmo di gioco
 	//posizione del pg
