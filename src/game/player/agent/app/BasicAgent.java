@@ -129,12 +129,12 @@ public class BasicAgent {
 			ok_cells[index] = verifyCell(i-1,j, em);
 		}//UP
 		if(em.cellExists(i+1, j)) {
-				//si calcola l'indice
-				index = Direction.DOWN.ordinal();
-				//la cella esiste
-				cells[index] = true;
-				//si verifica la cella e si aggiorna il vettore
-				ok_cells[index] = verifyCell(i+1,j, em);
+			//si calcola l'indice
+			index = Direction.DOWN.ordinal();
+			//la cella esiste
+			cells[index] = true;
+			//si verifica la cella e si aggiorna il vettore
+			ok_cells[index] = verifyCell(i+1,j, em);
 		}//DOWN
 		if(em.cellExists(i, j-1)) {
 			//si calcola l'indice
@@ -152,6 +152,9 @@ public class BasicAgent {
 			//si verifica la cella e si aggiorna il vettore
 			ok_cells[index] = verifyCell(i,j+1, em);
 		}//RIGHT
+		
+		
+		
 		//controllo sul contenuto del vettore ok_cells
 		if(checkCells(ok_cells)){
 			//si sceglie casualmente una cella tra quelle idonee
@@ -166,6 +169,8 @@ public class BasicAgent {
 		//si restituisce la direzione
 		return dir;
 	}//chooseDirection(int, int, GameMap)
+	
+	
 	
 	//##### metodi di controllo della cella scelta come mossa successiva #####
 	
@@ -235,13 +240,12 @@ public class BasicAgent {
 	 * cella che sia pari a true. Se cosi' non e' sceglie una cella
 	 * a caso tra quelle gia' visitate.
 	 * @param ok_cells: boolean [], vettore di celle risultate idonee
- 	* @return check: boolean, questo flag sara' true se almeno una cella
- 	* 						   del vettore e' risultata idonea, 
- 	* 						   false altrimenti.
- 	* 
- 	* METODO ANALOGO ALLA CLASSE RANDOM AGENT
- 	* 
- 	*/
+	 * @return check: boolean, questo flag sara' true se almeno una cella
+	 * 						   del vettore e' risultata idonea, 
+	 * 
+	 * METODO ANALOGO ALLA CLASSE RANDOM AGENT
+	 * 
+	 */
 	public static boolean checkCells(boolean [] ok_cells) {
 		//variabile ausiliaria per il controllo
 		boolean check = false;

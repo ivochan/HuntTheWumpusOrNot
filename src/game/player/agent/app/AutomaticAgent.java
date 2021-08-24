@@ -89,10 +89,12 @@ public class AutomaticAgent {
 		sensors = current.getSenseVector();
 		//per debug
 		sensorInfo = current.senseVectorToString(true);
-		System.out.println(sensorInfo);
+		//DEBUG
+		System.out.println(sensorInfo+"\n");
 		//verifica del contenuto
 		if(sensors[CellStatus.ENEMY_SENSE.ordinal()]) {
 			//il nemico e' nelle vicinanze
+			//DEBUG
 			moveInfo="Il nemico e' in agguato!";
 			//si verifica la disponibilita' del colpo
 			if(automaticChanceToHit){
@@ -104,7 +106,7 @@ public class AutomaticAgent {
 				Controller.hitEnemy(dir, gm);
 				//si resetta il flag
 				automaticChanceToHit = false;
-				shot+="\n shot yep";
+				shot+="\n shot yep ";
 			}//fi
 			else {
 				//non si hanno munizioni
@@ -131,7 +133,9 @@ public class AutomaticAgent {
 			//si controlla la mossa
 			s = makeMove(status, gm);
 			moveInfo+="\n"+s;
-				//aggiornamento del percorso
+			//aggiornamento del percorso
+			if(status!=-1)
+				BasicAgent.updateRunPath(run,gm.getMapCell(pg_position[0], pg_position[1]));
 		}
 		else {
 			//entrambi i sensori sono spenti
@@ -145,7 +149,8 @@ public class AutomaticAgent {
 			s = makeMove(status, gm);
 			moveInfo +="\n"+s;
 			//aggiornamento del percorso
-			//if(status!=-1)updateRunPath(gm.getMapCell(pg_pos[0], pg_pos[1]));
+			if(status!=-1)
+				BasicAgent.updateRunPath(run,gm.getMapCell(pg_position[0], pg_position[1]));
 		}
 		moveInfo+=shot;
 		System.out.println(moveInfo);
