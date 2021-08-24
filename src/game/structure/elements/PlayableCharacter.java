@@ -189,14 +189,14 @@ public class PlayableCharacter {
 	
 	//##### altri metodi #####
 	
-	/** metodo positionToString(): String
+	/** metodo getPGpositionToString(): String
 	 * metodo che restituisce la posizione del pg all'interno della mappa
 	 * di gioco sotto forma di stringa
 	 * @return p
 	 */
-	public static String positionToString() {
+	public static String getPGpositionToString() {
 		//si restituisce la stringa che rappresenta il contenuto del vettore posizione
 		return "("+pg_position[0]+','+pg_position[1]+')';
-	}//toString()
+	}//getPGPositionToString()
 	
 }//PG

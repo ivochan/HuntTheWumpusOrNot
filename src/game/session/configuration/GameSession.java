@@ -67,7 +67,7 @@ public class GameSession {
 	 */
 	private static void startInfo() {
 		//stampa della posizione del pg
-		System.out.println("Ti trovi nella cella "+PlayableCharacter.positionToString());
+		System.out.println("Ti trovi nella cella "+PlayableCharacter.getPGpositionToString());
 		//si prelevano gli indici della cella in cui si trova il pg
 		int [] pg_pos = PlayableCharacter.getPGposition();
 		//si preleva la cella associata a questi indici
