@@ -226,7 +226,7 @@ Funzionalità da implementare:
 - memorizzare il valore del punteggio acquisito via via durante la partita di gioco;
 - sostituire i messaggi di errore e le stampe di debug con il sollevamento delle eccezioni;
 - ~~correggere funzione di probabilità per il popolamento della mappa;~~        grazie a PsykeDady <3
-- prevedere il popolamento della mappa in entrambe le modalità di gioco;
+- ~~prevedere il popolamento della mappa in entrambe le modalità di gioco;~~
 - ~~integrare le funzionalità relative alla mappa nella classe GameMap;~~
 - ~~testare il popolamento manuale della mappa di gioco;~~
 - ~~inserire metodi ed attributi che permettano di identificare la posizione della cella nella mappa;~~
@@ -277,9 +277,8 @@ Funzionalità da implementare:
   - ~~aggiornare la mappa di esplorazione, tenendo traccia delle celle già visitate;~~
   - ~~conoscere la posizione corrente del pg;~~
   - ~~il calcolo del punteggio;~~
-  - movimento nella mappa manuale (tramite metodo accessorio)
   - ~~movimento nella mappa da input (su decisione dell'utente)~~
-    - prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input;
+    - ~~prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input;~~
   - ~~fornire dei messaggi esplicativi della situazione attuale nel gioco;~~
 - ~~effettuare il controllo della mossa di gioco lavorando su un'istanza di GameMap le cui info si prendono dai metodi accessori;~~
 - definire diversi metodi di riempimento della mappa in modo che si possa scegliere se:
@@ -313,7 +312,6 @@ Funzionalità da implementare:
 - ~~aggiornare path di salvataggio del file del punteggio con la variabile d'ambiente~~;
 - ~~testare la modalità di gioco lato utente~~;
 - ordinare i punteggi in maniera decrescente;
-- controllare che il posizionamento del nemico sia realizzato;
 - realizzare metodo di posizionamento del pg al centro della mappa;
 - fare in modo che il wumpus sia posizionato al centro, se scelto come pg;
 - ~~definire l'interfaccia Agent, che delinea la struttura del giocatore automatico;~~
@@ -321,14 +319,18 @@ Funzionalità da implementare:
 - definire il giocatore automatico "RandomAgent":
   - si esamina la griglia di gioco, la "situazione iniziale" dell'ambiente circostante;
   - si sceglie la mossa da effettuare in base allo stato dei sensori (**TODO** da testare);
+    - se tutti i sensori accesi, si sceglie di sparare
+      - scegliere la direzione di sparo esaminando le celle adiacenti nella exp map;
   - ad ogni passo, si salvano gli indici della cella che è stata visitata;
   - al termine della partita mostra il percorso effettuato;
 - definire il giocatore automatico "ScoreAgent";
-- controllare la probabilità dei pericoli e del nemico perchè non vengono sempre posizionati
-  - scrivere un if a fine ciclo di posizionamento con le stesse condizioni del while
-  - utilizzare il debugger
 - testare la modalità di gioco automatico;
-- testare il popolamento della mappa di gioco;
+- testare il popolamento della mappa di gioco,
+  - ~~probabilità nemico~~
+  - ~~probabilità pericolo
+  - ~~probabilità premio~~
+  - accessibilità premio
+  - ~~probabilità pietra~~
 - ~~modificata la classe RandomAgent, ridefinendo il metodo updateRunPath(Cell) in maniera esplicita~~
 - ~~implementare l'interfaccia Serializable nella classe GameMap~~
 

@@ -12,7 +12,7 @@ import game.structure.elements.Sensors;
  * @author ivonne
  */
 public class MapConfiguration {
-	
+
 	/** metodo placeGameElements(GameMap, int[]): void
 	 * questo metodo si occupa del popolamento della mappa di gioco, 
 	 * inserendo tutti gli elementi che possono essere posizionati nella mappa, 
@@ -26,7 +26,6 @@ public class MapConfiguration {
 	 * prob(int,int,int, int) risulta maggiore del valore utilizzato come soglia.
 	 * @param gm: GameMap, e' la mappa di gioco che deve essere costruita.
 	 */
-	//TODO Controllare probabilita'
 	private static void placeGameElements(GameMap gm) {
 		//numero di celle della mappa di gioco
 		int n_cells=GameElements.getNumberOfCells(); 
@@ -40,19 +39,26 @@ public class MapConfiguration {
 		//pericolo
 		int n_danger=GameElements.getDanger();
 		int danger=n_danger;
+		//premio
+		int n_award=GameElements.getAward();
+		int award=n_award;
 		//variabili che conterranno la probabilita'
 		double pdanger=0;
 		double penemy=0;
 		double pstones=0;
+		double paward=0;
+		//variabile ausiliaria per il random
+		double random=0;
 		//ciclo di riempimento della mappa
-		while( enemy>0 || danger>0 || stones>0 ) {
-			/*si riassegnano alle variabili i valori di default
-			 *in modo da resettare la situazione se la configurazione ottenuta
-			 *per la mappa di gioco non e' idonea */
+		do {
+			//si riassegnano alle variabili i valori di default
+			//in modo da resettare la situazione se la configurazione ottenuta
+			//per la mappa di gioco non e' idonea */
 			danger=n_danger;
 			enemy=n_enemy;
 			cells=n_cells;
 			stones=n_stones;
+			award=n_award;
 			//svuotare la matrice per ripristinarla alla situazione iniziale
 			gm.clear();
 			//for righe
@@ -60,104 +66,53 @@ public class MapConfiguration {
 				//for colonne
 				for(int j=0;j<gm.getColumns();j++) {
 					//si genera un numero casuale (da 0 a 1) da utilizzare come soglia 
-					double random = Math.random();
+					//random = Math.random()*0.1;
+					random = Math.random();
 					//calcolo delle probabilita' per ogni tipologia di cella
 					pdanger = prob(danger, n_danger, cells, n_cells);
 					penemy = prob(enemy, n_enemy, cells, n_cells);
 					pstones = prob(stones, n_stones, cells, n_cells);
+					paward= prob(award, n_award, cells, n_cells);
 					//si preleva la cella attuale
 					Cell c = gm.getMapCell(i, j);
 					//confronto delle probabilita' con la soglia random
 					if(random < pdanger) {
 						//la cella e' un pozzo/trappola
 						c.setCellStatus(CellStatus.DANGER);
-						//si impostano gli indici che descrivono la posizione della cella
-						c.setPosition(i, j);
 						//si decrementa la variabile, perche' un elemento e' stato posizionato
 						danger=danger-1;
 					}//fi pericolo
 					else if(random < penemy) {
 						//la cella conterra' l'avversario del pg
 						 c.setCellStatus(CellStatus.ENEMY);
-						//si impostano gli indici che descrivono la posizione della cella
-						c.setPosition(i, j);
-						//si decrementa la variabile, perche' un elemento e' stato posizionato
+						 //si decrementa la variabile, perche' un elemento e' stato posizionato
 						enemy=enemy-1;
 					}//fi nemico
 					else if(random < pstones) {
 						//la cella non sara' giocabile, non ci si potra' posizionare il pg
 						c.setCellStatus(CellStatus.FORBIDDEN);
-						//si impostano gli indici che descrivono la posizione della cella
-						c.setPosition(i, j);
 						//si decrementa la variabile, perche' un elemento e' stato posizionato
 						stones=stones-1;
 					}//fi sasso
+					else if(random < paward) {
+						//la cella conterra' il premio
+						c.setCellStatus(CellStatus.AWARD);
+						//si decrementa la variabile perche' l'elemento e' stato posizionato
+						award=award-1;
+					}//fi premio
 					else {
 						//la cella e' etichettata come sicura, libera
-						c.setCellStatus(CellStatus.SAFE);
-						//si impostano gli indici che descrivono la posizione della cella
-						c.setPosition(i,j);
+						c.setCellStatus(CellStatus.SAFE);	
 					}//esle libera
+					//si impostano gli indici che descrivono la posizione della cella
+					c.setPosition(i,j);
 					//si decrementa il numero di celle rimaste da riempire
 					cells=cells-1;	
 				}//for colonne
 			}//for righe
-		}//while
-	}//placeGameElements(GameMap, int[])	
-
-	/** metodo placeAward(GameMap): boolean
-	 * questo metodo si occupa di posizionare il premio in un punto
-	 * qualsiasi della mappa di gioco, purche' sia raggiungibile dal
-	 * pg. Questo vuol dire che da almeno un lato, su quattro, dovra'
-	 * avere una cella adiacente che sia etichettata come Safe.
-	 * @param gm: GameMap, mappa di gioco.
-	 * @return found: boolean, flag che indica se il premio e' stato posizionato.
-	 */
-	private static boolean placeAward(GameMap gm) {
-		//variabile booleana che indica se e' stata trovata la posizione idonea 
-		boolean found = false;
-		//probabilita
-		double paward;
-		//numero di premi
-		int n_award=GameElements.getAward();
-		int award=n_award;
-		//numero di celle
-		int n_cells=gm.getMapDimension();
-		int cells = n_cells;
-		//si iterano le celle della matrice
-		while(award!=0) {
-			//for righe
-			for(int i=0;i<gm.getRows();i++) {
-				//for colonne
-				for(int j=0;j<gm.getColumns();j++) {
-					//numero casuale (da 0 a 1) da utilizzare come soglia 
-					double random = Math.random();
-					//probabilita
-					paward = prob(award, n_award, cells, n_cells);
-					//si preleva la cella attuale
-					Cell c = gm.getMapCell(i,j);
-					//si aggiorna il numero di celle gia' esaminate
-					cells = cells-1;
-					//confronto delle probabilita' con la soglia random
-					if(random < paward) {
-						//si controllano le celle adiacenti
-						found = gm.areAdjacentCellsSafe(i, j);
-						//se e'stata trovata una posizione
-						if(found){
-							//si posiziona il premio
-							c.setCellStatus(CellStatus.AWARD);
-							//si impostano gli indici che descrivono la posizione della cella
-							c.setPosition(i, j);
-							//si decrementa la variabile, perche' un elemento e' stato posizionato
-							award = award -1;
-							return found;
-						}//fi posizionamento
-					}//fi probabilita'
-				}//for colonne
-			}//for righe
-		}//end while
-		return found;
-	}//placeAward()
+		//}//while
+		}while( enemy>0 || danger>0 || stones>0 || award>0 );
+	}//placeGameElements(GameMap, int[])
 	
 	/** metodo init(GameMap): void
 	 * questo metodo si occupa di trovare una configurazione valida della
@@ -170,36 +125,16 @@ public class MapConfiguration {
 	 * 					   su cui verra' poi avviata la sessione di gioco.
 	 */
 	public static void init(GameMap gm, GameMap em) {
-		//variabile asiliarie 
+		//variabile asiliaria
 		boolean done = false;
-		boolean award=false;
 		//generazione degli elementi di gioco
 		GameElements.generatingGameElements(gm);
 		//DEBUG
 		//System.out.println(GameElements.printGameElements());
-		//ciclo
-		/*
-		while(!done | !award) {
-			//si riempie la mappa di gioco
-			placeGameElements(gm);
-			//si cerca di psizionare il premio
-			award = placeAward(gm);
-			//si cerca di posizionare il pg
-			done = PlayableCharacter.placePGonCorner(gm);
-		}//end while*/
+		//ciclo di posizionamento degli elementi di gioco e del pg
 		do {
-			//flag che indica se e' stato posizionato il premio
-			//viene resettato per generare tutta la mappa da capo
-			//se non si riesce a posizionare il pg
-			award = false;
-			//ciclo di riempimento della mappa
-			while(!award) {
-				//si posizionano tutti gli elementi sulla mappa
-				placeGameElements(gm);
-				//si posiziona il premio
-				award = placeAward(gm);
-				//si esce dal ciclo se il premio e' stato posizionato
-			}//end while
+			//posizionamento degli elementi di gioco nella mappa
+			placeGameElements(gm);
 			//si cerca di posizionare il personaggio giocabile
 			done = PlayableCharacter.placePGonCorner(gm);
 			//si esce dal ciclo se il pg e' stato posizionato
@@ -235,7 +170,7 @@ public class MapConfiguration {
 		//numero casuale
 		double random = Math.random();
 		//funzione di probabilita'
-		double prob = ((x/max_x) - (n/max_n) + random*0.3) /3;
+		double prob = ((x/max_x) - (n/max_n) + random*0.3) /3;		
 		return prob;
 	}//prob(int, int, int, int)
 

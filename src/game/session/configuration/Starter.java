@@ -77,7 +77,7 @@ public class Starter {
 		//variabile ausiliaria per la ricezione del comando
 		char move  =' ';
 		//si acquisisce il comando
-		System.out.println("Inserisci comando :> ");
+		System.out.println("\nInserisci comando :> ");
 		move = input.next().charAt(0);
 		//si valuta il comando
 		switch(move) {

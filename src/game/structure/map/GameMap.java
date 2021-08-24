@@ -396,7 +396,7 @@ public class GameMap implements Serializable {
 		tot += print_map; 
 		return tot;
 	}//maptoString()
-	
+
 	/** metodo areAdjacentCellsSafe(int, int)
 	 * questo metodo verifica se le celle adiacenti a quella indicata
 	 * dalla coppia di indici ricevuta come parametro siano libere
@@ -431,5 +431,6 @@ public class GameMap implements Serializable {
 			return false;
 		}
 	}//areAdjacentCellsSafe(int, int)
+
 	
 }//end GameMap

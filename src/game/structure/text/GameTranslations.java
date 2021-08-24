@@ -36,7 +36,7 @@ public class GameTranslations {
 		hero_side.put(CellStatus.ENEMY, "Ahi ahi, sei stato ferito dal Wumpus!");
 		hero_side.put(CellStatus.AWARD, "Hai trovato il tesoro del Wumpus!");
 		hero_side.put(CellStatus.DANGER, "Sei caduto nella fossa piena d'acqua...");
-		hero_side.put(CellStatus.SAFE, "");
+		hero_side.put(CellStatus.SAFE, "Tutto a posto all'orizzionte");
 		hero_side.put(CellStatus.FORBIDDEN, "Il passaggio e' bloccato da un sasso.");
 		hero_side.put(CellStatus.ENEMY_SENSE, "Pufff! Che puzza...Il mostro deve essere vicino!");
 		hero_side.put(CellStatus.DANGER_SENSE, "Brrr, che aria fredda che arriva...");
@@ -51,7 +51,7 @@ public class GameTranslations {
 		wumpus_side.put(CellStatus.ENEMY, "Oh no, il cacciatore ti ha colpito!");
 		wumpus_side.put(CellStatus.AWARD, "Hai trovato una via di fuga, sbrigati!");
 		wumpus_side.put(CellStatus.DANGER, "Sei caduto in trappola...");
-		wumpus_side.put(CellStatus.SAFE, "");
+		wumpus_side.put(CellStatus.SAFE, "Tutto a posto all'orizzonte!");
 		wumpus_side.put(CellStatus.FORBIDDEN, "Il passaggio e' bloccato da un sasso.");
 		wumpus_side.put(CellStatus.ENEMY_SENSE, "Swiiiish...si muovono le foglie...c'e' qualcuno che ti osserva...");
 		wumpus_side.put(CellStatus.DANGER_SENSE, "Crick, crock...Il terreno e' instabile");

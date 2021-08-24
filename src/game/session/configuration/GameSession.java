@@ -4,6 +4,7 @@ import game.session.controller.Controller;
 import game.session.controller.Direction;
 import game.session.score.Score;
 import game.session.score.ScoreMemo;
+import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.elements.PlayableCharacter;
 import game.structure.map.GameMap;
@@ -17,9 +18,12 @@ import game.structure.text.GameMessages;
 public class GameSession {
 	//##### attributi di classe #####
 	
-	//mappe di gioco
+	//mappa di gioco
 	private static GameMap gm;
+	//mappa di esplorazione
 	private static GameMap em;
+	
+	//##### metodi #####
 	
 	/** metodo start(): void
 	 * questo metodo avvia la sezione di gioco, preparando il terreno
@@ -49,15 +53,36 @@ public class GameSession {
 		System.out.println("Preparazione del terreno di gioco....\n");
 		//mappa di esplorazione
 		System.out.println(em.mapToStringAndLegend());
-		//stampa della posizione del pg
-		System.out.println("Ti trovi nella cella "+PlayableCharacter.positionToString());
-		//TODO stampare lo stato dei sensori attorno al personaggio giocabile
-		
+		//si visualizzano le informazioni iniziali per la partita
+		startInfo();
 		//si inizializza il punteggio
 		Score.resetScoreData();
 		//si inizializza il file
 		ScoreMemo.createScoreFile();;
 	}//start()
+	
+	/** metodo startInfo(): void
+	 * si visualizzano a video tutte le informazioni iniziali relative
+	 * alla posizione del personaggio giocabile sulla mappa
+	 */
+	private static void startInfo() {
+		//stampa della posizione del pg
+		System.out.println("Ti trovi nella cella "+PlayableCharacter.positionToString());
+		//si prelevano gli indici della cella in cui si trova il pg
+		int [] pg_pos = PlayableCharacter.getPGposition();
+		//si preleva la cella associata a questi indici
+		Cell pg_cell = gm.getMapCell(pg_pos[0],pg_pos[1]);
+		//si preleva il vettore dei sensori
+		boolean [] sensors = pg_cell.getSenseVector();
+		//si stampa lo stato del sensore del nemico
+		if(sensors[0])System.out.println(Starter.trad_mex.get(CellStatus.ENEMY_SENSE));
+		//si stampa lo stato del sensore del pericolo
+		if(sensors[1])System.out.println(Starter.trad_mex.get(CellStatus.DANGER_SENSE));
+		//se i sensori sono entrambi false si stampa il seguente messaggio
+		if(!sensors[0] && !sensors[1])System.out.println(Starter.trad_mex.get(CellStatus.SAFE));
+		//riga vuota
+		System.out.println();
+	}//startInfo()
 	
 	/** metodo play(): void
 	 * questo metodo si occupa di scegliere la modalita' in cui
@@ -123,7 +148,7 @@ public class GameSession {
 		//si resetta la disponibilita' del colpo
 		Starter.setChanceToHit(true);
 		//punteggio
-		System.out.println("Questo e' il tuo punteggio:\n"+Score.getScore());
+		System.out.println("Questo e' il tuo punteggio: "+Score.getScore());
 		//si memorizza il punteggio
 		ScoreMemo.saveScore(Score.scoreToString());
 		//pulizia della console

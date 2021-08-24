@@ -59,7 +59,7 @@ public class Controller {
 			else if(cs.equals(CellStatus.FORBIDDEN)) {
 				//questa cella e' vietata perche' e' un sasso
 				status = -1;
-				System.out.println(Starter.trad_mex.get(CellStatus.FORBIDDEN));
+				//System.out.println(Starter.trad_mex.get(CellStatus.FORBIDDEN));
 				//si aggiunge alla mappa di esplorazione
 				ge.getMapCell(cell_pos[0], cell_pos[1]).
 					copyCellSpecs(gm.getMapCell(cell_pos[0], cell_pos[1]));
