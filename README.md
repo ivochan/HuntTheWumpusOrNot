@@ -327,9 +327,9 @@ Funzionalità da implementare:
 - testare la modalità di gioco automatico;
 - testare il popolamento della mappa di gioco,
   - ~~probabilità nemico~~
-  - ~~probabilità pericolo
+  - ~~probabilità pericolo~~
   - ~~probabilità premio~~
-  - accessibilità premio
+  - ~~accessibilità premio~~
   - ~~probabilità pietra~~
 - ~~modificata la classe RandomAgent, ridefinendo il metodo updateRunPath(Cell) in maniera esplicita~~
 - ~~implementare l'interfaccia Serializable nella classe GameMap~~

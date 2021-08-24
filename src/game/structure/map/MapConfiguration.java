@@ -49,6 +49,11 @@ public class MapConfiguration {
 		double paward=0;
 		//variabile ausiliaria per il random
 		double random=0;
+		//variabile ausiliaria per la corretta posizione del premio
+		boolean correct_award = false;
+		//variabili ausiliarie per gli indici della cella in cui e' stato posizionato il premio
+		int i_award = -1;
+		int j_award = -1;
 		//ciclo di riempimento della mappa
 		do {
 			//si riassegnano alle variabili i valori di default
@@ -98,7 +103,10 @@ public class MapConfiguration {
 						//la cella conterra' il premio
 						c.setCellStatus(CellStatus.AWARD);
 						//si decrementa la variabile perche' l'elemento e' stato posizionato
-						award=award-1;
+						award=award-1;	
+						//si memorizzano gli indici
+						i_award = i;
+						j_award = j;
 					}//fi premio
 					else {
 						//la cella e' etichettata come sicura, libera
@@ -110,8 +118,10 @@ public class MapConfiguration {
 					cells=cells-1;	
 				}//for colonne
 			}//for righe
-		//}//while
-		}while( enemy>0 || danger>0 || stones>0 || award>0 );
+			//si controlla se il premio e' stato posizionato in una cella accessibile
+			correct_award = gm.areAdjacentCellsSafe(i_award,j_award);
+			//controllo dei flag del ciclo
+		}while( enemy>0 || danger>0 || stones>0 || award>0 || !correct_award);		
 	}//placeGameElements(GameMap, int[])
 	
 	/** metodo init(GameMap): void
@@ -170,7 +180,8 @@ public class MapConfiguration {
 		//numero casuale
 		double random = Math.random();
 		//funzione di probabilita'
-		double prob = ((x/max_x) - (n/max_n) + random*0.3) /3;		
+		double prob = ((x/max_x) - (n/max_n) + random*0.3) /3;
+		//si restituisce il valore calcolato
 		return prob;
 	}//prob(int, int, int, int)
 

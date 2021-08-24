@@ -415,21 +415,20 @@ public class GameMap implements Serializable {
 			cs = this.getMapCell(i-1, j).getCellStatus();
 			return cs.equals(CellStatus.SAFE);
 		}//fi cella sopra
-		else if(this.cellExists(i+1, j)) {
+		if(this.cellExists(i+1, j)) {
 			cs = this.getMapCell(i+1, j).getCellStatus();
 			return cs.equals(CellStatus.SAFE);
 		}//fi cella sotto
-		else if(this.cellExists(i, j-1)) {
+		if(this.cellExists(i, j-1)) {
 			cs = this.getMapCell(i, j-1).getCellStatus();
 			return cs.equals(CellStatus.SAFE);
 		}//fi cella a sinistra
-		else if(this.cellExists(i, j+1)) {
+		if(this.cellExists(i, j+1)) {
 			cs = this.getMapCell(i, j+1).getCellStatus();
 			return cs.equals(CellStatus.SAFE);
 		}//fi cella a destra
-		else {
-			return false;
-		}
+		//non ci sono celle adiacenti a quella data con status uguale a SAFE
+		return false;
 	}//areAdjacentCellsSafe(int, int)
 
 	
