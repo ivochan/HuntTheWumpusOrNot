@@ -93,7 +93,7 @@ public class Score {
 	 */
 	public static String scoreToString(){
 		//stringa con i dati del punteggio
-		String s = new String(score+"  "+nickname+"  "+score_date);
+		String s = new String(score+" "+nickname+" "+score_date);
 		//si restituisce
 		return s;
 	}//toString()

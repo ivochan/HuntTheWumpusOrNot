@@ -333,4 +333,5 @@ Funzionalità da implementare:
   - ~~probabilità pietra~~
 - ~~modificata la classe RandomAgent, ridefinendo il metodo updateRunPath(Cell) in maniera esplicita~~
 - ~~implementare l'interfaccia Serializable nella classe GameMap~~
+- ~~stabilito il formato del file dei punteggi: Punteggio Nome Data, per ogni riga del file di testo (un solo carattere spazio tra un campo e l'altro)~~
 
