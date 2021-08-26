@@ -217,58 +217,99 @@ Questa classe implementa il giocatore automatico.
 Funzionalità da implementare:
 
 - ~~creazione della classe Cell per implementare la generica casella della mappa di gioco;~~
+
 - ~~creazione dell'enumerazioni per indicare i tipi di celle che possono costituire la mappa e i tipi di sensori;~~
+
 - ~~creazione della struttura della mappa di gioco tramite la classe GameMap;~~
+
 - ~~inserire i super-pipistrelli come tipologia di cella della mappa (CellStatus.BAT);~~
+
 - implementare il posizionamento casuale dei super pipistrelli nella mappa di gioco;
+
 - prevedere lo spostamento del personaggio giocabile in una cella casuale, se in presenza di un super-pipistrello; 
+
 - definire il meccanismo del punteggio, in base alle tipologie di celle esaminate;
+
 - memorizzare il valore del punteggio acquisito via via durante la partita di gioco;
+
 - sostituire i messaggi di errore e le stampe di debug con il sollevamento delle eccezioni;
+
 - ~~correggere funzione di probabilità per il popolamento della mappa;~~        grazie a PsykeDady <3
+
 - ~~prevedere il popolamento della mappa in entrambe le modalità di gioco;~~
+
 - ~~integrare le funzionalità relative alla mappa nella classe GameMap;~~
+
 - ~~testare il popolamento manuale della mappa di gioco;~~
+
 - ~~inserire metodi ed attributi che permettano di identificare la posizione della cella nella mappa;~~
+
 - ~~testare l'indicizzazione della cella una volta messa nella mappa di gioco con i metodi accessori;~~
+
 - ~~revisionare la struttura del vettore degli elementi di gioco in modo da avere a disposizione il numero di elementi, per ogni tipologia di cella, che devono essere posizionati sulla mappa;~~
+
 - ~~strutturare il popolamento automatico della mappa di gioco game_map in modo che sia coerente con i dati degli elementi che devono essere inseriti;~~
+
 - posizionare dell'eroe (o wumpus, nella modalita' !hero_side) nella mappa di gioco, occupandosi di:
   - ~~indicizzare le celle della cornice della matrice, ciascuna con un numero da 0 a 12;~~
   - ~~creare due vettori del doppio degli elementi che contengano, rispettivamente, gli indici identificativi della posizione di ogni cella nella matrice di gioco;~~
   - ~~generare un numero casuale che definisca in quale cella posizionare l'eroe, se etichettata come SAFE;~~
+  
 - ~~testare il metodo di posizionamento dell'eroe;~~
+
 - ~~creare un metodo che inglobi il popolamento della mappa con il posizionamento dell'eroe, prevedendo il caso di ripopolare la mappa se non è stata trovata una collocazione idonea al personaggio giocabile;~~
+
 - ~~specificare gli indici che descrivono la posizione della casella nella mappa, per ogni cella della matrice;~~
+
 - ~~specificare i valori del vettore dei sensori per ogni cella vicina a quelle significative;~~
+
 - ~~testare la coerenza delle informazioni dei sensori in base al contenuto delle celle della mappa;~~
+
 - ~~testare il popolamento automatico della mappa di gioco;~~
+
 - ~~creare subpackage secondo la notazione comunemente adottata;~~
+
 - ~~eliminare il parametro int content dalla classe Cell;~~
+
 - ~~revisionare la classe Cell eliminando la scelta della modalità di gioco;~~
+
 - ~~testare tutti i metodi della classe Cell dopo averli revisionati;~~
+
 - definire una classe Rules che determini le regole di gioco, quali:
   - creare una mappa di gioco che sia quadrata o rettangolare e specificare le dimensioni massime;
+  
 - ~~spostare metodo di inizializzazione mappa fuori dal costruttore, riempimento all'esterno della classe GameMap;~~
+
 - ~~testare la classe revisionata GameMap, dopo aver spostato tutti i metodi che non si occupano della sua definizione, ma del suo riempimento;~~
+
 - ~~modificare il costruttore di GameMap in modo che crei un'istanza le cui caratteristiche potranno essere specificate in seguito;~~
+
 - ~~creare classe che si occupi delle inizializzazioni della struttura di gioco Starter;~~
+
 - ~~generalizzare la enum CellStatus, in modo da specificare in seguito chi sia il pg, chi il nemico e quali trappole si possono incontrare, in base alla modalità di gioco;~~
+
 - ~~implementazione di un unica enum SenseStatus, eliminando la distinzione tra le due modalità di gioco;~~
+
 - creare delle traduzioni degli elementi di gioco, in base alla modalità scelta in una classe apposita:
   - ~~mappa delle traduzioni se il pg è il cacciatore;~~
   - ~~mappa delle traduzioni se il pg è il wumpus;~~
+  
 - ~~definire la classe Starter che si occupa delle inizializzazioni della struttura di gioco;~~
+
 - dotare la classe Starter di tutti i metodi che consentano:
   - ~~il posizionamento degli elementi di gioco sulla mappa;~~
   - ~~il posizionamento del pg sulla mappa;~~
   - ~~l'aggiornamento del vettore dei sensori;~~
+  
 - ~~testare la classe Starter e verificare il riempimento automatico della mappa di gioco;~~
+
 - ~~verificare l'assegnamento dei sensori dopo aver popolato la mappa;~~
+
 - creare classe che si occupi dell'avvio del gioco LinkStart:
   - ~~inizializzare la mappa di esplorazione;~~
   - ~~implementare ciclo di avvio della sessione di gioco;~~
   - ~~gestisca la ricezione di un comando;~~
+  
 - implementare la sessione di gioco, in cui prevedere:
   - ~~la scelta dellla modalità di gioco;~~
   - ~~l'inizio della partita;~~
@@ -280,12 +321,15 @@ Funzionalità da implementare:
   - ~~movimento nella mappa da input (su decisione dell'utente)~~
     - ~~prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input;~~
   - ~~fornire dei messaggi esplicativi della situazione attuale nel gioco;~~
+  
 - ~~effettuare il controllo della mossa di gioco lavorando su un'istanza di GameMap le cui info si prendono dai metodi accessori;~~
+
 - definire diversi metodi di riempimento della mappa in modo che si possa scegliere se:
   - ~~posizionare il pg sulla cornice;~~
   - posizionare il pg al centro della mappa;
   - posizionare il pg in un qualsiasi punto della mappa;
   - poter scegliere tra diverse funizioni di probabilità per il riempimento della mappa;
+  
 - definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa, ad esempio:
   - ~~definire la enum che indica le direzioni in cui è possibile effettuare una mossa;~~
   - prevedere i casi di fine partita:
@@ -307,15 +351,25 @@ Funzionalità da implementare:
     - ~~richiedere la mossa successiva;~~
     - ~~personalizzare i messaggi del gioco in base alla modalità;~~
   - ~~definire l'azione di colpire il nemico, scegliendo la direzione~~;
+  
 - ~~correggere il posizionamento del pg, controllando che il passaggio dalla sua cella non sia bloccato~~;
+
 - definire la classe che definisce alcune regole di gioco Rules;
+
 - ~~aggiornare path di salvataggio del file del punteggio con la variabile d'ambiente~~;
+
 - ~~testare la modalità di gioco lato utente~~;
+
 - ordinare i punteggi in maniera decrescente;
+
 - realizzare metodo di posizionamento del pg al centro della mappa;
+
 - fare in modo che il wumpus sia posizionato al centro, se scelto come pg;
+
 - ~~definire l'interfaccia Agent, che delinea la struttura del giocatore automatico;~~
+
 - ~~definire la classe astratta "BasicAgent";~~
+
 - definire il giocatore automatico "RandomAgent":
   - si esamina la griglia di gioco, la "situazione iniziale" dell'ambiente circostante;
   - si sceglie la mossa da effettuare in base allo stato dei sensori (**TODO** da testare);
@@ -323,15 +377,23 @@ Funzionalità da implementare:
       - scegliere la direzione di sparo esaminando le celle adiacenti nella exp map;
   - ad ogni passo, si salvano gli indici della cella che è stata visitata;
   - al termine della partita mostra il percorso effettuato;
+  
 - definire il giocatore automatico "ScoreAgent";
+
 - testare la modalità di gioco automatico;
+
 - testare il popolamento della mappa di gioco,
   - ~~probabilità nemico~~
   - ~~probabilità pericolo~~
   - ~~probabilità premio~~
   - ~~accessibilità premio~~
   - ~~probabilità pietra~~
+  
 - ~~modificata la classe RandomAgent, ridefinendo il metodo updateRunPath(Cell) in maniera esplicita~~
+
 - ~~implementare l'interfaccia Serializable nella classe GameMap~~
+
 - ~~stabilito il formato del file dei punteggi: Punteggio Nome Data, per ogni riga del file di testo (un solo carattere spazio tra un campo e l'altro)~~
+
+  
 

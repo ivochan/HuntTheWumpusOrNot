@@ -14,7 +14,7 @@ public class ScoreMemo {
 	//##### attributi di classe #####
 	
 	//nome del file
-	private static String name = new String("\\Punteggi.txt");
+	private static String name = new String("/Punteggi.txt");
 	//path in cui creare il file
 	private static String path = System.getProperty("user.dir") + name;
 	//##### metodi per interagire con il file di testo #####
