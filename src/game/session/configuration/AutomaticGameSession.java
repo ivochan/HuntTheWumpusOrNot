@@ -14,9 +14,14 @@ import game.structure.map.MapConfiguration;
  */
 public class AutomaticGameSession {
 	//##### attributi di classe #####
+	
 	//mappe di gioco
 	private static GameMap gm;
 	private static GameMap em;
+	//punteggio
+	private static Score score;
+	//nome del giocatore automatico
+	private static String ia_name = "AutomaticPlayer";
 		
 	/** metodo start(): void
 	 * questo metodo avvia la sezione di gioco, preparando il terreno
@@ -38,13 +43,14 @@ public class AutomaticGameSession {
 		em = new GameMap(); 
 		//creazione della mappa di gioco
 		gm = new GameMap();
+		//si inizializza il punteggio
+		score = new Score(ia_name);
+		//stampa
 		System.out.println("Preparazione del terreno di gioco....\n");
 		//creazione della mappa
 		MapConfiguration.init(gm,em);
 		//stampa della mappa
 		System.out.println(gm.gameMaptoString());
-		//si inizializza il punteggio
-		Score.resetScoreData();
 		//si inizializza il file
 		ScoreMemo.createScoreFile();
 	}//start()
@@ -61,7 +67,7 @@ public class AutomaticGameSession {
 			//si effettua la mossa
 			player.chooseMove(em, gm);
 			//si mostra il punteggio
-			System.out.println("Punteggio parziale: "+Score.printScore());
+			System.out.println("Punteggio parziale: "+score.printScore());
 		}//end while sessione di gioco
 		//si stampa la mappa di esplorazione
 		System.out.println(em.gameMaptoString());
@@ -80,9 +86,9 @@ public class AutomaticGameSession {
 		//si resetta la disponibilita' del colpo
 		Starter.setChanceToHit(true);
 		//punteggio
-		System.out.println("Questo e' il tuo punteggio:\n"+Score.getScore());
+		System.out.println("Questo e' il tuo punteggio:\n"+score.getScore());
 		//si memorizza il punteggio
-		ScoreMemo.saveScore(Score.scoreToString());
+		ScoreMemo.saveScore(score.toString());
 		//pulizia della console
 		clearConsole();
 	}//end()

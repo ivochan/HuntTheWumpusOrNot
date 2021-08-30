@@ -14,12 +14,13 @@ public class LinkStart {
 	private static Scanner input = new Scanner(System.in);
 	//acquisizione comando
 	private static char command = ' ';
+	//nome del giocatore
+	private static String player_name;
+	
 	//main
 	public static void main(String [] args) {
 		//avvio sessione di gioco
 		do {
-			//si elimina il file dei punteggi
-			//ScoreMemo.deleteScoreFile();
 			System.out.println("\nLoading the G4M3.......");
 			//stampe all'utente
 			System.out.println(GameMessages.command_legend);
@@ -48,6 +49,11 @@ public class LinkStart {
 			else if(command == 'q') {
 				System.out.println("Chiusura del gioco...");
 			}//fi quit
+			else if(command == 'n') {
+				System.out.println("Inserisci il tuo nome:> ");
+				//acquisizione del nome da input
+				player_name = input.next(); 
+			}//fi setting name
 			//comando errato
 			else {
 				System.out.println("Comando errato!\n");
@@ -55,4 +61,15 @@ public class LinkStart {
 		}while(command != 'q') ;//end while avvio dell'applicazione
 		System.out.println("Ciao, alla prossima!");
 	}//end main
+	
+	//##### metodi accessori per il nome del giocatore #####
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getPlayerName() {
+		return player_name;
+	}//getPlayerName()
+	
 }//end LinkStart

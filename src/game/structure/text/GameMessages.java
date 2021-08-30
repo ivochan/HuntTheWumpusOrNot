@@ -3,7 +3,7 @@ package game.structure.text;
 public class GameMessages {
 	//descrizione comandi
 	public final static String command_legend = "Ecco la lista dei comandi:\n"+
-								"[q - quit] [g - game start] [s - score] [c - credits]";
+								"[q - quit] [g - game start] [s - score] [c - credits] [n - set player name]";
 	//richiesta di azione da parte dell'utente
 	public final static String command_request = "Cosa vuoi fare?"; 
 	//richiesta di scelta della modalita' di gioco

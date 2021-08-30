@@ -1,4 +1,5 @@
 package game.session.score;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import game.structure.cell.CellStatus;
 /** class Score
@@ -15,29 +16,72 @@ public class Score {
 	public static final int STEP = -1; //mossa
 	public static final int HIT = 50; //colpo andato a segno
 	//valore del punteggio
-	private static int score = 0;
+	private static int score;
 	//nickname del giocatore
-	private static String nickname = new String("Giocatore");
+	private String nickname;
 	//data e ora del punteggio
-	private static String score_date = new Date().toString();
+	private String date;
+	//formato della data
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	//numero di mosse compiute
 	private static int move_count;
+	
+	//##### costruttori #####
+	
+	/** costruttore di default
+	 * inizializza tutti i campi a dei valori di default
+	 */
+	public Score() {
+		//punteggio
+		score=0;
+		//nome del giocatore
+		nickname=new String("Giocatore");
+		//data della partita
+		date = new String(sdf.format(new Date()));
+		//numero di mosse
+		move_count=0;
+	}//Score()
+	
+	/** costruttore Score(String)
+	 * questo costruttore permette di inserire un nome diverso
+	 * da quello di default per il giocatore
+	 * @param nickname: String, nome del giocatore
+	 */
+	public Score(String nickname) {
+		//punteggio
+		score=0;
+		//controllo sul parametro
+		if(nickname==null || nickname.isEmpty()) {
+			//nome del giocatore
+			this.nickname=new String("Giocatore");	
+		}//fi
+		else {
+			this.nickname = new String(nickname);
+		}//esle
+		//data della partita
+		date = new String(sdf.format(new Date()));
+		//numero di mosse
+		move_count=0;
+	}//Score(String)
+	
+	
+	
 	//##### metodi accessori: punteggio #####
 		
 	/** metodo getScore(): int
 	 * @return score: int, punteggio del giocatore.
 	 */
-	public static int getScore() {
+	public int getScore() {
 		//si restituisce il valore del punteggio
 		return score;
 	}//getScore()
 	
 	/** metodo setScore(): void
-	 * @param s: int, punteggio da impostare
+	 * @param score_value: int, punteggio da impostare
 	 */
-	public static void setScore(int s) {
+	public void setScore(int score_value) {
 		//si imposta il valore del punteggio
-		score=s;
+		score=score_value;
 	}//setScore(int)
 	
 	//##### metodi accessori: numero di mosse #####
@@ -46,7 +90,7 @@ public class Score {
 	 * questo metodo restituisce il numero di mosse 
 	 * effettuate dal giocatore durante la partita
 	 */
-	public static int getMoveCount() {
+	public  int getMoveCount() {
 		//si restituisce il numero di mosse effettuale
 		return move_count;
 	}//getMoveCount()
@@ -55,7 +99,7 @@ public class Score {
 	 * questo metodo consente di modificare il numero di mosse
 	 * @param mc: int, nuovo valore del numero di mosse;
 	 */
-	public static void setMoveCount(int mc) {
+	public void setMoveCount(int mc) {
 		//controllo sul parametro
 		if(mc<0) throw new IllegalArgumentException("numero di mosse negativo");
 		//si aggiorna il numero di mosse
@@ -69,7 +113,7 @@ public class Score {
 	 * ha memorizzato il suo punteggio
 	 * @return nickname: String, nome del giocatore.
 	 */
-	public static String getNickname() {
+	public String getNickname() {
 		//si restituisce il nome del giocatore
 		return nickname;
 	}//getNickname()
@@ -79,7 +123,7 @@ public class Score {
 	 * giocatore vuole memorizzare il suo punteggio.
 	 * @param nickname: String, nome del giocatore.
 	 */
-	public static void setNickname(String nick) {
+	public void setNickname(String nick) {
 		//controllo sul parametro
 		if(nick==null) throw new IllegalArgumentException("nickname non valido");
 		//si aggiorna il nickname
@@ -88,12 +132,13 @@ public class Score {
 	
 	//##### altri metodi #####
 	
-	/** metodo scoreToString(): String
+	/** metodo toString(): String
 	 * @return score: String, stampa del punteggio.
 	 */
-	public static String scoreToString(){
+	@Override
+	public String toString(){
 		//stringa con i dati del punteggio
-		String s = new String(score+" "+nickname+" "+score_date);
+		String s = new String(score+" "+nickname+" "+date);
 		//si restituisce
 		return s;
 	}//toString()
@@ -103,7 +148,7 @@ public class Score {
 	 * che contiene solamente il valore del punteggio
 	 * @return print_score: String, valore del punteggio corrente
 	 */
-	public static String printScore() {
+	public String printScore() {
 		//stringa ausiliaria
 		String print_score;
 		//si assegna il valore
@@ -150,11 +195,11 @@ public class Score {
 	/** metodo resetScoreData(): void
 	 * resetta il punteggio attuale
 	 */
-	public static void resetScoreData() {
+	public  void resetScoreData() {
 		//si assegnano alle variabili i valori di default
 		score = 0;
 		nickname = new String("Giocatore");
-		score_date = new Date().toString();
+		date = new String(sdf.format(new Date()));
 		move_count=0;
 	}//resetScoreData()
 	

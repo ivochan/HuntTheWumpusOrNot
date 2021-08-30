@@ -19,11 +19,18 @@ import game.structure.text.GameMessages;
 public class AutomaticAgentTest {
 	
 	//##### attributi di classe #####
+	
 	//mappe di gioco
 	private static GameMap gm;
 	private static GameMap em;
+	//punteggio
+	private static Score score;
+	//nome del giocatore automatico
+	private static String ia_name = "AutomaticPlayer";
 	
-	//main
+	/** main
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		//test 
 		System.out.println(GameMessages.automatic_player);
@@ -34,8 +41,7 @@ public class AutomaticAgentTest {
 		//fine della partita
 		AutomaticGameSession.end();
 		
-	}//end main
-	
+	}//end main	
 	
 	/** metodo start(): void
 	 * questo metodo avvia la sezione di gioco, preparando il terreno
@@ -53,6 +59,8 @@ public class AutomaticAgentTest {
 		Starter.setChanceToHit(true);
 		//intro al pg
 		System.out.println(Starter.trad_mex.get(CellStatus.PG));
+		//si inizializza il punteggio
+		score = new Score(ia_name);
 		//creazione della mappa di esplorazione
 		em = new GameMap(); 
 		//creazione della mappa di gioco
@@ -63,8 +71,6 @@ public class AutomaticAgentTest {
 		MapConfiguration.init(gm,em);
 		//stampa della mappa
 		System.out.println(gm.gameMaptoString());
-		//si inizializza il punteggio
-		Score.resetScoreData();
 		//si inizializza il file
 		ScoreMemo.createScoreFile();
 	}//start()	
@@ -81,7 +87,7 @@ public class AutomaticAgentTest {
 			//si effettua la mossa
 			player.chooseGameMove(em, gm);
 			//si mostra il punteggio
-			System.out.println("Punteggio parziale: "+Score.printScore());
+			System.out.println("Punteggio parziale: "+score.printScore());
 		}//end while sessione di gioco
 		//si stampa la mappa di esplorazione
 		System.out.println(em.gameMaptoString());
@@ -102,9 +108,9 @@ public class AutomaticAgentTest {
 		//si resetta la disponibilita' del colpo
 		Starter.setChanceToHit(true);
 		//punteggio
-		System.out.println("Questo e' il tuo punteggio:\n"+Score.getScore());
+		System.out.println("Questo e' il tuo punteggio:\n"+score.getScore());
 		//si memorizza il punteggio
-		ScoreMemo.saveScore(Score.scoreToString());
+		ScoreMemo.saveScore(score.toString());
 		//pulizia della console
 		clearConsole();
 	}//end()			

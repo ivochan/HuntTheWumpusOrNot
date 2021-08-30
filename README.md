@@ -395,5 +395,13 @@ Funzionalità da implementare:
 
 - ~~stabilito il formato del file dei punteggi: Punteggio Nome Data, per ogni riga del file di testo (un solo carattere spazio tra un campo e l'altro)~~
 
+- ~~stabilire il formato della data per il punteggio~~
+
+- ~~rendere quasi tutti i metodi della classe Score non statici ma richiamabili su una sua istanza~~
+
+- ~~definire un nome per il giocatore automatico~~
+
+- ~~prevedere l'inserimento del nome del giocatore dal menu di avvio del gioco~~
+
   
 

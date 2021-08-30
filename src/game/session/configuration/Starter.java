@@ -30,7 +30,7 @@ public class Starter {
 	//colpo a disposizione
 	private static boolean chance_to_hit;
 	private static Direction shot_dir;
-
+	
 	/** metodo chooseGameMode(): void
 	 * questo metodo si occupa di impostare la modalita' di gioco
 	 */

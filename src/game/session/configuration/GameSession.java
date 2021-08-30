@@ -1,5 +1,6 @@
 package game.session.configuration;
 //serie di import
+import java.util.Scanner;
 import game.session.controller.Controller;
 import game.session.controller.Direction;
 import game.session.score.Score;
@@ -10,6 +11,7 @@ import game.structure.elements.PlayableCharacter;
 import game.structure.map.GameMap;
 import game.structure.map.MapConfiguration;
 import game.structure.text.GameMessages;
+import game.session.start.LinkStart;
 /** class GameSession
  * questa classe implementa la sessione di gioco
  * avviata nella classe LinkStart
@@ -21,9 +23,11 @@ public class GameSession {
 	//mappa di gioco
 	private static GameMap gm;
 	//mappa di esplorazione
-	private static GameMap em;
-	
-	//##### metodi #####
+	private static GameMap em;	
+	//punteggio
+	private static Score score;
+	//nome del giocatore
+	private static String player_name;
 	
 	/** metodo start(): void
 	 * questo metodo avvia la sezione di gioco, preparando il terreno
@@ -45,6 +49,10 @@ public class GameSession {
 		em = new GameMap(); 
 		//creazione della mappa di gioco
 		gm = new GameMap();
+		//si preleva il nome del giocatore
+		player_name = LinkStart.getPlayerName();
+		//si inizializza il punteggio
+		score = new Score(player_name);
 		//riempimento della mappa della mappa
 		MapConfiguration.init(gm, em);
 		//DEBUG: stampa della mappa di gioco
@@ -55,10 +63,8 @@ public class GameSession {
 		System.out.println(em.mapToStringAndLegend());
 		//si visualizzano le informazioni iniziali per la partita
 		startInfo();
-		//si inizializza il punteggio
-		Score.resetScoreData();
 		//si inizializza il file
-		ScoreMemo.createScoreFile();;
+		ScoreMemo.createScoreFile();
 	}//start()
 	
 	/** metodo startInfo(): void
@@ -133,7 +139,7 @@ public class GameSession {
 				Starter.setWalk(false);
 			}//fi
 			//punteggio parziale
-			System.out.println("Punteggio attuale: "+Score.printScore());
+			System.out.println("Punteggio attuale: "+score.printScore());
 		}//end while sessione di gioco
 	}//play()
 	
@@ -148,9 +154,9 @@ public class GameSession {
 		//si resetta la disponibilita' del colpo
 		Starter.setChanceToHit(true);
 		//punteggio
-		System.out.println("Questo e' il tuo punteggio: "+Score.getScore());
+		System.out.println("Questo e' il tuo punteggio: "+score.getScore());
 		//si memorizza il punteggio
-		ScoreMemo.saveScore(Score.scoreToString());
+		ScoreMemo.saveScore(score.toString());
 		//pulizia della console
 		clearConsole();
 	}//end()
