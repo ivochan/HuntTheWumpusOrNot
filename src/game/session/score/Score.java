@@ -22,7 +22,7 @@ public class Score {
 	//data e ora del punteggio
 	private String date;
 	//formato della data
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
 	//numero di mosse compiute
 	private static int move_count;
 	
