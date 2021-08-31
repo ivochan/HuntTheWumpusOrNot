@@ -1,10 +1,9 @@
 package game.session.configuration;
 //serie di import
-import java.util.Scanner;
 import game.session.controller.Controller;
 import game.session.controller.Direction;
 import game.session.score.Score;
-import game.session.score.ScoreMemo;
+import game.session.score.ScoreUtility;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.elements.PlayableCharacter;
@@ -64,7 +63,7 @@ public class GameSession {
 		//si visualizzano le informazioni iniziali per la partita
 		startInfo();
 		//si inizializza il file
-		ScoreMemo.createScoreFile();
+		ScoreUtility.createScoreFile();
 	}//start()
 	
 	/** metodo startInfo(): void
@@ -156,7 +155,7 @@ public class GameSession {
 		//punteggio
 		System.out.println("Questo e' il tuo punteggio: "+score.getScore());
 		//si memorizza il punteggio
-		ScoreMemo.saveScore(score.toString());
+		ScoreUtility.saveScore(score.toString());
 		//pulizia della console
 		clearConsole();
 	}//end()

@@ -2,7 +2,7 @@ package game.session.configuration;
 //serie di import
 import game.player.agent.RandomAgent;
 import game.session.score.Score;
-import game.session.score.ScoreMemo;
+import game.session.score.ScoreUtility;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
 import game.structure.map.MapConfiguration;
@@ -52,7 +52,7 @@ public class AutomaticGameSession {
 		//stampa della mappa
 		System.out.println(gm.gameMaptoString());
 		//si inizializza il file
-		ScoreMemo.createScoreFile();
+		ScoreUtility.createScoreFile();
 	}//start()
 		
 	/** metodo play(): void
@@ -88,7 +88,7 @@ public class AutomaticGameSession {
 		//punteggio
 		System.out.println("Questo e' il tuo punteggio:\n"+score.getScore());
 		//si memorizza il punteggio
-		ScoreMemo.saveScore(score.toString());
+		ScoreUtility.saveScore(score.toString());
 		//pulizia della console
 		clearConsole();
 	}//end()

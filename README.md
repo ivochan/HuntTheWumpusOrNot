@@ -198,7 +198,7 @@ Il punteggio verrà calcolato tenendo conto delle seguenti penalità/ ricompense
 - **-100**, è il valore che viene sottratto al punteggio complessivo se il giocatore incontra il nemico **ENEMY**, ovvero se viene ferito dal Wumpus, se sta impersonando l'Avventuriero, oppure se viene ucciso dal cacciatore, se si sta giocando nel ruolo del Wumpus, DEAD = -100;
 - **-1**, è la penalità che viene assegnata per ogni mossa compiuta, cioè per ogni cella in  cui verrà scelto di posizionare il personaggio giocabile, *STEP = -1*;
 
-### Score Memo
+### Score Utility
 
 Questa classe si occupa di memorizzare il punteggio del giocatore al termine di ogni partita, utilizzando un file di testo, denominato *Punteggi.txt*. Alla chiusura dell'applicazione questo file verrà eliminato.
 

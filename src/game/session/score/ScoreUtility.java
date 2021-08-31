@@ -1,22 +1,23 @@
 package game.session.score;
-//TODO ordinamento dei punteggi nel file in ordine decrescente
+//serie di import
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-/** class ScoreMemo
+//TODO rendere questa classe di servizio
+/** class ScoreUtility
  * questa classe serve per interagire con il file di testo su
  * cui verranno memorizzati tutti i punteggi ottenuti dall'utente
  * @author ivonne
  */
-public class ScoreMemo {
-	//##### attributi di classe #####
-	
-	//nome del file
-	private static String name = new String("/Punteggi.txt");
+public class ScoreUtility {
+
+	//nome del file dei punteggi
+	private static String name = new String("/Scores.txt");
 	//path in cui creare il file
 	private static String path = System.getProperty("user.dir") + name;
+
 	//##### metodi per interagire con il file di testo #####
 	
 	/** metodo createScoreFile(): void
@@ -30,6 +31,7 @@ public class ScoreMemo {
 				+ " attributo di classe non valido");
 		//si crea il file
 		File f = new File(path);
+		//cattura dell'eventuale eccezione
 		try {
 			//file esistente
 			if(f.exists()) {
@@ -192,4 +194,82 @@ public class ScoreMemo {
 		name = new String(n);
 	}//setPath(String)
 	
-}//end ScoreMemo
+	/** metodo scoreFileAnalysis()
+	 * metodo per analizzare il contenuto di ogni riga del file dei punteggi
+	 * estrapolare il punteggio, il nome del giocatore e la data in cui e' stato registrato
+	 */
+	public static void scoreFileAnalysis() {
+		//vettore che conterra' gli elementi ottenuti dal parsing di ogni riga del file
+		String [] score_line = new String[3];		
+		//si istanzia il file dei punteggi
+		File f = new File(path);		
+		//analisi del file
+		if(!f.exists()) {
+			System.err.println("File inesistente!");
+			return;
+		}
+		else {
+			try {
+				//si istanzia la classe per la lettura
+				FileReader fr = new FileReader(f);
+				//buffer
+				BufferedReader b = new BufferedReader(fr);
+				//variabile ausiliaria
+				String s=new String("");
+				//si cicla fino a quando non si trova una linea vuota
+				do {
+					//si legge la riga
+					s=b.readLine();
+					//stringa temporanea
+					String temp = new String("");
+					//indice per iterare il vettore
+					int index=0;
+					//contatore del carattere spazio ' '
+					int space_count=0;
+					//controllo sulla stringa
+					if(s!=null) {
+						//System.out.println(s);
+						//iterazione della stringa che rappresenta la riga
+						for( char c: s.toCharArray()) {
+							//concatenzaione dei caratteri che vengono estratti
+							temp+=c;
+							//si incontra uno spazio
+							if(c==' ') {
+								//punteggio o nome
+								if(space_count<3) {
+									//si aumenta il contatore
+									space_count++;
+									//si memorizza del vettore
+									score_line[index] = temp;
+									//si resetta la variabile temporanea
+									temp = "";
+								}//fi
+								else {
+									//oggetto data, se sono gia' stati incontrati due caratteri spazio ' '
+									//si memorizza nel vettore
+									score_line[index] = temp;
+								}//esle
+								//indice del vettore aumentato
+								if(index<2)index++;
+							}//fi
+						}//for
+						//System.out.println("punti "+score_line[0]);
+						//System.out.println("nome "+score_line[1]);
+						//System.out.println("data "+score_line[2]);
+						//TODO inserimento dei dati della riga analizzata nella struttura dati
+						
+						
+						
+					}//fi controllo
+				}while(s!=null);//while
+				//si chiude il processo di lettura
+				fr.close();
+			}//try
+			catch(IOException e) {
+				e.printStackTrace();
+			}//catch
+		}//esle
+
+	}//scoreFileAnalysis
+	
+}//end ScoreUtility

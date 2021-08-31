@@ -1,6 +1,12 @@
 package game.structure.text;
-
+/** classe GameMessages
+ * contiene i messaggi utilizzati all'interno del gioco
+ * per fornire delle informazioni all'utente
+ * @author ivochan
+ *
+ */
 public class GameMessages {
+
 	//descrizione comandi
 	public final static String command_legend = "Ecco la lista dei comandi:\n"+
 								"[q - quit] [g - game start] [s - score] [c - credits] [n - set player name]";

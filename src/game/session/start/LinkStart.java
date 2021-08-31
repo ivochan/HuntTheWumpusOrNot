@@ -2,7 +2,7 @@ package game.session.start;
 //serie di import
 import java.util.Scanner;
 import game.player.Player;
-import game.session.score.ScoreMemo;
+import game.session.score.ScoreUtility;
 import game.structure.text.GameMessages;
 /** class LinkStart
  * classe che si occupa di avviare l'applicazione, 
@@ -33,7 +33,7 @@ public class LinkStart {
 			}//fi credits
 			else if(command == 's') {
 				System.out.println("Riuscirai a battere questi punteggi?");
-				ScoreMemo.readScoreFile();
+				ScoreUtility.readScoreFile();
 			}//fi score
 			else if(command == 'g') {
 				//variabile ausiliaria per il tipo di giocatore
