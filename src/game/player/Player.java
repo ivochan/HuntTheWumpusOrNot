@@ -1,8 +1,8 @@
 package game.player;
+//serie di import
 import game.session.configuration.AutomaticGameSession;
 import game.session.configuration.GameSession;
 import game.structure.text.GameMessages;
-import game.structure.text.GameTranslations;
 import java.util.Scanner;
 /**
  * 

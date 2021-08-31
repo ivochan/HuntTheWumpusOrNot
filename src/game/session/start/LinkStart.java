@@ -16,6 +16,8 @@ public class LinkStart {
 	private static char command = ' ';
 	//nome del giocatore
 	private static String player_name;
+	//flag per la modalita' di gioco
+	private static boolean human;
 	
 	//main
 	public static void main(String [] args) {
@@ -32,12 +34,13 @@ public class LinkStart {
 				System.out.println(GameMessages.credits);
 			}//fi credits
 			else if(command == 's') {
-				System.out.println("Riuscirai a battere questi punteggi?");
+				System.out.println("Riuscirai a battere questi punteggi?\n");
+				//lettura del file dei punteggi
 				ScoreUtility.readScoreFile();
 			}//fi score
 			else if(command == 'g') {
 				//variabile ausiliaria per il tipo di giocatore
-				boolean human = Player.chooseType();
+				human = Player.chooseType();
 				//verifica della scelta
 				if(human) {
 					Player.humanMode();
@@ -45,6 +48,8 @@ public class LinkStart {
 				else {
 					Player.automaticMode();
 				}//else
+				//aggiornamento del file dei punteggi
+				ScoreUtility.updateScoreFile();
 			}//fi game
 			else if(command == 'q') {
 				System.out.println("Chiusura del gioco...");
@@ -72,4 +77,7 @@ public class LinkStart {
 		return player_name;
 	}//getPlayerName()
 	
+	public static boolean isHumanMode() {
+		return human;
+	}
 }//end LinkStart

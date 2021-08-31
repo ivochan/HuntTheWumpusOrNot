@@ -23,10 +23,11 @@ public class GameSession {
 	private static GameMap gm;
 	//mappa di esplorazione
 	private static GameMap em;	
-	//punteggio
-	private static Score score;
 	//nome del giocatore
 	private static String player_name;
+	//punteggio corrente
+	private static Score score;
+	
 	
 	/** metodo start(): void
 	 * questo metodo avvia la sezione di gioco, preparando il terreno
@@ -51,7 +52,9 @@ public class GameSession {
 		//si preleva il nome del giocatore
 		player_name = LinkStart.getPlayerName();
 		//si inizializza il punteggio
-		score = new Score(player_name);
+		score = new Score();
+		//si imposta il nome del giocatore
+		score.setNickname(player_name);
 		//riempimento della mappa della mappa
 		MapConfiguration.init(gm, em);
 		//DEBUG: stampa della mappa di gioco
@@ -172,5 +175,20 @@ public class GameSession {
 		System.out.println("\n");
 		System.out.println("\n");
 	}//clearConsole()
+	
+	//##### metodo per il punteggio #####
+	
+	/** metodo getCurrentScore(): Score
+	 * questo metodo consente di accedere alla variabile
+	 * di classe che contiene il punteggio ottenuto durante
+	 * la sessione di gioco.
+	 * @return score: Score, oggetto che rappresenta il punteggio
+	 * 					conseguito dal giocatore durante la sessione
+	 * 					di gioco, comprensivo di tutte le informazioni,
+	 * 					quali nome del giocatore, punti e data.
+	 */
+	public static Score getCurrentScore() {
+		return score;
+	}//getCurrentScore()
 	
 }//end GameSession

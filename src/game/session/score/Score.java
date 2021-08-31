@@ -15,14 +15,16 @@ public class Score {
 	public static final int DEAD = -100; //nemico
 	public static final int STEP = -1; //mossa
 	public static final int HIT = 50; //colpo andato a segno
-	//valore del punteggio
-	private static int score;
+	
 	//nickname del giocatore
 	private String nickname;
-	//data e ora del punteggio
-	private String date;
-	//formato della data
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
+	//data e ora del punteggio 	nel formato :dd-MM-yyyy HH:mm:ss.SSS
+	private Date date;
+	//strumento di formattazione della data
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
+	
+	//valore del punteggio
+	private Integer score_value;
 	//numero di mosse compiute
 	private static int move_count;
 	
@@ -33,11 +35,11 @@ public class Score {
 	 */
 	public Score() {
 		//punteggio
-		score=0;
+		score_value=0;
 		//nome del giocatore
 		nickname=new String("Giocatore");
 		//data della partita
-		date = new String(sdf.format(new Date()));
+		date = new Date();
 		//numero di mosse
 		move_count=0;
 	}//Score()
@@ -46,44 +48,113 @@ public class Score {
 	 * questo costruttore permette di inserire un nome diverso
 	 * da quello di default per il giocatore
 	 * @param nickname: String, nome del giocatore
+	 * questo costruttore viene utilizzato nel caso del giocatore automatico
 	 */
 	public Score(String nickname) {
 		//punteggio
-		score=0;
+		score_value=0;
 		//controllo sul parametro
 		if(nickname==null || nickname.isEmpty()) {
 			//nome del giocatore
-			this.nickname=new String("Giocatore");	
+			this.nickname=new String("Player");	
 		}//fi
 		else {
 			this.nickname = new String(nickname);
 		}//esle
 		//data della partita
-		date = new String(sdf.format(new Date()));
+		date = new Date();
 		//numero di mosse
 		move_count=0;
 	}//Score(String)
+	/** costruttore Score(Integer, String, Date)
+	 * costruttore che riceve tutti i parametri
+	 * @param score_value
+	 * @param nickname
+	 * @param date
+	 */
+	public Score(Integer score_value, String nickname, Date date) {
+		//controllo sui parametri
+		if(score_value==null)throw new IllegalArgumentException("punteggio non valido");
+		if(nickname==null) throw new IllegalArgumentException("nickname non valido");
+		if(date==null)throw new IllegalArgumentException("data non valida");
+		////creazione dell'oggetto
+		this.score_value=score_value;
+		this.nickname=nickname;
+		this.date=date;
+	}//Score(Integer,String,Date)
 	
-	
-	
-	//##### metodi accessori: punteggio #####
 		
-	/** metodo getScore(): int
-	 * @return score: int, punteggio del giocatore.
+	//##### metodi accessori: value #####
+	
+	/** metodo getScore(): Integer
+	 * @return score_value: Integer, punteggio del giocatore.
 	 */
-	public int getScore() {
+	public Integer getScore() {
 		//si restituisce il valore del punteggio
-		return score;
+		return score_value;
 	}//getScore()
-	
+		
 	/** metodo setScore(): void
-	 * @param score_value: int, punteggio da impostare
+	 * @param score: Integer, punteggio da impostare
 	 */
-	public void setScore(int score_value) {
+	public void setScore(Integer score) {
+		//controllo sul parametro
+		if(score==null)throw new IllegalArgumentException("punteggio non valido");
 		//si imposta il valore del punteggio
-		score=score_value;
-	}//setScore(int)
+		score_value=score;
+	}//setScore(Integer)
 	
+	//##### metodi accessori: nickname giocatore #####
+	
+	/** metodo getNickname(): String
+	 * questo metodo restituisce il nome con cui il giocatore
+	 * ha memorizzato il suo punteggio
+	 * @return nickname: String, nome del giocatore.
+	 */
+	public String getNickname() {
+		//si restituisce il nome del giocatore
+		return nickname;
+	}//getNickname()
+		
+	/** metodo setNickname(String) : void
+	 * questo metodo permette di specificare il nickname con cui il
+	 * giocatore vuole memorizzare il suo punteggio.
+	 * @param nickname: String, nome del giocatore.
+	 */
+	public void setNickname(String nickname) {
+		//controllo sul parametro
+		if(nickname==null || nickname.isEmpty()) {
+			this.nickname=new String("Player");
+		}
+		else {
+			//si aggiorna il nickname
+			this.nickname=nickname;
+		}
+	}//setNickname(String)
+	
+	//##### metodi accessori: data #####
+	
+	/** metodo getDate(): Date
+	 * @return date: Date, restituisce la data in cui e' stato
+	 * 						acquisito il punteggio.
+	 */
+	public Date getDate() {
+		//si restituisce la data 
+		return date;
+	}//getDate()
+		
+	/** metodo setDate(Date): void
+	 * questo metodo permette di modificare la data 
+	 * del punteggio
+	 * @param score_date: Date, la nuova data;
+	 */
+	public void setDate(Date score_date) {
+		//controllo sul paramentro
+		if(date==null)throw new IllegalArgumentException("data non valida");
+		//si aggiorna il campo data
+		date=score_date;
+	}//setDate(String)
+		
 	//##### metodi accessori: numero di mosse #####
 	
 	/** metodo getMoveCount(): int
@@ -106,30 +177,6 @@ public class Score {
 		move_count=mc;
 	}//setMoveCount(int)
 	
-	//##### metodi accessori: nickname giocatore #####
-	
-	/** metodo getNickname(): String
-	 * questo metodo restituisce il nome con cui il giocatore
-	 * ha memorizzato il suo punteggio
-	 * @return nickname: String, nome del giocatore.
-	 */
-	public String getNickname() {
-		//si restituisce il nome del giocatore
-		return nickname;
-	}//getNickname()
-	
-	/** metodo setNickname(String) : void
-	 * questo metodo permette di specificare il nickname con cui il
-	 * giocatore vuole memorizzare il suo punteggio.
-	 * @param nickname: String, nome del giocatore.
-	 */
-	public void setNickname(String nick) {
-		//controllo sul parametro
-		if(nick==null) throw new IllegalArgumentException("nickname non valido");
-		//si aggiorna il nickname
-		nickname=nick;
-	}//setNickname(String)
-	
 	//##### altri metodi #####
 	
 	/** metodo toString(): String
@@ -138,7 +185,7 @@ public class Score {
 	@Override
 	public String toString(){
 		//stringa con i dati del punteggio
-		String s = new String(score+" "+nickname+" "+date);
+		String s = new String(score_value+" "+nickname+" "+sdf.format(date));
 		//si restituisce
 		return s;
 	}//toString()
@@ -152,7 +199,7 @@ public class Score {
 		//stringa ausiliaria
 		String print_score;
 		//si assegna il valore
-		print_score=new String(""+score);
+		print_score=new String(""+score_value);
 		//si restituisce
 		return print_score;
 	}//printScore()
@@ -162,45 +209,34 @@ public class Score {
 	 * verra' compiuta un mossa 
 	 * @param cs: CellStatus, stato della cella.
 	 */
-	public static void updateScore(CellStatus cs){
+	public  void updateScore(CellStatus cs){
 		//numero di mosse compiute
 		move_count++;
 		//si aggiorna il valore del punteggio
 		switch(cs){
 		//calcolo del punteggio in base alla cella
 		case ENEMY : 
-			score= score + DEAD;
+			score_value= score_value + DEAD;
 			break;
 		case DANGER :
-			score = score + TRAP;
+			score_value = score_value + TRAP;
 			break;
 		case AWARD:
-			score = score + WIN;
+			score_value = score_value + WIN;
 			break;
 		default: //SAFE e FORBIDDEN
 			break;
 		}//end switch
 		//nel punteggio si deve considerare anche il numero di mosse
-		score = score + STEP;
-	}//updateScore(CellStatus)
+		score_value = score_value + STEP;
+	}//updatescore_value(CellStatus)
 
 	/** metodo hitScore(): void
 	 * questo metodo si occupa di aggiornare il punteggio
 	 * se e' stato colpito il nemico
 	 */
-	public static void hitScore() {
-		score = score + HIT;
+	public void hitScore() {
+		score_value = score_value + HIT;
 	}//hitScore()
 		
-	/** metodo resetScoreData(): void
-	 * resetta il punteggio attuale
-	 */
-	public  void resetScoreData() {
-		//si assegnano alle variabili i valori di default
-		score = 0;
-		nickname = new String("Giocatore");
-		date = new String(sdf.format(new Date()));
-		move_count=0;
-	}//resetScoreData()
-	
 }//end Score

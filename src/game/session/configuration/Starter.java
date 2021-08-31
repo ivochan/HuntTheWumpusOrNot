@@ -29,8 +29,9 @@ public class Starter {
 	private static boolean try_to_hit;
 	//colpo a disposizione
 	private static boolean chance_to_hit;
+	//direzione del colpo
 	private static Direction shot_dir;
-	
+		
 	/** metodo chooseGameMode(): void
 	 * questo metodo si occupa di impostare la modalita' di gioco
 	 */
@@ -318,5 +319,5 @@ public class Starter {
 		//si restituisce il valore della variabile
 		return chance_to_hit;
 	}//getChanceToHit()
-
+	
 }//end Starter

@@ -5,7 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-//TODO rendere questa classe di servizio
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.TreeMap;
 /** class ScoreUtility
  * questa classe serve per interagire con il file di testo su
  * cui verranno memorizzati tutti i punteggi ottenuti dall'utente
@@ -17,6 +21,10 @@ public class ScoreUtility {
 	private static String name = new String("/Scores.txt");
 	//path in cui creare il file
 	private static String path = System.getProperty("user.dir") + name;
+	
+	//formato della data
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
+
 
 	//##### metodi per interagire con il file di testo #####
 	
@@ -194,15 +202,19 @@ public class ScoreUtility {
 		name = new String(n);
 	}//setPath(String)
 	
+	//##### metodi gestione del file dei punteggi #####
+	
 	/** metodo scoreFileAnalysis()
 	 * metodo per analizzare il contenuto di ogni riga del file dei punteggi
 	 * estrapolare il punteggio, il nome del giocatore e la data in cui e' stato registrato
 	 */
-	public static void scoreFileAnalysis() {
+	public static void scoreFileAnalysis(TreeMap<Score, String> map) {
 		//vettore che conterra' gli elementi ottenuti dal parsing di ogni riga del file
-		String [] score_line = new String[3];		
+		String [] score_line = new String[3];
+			
 		//si istanzia il file dei punteggi
-		File f = new File(path);		
+		File f = new File(path);
+			
 		//analisi del file
 		if(!f.exists()) {
 			System.err.println("File inesistente!");
@@ -232,44 +244,87 @@ public class ScoreUtility {
 						//iterazione della stringa che rappresenta la riga
 						for( char c: s.toCharArray()) {
 							//concatenzaione dei caratteri che vengono estratti
-							temp+=c;
+							temp+=Character.toString(c);
 							//si incontra uno spazio
-							if(c==' ') {
+							if(c== ' ') {
 								//punteggio o nome
-								if(space_count<3) {
+								if(space_count<2) {
 									//si aumenta il contatore
 									space_count++;
 									//si memorizza del vettore
-									score_line[index] = temp;
+									score_line[index] = new String(temp.replaceAll(" ", ""));
 									//si resetta la variabile temporanea
-									temp = "";
+									temp = new String();
 								}//fi
 								else {
 									//oggetto data, se sono gia' stati incontrati due caratteri spazio ' '
 									//si memorizza nel vettore
-									score_line[index] = temp;
+									score_line[index] = new String(temp.replaceAll(" ", ""));
 								}//esle
 								//indice del vettore aumentato
 								if(index<2)index++;
 							}//fi
+							else {
+								//se fine riga
+								if(index==2) {
+									//si accoda l'ultima sequenza della data, cioe' l'orario
+									score_line[index]=new String(temp);
+								}//fi
+							}//esle
 						}//for
 						//System.out.println("punti "+score_line[0]);
 						//System.out.println("nome "+score_line[1]);
 						//System.out.println("data "+score_line[2]);
-						//TODO inserimento dei dati della riga analizzata nella struttura dati
-						
-						
-						
+						//punteggio
+						Integer score_value = Integer.parseInt(score_line[0]);
+						//nome del giocatore
+						String name = new String(score_line[1]);
+						//data: String -> Date
+						Date d = sdf.parse(score_line[2]);
+						//oggetto nella mappa: chiave		
+						Score sk =new Score(score_value,name,d);
+						//oggetto nella mappa: valore
+						String value = new String(score_line[1]+" "+score_line[2]);
+						//inserimento nella mappa
+						map.put(sk, value);						
 					}//fi controllo
 				}while(s!=null);//while
 				//si chiude il processo di lettura
 				fr.close();
-			}//try
+			}
 			catch(IOException e) {
 				e.printStackTrace();
-			}//catch
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}//esle
-
 	}//scoreFileAnalysis
+	
+	/** metodo updateScoreFile(): void
+	 * questo emtodo e' utilizzato per aggiornare il file dei punteggi al termine di ogni
+	 * partita, in modo da ordinarli in maniera decrescente.
+	 */
+	public static void updateScoreFile() {
+		//si crea il comparator da sfruttare nell'ordinamento dei punteggi
+		Comparator<Score> comparator = new ScoreComparator();
+		//si crea la struttura dati che memorizzera' i dati del file
+		TreeMap<Score, String> scores_map = new TreeMap<Score, String>(comparator);
+		//si analizza il file dei punteggi
+		scoreFileAnalysis(scores_map);
+		//si cancella il file dei punteggi
+		deleteScoreFile();
+		//si ricrea il file dei punteggi
+		createScoreFile();
+		//ordine decrescente
+		for(Score key: scores_map.descendingKeySet()) {
+			//si stampa la coppia chiave valore
+			String line = new String(key.getScore()+ " "+scores_map.get(key));
+			//scrittura su file
+			writeScoreFile(line);
+		}
+		//si legge il file dei punteggi
+		readScoreFile();
+	}//updateScoreFile()
 	
 }//end ScoreUtility

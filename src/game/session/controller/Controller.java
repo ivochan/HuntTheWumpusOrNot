@@ -1,7 +1,10 @@
 package game.session.controller;
+import game.session.configuration.AutomaticGameSession;
+import game.session.configuration.GameSession;
 //serie di import
 import game.session.configuration.Starter;
 import game.session.score.Score;
+import game.session.start.LinkStart;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.elements.PlayableCharacter;
@@ -91,8 +94,17 @@ public class Controller {
 				//il contenuto di questa cella nella mappa di esplorazione e' il pg
 				ge.getMapCell(cell_pos[0], cell_pos[1]).setCellStatus(CellStatus.PG);
 			}//esle		
-			//aggiornamento del punteggio
-			Score.updateScore(cs);
+			//TODO modifica
+			if(LinkStart.isHumanMode()) {
+				Score s = GameSession.getCurrentScore();
+				//aggiornamento del punteggio
+				s.updateScore(cs);
+			}
+			else {
+				Score s = AutomaticGameSession.getCurrentScore();
+				//aggiornamento del punteggio
+				s.updateScore(cs);
+			}
 		}//fi indici di mossa corretti
 		else { 
 			//comando non valido, oppure la cella non esiste
@@ -295,8 +307,18 @@ public class Controller {
 				System.out.println(GameMessages.hit);
 				//si aggiornano i sensori
 				resetEnemySensor(gm);
-				//si aggiorna il punteggio
-				Score.hitScore();
+				//TODO modifica
+				Score s;
+				if(LinkStart.isHumanMode()) {
+					s = GameSession.getCurrentScore();
+					//aggiornamento del punteggio
+					s.hitScore();
+				}
+				else {
+					s = AutomaticGameSession.getCurrentScore();
+					//aggiornamento del punteggio
+					s.hitScore();
+				}
 			}//fi
 			else {
 				//colpo errato

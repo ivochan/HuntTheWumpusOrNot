@@ -106,4 +106,17 @@ public class AutomaticGameSession {
 		System.out.println("\n");
 	}//clearConsole()
 
+	/** metodo getCurrentScore(): Score
+	 * questo metodo consente di accedere alla variabile
+	 * di classe che contiene il punteggio ottenuto durante
+	 * la sessione di gioco.
+	 * @return score: Score, oggetto che rappresenta il punteggio
+	 * 					conseguito dal giocatore durante la sessione
+	 * 					di gioco, comprensivo di tutte le informazioni,
+	 * 					quali nome del giocatore, punti e data.
+	 */
+	public static Score getCurrentScore() {
+		return score;
+	}//getCurrentScore()
+	
 }//end GameSession
