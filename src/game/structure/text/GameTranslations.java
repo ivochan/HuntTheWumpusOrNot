@@ -1,4 +1,5 @@
 package game.structure.text;
+//serie di import
 import java.util.HashMap;
 import game.structure.cell.CellStatus;
 /** class GameTranslations

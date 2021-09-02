@@ -38,7 +38,7 @@ public class AutomaticAgent {
 	
 	//##### costruttore di classe #####
 	
-	/**
+	/** costruttore AutomaticAgent(GameMap, GameMap)
 	 * 
 	 * @param gm
 	 * @param em

@@ -27,6 +27,8 @@ public class GameSession {
 	private static String player_name;
 	//punteggio corrente
 	private static Score score;
+	//nome del file dei punteggi
+	private static String score_file;
 	
 	
 	/** metodo start(): void
@@ -49,6 +51,8 @@ public class GameSession {
 		em = new GameMap(); 
 		//creazione della mappa di gioco
 		gm = new GameMap();
+		//nome del file dei punteggi
+		score_file = new String(Starter.getPath());
 		//si preleva il nome del giocatore
 		player_name = LinkStart.getPlayerName();
 		//si inizializza il punteggio
@@ -66,7 +70,7 @@ public class GameSession {
 		//si visualizzano le informazioni iniziali per la partita
 		startInfo();
 		//si inizializza il file
-		ScoreUtility.createScoreFile();
+		ScoreUtility.createScoreFile(score_file);
 	}//start()
 	
 	/** metodo startInfo(): void
@@ -158,7 +162,7 @@ public class GameSession {
 		//punteggio
 		System.out.println("Questo e' il tuo punteggio: "+score.getScore());
 		//si memorizza il punteggio
-		ScoreUtility.saveScore(score.toString());
+		ScoreUtility.saveScore(score_file, score.toString());
 		//pulizia della console
 		clearConsole();
 	}//end()

@@ -2,6 +2,7 @@ package game.session.start;
 //serie di import
 import java.util.Scanner;
 import game.player.Player;
+import game.session.configuration.Starter;
 import game.session.score.ScoreUtility;
 import game.structure.text.GameMessages;
 /** class LinkStart
@@ -36,7 +37,7 @@ public class LinkStart {
 			else if(command == 's') {
 				System.out.println("Riuscirai a battere questi punteggi?\n");
 				//lettura del file dei punteggi
-				ScoreUtility.readScoreFile();
+				ScoreUtility.readScoreFile(Starter.getPath());
 			}//fi score
 			else if(command == 'g') {
 				//variabile ausiliaria per il tipo di giocatore
@@ -49,7 +50,7 @@ public class LinkStart {
 					Player.automaticMode();
 				}//else
 				//aggiornamento del file dei punteggi
-				ScoreUtility.updateScoreFile();
+				ScoreUtility.updateScoreFile(Starter.getPath());
 			}//fi game
 			else if(command == 'q') {
 				System.out.println("Chiusura del gioco...");

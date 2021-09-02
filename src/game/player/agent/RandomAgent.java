@@ -16,7 +16,6 @@ import game.structure.text.GameMessages;
  */
 public class RandomAgent extends AbstractAgent {
 	//###### attributi di classe #####
-	//TODO revisionare l'algoritmo di gioco
 	//posizione del pg
 	private int[] pg_pos = new int[2];
 		

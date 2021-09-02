@@ -1,16 +1,12 @@
 package game.player.agent.app;
-
+//serie di import
 import java.util.LinkedList;
-
 import game.session.controller.Controller;
 import game.session.controller.Direction;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.elements.PlayableCharacter;
 import game.structure.map.GameMap;
-
-//serie di import
-
 /** BasicAgent class
  * questa classe fornisce i metodi di cui necessitano i vari tipi di giocatore
  * automatico
@@ -109,51 +105,81 @@ public class BasicAgent {
 	*
 	*/
 	public static Direction chooseDirection(int i, int j, GameMap em) {
-		//vettore ausiliario per le celle accessibili e non visitata
-		boolean [] ok_cells = new boolean[4];
-		//vettore ausiliario per le celle esistenti
+		//vettore ausiliario per le celle esistenti adiacenti a quella attuale
 		boolean [] cells = new boolean[4];
+		//vettore ausiliario per le celle accessibili e non visitate
+		boolean [] ok_cells = new boolean[4];
+		//vettore delle celle accessibili e sicure, cioe' quelle gia' visitate
+		boolean [] safe_cells = new boolean[4];
+	
 		//indice di cella casuale
 		int random = 0;
 		//variabile ausiliaria per l'indice di cella
 		int index = 0;
 		//si prelevano le direzioni possibili
+		//UP=0, DOWN=1, LEFT=2, RIGHT=3
 		Direction [] directions = Direction.values();
-		//si verificano le celle dispoonibili
+		//si verificano le celle disponibili
 		if(em.cellExists(i-1, j)) {
 			//si calcola l'indice
 			index = Direction.UP.ordinal();
 			//la cella esiste
 			cells[index] = true;
-			//si verifica la cella e si aggiorna il vettore
-			ok_cells[index] = verifyCell(i-1,j, em);
+			//si verifica se la cella sia non visitata ed accessibile e si aggiorna il vettore
+			ok_cells[index] = verifyNewCell(i-1,j, em);
+			//si verifica se la cella sia stata gia' visitata
+			safe_cells[index] = verifySafeCell(i-1,j,em);	
 		}//UP
 		if(em.cellExists(i+1, j)) {
 			//si calcola l'indice
 			index = Direction.DOWN.ordinal();
 			//la cella esiste
 			cells[index] = true;
-			//si verifica la cella e si aggiorna il vettore
-			ok_cells[index] = verifyCell(i+1,j, em);
+			//si verifica se la cella sia non visitata ed accessibile e si aggiorna il vettore
+			ok_cells[index] = verifyNewCell(i+1,j, em);
+			//si verifica se la cella sia stata gia' visitata
+			safe_cells[index] = verifySafeCell(i-1,j,em);
 		}//DOWN
 		if(em.cellExists(i, j-1)) {
 			//si calcola l'indice
 			index = Direction.LEFT.ordinal();
 			//la cella esiste
 			cells[index] = true;
-			//si verifica la cella e si aggiorna il vettore
-			ok_cells[index] = verifyCell(i,j-1, em);
+			//si verifica se la cella sia non visitata ed accessibile e si aggiorna il vettore
+			ok_cells[index] = verifyNewCell(i,j-1, em);
+			//si verifica se la cella sia stata gia' visitata
+			safe_cells[index] = verifySafeCell(i-1,j,em);
 		}// LEFT
 		if(em.cellExists(i, j+1)) {
 			//si calcola l'indice
 			index = Direction.RIGHT.ordinal();
 			//la cella esiste
 			cells[index] = true;
-			//si verifica la cella e si aggiorna il vettore
-			ok_cells[index] = verifyCell(i,j+1, em);
+			//si verifica se la cella sia non visitata ed accessibile e si aggiorna il vettore
+			ok_cells[index] = verifyNewCell(i,j+1, em);
+			//si verifica se la cella sia stata gia' visitata
+			safe_cells[index] = verifySafeCell(i-1,j,em);
 		}//RIGHT
-		
-		
+		//si prelevano i sensori della cella corrente
+		boolean [] senses = new boolean[2];
+		Cell current = em.getMapCell(i,j);
+		senses = current.getSenseVector();
+		//controllo sui sensori della cella attuale
+		if(senses[0] || senses[1]) {
+			//siccome i sensori sono accessi e' meglio una cella gia' visitata
+			if(checkCells(safe_cells)) {
+				//si sceglie a caso una cella tra quelle gia' visitate ma sicure
+				random = pickCell(safe_cells);
+			}
+			//se non ci sono celle che ho gia' visitato (prima mossa ad esempio)
+			else {
+				//si sceglie a caso tra quelle accessibili e non visitate
+				if(checkCells(ok_cells)) {
+					
+				}
+			}
+		}
+		//scelta della cella in cui muoversi
 		
 		//controllo sul contenuto del vettore ok_cells
 		if(checkCells(ok_cells)){
@@ -183,7 +209,7 @@ public class BasicAgent {
 	 * 							 la mossa;
 	 * @return random: int, indice della cella da estrarre.
 	 * 
-	 * METODO ANALOGO ALLA CLASSE RANDOM AGENT
+	 * METODO ANALOGO A QUELLO DELLA CLASSE RANDOM AGENT
 	 * 
 	 */
 	public static int pickCell(boolean [] vcells) {
@@ -206,10 +232,10 @@ public class BasicAgent {
 		return random;
 	}//pickCell(boolean[])
 
-	/** metodo verifyCell(int, int, GameMap): boolean
+	/** metodo verifyNewCell(int, int, GameMap): boolean
 	 * questo metodo verifica se la cella in cui si vuole spostare
 	 * il personaggio giocabile sia idonea o no, in base al suo contenuto.
-	 * Infatti, per essere una scelta valida, la cella non deve essere ne'+
+	 * Infatti, per essere una scelta valida, la cella non deve essere ne'
 	 * un sasso ne' essere stata gia' visitata.
 	 * @param i: int, indice di riga della cella in cui si trova il pg;
 	 * @param j: int, indice di colonna della cella in cui si trova il pg;
@@ -219,7 +245,7 @@ public class BasicAgent {
 	 * METODO ANALOGO ALLA CLASSE RANDOM AGENT
 	 * 
 	 */
-	public static boolean verifyCell(int i, int j, GameMap em) {
+	public static boolean verifyNewCell(int i, int j, GameMap em) {
 		//si preleva la cella
 		CellStatus cs = em.getMapCell(i, j).getCellStatus();
 		//si verifica che non e' un sasso
@@ -234,7 +260,30 @@ public class BasicAgent {
 		//la cella non e' idonea
 		return false;	
 	}//verifyCell(int, int, GameMap)
-
+	
+	/**
+	 * 
+	 * @param i
+	 * @param j
+	 * @param em
+	 * @return
+	 */
+	public static boolean verifySafeCell(int i, int j, GameMap em) {
+		//si preleva la cella
+		CellStatus cs = em.getMapCell(i, j).getCellStatus();
+		//si verifica che non e' un sasso
+		if(!cs.equals(CellStatus.FORBIDDEN)) {
+			//si verifica che la cella non e' stata visitata
+			if(cs.equals(CellStatus.OBSERVED)) {
+				//la cella e' idonea
+				return true;
+			}//fi
+			return false;
+		}//fi
+		//la cella non e' idonea
+		return false;	
+	}//verifyCell(int, int, GameMap)
+	
 	/** metodo checkCells(boolean []): boolean
 	 * questo metodo verifica se questo vettore contiene almeno una
 	 * cella che sia pari a true. Se cosi' non e' sceglie una cella

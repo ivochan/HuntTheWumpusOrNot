@@ -1,6 +1,7 @@
 package game.session.configuration;
 //serie di import
 import game.player.agent.RandomAgent;
+import game.player.agent.app.AutomaticAgent;
 import game.session.score.Score;
 import game.session.score.ScoreUtility;
 import game.structure.cell.CellStatus;
@@ -21,7 +22,9 @@ public class AutomaticGameSession {
 	//punteggio
 	private static Score score;
 	//nome del giocatore automatico
-	private static String ia_name = "AutomaticPlayer";
+	private static String ia_name = "AutomaticPlayer";	
+	//nome del file dei punteggi
+	private static String score_file;
 		
 	/** metodo start(): void
 	 * questo metodo avvia la sezione di gioco, preparando il terreno
@@ -43,6 +46,8 @@ public class AutomaticGameSession {
 		em = new GameMap(); 
 		//creazione della mappa di gioco
 		gm = new GameMap();
+		//si inizializza il nome del file
+		score_file = new String(Starter.getPath());
 		//si inizializza il punteggio
 		score = new Score(ia_name);
 		//stampa
@@ -52,7 +57,7 @@ public class AutomaticGameSession {
 		//stampa della mappa
 		System.out.println(gm.gameMaptoString());
 		//si inizializza il file
-		ScoreUtility.createScoreFile();
+		ScoreUtility.createScoreFile(score_file);
 	}//start()
 		
 	/** metodo play(): void
@@ -88,7 +93,7 @@ public class AutomaticGameSession {
 		//punteggio
 		System.out.println("Questo e' il tuo punteggio:\n"+score.getScore());
 		//si memorizza il punteggio
-		ScoreUtility.saveScore(score.toString());
+		ScoreUtility.saveScore(score_file, score.toString());
 		//pulizia della console
 		clearConsole();
 	}//end()

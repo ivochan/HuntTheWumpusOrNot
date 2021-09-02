@@ -27,6 +27,8 @@ public class AutomaticAgentTest {
 	private static Score score;
 	//nome del giocatore automatico
 	private static String ia_name = "AutomaticPlayer";
+	//nome del file dei punteggi
+	private static String score_file;
 	
 	/** main
 	 * @param args
@@ -72,7 +74,7 @@ public class AutomaticAgentTest {
 		//stampa della mappa
 		System.out.println(gm.gameMaptoString());
 		//si inizializza il file
-		ScoreUtility.createScoreFile();
+		ScoreUtility.createScoreFile(score_file);
 	}//start()	
 	
 	/** metodo play(): void
@@ -110,7 +112,7 @@ public class AutomaticAgentTest {
 		//punteggio
 		System.out.println("Questo e' il tuo punteggio:\n"+score.getScore());
 		//si memorizza il punteggio
-		ScoreUtility.saveScore(score.toString());
+		ScoreUtility.saveScore(score_file, score.toString());
 		//pulizia della console
 		clearConsole();
 	}//end()			

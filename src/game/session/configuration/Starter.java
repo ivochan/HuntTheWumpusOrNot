@@ -7,12 +7,17 @@ import game.structure.cell.CellStatus;
 import game.structure.text.GameMessages;
 import game.structure.text.GameTranslations;
 /** class Starter
- * 
+ * classe che si occupa di tutte le configurazioni di gioco
  * @author ivonne
  */
 public class Starter {
 	//##### attributi di classe #####
 
+	//nome del file dei punteggi
+	private static String name = new String("/Scores.txt");
+	//path in cui creare il file
+	private static String path = System.getProperty("user.dir") + name;
+	
 	//acquisizione da input
 	private static Scanner input = new Scanner(System.in);
 	//flag sessione di gioco
@@ -320,4 +325,52 @@ public class Starter {
 		return chance_to_hit;
 	}//getChanceToHit()
 	
+	//##### metodi accessori per il nome ed il path del file dei punteggi #####
+	
+	/** metodo getPath(): String
+	 * questo metodo restituisce il valore
+	 * della stringa che rappresenta il path
+	 * del file dei punteggi.
+	 * @return path: String, stringa che contiene il path.
+	 */
+	public static String getPath() {
+		//si restituisce l'attributo di classe path
+		return path;
+	}//getPath()
+	
+	/** metodo setPath(String): void
+	 * questo metodo aggiorna il valore
+	 * del path del file.
+	 * @param p: String, valore da assegnare al path.
+	 */
+	public static void setPath(String p) {
+		//controllo sul parametro
+		if(p==null) throw new IllegalArgumentException("path del file ricevuto come"
+				+ " parametro non valido");
+		//si assegna il path
+		path = new String(p);
+	}//setPath(String)
+	
+	/** metodo getName(): String
+	 * questo metodo restituisce il nome del file
+	 * in cui salvare i punteggi.
+	 * @return name: String, nome del file;
+	 */
+	public static String getName() {
+		//si restituisce l'attributo di classe path
+		return name;
+	}//getPath()
+
+	/** metodo setName(): void
+	 * questo metodo permette di impostare il nome
+	 * del file.
+	 * @param n: String, nome del file;
+	 */
+	public static void setName(String n) {
+		//controllo sul parametro
+		if(n==null)throw new IllegalArgumentException("nome del file ricevuto come"
+				+ " parametro non valido");
+		//si specifica il nome del file
+		name = new String(n);
+	}//setPath(String)
 }//end Starter

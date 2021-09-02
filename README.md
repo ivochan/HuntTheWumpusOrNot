@@ -146,8 +146,6 @@ Questa classe si occupa di gestire le configurazioni necessarie all'esecuzione d
 
 - la risoluzione sfruttando il giocatore automatico.
 
-
-
 ### Direction
 
 Questa classe definisce le possibili direzioni in cui il personaggio giocabile può muoversi nella mappa di gioco, tramite un'enenumerazione.
@@ -189,7 +187,7 @@ Questa classe implementa l'esecuzione dell'applicazione, permettendo all'utente 
 
 Questa classe rappresenta l'oggetto Score, costituito da due attributi di classe significativi, ovvero:
  * il *nickname* del giocatore;
- * lo *score*, ovveroil punteggio raggiunto;
+ * lo *score*, ovvero il punteggio raggiunto;
 
 Il punteggio verrà calcolato tenendo conto delle seguenti penalità/ ricompense, in base alle azioni che saranno compiute dal personaggio giocabile durante la partita:
 
@@ -328,6 +326,7 @@ Funzionalità da implementare:
   - ~~posizionare il pg sulla cornice;~~
   - posizionare il pg al centro della mappa;
   - posizionare il pg in un qualsiasi punto della mappa;
+  - fare in modo che il wumpus sia posizionato al centro, se scelto come pg;
   - poter scegliere tra diverse funizioni di probabilità per il riempimento della mappa;
   
 - definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa, ad esempio:
@@ -360,11 +359,7 @@ Funzionalità da implementare:
 
 - ~~testare la modalità di gioco lato utente~~;
 
-- ordinare i punteggi in maniera decrescente;
-
-- realizzare metodo di posizionamento del pg al centro della mappa;
-
-- fare in modo che il wumpus sia posizionato al centro, se scelto come pg;
+- ~~ordinare i punteggi in maniera decrescente;~~
 
 - ~~definire l'interfaccia Agent, che delinea la struttura del giocatore automatico;~~
 

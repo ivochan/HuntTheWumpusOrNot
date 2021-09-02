@@ -16,27 +16,21 @@ import java.util.TreeMap;
  * @author ivonne
  */
 public class ScoreUtility {
-
-	//nome del file dei punteggi
-	private static String name = new String("/Scores.txt");
-	//path in cui creare il file
-	private static String path = System.getProperty("user.dir") + name;
 	
 	//formato della data
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
 
-
 	//##### metodi per interagire con il file di testo #####
 	
-	/** metodo createScoreFile(): void
+	/** metodo createScoreFile(String): void
 	 * questo metodo crea il file di memorizzazione dei punteggi
 	 * utilizzando come path quello specificato dalla variabile
 	 * di classe.
+	 * @param path: String, nome del file da creare
 	 */
-	public static void createScoreFile() {
+	public static void createScoreFile(String path) {
 		//controllo sul path
-		if(path==null) throw new IllegalArgumentException("path come"
-				+ " attributo di classe non valido");
+		if(path==null) throw new IllegalArgumentException("path o nome del file non valido");
 		//si crea il file
 		File f = new File(path);
 		//cattura dell'eventuale eccezione
@@ -60,12 +54,17 @@ public class ScoreUtility {
 		}
 	}//createScoreFile()
 		
-	/** metodo writeScoreFile(Score s): void
+	/** metodo writeScoreFile(String, Score): void
 	 * questo metodo scrive il punteggio nel file di testo
 	 * creato per il salvataggio 
 	 * @param score: String, punteggio da memorizzare;
+	 * @param path: String, nome del file da creare
 	 */
-	public static void writeScoreFile(String score) {
+	public static void writeScoreFile(String path, String score) {
+		//controllo sul parametro che indica il nome del file
+		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
+		//controllo sull'oggetto punteggio
+		if(score==null)throw new IllegalArgumentException("punteggio non valido");
 		//si preleva il file
 		File f = new File(path);
 		//flag che indica di non sovrascrivere le righe
@@ -85,11 +84,14 @@ public class ScoreUtility {
 		}
 	}//writeScoreFile(Score)
 		
-	/** metodo readScoreFile(): void
+	/** metodo readScoreFile(String): void
 	 * questo metodo accede al contenuto del file di testo in cui
 	 * sono stati memorizzati i punteggi di gioco e lo stampa a video
+	 * @param path: String, nome del file da creare
 	 */
-	public static void readScoreFile() {
+	public static void readScoreFile(String path) {
+		//controllo sul parametro che indica il nome del file
+		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
 		//si preleva il file dei punteggi
 		File f = new File(path);
 		if(!f.exists()) {
@@ -118,11 +120,14 @@ public class ScoreUtility {
 		}
 	}//readScoreFile()
 	
-	/** metodo deleteScoreFile(): void
+	/** metodo deleteScoreFile(String): void
 	 * questo metodo viene utilizzato per cancellare
 	 * il file contenente i punteggi
+	  * @param path: String, nome del file da creare
 	 */
-	public static void deleteScoreFile() {
+	public static void deleteScoreFile(String path) {
+		//controllo sul parametro che indica il nome del file
+		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
 		//si preleva il file
 		File f = new File(path);
 		//si controlla se esiste
@@ -144,74 +149,35 @@ public class ScoreUtility {
 	 * e della scrittura del file dei punteggi, 
 	 * quando e' richiesto di memorizzare quello
 	 * ricevuto come parametro.
+	 * @param path: String, nome del file da creare
 	 * @param score: String, punteggio da memorizzare
 	 */
-	public static void saveScore(String score) {
+	public static void saveScore(String path, String score) {
+		//controllo sul parametro che indica il nome del file
+		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
+		//controllo sull'oggetto punteggio da salvare
+		if(score==null)throw new IllegalArgumentException("punteggio non valido");
 		//creazione del file
-		createScoreFile();
+		createScoreFile(path);
 		//scrittura del punteggio
-		writeScoreFile(score);
+		writeScoreFile(path, score);
 	}//saveScore(Score)
-		
-	//##### metodi accessori #####
-	
-	/** metodo getPath(): String
-	 * questo metodo restituisce il valore
-	 * della stringa che rappresenta il path
-	 * del file dei punteggi.
-	 * @return path: String, stringa che contiene il path.
-	 */
-	public String getPath() {
-		//si restituisce l'attributo di classe path
-		return path;
-	}//getPath()
-
-	/** metodo setPath(String): void
-	 * questo metodo aggiorna il valore
-	 * del path del file.
-	 * @param p: String, valore da assegnare al path.
-	 */
-	public void setPath(String p) {
-		//controllo sul parametro
-		if(p==null) throw new IllegalArgumentException("path del file ricevuto come"
-				+ " parametro non valido");
-		//si assegna il path
-		path = new String(p);
-	}//setPath(String)
-	
-	/** metodo getName(): String
-	 * questo metodo restituisce il nome del file
-	 * in cui salvare i punteggi.
-	 * @return name: String, nome del file;
-	 */
-	public String getName() {
-		//si restituisce l'attributo di classe path
-		return name;
-	}//getPath()
-
-	/** metodo setName(): void
-	 * questo metodo permette di impostare il nome
-	 * del file.
-	 * @param n: String, nome del file;
-	 */
-	public void setName(String n) {
-		//controllo sul parametro
-		if(n==null)throw new IllegalArgumentException("nome del file ricevuto come"
-				+ " parametro non valido");
-		//si specifica il nome del file
-		name = new String(n);
-	}//setPath(String)
 	
 	//##### metodi gestione del file dei punteggi #####
 	
 	/** metodo scoreFileAnalysis()
 	 * metodo per analizzare il contenuto di ogni riga del file dei punteggi
 	 * estrapolare il punteggio, il nome del giocatore e la data in cui e' stato registrato
+	 * @param path: String, nome del file da creare
+	 * @param map: TreeMap<Score, String> mappa che contiene tutti i punteggi estratti dal file
 	 */
-	public static void scoreFileAnalysis(TreeMap<Score, String> map) {
+	public static void scoreFileAnalysis(String path, TreeMap<Score, String> map) {
+		//controllo sul parametro che indica il nome del file
+		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
+		//controllo sulla mappa
+		if(map==null)throw new IllegalArgumentException("struttura dati inesistente");
 		//vettore che conterra' gli elementi ottenuti dal parsing di ogni riga del file
-		String [] score_line = new String[3];
-			
+		String [] score_line = new String[3];	
 		//si istanzia il file dei punteggi
 		File f = new File(path);
 			
@@ -304,27 +270,30 @@ public class ScoreUtility {
 	/** metodo updateScoreFile(): void
 	 * questo emtodo e' utilizzato per aggiornare il file dei punteggi al termine di ogni
 	 * partita, in modo da ordinarli in maniera decrescente.
+	 * @param path: String, nome del file dei punteggi
 	 */
-	public static void updateScoreFile() {
+	public static void updateScoreFile(String path) {
+		//controllo sul parametro che indica il nome del file
+		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
 		//si crea il comparator da sfruttare nell'ordinamento dei punteggi
 		Comparator<Score> comparator = new ScoreComparator();
 		//si crea la struttura dati che memorizzera' i dati del file
 		TreeMap<Score, String> scores_map = new TreeMap<Score, String>(comparator);
 		//si analizza il file dei punteggi
-		scoreFileAnalysis(scores_map);
+		scoreFileAnalysis(path,scores_map);
 		//si cancella il file dei punteggi
-		deleteScoreFile();
+		deleteScoreFile(path);
 		//si ricrea il file dei punteggi
-		createScoreFile();
+		createScoreFile(path);
 		//ordine decrescente
 		for(Score key: scores_map.descendingKeySet()) {
 			//si stampa la coppia chiave valore
 			String line = new String(key.getScore()+ " "+scores_map.get(key));
 			//scrittura su file
-			writeScoreFile(line);
+			writeScoreFile(path,line);
 		}
 		//si legge il file dei punteggi
-		readScoreFile();
+		readScoreFile(path);
 	}//updateScoreFile()
 	
 }//end ScoreUtility
