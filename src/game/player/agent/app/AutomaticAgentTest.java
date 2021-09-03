@@ -7,6 +7,7 @@ import game.session.score.Score;
 import game.session.score.ScoreUtility;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
+import game.structure.elements.PlayableCharacter;
 import game.structure.map.GameMap;
 import game.structure.map.MapConfiguration;
 import game.structure.text.GameMessages;
@@ -21,7 +22,7 @@ public class AutomaticAgentTest {
 	//##### attributi di classe #####
 	
 	//mappe di gioco
-	private static GameMap gm;
+	private static  GameMap gm;
 	private static GameMap em;
 	//punteggio
 	private static Score score;
@@ -37,11 +38,11 @@ public class AutomaticAgentTest {
 		//test 
 		System.out.println(GameMessages.automatic_player);
 		//inizio della partita
-		AutomaticGameSession.start();
+		start();
 		//partita in corso
-		AutomaticGameSession.play();
+		play();
 		//fine della partita
-		AutomaticGameSession.end();
+		end();
 		
 	}//end main	
 	
@@ -61,6 +62,8 @@ public class AutomaticAgentTest {
 		Starter.setChanceToHit(true);
 		//intro al pg
 		System.out.println(Starter.trad_mex.get(CellStatus.PG));
+		//inizializzazione del nome del file dei punteggi
+		score_file = new String(Starter.getPath());
 		//si inizializza il punteggio
 		score = new Score(ia_name);
 		//creazione della mappa di esplorazione
@@ -72,7 +75,7 @@ public class AutomaticAgentTest {
 		//creazione della mappa
 		MapConfiguration.init(gm,em);
 		//stampa della mappa
-		System.out.println(gm.gameMaptoString());
+		System.out.println(gm.gameMapToString());
 		//si inizializza il file
 		ScoreUtility.createScoreFile(score_file);
 	}//start()	
@@ -83,16 +86,16 @@ public class AutomaticAgentTest {
 	 */
 	public static void play() {
 		//si istanzia il giocatore automatico
-		AutomaticAgent player = new AutomaticAgent(gm,em);
+		AutomaticAgent player = new AutomaticAgent();
 		//avvio della partita
 		while(Starter.getGameStart()){
 			//si effettua la mossa
-			player.chooseGameMove(em, gm);
+			player.chooseGameMove(gm, em);
 			//si mostra il punteggio
 			System.out.println("Punteggio parziale: "+score.printScore());
 		}//end while sessione di gioco
 		//si stampa la mappa di esplorazione
-		System.out.println(em.gameMaptoString());
+		System.out.println(em.gameMapToString());
 		//si preleva il percorso compiuto
 		LinkedList<Cell> run_path = player.getRunPath();
 		//si mostra il percorso compiuto

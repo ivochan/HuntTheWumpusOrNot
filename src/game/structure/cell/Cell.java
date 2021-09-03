@@ -32,7 +32,7 @@ public class Cell implements Serializable {
 	 */
 	public Cell() {
 		//tipologia di cella non specificata
-		this.status=null;
+		this.status=CellStatus.UNKNOWN;
 		//inizializzazione vettore dei sensi
 		this.sense_vector[0]=false;
 		this.sense_vector[1]=false;
@@ -216,12 +216,12 @@ public class Cell implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		//se il parametro status non e' nullo
-		if(status!=null) {
+		//se il parametro status non e' sconosciuto
+		if(!status.equals(CellStatus.UNKNOWN)) {
 			return "|"+new String(this.status.name()).charAt(0)+"|";
 		}//fi
 		else {
-			//se il parametro status e' nullo
+			//se il parametro status non e' stato specificato
 			return "|"+new String("X"+"|");
 		}//else
 	}//toString()
@@ -238,12 +238,12 @@ public class Cell implements Serializable {
 		//stringa ausiliaria
 		String cell_status=new String(" ");
 		//se il parametro status non e' nullo
-		if(status!=null) {
+		if(!status.equals(CellStatus.UNKNOWN)) {
 			//si assegna il carattere corrispondente allo stato
 			cell_status=new String(""+this.status.name().charAt(0));
 		}//fi
 		//si restituisce la stringa
-		return cell_status;
+		return "not specified";
 	}//getCellStatusToString()
 	
 	/** metodo copyCellSpecs(Cell): void

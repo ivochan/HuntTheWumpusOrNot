@@ -55,7 +55,7 @@ public class AutomaticGameSession {
 		//creazione della mappa
 		MapConfiguration.init(gm,em);
 		//stampa della mappa
-		System.out.println(gm.gameMaptoString());
+		System.out.println(gm.gameMapToString());
 		//si inizializza il file
 		ScoreUtility.createScoreFile(score_file);
 	}//start()
@@ -75,7 +75,7 @@ public class AutomaticGameSession {
 			System.out.println("Punteggio parziale: "+score.printScore());
 		}//end while sessione di gioco
 		//si stampa la mappa di esplorazione
-		System.out.println(em.gameMaptoString());
+		System.out.println(em.gameMapToString());
 		//si mostra il percorso compiuto
 		player.showRunPath();
 	}//play()

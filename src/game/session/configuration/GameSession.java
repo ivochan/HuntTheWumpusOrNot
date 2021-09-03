@@ -62,7 +62,7 @@ public class GameSession {
 		//riempimento della mappa della mappa
 		MapConfiguration.init(gm, em);
 		//DEBUG: stampa della mappa di gioco
-		System.out.println(gm.gameMaptoString());
+		System.out.println(gm.gameMapToString());
 		//stampa per l'utente
 		System.out.println("Preparazione del terreno di gioco....\n");
 		//mappa di esplorazione

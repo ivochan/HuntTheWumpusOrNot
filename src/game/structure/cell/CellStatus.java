@@ -49,5 +49,7 @@ public enum CellStatus {
 		FORBIDDEN, 
 		BAT,
 		//cella visitata
-		OBSERVED;
+		OBSERVED,
+		//cella non ancora scoperta: stato non specificato
+		UNKNOWN;
 }//end CellStatus

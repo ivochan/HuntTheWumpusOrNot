@@ -153,8 +153,8 @@ public class MapConfiguration {
 		Sensors.updateSensors(gm);
 		//si preleva la posizione del pg
 		int [] pg_pos = PlayableCharacter.getPGposition();
-		//si aggiorna la mappa di esplorazione
-		em.getMapCell(pg_pos[0], pg_pos[1]).setCellStatus(CellStatus.PG);	
+		//si aggiorna la mappa di esplorazione	
+		em.getMapCell(pg_pos[0], pg_pos[1]).copyCellSpecs(gm.getMapCell(pg_pos[0],pg_pos[1]));	
 	}//init()
 	
 	/** metodo prob(int, int, int, int): void

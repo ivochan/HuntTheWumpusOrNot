@@ -65,6 +65,8 @@ public class GameMap implements Serializable {
 			for(int j=0;j<c;j++) {
 				//viene istanziata ogni cella della matrice di gioco
 				this.game_map[i][j]= new Cell();
+				//si inizializzano gli indici posizionali di ogni cella
+				this.game_map[i][j].setPosition(i,j);
 			}//for
 		}//for
 	}//Map()
@@ -260,7 +262,7 @@ public class GameMap implements Serializable {
 	 * che e' stato popolato di tutti gli elementi.
 	 * @return tot:String, stringa che contiene la mappa e la legenda.
 	 */
-	 public String gameMaptoString() {
+	 public String gameMapToString() {
 		 //intestazione
 		String inizio = new String("       MAPPA				LEGENDA	\n"+
 				 "			-----------------------------------------\n");

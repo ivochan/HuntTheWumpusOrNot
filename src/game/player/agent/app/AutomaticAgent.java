@@ -1,7 +1,6 @@
 package game.player.agent.app;
-import java.util.LinkedList;
-
 //serie di import
+import java.util.LinkedList;
 import game.session.controller.Controller;
 import game.session.controller.Direction;
 import game.structure.cell.Cell;
@@ -18,16 +17,11 @@ import game.structure.map.GameMap;
 public class AutomaticAgent {
 	//###### attributi di classe #####
 	
+	//posizione del pg
+	int[] pg_position = new int[2];
+	
 	//lista contenente la coppia di indici di ogni cella visitata
 	private LinkedList<Cell> run = new LinkedList<Cell>();
-	
-	//posizione del pg
-	private int[] pg_position = new int[2];
-
-	//mappa di gioco
-	private GameMap gm;
-	//mappa di esplorazione
-	private GameMap em;
 	
 	//flag che indica il completamento della risoluzione
 	private boolean gameSolved;
@@ -43,21 +37,15 @@ public class AutomaticAgent {
 	 * @param gm
 	 * @param em
 	 */
-	public AutomaticAgent(GameMap gm, GameMap em) {
-		//si assegnano i parametri agli attributi di classe
-		setGameMap(gm);
-		setExpMap(em);
-		//variabile temporanea per prelevare la posizione del pg
-		int [] temp_pg_pos = PlayableCharacter.getPGposition();
-		//si assegna questa posizione all'attributo di classe
-		this.pg_position[0] = temp_pg_pos[0];
-		this.pg_position[1] = temp_pg_pos[1];
+	public AutomaticAgent() {
 		//si resetta il flag della sessione di gioco automatica
 		setAutomaticSessionEnded(false);
 		//flag di displonibilita' del colpo
 		setAutomaticChanceToHit(true);
 		//debug
 		//shot= " shot: ";
+		//posizione del pg
+		pg_position  =PlayableCharacter.getPGposition();
 	}//end AutomaticAgent(GameMap, GameMap)
 	
 	//##### metodo per la scelta della mossa ######
@@ -69,6 +57,8 @@ public class AutomaticAgent {
 	 * @param gm: GameMap, mappa di gioco;
 	 */
 	public void chooseGameMove(GameMap gm, GameMap em) {
+		//vettore ausiliario per la posizione del pg
+		int [] pg_position = new int[2];
 		//variabili per debug
 		String sensorInfo = new String("");
 		String moveInfo = new String("");
@@ -85,6 +75,10 @@ public class AutomaticAgent {
 		pg_position = PlayableCharacter.getPGposition();
 		//si preleva la cella in cui si trova il pg nella matrice di esplorazione
 		Cell current = em.getMapCell(pg_position[0],pg_position[1]);
+		//debug
+		System.out.println(current.getCellPosition());
+		//debug
+		System.out.println(current);
 		//si preleva il contenuto del vettore dei sensori
 		sensors = current.getSenseVector();
 		//per debug
@@ -103,7 +97,7 @@ public class AutomaticAgent {
 				//almeno una delle celle non e' stata visitata se il sensore e' acceso
 				moveInfo="Tentativo di sparo verso "+dir;
 				//si tenta il colpo
-				Controller.hitEnemy(dir, gm);
+				//Controller.hitEnemy(dir, gm);
 				//si resetta il flag
 				automaticChanceToHit = false;
 				shot+="\n shot yep ";
@@ -216,30 +210,6 @@ public class AutomaticAgent {
 		return s;
 	}//makeMove(int)
 
-	//##### metodi accessori per le mappe #####
-		
-	public GameMap getGameMap() {
-		return gm;
-	}//getGameMap()
-
-	public void setGameMap(GameMap gm) {
-		//controllo sui parametri
-		if(gm == null) throw new IllegalArgumentException("mappa di gioco nulla");
-		//assegnamento
-		this.gm = gm;
-	}//setGameMap()
-		
-	public GameMap getExpMap() {
-		return em;
-	}//getExpMap()
-		
-	public void setExpMap(GameMap em) {
-		//controllo sui parametri
-		if(em == null) throw new IllegalArgumentException("mappa di esplorazione nulla");
-		//assegnamento
-		this.em = em;
-	}//setExpMap()
-		
 	//##### metodi accessori per i flag #####
 		
 	/** metodo isAutomaticSessionEnded(): boolean
