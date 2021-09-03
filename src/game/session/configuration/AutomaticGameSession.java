@@ -1,7 +1,6 @@
 package game.session.configuration;
 //serie di import
 import game.player.agent.RandomAgent;
-import game.player.agent.app.AutomaticAgent;
 import game.session.score.Score;
 import game.session.score.ScoreUtility;
 import game.structure.cell.CellStatus;

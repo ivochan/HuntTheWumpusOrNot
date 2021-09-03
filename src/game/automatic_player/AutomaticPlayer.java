@@ -131,6 +131,7 @@ public class AutomaticPlayer {
 				PlayableCharacter.setPGposition(adjacent_cell.getPosition());
 				//si valuta la mossa appena compiuta
 				result = solveGame(gm,em);
+				//TODO stack
 				//System.out.println(result);
 				//si controlla il risultato
 				if(result.equals("vinto") || result.equals("perso")) {
@@ -175,37 +176,45 @@ public class AutomaticPlayer {
 		if(em.cellExists(i-1, j)) {
 			//si preleva la cella in esame
 			cell = em.getMapCell(i-1,j);
+			/*
 			//si aggiunge alla lista
 			if(!list.contains(cell)) {
 				list.add(cell);
-			}
+			}*/
+			list.add(cell);
 		}//fi
 		//controllo della cella DOWN
 		if(em.cellExists(i+1, j)) {
 			//si preleva la cella in esame
 			cell = em.getMapCell(i+1,j);
+			/*
 			//si aggiunge alla lista
 			if(!list.contains(cell)) {
 				list.add(cell);
-			}
+			}*/
+			list.add(cell);
 		}//fi
 		//controllo della cella LEFT
 		if(em.cellExists(i, j-1)) {
 			//si preleva la cella in esame
 			cell = em.getMapCell(i, j-1);
+			/*
 			//si aggiunge alla lista
 			if(!list.contains(cell)) {
 				list.add(cell);
-			}
+			}*/
+			list.add(cell);
 		}//fi
 		//controllo della cella RIGHT
 		if(em.cellExists(i, j+1)) {
 			//si preleva la cella in esame
 			cell = em.getMapCell(i, j+1);
+			/*
 			//si aggiunge alla lista
 			if(!list.contains(cell)) {
 				list.add(cell);
-			}
+			}*/
+			list.add(cell);
 		}//fi
 		//si restituisce la lista
 		return list;
