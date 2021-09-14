@@ -32,12 +32,13 @@ public class AutomaticPlayer {
 	 * @param pg_pos_pre
 	 * @param pg_pos_cur
 	 */
-	public static String solveGame(GameMap gm, GameMap em) {
+	public static int solveGame(GameMap gm, GameMap em) {
 		//variabili ausiliarie
 		LinkedList<Cell> adjacent_cells = new LinkedList<>();
 		LinkedList<Cell> covered_cells = new LinkedList<>();
+
 		//risultato della mossa
-		String result = new String("");
+		int result = 0;
 		//DA DOVE VENGO : la posizione corrente che avevo prima diventa quella precendente
 		pre_pg_pos = cur_pg_pos;
 		//DOVE SONO: cella attuale
@@ -55,24 +56,22 @@ public class AutomaticPlayer {
 		//##### CASI DI USCITA #####
 		//il pg ha trovato il premio
 		if(current_status.equals(CellStatus.AWARD)) {
-			return "vinto";
+			return 1;
 		}
 		//il pg ha trovato il nemico o il pericolo
 		if(current_status.equals(CellStatus.ENEMY) || current_status.equals(CellStatus.DANGER)) {
-			return "perso";
+			return -1;
 		}
 		//il pg ha trovato il passaggio bloccato
 		if(current_status.equals(CellStatus.FORBIDDEN)) {
-			return "bloccato";
+			return 0;
 		}
 		//##### TERMINE CASI DI USCITA #####
 		
 		//DOVE POSSO ANDARE: celle adiacenti
-		adjacent_cells = findAdjacentCells(em, current_cell);
+		findAdjacentCells(adjacent_cells, em, current_cell);
 		//celle da visitare tra quelle adiacenti
-		covered_cells = findCoveredCells(em, adjacent_cells);
-		
-		adjacent_cells.clear();
+		findCoveredCells(covered_cells, em, adjacent_cells);
 		
 		//##### CONTROLLO SULLA CELLA ATTUALE #####
 		//si preleva il vettore dei sensori
@@ -85,7 +84,6 @@ public class AutomaticPlayer {
 			//tutte le celle adiacenti potrebbero contenere un pericolo
 			//DA DOVE VENGO
 			if(pre_pg_pos==null) {
-				System.out.println("prima mossa");
 				//PRIMA MOSSA: mi trovo nella prima e unica cella visitata
 				for(Cell adjacent_cell: covered_cells) {
 					//visito la prima cella a me sconosciuta contenuta nella lista 
@@ -103,16 +101,16 @@ public class AutomaticPlayer {
 					//si valuta la mossa appena compiuta
 					result = solveGame(gm,em);
 					//controllo sul risultato
-					if(result.equals("vinto") || result.equals("perso")) {
+					if(result == 1 || result == -1) {
 						//FINE PARTITA
 						return result;
 					}
 				}//for
 				//NON CI SONO CELLE ADIACENTI OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
-				return "pericolo - prima mossa";
+				return -3;
 			}//fi prima mossa
 			//NON SONO ALLA PRIMA MOSSA e la cella corrente indica un pericolo nei dintorni
-			return "pericolo";
+			return -2;
 		}//fi sensori accesi
 		else {
 			//SONO IN UNA SITUAZIONE TRANQUILLA
@@ -134,13 +132,13 @@ public class AutomaticPlayer {
 				//TODO stack
 				//System.out.println(result);
 				//si controlla il risultato
-				if(result.equals("vinto") || result.equals("perso")) {
+				if(result == 1 || result == -1) {
 					//FINE PARTITA
 					return result;
 				}
 			}//for
 			//NON CI SONO CELLE ADIACENTI OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
-			return "pericolo";
+			return -2;
 		}//esle sensori spenti
 	}
 	
@@ -157,15 +155,15 @@ public class AutomaticPlayer {
 	 * @param c: Cell, cella da cui partire per cercare quelle ad essa adiacenti
 	 * @return
 	 */
-	private static LinkedList<Cell> findAdjacentCells(GameMap em, Cell c) {
+	private static void findAdjacentCells(LinkedList<Cell> list, GameMap em, Cell c) {
+		//controllo sul parametro list
+		if(list==null)throw new IllegalArgumentException("lista nulla");
 		//controllo sul parametro mappa
 		if(em==null)throw new IllegalArgumentException("mappa di gioco nulla");
 		//controllo sul parametro cella
 		if(c==null)throw new IllegalArgumentException("cella nulla");
 		//oggetto cella
 		Cell cell;
-		//lista che conterra' le celle adiacenti
-		LinkedList<Cell> list = new LinkedList<>();
 		//si prelevano gli indici di cella di quella ricevuta come parametro
 		int [] cell_index = c.getPosition();
 		//indice riga
@@ -176,48 +174,30 @@ public class AutomaticPlayer {
 		if(em.cellExists(i-1, j)) {
 			//si preleva la cella in esame
 			cell = em.getMapCell(i-1,j);
-			/*
 			//si aggiunge alla lista
-			if(!list.contains(cell)) {
-				list.add(cell);
-			}*/
 			list.add(cell);
 		}//fi
 		//controllo della cella DOWN
 		if(em.cellExists(i+1, j)) {
 			//si preleva la cella in esame
 			cell = em.getMapCell(i+1,j);
-			/*
 			//si aggiunge alla lista
-			if(!list.contains(cell)) {
-				list.add(cell);
-			}*/
 			list.add(cell);
 		}//fi
 		//controllo della cella LEFT
 		if(em.cellExists(i, j-1)) {
 			//si preleva la cella in esame
 			cell = em.getMapCell(i, j-1);
-			/*
 			//si aggiunge alla lista
-			if(!list.contains(cell)) {
-				list.add(cell);
-			}*/
 			list.add(cell);
 		}//fi
 		//controllo della cella RIGHT
 		if(em.cellExists(i, j+1)) {
 			//si preleva la cella in esame
 			cell = em.getMapCell(i, j+1);
-			/*
 			//si aggiunge alla lista
-			if(!list.contains(cell)) {
-				list.add(cell);
-			}*/
 			list.add(cell);
-		}//fi
-		//si restituisce la lista
-		return list;
+		}//
 	}//findAdjacentCells
 
 	/** metodo findCoveredCells(): LinkedList
@@ -226,11 +206,11 @@ public class AutomaticPlayer {
 	 * @param 
 	 * @return
 	 */
-	private static LinkedList<Cell> findCoveredCells(GameMap em, LinkedList<Cell> adjacent_cells){
-		//controllo sul parametro
+	private static void findCoveredCells(LinkedList<Cell> list, GameMap em, LinkedList<Cell> adjacent_cells){
+		//controllo sul parametro list
+		if(list==null)throw new IllegalArgumentException("lista celle adiacenti e non visitate nulla");
+		//controllo sul parametro che contiene le celle adiacenti
 		if(adjacent_cells == null)throw new IllegalArgumentException("lista celle adiacenti nulla");
-		//lista che conterra' le celle adiacenti e gia' visitate
-		LinkedList<Cell> list  = new LinkedList<>();
 		//si itera la lista che contiene le celle adiacenti
 		for(Cell c: adjacent_cells) {
 			//si preleva lo stato della cella
@@ -238,11 +218,10 @@ public class AutomaticPlayer {
 			//si verifica se e' gia' stata visitata
 			if(status==null || !status.equals(CellStatus.OBSERVED)) {
 				//se non e' stata visitata, allora si aggiunge alla lista delle celle da scoprire
-				if(!list.contains(c))list.add(c);
+				//if(!list.contains(c))list.add(c);
+				list.add(c);
 			}//fi
 		}//for
-		//si restituisce la lista
-		return list;
 	}//findCoveredCells()	
 	
 	/** metodo runPathToString(): String
@@ -266,4 +245,31 @@ public class AutomaticPlayer {
 		}//end for
 		return run_list;
 	}//runPathToString()
+	
+	public static String printStatusMessage(int number) {
+		//variabile ausiliaria 
+		String game_status = new String("processing");
+		//switch case
+		switch(number){
+		case 0:
+			game_status = new String("denied");
+			break;
+		case 1 : 
+			game_status = new String("winner");
+			break;
+		case -1: 
+			game_status = new String("looser");
+			break;
+		case -2:
+			game_status = new String("danger");
+			break;
+		case -3:
+			game_status = new String("danger - first move");
+			break;
+		default:
+			break;
+		}//end
+		return game_status;
+	}//printStatusMessage
+	
 }
