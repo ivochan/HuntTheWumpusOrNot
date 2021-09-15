@@ -24,13 +24,11 @@ public class AutomaticPlayerTest {
 		MapConfiguration.init(gm,em);
 		//stampa della mappa
 		//System.out.println(gm.gameMapToString());
-		System.out.println(gm);	
-		System.out.println("Ecco cosa vedo:");
-		System.out.println(em);
+		System.out.println(gm);
 		//risoluzione
 		int status = AutomaticPlayer.solveGame(gm,em);
 		//stampa della mappa di esplorazione
-		System.out.println("Fine");
+		System.out.println("Risoluzione...\n");
 		System.out.println(em);
 		//messaggio di fine partita
 		System.out.println(AutomaticPlayer.printStatusMessage(status));

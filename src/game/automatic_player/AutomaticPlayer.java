@@ -1,5 +1,5 @@
 package game.automatic_player;
-
+//serie di import
 import java.util.LinkedList;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
@@ -16,34 +16,44 @@ public class AutomaticPlayer {
 	
 	//lista delle celle visitate
 	private static LinkedList<Cell> run_path = new LinkedList<>();
-
-	//posizione attuale del pg
+	//vettore riga della posizione precedente del pg
+	private static int[] pre_pg_pos = {-1,-1};
+	//vettore della posizione corrente del pg
 	private static int[] cur_pg_pos = new int[2];
-	//posizione precedente del pg
-	private static int [] pre_pg_pos = new int[2];
-
 	
 	//##### metodo di risoluzione della partita #####
 	
-	/**
-	 * 
-	 * @param gm
-	 * @param em
-	 * @param pg_pos_pre
-	 * @param pg_pos_cur
+	/** metodo solveGame(GameMap, GameMap): int
+	 * metodo pubblico da invocare per la risoluzione del gioco
+	 * i parametri che dovranno essere aggiornati verranno gestiti dall'omonimo
+	 * metodo privato
+	 * @param gm: GameMap, mappa di gioco
+	 * @param em: GameMap, mappa di esplorazione
+	 * @return solveGame(int[], int[], GameMap,GameMap): int, metodo ricorsivo privato
 	 */
 	public static int solveGame(GameMap gm, GameMap em) {
-		//variabili ausiliarie
+		//si preleva la posizione del pg
+		cur_pg_pos  = PlayableCharacter.getPGposition();
+		//si aggiunge la cella in cui si trova il pg all'inizio
+		run_path.add(em.getMapCell(cur_pg_pos[0], cur_pg_pos[1]));
+		//si richiama il metodo ricorsivo
+		return solveGame(pre_pg_pos, cur_pg_pos, gm, em);
+	}//end solveGame
+	
+	/**
+	 * 
+	 * @param pre_pg_pos
+	 * @param cur_pg_pos
+	 * @param gm
+	 * @param em
+	 * @return
+	 */
+	public static int solveGame(int[] pre_pg_pos, int[] cur_pg_pos, GameMap gm, GameMap em) {
+		//variabili ausiliarie per le liste di celle
 		LinkedList<Cell> adjacent_cells = new LinkedList<>();
 		LinkedList<Cell> covered_cells = new LinkedList<>();
-
 		//risultato della mossa
 		int result = 0;
-		//DA DOVE VENGO : la posizione corrente che avevo prima diventa quella precendente
-		pre_pg_pos = cur_pg_pos;
-		//DOVE SONO: cella attuale
-		//si preleva la posizione del pg nella mappa di gioco
-		cur_pg_pos = PlayableCharacter.getPGposition();
 		//si prelevano gli indici di cella
 		int icur = cur_pg_pos[0];
 		int jcur = cur_pg_pos[1];
@@ -51,9 +61,9 @@ public class AutomaticPlayer {
 		Cell current_cell = gm.getMapCell(icur,jcur);
 		//contenuto della cella attuale
 		CellStatus current_status = current_cell.getCellStatus();
-		//System.out.println("cell "+current_status);
 		
 		//##### CASI DI USCITA #####
+		
 		//il pg ha trovato il premio
 		if(current_status.equals(CellStatus.AWARD)) {
 			return 1;
@@ -70,20 +80,19 @@ public class AutomaticPlayer {
 		
 		//DOVE POSSO ANDARE: celle adiacenti
 		findAdjacentCells(adjacent_cells, em, current_cell);
-		//celle da visitare tra quelle adiacenti
+		//COSA POSSO VEDERE DI NUOVO: celle da visitare tra quelle adiacenti
 		findCoveredCells(covered_cells, em, adjacent_cells);
 		
 		//##### CONTROLLO SULLA CELLA ATTUALE #####
 		//si preleva il vettore dei sensori
 		boolean [] current_sensors = current_cell.getSenseVector();
-		//System.out.println(current_cell.senseVectorToString(false));
 		//TODO trattare i due sensori separatamente
 		//si controlla il sensore di pericolo o di nemico
 		if(current_sensors[0] || current_sensors[1]) {
 			//SONO IN UNA SITUAZIONE DI PERICOLO
 			//tutte le celle adiacenti potrebbero contenere un pericolo
 			//DA DOVE VENGO
-			if(pre_pg_pos==null) {
+			if(pre_pg_pos[0]==-1 || pre_pg_pos[1]==-1) {
 				//PRIMA MOSSA: mi trovo nella prima e unica cella visitata
 				for(Cell adjacent_cell: covered_cells) {
 					//visito la prima cella a me sconosciuta contenuta nella lista 
@@ -96,10 +105,19 @@ public class AutomaticPlayer {
 					run_path.add(next_cell);
 					//si inserisce questa cella nella mappa di esplorazione
 					em.getMapCell(adj_cell_pos[0], adj_cell_pos[1]).copyCellSpecs(next_cell);
+					//si cambia lo stato della cella per identificare che vi si trova il pg
+					em.getMapCell(adj_cell_pos[0], adj_cell_pos[1]).setCellStatus(CellStatus.PG);
+					//si cambia lo stato della posizione ormai precedente del pg in cella visitata
+					em.getMapCell(cur_pg_pos[0],cur_pg_pos[1]).setCellStatus(CellStatus.OBSERVED);
+					//si memorizza la posizione precedente del pg
+					pre_pg_pos[0] = cur_pg_pos[0];
+					pre_pg_pos[1] = cur_pg_pos[1];
 					//si aggiorna la posizione attuale del pg nella classe apposita
 					PlayableCharacter.setPGposition(adjacent_cell.getPosition());
+					//si aggiorna la posizione attuale del pg
+					cur_pg_pos = PlayableCharacter.getPGposition();
 					//si valuta la mossa appena compiuta
-					result = solveGame(gm,em);
+					result = solveGame(pre_pg_pos, cur_pg_pos, gm,em);
 					//controllo sul risultato
 					if(result == 1 || result == -1) {
 						//FINE PARTITA
@@ -125,22 +143,61 @@ public class AutomaticPlayer {
 				run_path.add(next_cell);
 				//si inserisce questa cella nella mappa di esplorazione
 				em.getMapCell(indices[0], indices[1]).copyCellSpecs(next_cell);
+				//si cambia lo stato della cella per identificare che vi si trova il pg
+				em.getMapCell(indices[0], indices[1]).setCellStatus(CellStatus.PG);
+				//si cambia lo stato della posizione ormai precedente del pg in cella visitata
+				em.getMapCell(cur_pg_pos[0],cur_pg_pos[1]).setCellStatus(CellStatus.OBSERVED);
+				//si memorizza la posizione precedente del pg
+				pre_pg_pos[0] = cur_pg_pos[0];
+				pre_pg_pos[1] = cur_pg_pos[1];
 				//si aggiorna la posizione attuale del pg nella classe apposita
 				PlayableCharacter.setPGposition(adjacent_cell.getPosition());
+				//si aggiorna la posizione attuale del pg
+				cur_pg_pos = PlayableCharacter.getPGposition();
 				//si valuta la mossa appena compiuta
-				result = solveGame(gm,em);
-				//TODO stack
-				//System.out.println(result);
+				result = solveGame(pre_pg_pos, cur_pg_pos, gm,em);
 				//si controlla il risultato
 				if(result == 1 || result == -1) {
 					//FINE PARTITA
 					return result;
 				}
 			}//for
+			
 			//NON CI SONO CELLE ADIACENTI OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
 			return -2;
 		}//esle sensori spenti
 	}
+	
+	/**
+	 * 
+	 * @param number
+	 * @return
+	 */
+	public static String printStatusMessage(int number) {
+		//variabile ausiliaria 
+		String game_status = new String("processing");
+		//switch case
+		switch(number){
+		case 0:
+			game_status = new String("denied");
+			break;
+		case 1 : 
+			game_status = new String("winner");
+			break;
+		case -1: 
+			game_status = new String("looser");
+			break;
+		case -2:
+			game_status = new String("danger");
+			break;
+		case -3:
+			game_status = new String("danger - first move");
+			break;
+		default:
+			break;
+		}//end
+		return game_status;
+	}//printStatusMessage
 	
 	
 	
@@ -216,9 +273,8 @@ public class AutomaticPlayer {
 			//si preleva lo stato della cella
 			CellStatus status = c.getCellStatus();
 			//si verifica se e' gia' stata visitata
-			if(status==null || !status.equals(CellStatus.OBSERVED)) {
+			if(!status.equals(CellStatus.OBSERVED)) {
 				//se non e' stata visitata, allora si aggiunge alla lista delle celle da scoprire
-				//if(!list.contains(c))list.add(c);
 				list.add(c);
 			}//fi
 		}//for
@@ -246,30 +302,120 @@ public class AutomaticPlayer {
 		return run_list;
 	}//runPathToString()
 	
-	public static String printStatusMessage(int number) {
-		//variabile ausiliaria 
-		String game_status = new String("processing");
-		//switch case
-		switch(number){
-		case 0:
-			game_status = new String("denied");
-			break;
-		case 1 : 
-			game_status = new String("winner");
-			break;
-		case -1: 
-			game_status = new String("looser");
-			break;
-		case -2:
-			game_status = new String("danger");
-			break;
-		case -3:
-			game_status = new String("danger - first move");
-			break;
-		default:
-			break;
-		}//end
-		return game_status;
-	}//printStatusMessage
+}//end AutomaticPlayer
+
+
+
+
+
+
+/*
+
+public static int solveGame(GameMap gm, GameMap em) {
+	//variabili ausiliarie
+	LinkedList<Cell> adjacent_cells = new LinkedList<>();
+	LinkedList<Cell> covered_cells = new LinkedList<>();
+
+	//risultato della mossa
+	int result = 0;
+	//DA DOVE VENGO : la posizione corrente che avevo prima diventa quella precendente
+	pre_pg_pos = cur_pg_pos;
+	//DOVE SONO: cella attuale
+	//si preleva la posizione del pg nella mappa di gioco
+	cur_pg_pos = PlayableCharacter.getPGposition();
+	//si prelevano gli indici di cella
+	int icur = cur_pg_pos[0];
+	int jcur = cur_pg_pos[1];
+	//si preleva la cella corrente
+	Cell current_cell = gm.getMapCell(icur,jcur);
+	//contenuto della cella attuale
+	CellStatus current_status = current_cell.getCellStatus();
 	
+	//##### CASI DI USCITA #####
+	
+	//il pg ha trovato il premio
+	if(current_status.equals(CellStatus.AWARD)) {
+		return 1;
+	}
+	//il pg ha trovato il nemico o il pericolo
+	if(current_status.equals(CellStatus.ENEMY) || current_status.equals(CellStatus.DANGER)) {
+		return -1;
+	}
+	//il pg ha trovato il passaggio bloccato
+	if(current_status.equals(CellStatus.FORBIDDEN)) {
+		return 0;
+	}
+	//##### TERMINE CASI DI USCITA #####
+	
+	//DOVE POSSO ANDARE: celle adiacenti
+	findAdjacentCells(adjacent_cells, em, current_cell);
+	//celle da visitare tra quelle adiacenti
+	findCoveredCells(covered_cells, em, adjacent_cells);
+	
+	//##### CONTROLLO SULLA CELLA ATTUALE #####
+	//si preleva il vettore dei sensori
+	boolean [] current_sensors = current_cell.getSenseVector();
+	//TODO trattare i due sensori separatamente
+	//si controlla il sensore di pericolo o di nemico
+	if(current_sensors[0] || current_sensors[1]) {
+		//SONO IN UNA SITUAZIONE DI PERICOLO
+		//tutte le celle adiacenti potrebbero contenere un pericolo
+		//DA DOVE VENGO
+		if(pre_pg_pos==null) {
+			//PRIMA MOSSA: mi trovo nella prima e unica cella visitata
+			for(Cell adjacent_cell: covered_cells) {
+				//visito la prima cella a me sconosciuta contenuta nella lista 
+				//delle celle da scoprire 
+				//prelevo gli indici di questa cella
+				int [] adj_cell_pos = adjacent_cell.getPosition();
+				//prelevo le informazioni di questa cella dalla mappa di gioco
+				Cell next_cell = gm.getMapCell(adj_cell_pos[0], adj_cell_pos[1]);
+				//la aggiungo alla lista delle celle visitate
+				run_path.add(next_cell);
+				//si inserisce questa cella nella mappa di esplorazione
+				em.getMapCell(adj_cell_pos[0], adj_cell_pos[1]).copyCellSpecs(next_cell);
+				//si aggiorna la posizione attuale del pg nella classe apposita
+				PlayableCharacter.setPGposition(adjacent_cell.getPosition());
+				//si valuta la mossa appena compiuta
+				result = solveGame(gm,em);
+				//controllo sul risultato
+				if(result == 1 || result == -1) {
+					//FINE PARTITA
+					return result;
+				}
+			}//for
+			//NON CI SONO CELLE ADIACENTI OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
+			return -3;
+		}//fi prima mossa
+		//NON SONO ALLA PRIMA MOSSA e la cella corrente indica un pericolo nei dintorni
+	
+		return -2;
+	}//fi sensori accesi
+	else {
+		//SONO IN UNA SITUAZIONE TRANQUILLA
+		//le celle adiacenti non hanno pericoli
+		for(Cell adjacent_cell: covered_cells) {
+			//visito la cella corrente
+			//prelevo gli indici di questa cella
+			int [] indices = adjacent_cell.getPosition();
+			//prelevo le informazioni di questa cella dalla mappa di gioco
+			Cell next_cell = gm.getMapCell(indices[0], indices[1]);
+			//la aggiungo alla lista delle celle visitate
+			run_path.add(next_cell);
+			//si inserisce questa cella nella mappa di esplorazione
+			em.getMapCell(indices[0], indices[1]).copyCellSpecs(next_cell);
+			//si aggiorna la posizione attuale del pg nella classe apposita
+			PlayableCharacter.setPGposition(adjacent_cell.getPosition());
+			//si valuta la mossa appena compiuta
+			result = solveGame(gm,em);
+			//si controlla il risultato
+			if(result == 1 || result == -1) {
+				//FINE PARTITA
+				return result;
+			}
+		}//for
+		//NON CI SONO CELLE ADIACENTI OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
+		return -2;
+	}//esle sensori spenti
 }
+*/
