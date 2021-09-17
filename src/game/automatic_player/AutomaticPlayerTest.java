@@ -1,6 +1,6 @@
 package game.automatic_player;
+//serie di import
 import java.util.LinkedList;
-
 import game.structure.cell.Cell;
 //import
 import game.structure.map.GameMap;
@@ -33,12 +33,13 @@ public class AutomaticPlayerTest {
 		//risoluzione
 		int status = AutomaticPlayer.solveGame(gm,em, run_path);
 		//stampa della mappa di esplorazione
-
-		System.out.println(em);
+		System.out.println("Ecco cosa ho visto:\n"+em);
 		//messaggio di fine partita
 		System.out.println(AutomaticPlayer.printStatusMessage(status));
 		//path
 		System.out.println(AutomaticPlayer.runPathToString(run_path));
+		//DEBUGG
+		System.out.println("confronto\n"+gm);
 	}//end main			
 
 	

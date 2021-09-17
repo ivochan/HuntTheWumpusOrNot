@@ -16,6 +16,8 @@ public class AutomaticPlayer {
 	
 	//vettore della posizione corrente del pg
 	private static int[] cur_pg_pos = PlayableCharacter.getPGposition();
+	//munizioni
+	private static int chance_to_hit = 1;
 	
 	//##### metodo di risoluzione della partita #####
 	
@@ -44,7 +46,7 @@ public class AutomaticPlayer {
 	 * @param em
 	 * @return
 	 */
-	public static int solveGame(int[] pre_pg_pos, int[] cur_pg_pos, GameMap gm, GameMap em, LinkedList<Cell> run_path) {
+	private static int solveGame(int[] pre_pg_pos, int[] cur_pg_pos, GameMap gm, GameMap em, LinkedList<Cell> run_path) {
 		//variabili ausiliarie per le liste di celle
 		LinkedList<Cell> adjacent_cells = new LinkedList<>();
 		LinkedList<Cell> covered_cells = new LinkedList<>();
@@ -52,8 +54,10 @@ public class AutomaticPlayer {
 		int [] next_pos = new int[2];
 		//risultato della mossa
 		int result = 0;	
+		//si preleva la cella attuale
+		Cell current_cell = gm.getMapCell(cur_pg_pos[0],cur_pg_pos[1]);
 		//contenuto della cella attuale
-		CellStatus current_status =  gm.getMapCell(cur_pg_pos[0],cur_pg_pos[1]).getCellStatus();
+		CellStatus current_status =  current_cell.getCellStatus();
 		
 		//##### CASI DI USCITA #####
 		
@@ -73,7 +77,7 @@ public class AutomaticPlayer {
 		//##### TERMINE CASI DI USCITA #####
 		
 		//DOVE POSSO ANDARE: celle adiacenti
-		findAdjacentCells(adjacent_cells, em, gm.getMapCell(cur_pg_pos[0],cur_pg_pos[1]));
+		findAdjacentCells(adjacent_cells, em, current_cell);
 		//COSA POSSO VEDERE DI NUOVO: celle da visitare tra quelle adiacenti, perche' mai esplorate
 		findCoveredCells(covered_cells, em, adjacent_cells);
 		
@@ -81,12 +85,35 @@ public class AutomaticPlayer {
 		//##### CONTROLLO SULLA CELLA ATTUALE #####
 		
 		//si preleva il vettore dei sensori
-		boolean [] current_sensors =  gm.getMapCell(cur_pg_pos[0],cur_pg_pos[1]).getSenseVector();
+		boolean [] current_sensors = gm.getMapCell(cur_pg_pos[0],cur_pg_pos[1]).getSenseVector();
 		
-		//TODO trattare i due sensori separatamente
+		if(current_sensors[0] && chance_to_hit>0) {
+			//si prende la prima cella tra quelle adiacenti e non visitate
+			Cell cell_to_hit = covered_cells.get(0);
+			//si preleva la posizione della cella
+			int [] pos = cell_to_hit.getPosition();
+			//si preleva lo stato della cella dalla mappa di gioco
+			CellStatus cth_status = gm.getMapCell(pos[0], pos[1]).getCellStatus();
+			//provo a sparare
+			System.out.println("sono in "+'('+cur_pg_pos[0]+','+cur_pg_pos[1]+')');
+			System.out.println("Sparo verso: "+'('+pos[0]+','+pos[1]+')');
+			System.out.println("Risultato:\n"+em);
+			//si verifica se contiene il nemico
+			if(cth_status.equals(CellStatus.ENEMY)) {
+				//il nemico e' stato colpito
+				//TODO aggiornamento del punteggio
+				System.out.println("Colpito");
+				//la cella diventa safe
+				gm.getMapCell(pos[0],pos[1]).setCellStatus(CellStatus.SAFE);
+				//si disabilita il sensore del nemico della cella corrente
+				current_sensors[0]=false;
+			}//fi nemico colpito
+			//si decrementano le munizioni
+			chance_to_hit--;
+		}//fi sensore nemico e possibilita' di colpire
 		
-		//si controlla il sensore di pericolo o di nemico
-		if(current_sensors[0] || current_sensors[1]) {		
+		//sono attivi i sensori di pericolo: ENEMY_SENSE e/o DANGER_SENSE
+		if(current_sensors[0] || current_sensors[1]){
 			//SONO IN UNA SITUAZIONE DI PERICOLO
 			//tutte le celle adiacenti potrebbero contenere un pericolo
 			if(pre_pg_pos.equals(cur_pg_pos)) {
@@ -155,6 +182,34 @@ public class AutomaticPlayer {
 		}//esle sensori spenti
 		
 	}
+
+	
+	/*
+	//se e' acceso il sensore del nemico
+	if(current_sensors[0]) {
+		//si verifica la disponibilita' di munizioni
+		if(chance_to_hit>0) {
+			//si prende la prima cella tra quelle adiacenti e non visitate
+			Cell cell_to_hit = covered_cells.get(0);
+			//si preleva la posizione della cella
+			int [] pos = cell_to_hit.getPosition();
+			//si preleva il vettore dei sensori
+			boolean [] hit_sensors = gm.getMapCell(pos[0], pos[1]).getSenseVector();
+			//si preleva lo stato della cella
+			CellStatus cth_status = cell_to_hit.getCellStatus();
+			//si verifica se contiene il nemico
+			if(cth_status.equals(CellStatus.ENEMY)) {
+				//il nemico e' stato colpito
+				//TODO aggiornamento del punteggio
+				//la cella diventa safe
+				gm.getMapCell(pos[0],pos[1]).setCellStatus(CellStatus.SAFE);
+				//si disabilita il sensore del nemico
+				hit_sensors[0]=false;
+			}
+		}//se non si hanno munizini si prosegue come se fosse un pericolo
+	*/
+	
+	
 	
 	
 	
@@ -294,118 +349,3 @@ public class AutomaticPlayer {
 	
 }//end AutomaticPlayer
 
-
-
-
-
-
-/*
-
-public static int solveGame(GameMap gm, GameMap em) {
-	//variabili ausiliarie
-	LinkedList<Cell> adjacent_cells = new LinkedList<>();
-	LinkedList<Cell> covered_cells = new LinkedList<>();
-
-	//risultato della mossa
-	int result = 0;
-	//DA DOVE VENGO : la posizione corrente che avevo prima diventa quella precendente
-	pre_pg_pos = cur_pg_pos;
-	//DOVE SONO: cella attuale
-	//si preleva la posizione del pg nella mappa di gioco
-	cur_pg_pos = PlayableCharacter.getPGposition();
-	//si prelevano gli indici di cella
-	int icur = cur_pg_pos[0];
-	int jcur = cur_pg_pos[1];
-	//si preleva la cella corrente
-	Cell current_cell = gm.getMapCell(icur,jcur);
-	//contenuto della cella attuale
-	CellStatus current_status = current_cell.getCellStatus();
-	
-	//##### CASI DI USCITA #####
-	
-	//il pg ha trovato il premio
-	if(current_status.equals(CellStatus.AWARD)) {
-		return 1;
-	}
-	//il pg ha trovato il nemico o il pericolo
-	if(current_status.equals(CellStatus.ENEMY) || current_status.equals(CellStatus.DANGER)) {
-		return -1;
-	}
-	//il pg ha trovato il passaggio bloccato
-	if(current_status.equals(CellStatus.FORBIDDEN)) {
-		return 0;
-	}
-	//##### TERMINE CASI DI USCITA #####
-	
-	//DOVE POSSO ANDARE: celle adiacenti
-	findAdjacentCells(adjacent_cells, em, current_cell);
-	//celle da visitare tra quelle adiacenti
-	findCoveredCells(covered_cells, em, adjacent_cells);
-	
-	//##### CONTROLLO SULLA CELLA ATTUALE #####
-	//si preleva il vettore dei sensori
-	boolean [] current_sensors = current_cell.getSenseVector();
-	//TODO trattare i due sensori separatamente
-	//si controlla il sensore di pericolo o di nemico
-	if(current_sensors[0] || current_sensors[1]) {
-		//SONO IN UNA SITUAZIONE DI PERICOLO
-		//tutte le celle adiacenti potrebbero contenere un pericolo
-		//DA DOVE VENGO
-		if(pre_pg_pos==null) {
-			//PRIMA MOSSA: mi trovo nella prima e unica cella visitata
-			for(Cell adjacent_cell: covered_cells) {
-				//visito la prima cella a me sconosciuta contenuta nella lista 
-				//delle celle da scoprire 
-				//prelevo gli indici di questa cella
-				int [] adj_cell_pos = adjacent_cell.getPosition();
-				//prelevo le informazioni di questa cella dalla mappa di gioco
-				Cell next_cell = gm.getMapCell(adj_cell_pos[0], adj_cell_pos[1]);
-				//la aggiungo alla lista delle celle visitate
-				run_path.add(next_cell);
-				//si inserisce questa cella nella mappa di esplorazione
-				em.getMapCell(adj_cell_pos[0], adj_cell_pos[1]).copyCellSpecs(next_cell);
-				//si aggiorna la posizione attuale del pg nella classe apposita
-				PlayableCharacter.setPGposition(adjacent_cell.getPosition());
-				//si valuta la mossa appena compiuta
-				result = solveGame(gm,em);
-				//controllo sul risultato
-				if(result == 1 || result == -1) {
-					//FINE PARTITA
-					return result;
-				}
-			}//for
-			//NON CI SONO CELLE ADIACENTI OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
-			return -3;
-		}//fi prima mossa
-		//NON SONO ALLA PRIMA MOSSA e la cella corrente indica un pericolo nei dintorni
-	
-		return -2;
-	}//fi sensori accesi
-	else {
-		//SONO IN UNA SITUAZIONE TRANQUILLA
-		//le celle adiacenti non hanno pericoli
-		for(Cell adjacent_cell: covered_cells) {
-			//visito la cella corrente
-			//prelevo gli indici di questa cella
-			int [] indices = adjacent_cell.getPosition();
-			//prelevo le informazioni di questa cella dalla mappa di gioco
-			Cell next_cell = gm.getMapCell(indices[0], indices[1]);
-			//la aggiungo alla lista delle celle visitate
-			run_path.add(next_cell);
-			//si inserisce questa cella nella mappa di esplorazione
-			em.getMapCell(indices[0], indices[1]).copyCellSpecs(next_cell);
-			//si aggiorna la posizione attuale del pg nella classe apposita
-			PlayableCharacter.setPGposition(adjacent_cell.getPosition());
-			//si valuta la mossa appena compiuta
-			result = solveGame(gm,em);
-			//si controlla il risultato
-			if(result == 1 || result == -1) {
-				//FINE PARTITA
-				return result;
-			}
-		}//for
-		//NON CI SONO CELLE ADIACENTI OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
-		return -2;
-	}//esle sensori spenti
-}
-*/
