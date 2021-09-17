@@ -224,17 +224,17 @@ public class AutomaticPlayer {
 			//si aggiunge alla lista
 			list.add(cell);
 		}//fi
-		//controllo della cella DOWN
-		if(em.cellExists(i+1, j)) {
-			//si preleva la cella in esame
-			cell = em.getMapCell(i+1,j);
-			//si aggiunge alla lista
-			list.add(cell);
-		}//fi
 		//controllo della cella LEFT
 		if(em.cellExists(i, j-1)) {
 			//si preleva la cella in esame
 			cell = em.getMapCell(i, j-1);
+			//si aggiunge alla lista
+			list.add(cell);
+		}//fi
+		//controllo della cella DOWN
+		if(em.cellExists(i+1, j)) {
+			//si preleva la cella in esame
+			cell = em.getMapCell(i+1,j);
 			//si aggiunge alla lista
 			list.add(cell);
 		}//fi
@@ -244,7 +244,7 @@ public class AutomaticPlayer {
 			cell = em.getMapCell(i, j+1);
 			//si aggiunge alla lista
 			list.add(cell);
-		}//
+		}//fi
 	}//findAdjacentCells
 
 	/** metodo findCoveredCells(): LinkedList
