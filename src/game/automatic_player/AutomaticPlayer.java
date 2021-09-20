@@ -1,6 +1,9 @@
 package game.automatic_player;
+import java.util.Collections;
 //serie di import
 import java.util.LinkedList;
+import java.util.Random;
+
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.elements.PlayableCharacter;
@@ -81,7 +84,6 @@ public class AutomaticPlayer {
 		//COSA POSSO VEDERE DI NUOVO: celle da visitare tra quelle adiacenti, perche' mai esplorate
 		findCoveredCells(covered_cells, em, adjacent_cells);
 		
-		
 		//##### CONTROLLO SULLA CELLA ATTUALE #####
 		
 		//si preleva il vettore dei sensori
@@ -95,19 +97,22 @@ public class AutomaticPlayer {
 			//si preleva lo stato della cella dalla mappa di gioco
 			CellStatus cth_status = gm.getMapCell(pos[0], pos[1]).getCellStatus();
 			//provo a sparare
-			System.out.println("sono in "+'('+cur_pg_pos[0]+','+cur_pg_pos[1]+')');
+			System.out.println("Mi trovo in: "+'('+cur_pg_pos[0]+','+cur_pg_pos[1]+')');
 			System.out.println("Sparo verso: "+'('+pos[0]+','+pos[1]+')');
-			System.out.println("Risultato:\n"+em);
+			//System.out.println("Risultato:\n"+em);
 			//si verifica se contiene il nemico
 			if(cth_status.equals(CellStatus.ENEMY)) {
 				//il nemico e' stato colpito
 				//TODO aggiornamento del punteggio
-				System.out.println("Colpito");
+				System.out.println("Nemico colpito");
 				//la cella diventa safe
 				gm.getMapCell(pos[0],pos[1]).setCellStatus(CellStatus.SAFE);
 				//si disabilita il sensore del nemico della cella corrente
 				current_sensors[0]=false;
 			}//fi nemico colpito
+			else {
+				System.out.println("Nemico mancato");
+			}
 			//si decrementano le munizioni
 			chance_to_hit--;
 		}//fi sensore nemico e possibilita' di colpire
@@ -182,47 +187,20 @@ public class AutomaticPlayer {
 		}//esle sensori spenti
 		
 	}
-
-	
-	/*
-	//se e' acceso il sensore del nemico
-	if(current_sensors[0]) {
-		//si verifica la disponibilita' di munizioni
-		if(chance_to_hit>0) {
-			//si prende la prima cella tra quelle adiacenti e non visitate
-			Cell cell_to_hit = covered_cells.get(0);
-			//si preleva la posizione della cella
-			int [] pos = cell_to_hit.getPosition();
-			//si preleva il vettore dei sensori
-			boolean [] hit_sensors = gm.getMapCell(pos[0], pos[1]).getSenseVector();
-			//si preleva lo stato della cella
-			CellStatus cth_status = cell_to_hit.getCellStatus();
-			//si verifica se contiene il nemico
-			if(cth_status.equals(CellStatus.ENEMY)) {
-				//il nemico e' stato colpito
-				//TODO aggiornamento del punteggio
-				//la cella diventa safe
-				gm.getMapCell(pos[0],pos[1]).setCellStatus(CellStatus.SAFE);
-				//si disabilita il sensore del nemico
-				hit_sensors[0]=false;
-			}
-		}//se non si hanno munizini si prosegue come se fosse un pericolo
-	*/
 	
 	
-	
-	
-	
-	/**
-	 * 
-	 * @param number
-	 * @return
+	/** metodo printStatusMessage(int)
+	 * questo metodo stampa una stringa indicativa del codice di
+	 * uscita con cui e' terminato il metodo di risoluzione
+	 * @param number: int
+	 * @return game_status: String
 	 */
 	public static String printStatusMessage(int number) {
 		//variabile ausiliaria 
 		String game_status = new String("processing");
 		//switch case
 		switch(number){
+		//casi possibili
 		case 0:
 			game_status = new String("denied");
 			break;
@@ -233,7 +211,7 @@ public class AutomaticPlayer {
 			game_status = new String("looser");
 			break;
 		case -2:
-			game_status = new String("danger");
+			game_status = new String("danger sensor");
 			break;
 		case -3:
 			game_status = new String("danger sensor - first move");
@@ -243,9 +221,6 @@ public class AutomaticPlayer {
 		}//end
 		return game_status;
 	}//printStatusMessage
-	
-	
-	
 	
 	//##### metodi di supporto al calcolo della soluzione #####
 	
@@ -300,6 +275,15 @@ public class AutomaticPlayer {
 			//si aggiunge alla lista
 			list.add(cell);
 		}//fi
+		//shuffle
+		Collections.shuffle(list);
+		/*
+		String cells = new String("");
+		for(Cell ce:list) {
+			cells += ce.positionToString();
+		}
+		System.out.println(cells);
+		*/
 	}//findAdjacentCells
 
 	/** metodo findCoveredCells(): LinkedList

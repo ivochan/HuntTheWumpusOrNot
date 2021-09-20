@@ -24,8 +24,9 @@ public class GameElements {
 				+ "dei sensori nulla");
 		//numero di celle della mappa
 		NUMBER_OF_CELLS = gm.getMapDimension();
-		//numero di celle non accessibili: da 0 a 2
-		STONES = (int)(Math.random()*3);
+		//numero di celle non accessibili: da 0 a 1
+		STONES = (int)(Math.random()*2);
+		//STONES = 0;
 		//premio
 		AWARD = 1;
 		//nemico
