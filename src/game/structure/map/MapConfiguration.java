@@ -119,7 +119,8 @@ public class MapConfiguration {
 				}//for colonne
 			}//for righe
 			//si controlla se il premio e' stato posizionato in una cella accessibile
-			correct_award = gm.areAdjacentCellsSafe(i_award,j_award);
+			//correct_award = gm.areAdjacentCellsSafe(i_award,j_award);
+			correct_award = gm.isAccessibleCell(i_award,j_award);
 			//controllo dei flag del ciclo
 		}while( enemy>0 || danger>0 || stones>0 || award>0 || !correct_award);		
 	}//placeGameElements(GameMap, int[])

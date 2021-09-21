@@ -434,4 +434,57 @@ public class GameMap implements Serializable {
 	}//areAdjacentCellsSafe(int, int)
 
 	
+	/** metodo isAccessibleCell(int, int)
+	 * questo metodo verifica se le celle adiacenti a quella indicata
+	 * dalla coppia di indici ricevuta come parametro siano libere
+	 * oppure no, in modo da garantire che la cella di interesse
+	 * sia circondata almeno da una SAFE.
+	 * Si deve inoltre verificare, affinche' la cella sia accessibile,
+	 * che almeno una cella adiacente alle sue celle adiacenti sia SAFE.
+	 * @param i: int, indice di riga della cella di interesse;
+	 * @param j: int, indice della colonna della cella di interesse;
+	 * @return true, se la cella di interesse e' accessibile
+	 * 				 una cella libera, false altrimenti.
+	 */
+	public boolean isAccessibleCell(int i, int j) {
+		//variabile ausiliaria
+		CellStatus cs;
+		//si prendono tutte le celle ad essa adiacenti
+		//controllo
+		if(this.cellExists(i-1, j)) {
+			cs = this.getMapCell(i-1, j).getCellStatus();
+			//si verifica se safe
+			if(cs.equals(CellStatus.SAFE)){
+				//si verifica se sono safe le sue adiacenti
+				if(areAdjacentCellsSafe(i-1,j))return true;
+			}
+		}//fi cella sopra
+		if(this.cellExists(i+1, j)) {
+			cs = this.getMapCell(i+1, j).getCellStatus();
+			//si verifica se safe
+			if(cs.equals(CellStatus.SAFE)){
+				//si verifica se sono safe le sue adiacenti
+				if(areAdjacentCellsSafe(i+1,j))return true;
+			}
+		}//fi cella sotto
+		if(this.cellExists(i, j-1)) {
+			cs = this.getMapCell(i, j-1).getCellStatus();
+			//si verifica se safe
+			if(cs.equals(CellStatus.SAFE)){
+				//si verifica se sono safe le sue adiacenti
+				if(areAdjacentCellsSafe(i,j-1))return true;
+			}
+		}//fi cella a sinistra
+		if(this.cellExists(i, j+1)) {
+			cs = this.getMapCell(i, j+1).getCellStatus();
+			//si verifica se safe
+			if(cs.equals(CellStatus.SAFE)){
+				//si verifica se sono safe le sue adiacenti
+				if(areAdjacentCellsSafe(i,j+1))return true;
+			}
+		}//fi cella a destra
+		//non ci sono celle adiacenti a quella data con status uguale a SAFE
+		return false;
+	}//areAdjacentCellsSafe(int, int)
+	
 }//end GameMap
