@@ -3,7 +3,6 @@ import java.util.Collections;
 //serie di import
 import java.util.LinkedList;
 import java.util.Random;
-
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.elements.PlayableCharacter;
@@ -51,6 +50,7 @@ public class AutomaticPlayer {
 	 */
 	private static int solveGame(int[] pre_pg_pos, int[] cur_pg_pos, GameMap gm, GameMap em, LinkedList<Cell> run_path) {
 		//variabili ausiliarie per le liste di celle
+		LinkedList<Cell> face_up_cells = new LinkedList<>();
 		LinkedList<Cell> adjacent_cells = new LinkedList<>();
 		LinkedList<Cell> covered_cells = new LinkedList<>();
 		//variabili ausiliarie per gli indici della cella da esaminare
@@ -84,11 +84,62 @@ public class AutomaticPlayer {
 		//COSA POSSO VEDERE DI NUOVO: celle da visitare tra quelle adiacenti, perche' mai esplorate
 		findCoveredCells(covered_cells, em, adjacent_cells);
 		
+	
 		//##### CONTROLLO SULLA CELLA ATTUALE #####
 		
 		//si preleva il vettore dei sensori
 		boolean [] current_sensors = gm.getMapCell(cur_pg_pos[0],cur_pg_pos[1]).getSenseVector();
 		
+		//controllo se e' acceso il sensore del nemico
+		if(current_sensors[CellStatus.ENEMY_SENSE.ordinal()] && chance_to_hit>0) {
+			//variabile ausiliaria per la lista di celle
+			LinkedList<Cell> adjacent_list = new LinkedList<>();
+			//considero la cella in cui mi trovo
+			//prendo le celle ad essa adiacenti
+			findFaceUpAdjacentCells(face_up_cells, gm, current_cell);
+			//elimino la cella da cui provengo perche' e' sicura
+			face_up_cells.remove(gm.getMapCell(pre_pg_pos[0], pre_pg_pos[1]));
+			//scorro le celle adiacenti a quella attuale, in cui mi trovo
+			for(Cell c: face_up_cells) {
+				//prelevo le celle adiacenti e visitate
+				findFaceUpAdjacentCells(adjacent_list, gm, c);
+				//itero queste celle scoperte ed adiacenti
+				for(Cell adj: adjacent_list) {
+					//prelevo il vettore dei sensori
+					boolean [] adj_sensor = adj.getSenseVector();
+					//controllo se ognuna di queste celle ha il sensore del nemico acceso
+					if(adj_sensor[CellStatus.ENEMY_SENSE.ordinal()] && chance_to_hit>0) {
+						//la cella c allora e' quella verso cui sparare
+						//si decrementano le munizioni
+						chance_to_hit--;
+						//prendo la posizione della cella verso cui sparare
+						int[] hit_pos = c.getPosition();
+						//prelevo lo stato di questa cella dalla mappa di gioco	
+						CellStatus hit_status = gm.getMapCell(hit_pos[0], hit_pos[1]).getCellStatus();
+						//provo a sparare
+						System.out.println("Mi trovo in: "+'('+cur_pg_pos[0]+','+cur_pg_pos[1]+')');
+						System.out.println("Sparo verso: "+'('+hit_pos[0]+','+hit_pos[1]+')');
+						//si verifica se contiene il nemico
+						if(hit_status.equals(CellStatus.ENEMY)) {
+							//il nemico e' stato colpito
+							System.out.println("Nemico colpito");
+							//la cella diventa safe
+							gm.getMapCell(hit_pos[0],hit_pos[1]).setCellStatus(CellStatus.SAFE);
+							//si spengono tutti i sensori del nemico delle celle adiacenti a c
+							updateEnemySensor(gm, hit_pos);
+						}//fi nemico colpito
+						else {
+							System.out.println("Nemico mancato");
+						}//else
+					}//fi sensore nemico e possibilita' di colpire;
+				}//for celle adiacenti a quelle adiacenti di quella del pg
+			}//for celle adiacenti a quella corrente del pg
+		}
+			
+		
+		/*
+		//ALGORITMO DI EMERGENZA
+		//sensore del nemico
 		if(current_sensors[0] && chance_to_hit>0) {
 			//si prende la prima cella tra quelle adiacenti e non visitate
 			Cell cell_to_hit = covered_cells.get(0);
@@ -103,7 +154,6 @@ public class AutomaticPlayer {
 			//si verifica se contiene il nemico
 			if(cth_status.equals(CellStatus.ENEMY)) {
 				//il nemico e' stato colpito
-				//TODO aggiornamento del punteggio
 				System.out.println("Nemico colpito");
 				//la cella diventa safe
 				gm.getMapCell(pos[0],pos[1]).setCellStatus(CellStatus.SAFE);
@@ -116,6 +166,13 @@ public class AutomaticPlayer {
 			//si decrementano le munizioni
 			chance_to_hit--;
 		}//fi sensore nemico e possibilita' di colpire
+		*/
+		
+		
+		
+		
+		
+		
 		
 		//sono attivi i sensori di pericolo: ENEMY_SENSE e/o DANGER_SENSE
 		if(current_sensors[0] || current_sensors[1]){
@@ -142,8 +199,8 @@ public class AutomaticPlayer {
 			
 				}//for
 				
-				//NON CI SONO CELLE ADIACENTI OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
-				
+				//NON CI SONO CELLE ADIACENTI non visitate OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
+							
 				//si aggiorna il percorso: ritorno alla cella precedente
 				run_path.add(gm.getMapCell(pre_pg_pos[0], pre_pg_pos[1]));
 				
@@ -151,12 +208,13 @@ public class AutomaticPlayer {
 				
 			}//fi prima mossa
 			
-			//NON SONO ALLA PRIMA MOSSA e la cella corrente indica un pericolo nei dintorni		
-			
+			//NON SONO ALLA PRIMA MOSSA e la cella corrente indica un pericolo nei dintorni	
+
 			//si aggiorna il percorso: ritorno alla cella precedente
 			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
-			
+				
 			return -2;
+			
 		}//fi sensori accesi					
 		
 		else {	
@@ -181,9 +239,18 @@ public class AutomaticPlayer {
 			}//for
 			
 			//NON CI SONO CELLE ADIACENTI OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
-			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
 			
-			return -2;
+			//STRATEGIA DI EMERGENZA: scelta di un nodo casuale
+			//sono sul punto iniziale
+			//TODO
+			
+			
+			
+			
+			
+			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
+	
+			return -4;
 		}//esle sensori spenti
 		
 	}
@@ -215,6 +282,12 @@ public class AutomaticPlayer {
 			break;
 		case -3:
 			game_status = new String("danger sensor - first move");
+			break;
+		case -4:
+			game_status = new String("danger sensor - sensors off");
+			break;
+		case -5:
+			game_status = new String("bhu");
 			break;
 		default:
 			break;
@@ -279,7 +352,7 @@ public class AutomaticPlayer {
 		Collections.shuffle(list);
 		/*
 		String cells = new String("");
-		for(Cell ce:list) {
+		for(Cell ce:adjacent_cells) {
 			cells += ce.positionToString();
 		}
 		System.out.println(cells);
@@ -309,6 +382,76 @@ public class AutomaticPlayer {
 		}//for
 	}//findCoveredCells()	
 	
+	/** metodo findFaceUpAdjacentCells(Cell)
+	 * questo metodo ricerca tutte le celle adiacenti a quella data
+	 * e le inserisce in una lista, dopo aver verificato che esistano
+	 * nella mappa di gioco che e' stata generata e che siano gia' state visitate
+	 * @param em: GameMap, mappa di esplorazione, conosciuta dal giocatore
+	 * @param c: Cell, cella da cui partire per cercare quelle ad essa adiacenti
+	 * @return
+	 */
+	private static void findFaceUpAdjacentCells(LinkedList<Cell> list, GameMap em, Cell c) {
+		//controllo sul parametro list
+		if(list==null)throw new IllegalArgumentException("lista nulla");
+		//controllo sul parametro mappa
+		if(em==null)throw new IllegalArgumentException("mappa di gioco nulla");
+		//controllo sul parametro cella
+		if(c==null)throw new IllegalArgumentException("cella nulla");
+		//oggetto cella
+		Cell cell;
+		//si prelevano gli indici di cella di quella ricevuta come parametro
+		int [] cell_index = c.getPosition();
+		//indice riga
+		int i = cell_index[0];
+		//indice colonna
+		int j = cell_index[1];
+		//controllo dell'esistenza della cella UP
+		if(em.cellExists(i-1, j)) {
+			//si preleva la cella in esame
+			cell = em.getMapCell(i-1,j);
+			//si verifica se e' stata visitata
+			if(!cell.getCellStatus().equals(CellStatus.UNKNOWN)) {
+				//si aggiunge alla lista
+				list.add(cell);
+			}
+		}//fi
+		//controllo della cella LEFT
+		if(em.cellExists(i, j-1)) {
+			//si preleva la cella in esame
+			cell = em.getMapCell(i, j-1);
+			//si verifica se e' stata visitata
+			if(!cell.getCellStatus().equals(CellStatus.UNKNOWN)) {
+				//si aggiunge alla lista
+				list.add(cell);
+			}
+		}//fi
+		//controllo della cella DOWN
+		if(em.cellExists(i+1, j)) {
+			//si preleva la cella in esame
+			cell = em.getMapCell(i+1,j);
+			//si verifica se e' stata visitata
+			if(!cell.getCellStatus().equals(CellStatus.UNKNOWN)) {
+				//si aggiunge alla lista
+				list.add(cell);
+			}
+		}//fi
+		//controllo della cella RIGHT
+		if(em.cellExists(i, j+1)) {
+			//si preleva la cella in esame
+			cell = em.getMapCell(i, j+1);
+			//si verifica se e' stata visitata
+			if(!cell.getCellStatus().equals(CellStatus.UNKNOWN)) {
+				//si aggiunge alla lista
+				list.add(cell);
+			}
+		}//fi
+	}//findAdjacentCells
+	
+	
+	
+	
+	
+	
 	/** metodo runPathToString(): String
 	 * questo metodo restituisce il percorso compiuto
 	 * dal giocatore automatico, sotto forma di stringa,
@@ -330,6 +473,47 @@ public class AutomaticPlayer {
 		}//end for
 		return run_list;
 	}//runPathToString()
+	
+	/** metodo updateEnemySensor(GameMap, int[]): void
+	 * questo metodo aggiorna i sensori del nemico per tutte le celle
+	 * adiacenti a quella che lo conteneva, dopo che il nemico e' stato
+	 * eliminato, mettendo false come valore.
+	 * @param gm
+	 * @param enemy_indices
+	 */
+	private static void updateEnemySensor(GameMap gm, int[] enemy_indices) {
+		//variabile ausiliaria
+		Cell c;
+		//si prelevano gli indici del nemico
+		int ie = enemy_indices[0];
+		int je = enemy_indices[1];
+		//si specifica il vettore dei sensori per le celle attorno al nemico
+		if(je>0) {
+			//System.out.println("cella "+ie+","+(je-1));
+			c = gm.getMapCell(ie, je-1);
+			c.setSenseVectorCell(CellStatus.ENEMY_SENSE.ordinal(), false);
+			//System.out.println(c.senseVectorToString(false));
+		}// fi cella a SINISTRA
+		if(ie>0) {
+			//System.out.println("cella "+(ie-1)+","+je);
+			c = gm.getMapCell(ie-1, je);
+			c.setSenseVectorCell(CellStatus.ENEMY_SENSE.ordinal(), false);
+			//System.out.println(c.senseVectorToString(false));
+		}//fi cella in ALTO
+		if(je<3) {
+			//System.out.println("cella "+ie+","+(je+1));
+			c = gm.getMapCell(ie, je+1);
+			c.setSenseVectorCell(CellStatus.ENEMY_SENSE.ordinal(), false);
+			//System.out.println(c.senseVectorToString(false));
+		}//fi cella a DESTRA
+		if(ie<3) {
+			//System.out.println("cella "+(ie+1)+","+je);
+			c = gm.getMapCell(ie+1, je);
+			c.setSenseVectorCell(CellStatus.ENEMY_SENSE.ordinal(), false);
+			//System.out.println(c.senseVectorToString(false));
+		}//fi cella in BASSO
+		
+	}//enemySensor(Map, int[])
 	
 }//end AutomaticPlayer
 
