@@ -212,17 +212,10 @@ public class AutomaticPlayer {
 			
 			//TODO
 			
-			//int [] goal_pos = adjacent_cells.get(0).getPosition();
-			
-			//result = solvingGameEmergencyStrategy(pre_pg_pos, goal_pos, gm,em, run_path);
-		
-			//if(result==17)return solvingGameEmergencyStrategy(pre_pg_pos, goal_pos, gm,em, run_path);
-			
 			return -4;
 	
 		}//esle sensori spenti
 		
-	
 	}
 	
 	
@@ -545,7 +538,7 @@ public class AutomaticPlayer {
 			//si preleva la posizione della cella in esame
 			position = c.getPosition();
 			//si inserisce nella lista
-			run_list += "("+position[0]+','+position[1]+")\n";
+			run_list += "("+position[0]+','+position[1]+") ";
 		}//end for
 		return run_list;
 	}//runPathToString()

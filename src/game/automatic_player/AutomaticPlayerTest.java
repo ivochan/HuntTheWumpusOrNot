@@ -30,7 +30,7 @@ public class AutomaticPlayerTest {
 		//System.out.println(gm.gameMapToString());
 		System.out.println(gm);
 		//risoluzione
-		int status = AutomaticPlayer.solveGame(gm,em, run_path);
+		int status = AutomaticPlayer.solveGame(gm, em, run_path);
 		//stampa della mappa di esplorazione
 		System.out.println("Ecco cosa ho visto:\n"+em);
 		//messaggio di fine partita
