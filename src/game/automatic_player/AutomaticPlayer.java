@@ -213,12 +213,11 @@ public class AutomaticPlayer {
 			
 			//TODO
 			
-			int [] goal_pos = adjacent_cells.get(0).getPosition();
+			//int [] goal_pos = adjacent_cells.get(0).getPosition();
 			
-			//return -4;
-			result = solvingGameEmergencyStrategy(pre_pg_pos, goal_pos, gm,em, run_path);
+			//result = solvingGameEmergencyStrategy(pre_pg_pos, goal_pos, gm,em, run_path);
 		
-			if(result==17)return solvingGameEmergencyStrategy(pre_pg_pos, goal_pos, gm,em, run_path);
+			//if(result==17)return solvingGameEmergencyStrategy(pre_pg_pos, goal_pos, gm,em, run_path);
 			
 			return -4;
 	
