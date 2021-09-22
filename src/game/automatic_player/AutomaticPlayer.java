@@ -167,15 +167,16 @@ public class AutomaticPlayer {
 				//si aggiorna il percorso: ritorno alla cella precedente
 				run_path.add(gm.getMapCell(pre_pg_pos[0], pre_pg_pos[1]));
 				
+				
 				return -3;
 				
 			}//fi prima mossa
 			
 			//NON SONO ALLA PRIMA MOSSA e la cella corrente indica un pericolo nei dintorni	
-
+	
 			//si aggiorna il percorso: ritorno alla cella precedente
 			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
-				
+			
 			return -2;
 			
 		}//fi sensori accesi					
@@ -203,24 +204,97 @@ public class AutomaticPlayer {
 			
 			//NON CI SONO CELLE ADIACENTI OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
 			
-			//TODO
-			
 			//STRATEGIA DI EMERGENZA: scelta di un nodo casuale
 			//sono sul punto iniziale
+
 			
-						
+			//si aggiorna il percorso: ritorno alla cella precedente
 			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
 			
-			return -4;
+			//TODO
 			
-			//return solveHardGame(pre_pg_pos, gm,em, run_path);
+			int [] goal_pos = adjacent_cells.get(0).getPosition();
+			
+			//return -4;
+			result = solvingGameEmergencyStrategy(pre_pg_pos, goal_pos, gm,em, run_path);
+		
+			if(result==17)return solvingGameEmergencyStrategy(pre_pg_pos, goal_pos, gm,em, run_path);
+			
+			return -4;
+	
 		}//esle sensori spenti
+		
+	
+	}
+	
+	
+	private static int solvingGameEmergencyStrategy(int[] cur_pos, int[] goal_pos, GameMap gm, GameMap em, LinkedList<Cell> run_path) {
+		//variabili ausiliarie per le liste di celle
+
+		LinkedList<Cell> adjacent_cells = new LinkedList<>();
+		//variabili ausiliarie per gli indici della cella da esaminare
+		int [] next_pos = new int[2];
+		//risultato della mossa
+		int result = 0;	
+		//si preleva la cella attuale
+		Cell current_cell = gm.getMapCell(cur_pos[0], cur_pos[1]);
+		//contenuto della cella attuale
+		CellStatus current_status =  current_cell.getCellStatus();
+				
+		//##### CASI DI USCITA #####
+	
+		if(cur_pos[0]== goal_pos[0] && cur_pos[1]== goal_pos[1])return 17;
+
+		
+		//##### CASI DI USCITA #####
+		
+		//il pg ha trovato il premio
+		if(current_status.equals(CellStatus.AWARD)) {
+			return 1;
+		}
+		//il pg ha trovato il nemico o il pericolo
+		if(current_status.equals(CellStatus.ENEMY) || current_status.equals(CellStatus.DANGER)) {
+			return -1;
+		}
+		//il pg ha trovato il passaggio bloccato
+		if(current_status.equals(CellStatus.FORBIDDEN)) {
+			run_path.add(gm.getMapCell(cur_pos[0],cur_pos[1]));
+			return 0;
+		}
+
+		//##### TERMINE CASI DI USCITA #####
+		
+		//DOVE POSSO ANDARE: celle adiacenti
+		findAdjacentCells(adjacent_cells, em, current_cell);
+	
+		//##### SUPERAMENTO DEL PERICOLO #####
+		for(Cell adjacent_cell: adjacent_cells) {
+			//visito la cella corrente
+			next_pos = adjacent_cell.getPosition();
+			//prelevo le informazioni di questa cella dalla mappa di gioco
+			Cell next_cell = gm.getMapCell(next_pos[0], next_pos[1]);
+			//si aggiunge la cella corrente al ercorso delle celle visitate
+			run_path.add(next_cell);
+			//si inserisce questa cella nella mappa di esplorazione
+			em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
+			//si valuta la mossa successiva
+			result = solvingGameEmergencyStrategy(next_pos, goal_pos, gm,em, run_path);
+	
+			//si controlla il risultato: FINE PARTITA
+			if(result == 17 ) return result;
+		}//for
+			
+		//si aggiorna il percorso: ritorno alla cella precedente
+		run_path.add(gm.getMapCell(cur_pos[0],cur_pos[1]));
+			
+		return -17;
 		
 	}
 	
 	
-
 	
+	
+
 		
 	/*
 	//ALGORITMO DI EMERGENZA
@@ -290,7 +364,13 @@ public class AutomaticPlayer {
 			game_status = new String("lost");
 			break;
 		case 17:
-			game_status = new String("goal");
+			game_status = new String("arrived");
+			break;
+		case -17:
+			game_status = new String("not arrived");
+			break;
+		case -18:
+			game_status = new String("not arrived yet");
 			break;
 		default:
 			break;
