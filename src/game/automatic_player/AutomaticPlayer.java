@@ -37,7 +37,7 @@ public class AutomaticPlayer {
 		run_path.add(gm.getMapCell(cur_pg_pos[0], cur_pg_pos[1]));
 		//la posizione precedente e' uguale a quella corrente nella prima mossa
 		//si richiama il metodo ricorsivo
-		return solveGame(cur_pg_pos, cur_pg_pos, gm, em, run_path);
+		return solvingGameFirstStrategy(cur_pg_pos, cur_pg_pos, gm, em, run_path);
 	}//end solveGame
 	
 	/**
@@ -48,7 +48,7 @@ public class AutomaticPlayer {
 	 * @param em
 	 * @return
 	 */
-	private static int solveGame(int[] pre_pg_pos, int[] cur_pg_pos, GameMap gm, GameMap em, LinkedList<Cell> run_path) {
+	private static int solvingGameFirstStrategy(int[] pre_pg_pos, int[] cur_pg_pos, GameMap gm, GameMap em, LinkedList<Cell> run_path) {
 		//variabili ausiliarie per le liste di celle
 		LinkedList<Cell> face_up_cells = new LinkedList<>();
 		LinkedList<Cell> adjacent_cells = new LinkedList<>();
@@ -156,7 +156,7 @@ public class AutomaticPlayer {
 					//si inserisce questa cella nella mappa di esplorazione
 					em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
 					//si valuta la mossa asuccessiva
-					result = solveGame(cur_pg_pos, next_pos, gm,em, run_path);
+					result = solvingGameFirstStrategy(cur_pg_pos, next_pos, gm,em, run_path);
 					
 					//controllo sul risultato: FINE PARTITA
 					if(result == 1 || result == -1) return result;
@@ -195,7 +195,7 @@ public class AutomaticPlayer {
 				//si inserisce questa cella nella mappa di esplorazione
 				em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
 				//si valuta la mossa successiva
-				result = solveGame(cur_pg_pos, next_pos, gm,em, run_path);
+				result = solvingGameFirstStrategy(cur_pg_pos, next_pos, gm,em, run_path);
 	
 				//si controlla il risultato: FINE PARTITA
 				if(result == 1 || result == -1) return result;
@@ -220,73 +220,6 @@ public class AutomaticPlayer {
 	
 	
 
-	private static int solveHardGame(int [] cur_pg_pos, GameMap gm, GameMap em, LinkedList<Cell> run_path) {
-		//variabili ausiliarie per le liste di celle
-		LinkedList<Cell> adjacent_cells = new LinkedList<>();
-		//variabili ausiliarie per gli indici della cella da esaminare
-		int [] next_pos = new int[2];
-		//risultato della mossa
-		int result = 0;	
-		//si preleva la cella attuale
-		Cell current_cell = gm.getMapCell(cur_pg_pos[0],cur_pg_pos[1]);
-		//contenuto della cella attuale
-		CellStatus current_status =  current_cell.getCellStatus();
-				
-		//##### CASI DI USCITA #####
-				
-		//il pg ha trovato il premio
-		if(current_status.equals(CellStatus.AWARD)) {
-			return 1;
-		}
-		//il pg ha trovato il nemico o il pericolo
-		if(current_status.equals(CellStatus.ENEMY) || current_status.equals(CellStatus.DANGER)) {
-			return -1;
-		}
-		//il pg ha trovato il passaggio bloccato
-		if(current_status.equals(CellStatus.FORBIDDEN)) {
-			run_path.add(gm.getMapCell(cur_pg_pos[0],cur_pg_pos[1]));
-			return 0;
-		}
-		//##### TERMINE CASI DI USCITA #####
-				
-		//DOVE POSSO ANDARE: celle adiacenti
-		findAdjacentCells(adjacent_cells, em, current_cell);
-					
-		//##### TENTATIVO DI SPARO #####
-		
-		//##### SI AFFRONTA DEL PERICOLO #####
-		
-		//tutte le celle adiacenti potrebbero contenere un pericolo
-		for(Cell adjacent_cell: adjacent_cells) {
-			//visito la cella corrente
-			//prelevo gli indici di questa cella
-			next_pos = adjacent_cell.getPosition();
-			//prelevo le informazioni di questa cella dalla mappa di gioco
-			Cell next_cell = gm.getMapCell(next_pos[0], next_pos[1]);
-			//prelevo i sensori di questa cella
-			boolean [] sensors = next_cell.getSenseVector();
-			//verifico se i sensori sono attivi
-			if(sensors[0]||sensors[1]) {
-				//forzo il pg a mettersi nella cella con pericolo
-				
-				//si aggiunge la cella corrente al ercorso delle celle visitate
-				run_path.add(next_cell);
-				//si inserisce questa cella nella mappa di esplorazione
-				em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
-				//si valuta la mossa successiva
-				result = solveHardGame(next_pos, gm,em, run_path);
-	
-				//si controlla il risultato: FINE PARTITA
-				if(result == 1 || result == -1) return result;
-			}
-		}//for
-		
-		
-		return 11;
-	
-	}
-		
-		
 	
 		
 	/*
