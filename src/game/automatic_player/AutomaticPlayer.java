@@ -1,8 +1,7 @@
 package game.automatic_player;
-import java.util.Collections;
 //serie di import
+import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Random;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.elements.PlayableCharacter;

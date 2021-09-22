@@ -236,6 +236,27 @@ public class Cell implements Serializable {
 		return ""+'('+position[0]+','+position[1]+')';
 	}//positionToString()
 	
+	/** metodo statusToString(): String
+	 * questo metodo serve per stampare il carattere iniziale
+	 * dello stato della cella, sottoforma di stringa
+	 * @return cell_status: String, stringa che contiene il carattere
+	 * 						iniziale dello stato della cella di interesse, 
+	 * 						se lo stato non e' specificato allora la stringa
+	 * 						sara' vuota.
+	 */
+	public String statusToString() {
+		//stringa ausiliaria
+		String cell_status=new String(" ");
+		//se il parametro status non e' nullo
+		if(status!=null) {
+			//si assegna il carattere corrispondente allo stato
+			cell_status=new String(""+this.status.name().charAt(0));
+		}//fi
+		//si restituisce la stringa
+		return cell_status;
+	}//getCellStatusToString()
+	
+	
 	/** metodo copyCellSpecs(Cell): void
 	 * questo metodo effettua una copia della cella ricevuta come parametro
 	 * sull'oggetto Cell su cui e' stato invocato.
