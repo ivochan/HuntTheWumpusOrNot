@@ -209,7 +209,7 @@ public class Score {
 	 * verra' compiuta un mossa 
 	 * @param cs: CellStatus, stato della cella.
 	 */
-	public  void updateScore(CellStatus cs){
+	public void updateScore(CellStatus cs){
 		//numero di mosse compiute
 		move_count++;
 		//si aggiorna il valore del punteggio

@@ -5,11 +5,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 /** class ScoreUtility
  * questa classe serve per interagire con il file di testo su
  * cui verranno memorizzati tutti i punteggi ottenuti dall'utente
@@ -295,5 +299,102 @@ public class ScoreUtility {
 		//si legge il file dei punteggi
 		readScoreFile(path);
 	}//updateScoreFile()
+	
+	/** metodo extractScoreData(String, LinkedList<String<): void
+	 * questo metodo si occupa di leggere tutto il file dei punteggi ed inserire
+	 * ogni riga come nodo della lista dei punteggi
+	 * @param path: String, path del file
+	 * @param score_list: LinkedList<String>, lista che contiene i punteggi
+	 */
+	public static void extractScoreData(String path, LinkedList<String> score_list) {
+		//controllo sul parametro che indica il nome del file
+		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
+		//si preleva il file dei punteggi
+		File f = new File(path);
+		//si controlla se esiste
+		if(!f.exists()) {
+			System.err.println("File inesistente!");
+			return;
+		}//fi
+		//inizio della lettura del file
+		try {
+			//si istanzia la classe per la lettura
+			FileReader fr = new FileReader(f);
+			//buffer
+			BufferedReader br = new BufferedReader(fr);
+			//variabile ausiliaria
+			String line=new String();
+			//si cicla fino a quando non si trova una linea vuota
+			while ((line = br.readLine()) != null) {
+				//DEBUGG
+				//System.out.println(line);
+				//si inserisce la linea nella lista
+				score_list.add(line);
+			}//while
+			//si chiude il processo di lettura
+			fr.close();
+		}//end try
+		catch(IOException e) {
+			e.printStackTrace();
+		}//end catch	
+	}//extractScoreData
+	
+	/** metodo scoreLineAnalysis()
+	 * metodo per analizzare il contenuto di una generica riga del file dei punteggi
+	 * per estrapolare il punteggio ed il nome del giocatore
+	 * @param score_line: String, riga contenente i dati del punteggio di interesse.
+	 * @param score_vector: String[], vettore che contiene il punteggio analizzato
+	 */
+	public static String[] scoreLineAnalysis(String score_line) {
+		//controllo sulla riga
+		if(score_line==null)throw new IllegalArgumentException("stringa punteggio non valida");
+		//vettore che conterra' gli elementi ottenuti dal parsing di ogni riga del file
+		String [] score_vector = new String[3];	
+		//stringa temporanea
+		String temp = new String("");
+		//indice per iterare il vettore
+		int index=0;
+		//contatore del carattere spazio ' '
+		int space_count=0;
+		//DEBUGG
+		System.out.println(score_line);
+		//iterazione della stringa che rappresenta la riga
+		for( char c: score_line.toCharArray()) {
+			//concatenzaione dei caratteri che vengono estratti
+			temp+=Character.toString(c);
+			//si incontra uno spazio
+			if(c== ' ') {
+				//punteggio o nome
+				if(space_count<2) {
+					//si aumenta il contatore
+					space_count++;
+					//si memorizza del vettore
+					score_vector[index] = new String(temp.replaceAll(" ", ""));
+					//si resetta la variabile temporanea
+					temp = new String();
+				}//fi
+				else {
+					//oggetto data, se sono gia' stati incontrati due caratteri spazio ' '
+					//si memorizza nel vettore
+					score_vector[index] = new String(temp.replaceAll(" ", ""));
+				}//esle
+				//indice del vettore aumentato
+				if(index<2)index++;
+			}//fi
+			else {
+				//se fine riga
+				if(index==2) {
+					//si accoda l'ultima sequenza della data, cioe' l'orario
+					score_vector[index]=new String(temp);
+				}//fi
+			}//esle
+		}//for
+		//System.out.println("punti "+score_vector[0]);
+		//System.out.println("nome "+score_vector[1]);
+		//System.out.println("data "+score_vector[2]);
+		//si restituisce il vettore
+		return score_vector;	
+	}//scoreFileAnalysis
+	
 	
 }//end ScoreUtility

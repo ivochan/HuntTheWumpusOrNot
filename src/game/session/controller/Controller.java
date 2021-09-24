@@ -96,6 +96,7 @@ public class Controller {
 			}//esle		
 			//TODO modifica
 			if(LinkStart.isHumanMode()) {
+				//aggiornamento del punteggio
 				Score s = GameSession.getCurrentScore();
 				//aggiornamento del punteggio
 				s.updateScore(cs);

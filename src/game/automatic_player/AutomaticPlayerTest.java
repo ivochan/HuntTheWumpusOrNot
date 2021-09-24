@@ -1,6 +1,9 @@
 package game.automatic_player;
 //serie di import
 import java.util.LinkedList;
+
+import game.session.configuration.Starter;
+import game.session.score.ScoreUtility;
 import game.structure.cell.Cell;
 import game.structure.map.GameMap;
 import game.structure.map.MapConfiguration;
@@ -38,8 +41,8 @@ public class AutomaticPlayerTest {
 		//path
 		System.out.println(AutomaticPlayer.runPathToString(run_path));
 		//DEBUGG
-		//System.out.println("confronto\n"+gm);
-	}//end main			
+		//System.out.println("confronto\n"+gm)
 
+	}//end main
 	
 }//end AutomaticAgentTest
