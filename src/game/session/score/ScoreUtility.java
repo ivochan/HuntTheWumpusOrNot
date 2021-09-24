@@ -5,15 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.TreeMap;
-import java.util.stream.Stream;
 /** class ScoreUtility
  * questa classe serve per interagire con il file di testo su
  * cui verranno memorizzati tutti i punteggi ottenuti dall'utente
