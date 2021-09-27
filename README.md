@@ -226,11 +226,11 @@ Funzionalità da implementare:
 
 - prevedere lo spostamento del personaggio giocabile in una cella casuale, se in presenza di un super-pipistrello; 
 
-- definire il meccanismo del punteggio, in base alle tipologie di celle esaminate;
+- ~~ definire il meccanismo del punteggio, in base alle tipologie di celle esaminate;~~ 
 
-- memorizzare il valore del punteggio acquisito via via durante la partita di gioco;
+- ~~ memorizzare il valore del punteggio acquisito via via durante la partita di gioco;~~ 
 
-- sostituire i messaggi di errore e le stampe di debug con il sollevamento delle eccezioni;
+- ~~ sostituire i messaggi di errore e le stampe di debug con il sollevamento delle eccezioni;~~ 
 
 - ~~correggere funzione di probabilità per il popolamento della mappa;~~        grazie a PsykeDady <3
 
@@ -353,8 +353,6 @@ Funzionalità da implementare:
   
 - ~~correggere il posizionamento del pg, controllando che il passaggio dalla sua cella non sia bloccato~~;
 
-- definire la classe che definisce alcune regole di gioco Rules;
-
 - ~~aggiornare path di salvataggio del file del punteggio con la variabile d'ambiente~~;
 
 - ~~testare la modalità di gioco lato utente~~;
@@ -398,5 +396,11 @@ Funzionalità da implementare:
 
 - ~~prevedere l'inserimento del nome del giocatore dal menu di avvio del gioco~~
 
+- salvare tutti i punteggi in un file di testo:
+
+  - ~~ inserendo l'ultimo punteggio in coda al file~~ 
+  - ~~ riordinando i punteggi in ordine decrescente~~ 
+  - ~~ salvandol'ultimo punteggio ottenuto in un altro file~~ 
+  
   
 

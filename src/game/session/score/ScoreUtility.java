@@ -74,7 +74,7 @@ public class ScoreUtility {
 		try {
 			//si istanzia la classe per la scrittura
 			FileWriter fw = new FileWriter(f, append);
-			//si la nuova riga nel file
+			//si scrive la nuova riga nel file
 			fw.write(score+'\n');
 			//si svuota e si chiude il buffer di scrittura
 			fw.flush();
@@ -145,7 +145,7 @@ public class ScoreUtility {
 		}//esle
 	}//deleteScoreFile()
 	
-	/** metodo saveScore(Score): void
+	/** metodo saveScore(String,String): void
 	 * questo metodo si occupa della creazione
 	 * e della scrittura del file dei punteggi, 
 	 * quando e' richiesto di memorizzare quello
@@ -162,7 +162,7 @@ public class ScoreUtility {
 		createScoreFile(path);
 		//scrittura del punteggio
 		writeScoreFile(path, score);
-	}//saveScore(Score)
+	}//saveScore(String,String)
 	
 	//##### metodi gestione del file dei punteggi #####
 	
@@ -306,6 +306,8 @@ public class ScoreUtility {
 	public static void extractScoreData(String path, LinkedList<String> score_list) {
 		//controllo sul parametro che indica il nome del file
 		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
+		//controllo sul parametro in cui memorizzare i punteggi
+		if(score_list==null)throw new IllegalArgumentException("lista dei punteggi nulla");
 		//si preleva il file dei punteggi
 		File f = new File(path);
 		//si controlla se esiste
@@ -392,6 +394,78 @@ public class ScoreUtility {
 		//si restituisce il vettore
 		return score_vector;	
 	}//scoreFileAnalysis
+	
+	//##### metodi per la gestione del file del punteggio attuale #####
+	
+	/** metodo extractCurrentScoreData(String, LinkedList<String<): void
+	 * questo metodo si occupa di leggere il file dei punteggio attuale
+	 * e restituire l'unica riga come stringa
+	 * @param path: String, path del file
+	 * @param current_score: String, stringa che contiene il punteggio attuale
+	 */
+	public static String extractCurrentScoreData(String path) {
+		//controllo sul parametro che indica il nome del file
+		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
+		//variabile da restituire
+		String current_score = new String();
+		//si preleva il file dei punteggi
+		File f = new File(path);
+		//si controlla se esiste
+		if(!f.exists()) {
+			System.err.println("File inesistente!");
+			return "";
+		}//fi
+		//inizio della lettura del file
+		try {
+			//si istanzia la classe per la lettura
+			FileReader fr = new FileReader(f);
+			//buffer
+			BufferedReader br = new BufferedReader(fr);
+			//si estrae la prima linea del file
+			current_score = br.readLine();
+			//si chiude il buffer
+			br.close();
+			//si chiude il processo di lettura
+			fr.close();
+		}//end try
+		catch(IOException e) {
+			e.printStackTrace();
+		}//end catch	
+		return current_score;
+	}//extractCurrentScoreData
+	
+	/** metodo saveCurrentScore(Score): void
+	 * questo metodo si occupa della creazione
+	 * e della scrittura del file del punteggio attuale, 
+	 * quando e' richiesto di memorizzare l'ultimo punteggio
+	 * ottenuto, ricevuto come parametro.
+	 * @param path: String, nome del file da creare
+	 * @param score: String, punteggio da memorizzare
+	 */
+	public static void saveCurrentScore(String path, String current_score) {
+		//controllo sul parametro che indica il nome del file
+		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
+		//controllo sull'oggetto punteggio da salvare
+		if(current_score==null)throw new IllegalArgumentException("punteggio non valido");
+		//creazione del file
+		createScoreFile(path);
+		//scrittura del punteggio
+		//si preleva il file
+		File f = new File(path);
+		//blocco try-catch
+		try {
+			//si istanzia la classe per la scrittura
+			FileWriter fw = new FileWriter(f);
+			//si scrive il punteggio nel file
+			fw.write(current_score+'\n');
+			//si svuota e si chiude il buffer di scrittura
+			fw.flush();
+			fw.close();	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}//saveCurrentScore(String,String)
 	
 	
 }//end ScoreUtility
