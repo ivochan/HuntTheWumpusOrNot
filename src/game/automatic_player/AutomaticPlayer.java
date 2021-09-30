@@ -151,7 +151,8 @@ public class AutomaticPlayer {
 					Cell next_cell = gm.getMapCell(next_pos[0], next_pos[1]);
 					//si aggiunge la cella corrente al ercorso delle celle visitate
 					run_path.add(next_cell);
-					
+					//DEBUGG
+					//System.out.println("add pericolo "+next_pos[0]+','+next_pos[1]);
 					//si inserisce questa cella nella mappa di esplorazione
 					em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
 					//si valuta la mossa asuccessiva
@@ -163,10 +164,11 @@ public class AutomaticPlayer {
 				
 				//NON CI SONO CELLE ADIACENTI non visitate OPPURE SONO TUTTE POTENZIALMENTE PERICOLOSE
 							
+				
 				//si aggiorna il percorso: ritorno alla cella precedente
-				run_path.add(gm.getMapCell(pre_pg_pos[0], pre_pg_pos[1]));
-				
-				
+				//TODO superfluo
+				//run_path.add(gm.getMapCell(pre_pg_pos[0], pre_pg_pos[1]));
+								
 				return -3;
 				
 			}//fi prima mossa
@@ -174,6 +176,8 @@ public class AutomaticPlayer {
 			//NON SONO ALLA PRIMA MOSSA e la cella corrente indica un pericolo nei dintorni	
 	
 			//si aggiorna il percorso: ritorno alla cella precedente
+			//System.out.println("pre "+pre_pg_pos[0]+','+pre_pg_pos[1]);
+			//TODO
 			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
 			
 			return -2;
@@ -184,7 +188,9 @@ public class AutomaticPlayer {
 			//SONO IN UNA SITUAZIONE TRANQUILLA
 			
 			//le celle adiacenti non hanno pericoli, sono apposto
+			//quindi si sceglie una cella qualsiasi tra quelle coperte
 			for(Cell adjacent_cell: covered_cells) {
+			//for(Cell adjacent_cell: adjacent_cells) {
 				//visito la cella corrente
 				//prelevo gli indici di questa cella
 				next_pos = adjacent_cell.getPosition();
@@ -206,39 +212,58 @@ public class AutomaticPlayer {
 			//STRATEGIA DI EMERGENZA: scelta di un nodo casuale
 			//sono sul punto iniziale
 
-			
 			//si aggiorna il percorso: ritorno alla cella precedente
-			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
-			
 			//TODO
-			
-			return -4;
-	
-		}//esle sensori spenti
+			//run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
 		
+			
+			if(pre_pg_pos[0]==cur_pg_pos[0] && pre_pg_pos[1]==cur_pg_pos[1]) {
+					
+				for(Cell adjacent_cell: adjacent_cells) {
+					//DEBUGG
+					System.out.println("Situazione attuale:\n"+em);
+					//visito la prima cella a me sconosciuta contenuta nella lista 
+					//delle celle da scoprire 
+					next_pos = adjacent_cell.getPosition();
+					//prelevo le informazioni di questa cella dalla mappa di gioco
+					Cell next_cell = gm.getMapCell(next_pos[0], next_pos[1]);
+					//si aggiunge la cella corrente al ercorso delle celle visitate
+					run_path.add(next_cell);
+					
+					//si inserisce questa cella nella mappa di esplorazione
+					em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
+					//si valuta la mossa asuccessiva
+					result = solvingGameEmergencyStrategy(cur_pg_pos, next_pos, gm,em, run_path);
+					
+					//controllo sul risultato: FINE PARTITA
+					if(result == 1 || result == -1) return result;
+				}//for
+				
+			}	
+			
+			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
+		
+			return -4;
+		}//esle sensori spenti
 	}
 	
+		
 	
-	private static int solvingGameEmergencyStrategy(int[] cur_pos, int[] goal_pos, GameMap gm, GameMap em, LinkedList<Cell> run_path) {
+	private static int solvingGameEmergencyStrategy(int[] pre_pg_pos, int[] cur_pg_pos, GameMap gm, GameMap em, LinkedList<Cell> run_path) {
 		//variabili ausiliarie per le liste di celle
-
+		LinkedList<Cell> face_up_cells = new LinkedList<>();
 		LinkedList<Cell> adjacent_cells = new LinkedList<>();
+		LinkedList<Cell> covered_cells = new LinkedList<>();
 		//variabili ausiliarie per gli indici della cella da esaminare
 		int [] next_pos = new int[2];
 		//risultato della mossa
 		int result = 0;	
 		//si preleva la cella attuale
-		Cell current_cell = gm.getMapCell(cur_pos[0], cur_pos[1]);
+		Cell current_cell = gm.getMapCell(cur_pg_pos[0],cur_pg_pos[1]);
 		//contenuto della cella attuale
 		CellStatus current_status =  current_cell.getCellStatus();
+		//##### CASI DI USCITA #####
 				
-		//##### CASI DI USCITA #####
-	
-		if(cur_pos[0]== goal_pos[0] && cur_pos[1]== goal_pos[1])return 17;
-
-		
-		//##### CASI DI USCITA #####
-		
 		//il pg ha trovato il premio
 		if(current_status.equals(CellStatus.AWARD)) {
 			return 1;
@@ -249,75 +274,104 @@ public class AutomaticPlayer {
 		}
 		//il pg ha trovato il passaggio bloccato
 		if(current_status.equals(CellStatus.FORBIDDEN)) {
-			run_path.add(gm.getMapCell(cur_pos[0],cur_pos[1]));
+			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
 			return 0;
 		}
-
 		//##### TERMINE CASI DI USCITA #####
-		
+				
 		//DOVE POSSO ANDARE: celle adiacenti
 		findAdjacentCells(adjacent_cells, em, current_cell);
-	
-		//##### SUPERAMENTO DEL PERICOLO #####
-		for(Cell adjacent_cell: adjacent_cells) {
-			//visito la cella corrente
-			next_pos = adjacent_cell.getPosition();
-			//prelevo le informazioni di questa cella dalla mappa di gioco
-			Cell next_cell = gm.getMapCell(next_pos[0], next_pos[1]);
-			//si aggiunge la cella corrente al ercorso delle celle visitate
-			run_path.add(next_cell);
-			//si inserisce questa cella nella mappa di esplorazione
-			em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
-			//si valuta la mossa successiva
-			result = solvingGameEmergencyStrategy(next_pos, goal_pos, gm,em, run_path);
-	
-			//si controlla il risultato: FINE PARTITA
-			if(result == 17 ) return result;
-		}//for
+		//COSA POSSO VEDERE DI NUOVO: celle da visitare tra quelle adiacenti, perche' mai esplorate
+		findCoveredCells(covered_cells, em, adjacent_cells);
+				
 			
-		//si aggiorna il percorso: ritorno alla cella precedente
-		run_path.add(gm.getMapCell(cur_pos[0],cur_pos[1]));
-			
-		return -17;
+		//##### CONTROLLO SULLA CELLA ATTUALE #####
+				
+		//si preleva il vettore dei sensori
+		boolean [] current_sensors = gm.getMapCell(cur_pg_pos[0],cur_pg_pos[1]).getSenseVector();
+				
+		//##### TENTATIVO DI SPARO #####
 		
-	}
-	
-	
-	
-	
+		//controllo se e' acceso il sensore del nemico
+		if(current_sensors[CellStatus.ENEMY_SENSE.ordinal()] && chance_to_hit>0) {
+			//variabile ausiliaria per la lista di celle
+			LinkedList<Cell> adjacent_list = new LinkedList<>();
+			//considero la cella in cui mi trovo
+			//prendo le celle ad essa adiacenti
+			findFaceUpAdjacentCells(face_up_cells, gm, current_cell);
+			//elimino la cella da cui provengo perche' e' sicura
+			face_up_cells.remove(gm.getMapCell(pre_pg_pos[0], pre_pg_pos[1]));
+			//scorro le celle adiacenti a quella attuale, in cui mi trovo
+			for(Cell c: face_up_cells) {
+				//prelevo le celle adiacenti e visitate
+				findFaceUpAdjacentCells(adjacent_list, gm, c);
+				//itero queste celle scoperte ed adiacenti
+				for(Cell adj: adjacent_list) {
+					//prelevo il vettore dei sensori
+					boolean [] adj_sensor = adj.getSenseVector();
+					//controllo se ognuna di queste celle ha il sensore del nemico acceso
+					if(adj_sensor[CellStatus.ENEMY_SENSE.ordinal()] && chance_to_hit>0) {
+						//la cella c allora e' quella verso cui sparare
+						//si decrementano le munizioni
+						chance_to_hit--;
+						//prendo la posizione della cella verso cui sparare
+						int[] hit_pos = c.getPosition();
+						//prelevo lo stato di questa cella dalla mappa di gioco	
+						CellStatus hit_status = gm.getMapCell(hit_pos[0], hit_pos[1]).getCellStatus();
+						//provo a sparare
+						System.out.println("Mi trovo in: "+'('+cur_pg_pos[0]+','+cur_pg_pos[1]+')');
+						System.out.println("Sparo verso: "+'('+hit_pos[0]+','+hit_pos[1]+')');
+						//si verifica se contiene il nemico
+						if(hit_status.equals(CellStatus.ENEMY)) {
+							//il nemico e' stato colpito
+							System.out.println("Nemico colpito");
+							//la cella diventa safe
+							gm.getMapCell(hit_pos[0],hit_pos[1]).setCellStatus(CellStatus.SAFE);
+							//si spengono tutti i sensori del nemico delle celle adiacenti a c
+							updateEnemySensor(gm, hit_pos);
+						}//fi nemico colpito
+						else {
+							System.out.println("Nemico mancato");
+						}//else
+					}//fi sensore nemico e possibilita' di colpire;
+				}//for celle adiacenti a quelle adiacenti di quella del pg
+			}//for celle adiacenti a quella corrente del pg
+		}//fi tentativo di sparo
+				
+		//##### SUPERAMENTO DEL PERICOLO #####		
 
-		
-	/*
-	//ALGORITMO DI EMERGENZA
-	//sensore del nemico
-	if(current_sensors[0] && chance_to_hit>0) {
-		//si prende la prima cella tra quelle adiacenti e non visitate
-		Cell cell_to_hit = covered_cells.get(0);
-		//si preleva la posizione della cella
-		int [] pos = cell_to_hit.getPosition();
-		//si preleva lo stato della cella dalla mappa di gioco
-		CellStatus cth_status = gm.getMapCell(pos[0], pos[1]).getCellStatus();
-		//provo a sparare
-		System.out.println("Mi trovo in: "+'('+cur_pg_pos[0]+','+cur_pg_pos[1]+')');
-		System.out.println("Sparo verso: "+'('+pos[0]+','+pos[1]+')');
-		//System.out.println("Risultato:\n"+em);
-		//si verifica se contiene il nemico
-		if(cth_status.equals(CellStatus.ENEMY)) {
-			//il nemico e' stato colpito
-			System.out.println("Nemico colpito");
-			//la cella diventa safe
-			gm.getMapCell(pos[0],pos[1]).setCellStatus(CellStatus.SAFE);
-			//si disabilita il sensore del nemico della cella corrente
-			current_sensors[0]=false;
-		}//fi nemico colpito
-		else {
-			System.out.println("Nemico mancato");
+		//si sceglie una cella a caso
+		Cell random_cell;
+		//
+		if(!covered_cells.isEmpty()) {
+			int random_index = (int)(Math.random()*covered_cells.size());
+			System.out.println("Random: "+random_index);
+			random_cell = covered_cells.get(random_index);
 		}
-		//si decrementano le munizioni
-		chance_to_hit--;
-	}//fi sensore nemico e possibilita' di colpire
-	*/
-	
+		else {
+			random_cell = adjacent_cells.getFirst();
+			//System.out.println("adjacent");
+		}
+		//si estrae una cella casuale in cui forzare la mossa
+		next_pos = random_cell.getPosition();
+		//DEBUGG
+		//System.out.println("sono in: "+cur_pg_pos[0]+','+cur_pg_pos[1]);
+		//System.out.println("scelta: "+next_pos[0]+','+next_pos[1]);
+		//prelevo le informazioni di questa cella dalla mappa di gioco
+		Cell next_cell = gm.getMapCell(next_pos[0], next_pos[1]);
+		//si aggiunge la cella corrente al ercorso delle celle visitate
+		run_path.add(next_cell);
+		//System.out.println("add "+next_pos[0]+','+next_pos[1]);
+		em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
+		//si valuta la mossa successiva
+		result = solvingGameEmergencyStrategy(cur_pg_pos, next_pos, gm,em, run_path);
+		//si controlla il risultato: FINE PARTITA
+		if(result == 1 || result == -1) return result;
+		//codice di uscita
+		return -5;		
+	}
+		
+
 	/** metodo printStatusMessage(int)
 	 * questo metodo stampa una stringa indicativa del codice di
 	 * uscita con cui e' terminato il metodo di risoluzione
@@ -349,19 +403,7 @@ public class AutomaticPlayer {
 			game_status = new String("danger sensor - sensors off");
 			break;
 		case -5:
-			game_status = new String("bhu");
-			break;
-		case 11:
-			game_status = new String("lost");
-			break;
-		case 17:
-			game_status = new String("arrived");
-			break;
-		case -17:
-			game_status = new String("not arrived");
-			break;
-		case -18:
-			game_status = new String("not arrived yet");
+			game_status = new String("EmergencyStrategy Exit Code");
 			break;
 		default:
 			break;
@@ -386,6 +428,8 @@ public class AutomaticPlayer {
 		if(em==null)throw new IllegalArgumentException("mappa di gioco nulla");
 		//controllo sul parametro cella
 		if(c==null)throw new IllegalArgumentException("cella nulla");
+		//si svuota la lista
+		list.clear();
 		//oggetto cella
 		Cell cell;
 		//si prelevano gli indici di cella di quella ricevuta come parametro
@@ -538,7 +582,8 @@ public class AutomaticPlayer {
 			//si preleva la posizione della cella in esame
 			position = c.getPosition();
 			//si inserisce nella lista
-			run_list += "("+position[0]+','+position[1]+") ";
+			//run_list += "("+position[0]+','+position[1]+") ";
+			run_list += "("+position[0]+','+position[1]+")\n";
 		}//end for
 		return run_list;
 	}//runPathToString()

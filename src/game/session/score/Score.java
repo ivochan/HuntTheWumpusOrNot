@@ -37,7 +37,7 @@ public class Score {
 		//punteggio
 		score_value=0;
 		//nome del giocatore
-		nickname=new String("Giocatore");
+		nickname=new String("Player");
 		//data della partita
 		date = new Date();
 		//numero di mosse

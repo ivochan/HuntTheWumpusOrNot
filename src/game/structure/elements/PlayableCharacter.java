@@ -74,12 +74,15 @@ public class PlayableCharacter {
 		boolean [] v_trials = new boolean[12];
 		//variabile booleana che indica se e' stata trovata la posizione idonea 
 		boolean found = false;
+		//variabile booleana che indica se la cella adiacente SAFE trovata abbia
+		//anch'essa una cella adiacente e sicura
+		boolean double_found = false;
 		/* variabile boolean che indica se sono stati fatti tutti i tentativi possibili,
 		 * ovvero se sono state esaminate tutte le celle della cornice
 		 */
 		boolean all_trials =false;
 		//ciclo di posizionamento del pg
-		while(!found && !all_trials) {
+		while(!found && !double_found && !all_trials) {
 			/* si genera il numero casuale da 0 a 12 (escluso)
 			 * questo indichera' la posizione in cui trovare l'indice di interesse,
 			 * sia nel vettore deglie indici riga che nel vettore degli indici colonna
@@ -99,13 +102,18 @@ public class PlayableCharacter {
 				found = gm.areAdjacentCellsSafe(i, j);
 				//si verifica se la condizione e' soddisfatta
 				if(found) {
-					//si puo' posizionare il pg
-					gm.getMapCell(i, j).setCellStatus(CellStatus.PG);
-					//si aggiorna il vettore della posizione del pg sulla mappa
-					pg_position[0]=i; // indice di riga
-					pg_position[1]=j; //indice di colonna
-					//si restituisce il flag
-					return true;
+					//si controlla che anche questa cella abbia una cella adiacente sicura
+					double_found = gm.areAdjacentCellsSafe(i, j);
+					//si controlla
+					if(double_found) {
+						//si puo' posizionare il pg
+						gm.getMapCell(i, j).setCellStatus(CellStatus.PG);
+						//si aggiorna il vettore della posizione del pg sulla mappa
+						pg_position[0]=i; // indice di riga
+						pg_position[1]=j; //indice di colonna
+						//si restituisce il flag
+						return true;
+					}
 				}//fi
 			}//fi
 			else {
