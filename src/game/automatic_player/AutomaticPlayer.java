@@ -582,8 +582,8 @@ public class AutomaticPlayer {
 			//si preleva la posizione della cella in esame
 			position = c.getPosition();
 			//si inserisce nella lista
-			//run_list += "("+position[0]+','+position[1]+") ";
-			run_list += "("+position[0]+','+position[1]+")\n";
+			run_list += "("+position[0]+','+position[1]+") ";
+			//run_list += "("+position[0]+','+position[1]+")\n";
 		}//end for
 		return run_list;
 	}//runPathToString()
