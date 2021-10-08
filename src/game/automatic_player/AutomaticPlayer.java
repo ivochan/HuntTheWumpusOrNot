@@ -179,6 +179,9 @@ public class AutomaticPlayer {
 			//System.out.println("pre "+pre_pg_pos[0]+','+pre_pg_pos[1]);
 			//TODO
 			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
+			//TODO
+			//si inserisce nella mappa di esplorazione
+			em.getMapCell(pre_pg_pos[0], pre_pg_pos[1]).copyCellSpecs(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
 			
 			return -2;
 			
@@ -243,6 +246,11 @@ public class AutomaticPlayer {
 			
 			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
 		
+			//TODO
+			//si inserisce nella mappa di esplorazione
+			em.getMapCell(pre_pg_pos[0], pre_pg_pos[1]).copyCellSpecs(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
+			
+			
 			return -4;
 		}//esle sensori spenti
 	}
