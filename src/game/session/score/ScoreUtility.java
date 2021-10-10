@@ -75,7 +75,7 @@ public class ScoreUtility {
 			//si istanzia la classe per la scrittura
 			FileWriter fw = new FileWriter(f, append);
 			//si scrive la nuova riga nel file
-			fw.write(score+'\n');
+			fw.write(score+"\n");
 			//si svuota e si chiude il buffer di scrittura
 			fw.flush();
 			fw.close();
@@ -395,6 +395,68 @@ public class ScoreUtility {
 		return score_vector;	
 	}//scoreFileAnalysis
 	
+	public static boolean scoreLineCheck(String score_line) {
+		//controllo sulla riga
+		if(score_line==null)throw new IllegalArgumentException("stringa punteggio non valida");
+		//vettore che conterra' gli elementi ottenuti dal parsing di ogni riga del file
+		String [] score_vector = new String[3];	
+		//stringa temporanea
+		String temp = new String("");
+		//indice per iterare il vettore
+		int index=0;
+		//contatore del carattere spazio ' '
+		int space_count=0;
+		//DEBUGG
+		System.out.println(score_line);
+		//iterazione della stringa che rappresenta la riga
+		for( char c: score_line.toCharArray()) {
+			//concatenzaione dei caratteri che vengono estratti
+			temp+=Character.toString(c);
+			//si incontra uno spazio
+			if(c== ' ') {
+				//punteggio o nome
+				if(space_count<2) {
+					//si aumenta il contatore
+					space_count++;
+					//si memorizza del vettore
+					score_vector[index] = new String(temp.replaceAll(" ", ""));
+					//si resetta la variabile temporanea
+					temp = new String();
+				}//fi
+				else {
+					//oggetto data, se sono gia' stati incontrati due caratteri spazio ' '
+					//si memorizza nel vettore
+					score_vector[index] = new String(temp.replaceAll(" ", ""));
+				}//esle
+				//indice del vettore aumentato
+				if(index<2)index++;
+			}//fi
+			else {
+				//se fine riga
+				if(index==2) {
+					//si accoda l'ultima sequenza della data, cioe' l'orario
+					score_vector[index]=new String(temp);
+				}//fi
+			}//esle
+		}//for
+		//ystem.out.println("punti "+score_vector[0]);
+		if(!score_vector[0].matches("\\-?([0-9]|[1-9][0-9]{1,2})")) {
+			System.err.println("punti errati");
+			return false;
+		}
+		//System.out.println("nome "+score_vector[1]);
+		if(!score_vector[1].matches("[\\w\\W]*")) {
+			System.err.println("nome errato");
+			return false;
+		}
+		//System.out.println("data "+score_vector[2]);
+		if(!score_vector[2].matches("([0123][0-9])\\-(0[1-9]|1[0-2])\\-([1-9][0-9]{3})\s(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]\\.[0-9]{3})")) {
+			System.err.println("data errata");
+			return false;
+		}
+		//si restituisce il vettore
+		return true;	
+	}//scoreFileAnalysis
 	
 	/** metodo scoreFileCheck()
 	 * metodo per analizzare il contenuto di tutte le righe del file dei punteggi
@@ -405,86 +467,18 @@ public class ScoreUtility {
 	 * @return boolean: true, se il controllo e' andato a buon fine, false altrimenti.
 	 */
 	public static boolean scoreFileCheck(String path) {
-		//controllo sul parametro che indica il nome del file
-		if(path==null)throw new IllegalArgumentException("path o nome del file non valido");
-		//vettore che conterra' gli elementi ottenuti dal parsing di ogni riga del file
-		String [] score_vector = new String[3];	
-		//stringa temporanea
-		String temp = new String("");
-		//indice per iterare il vettore
-		int index=0;
-		//contatore del carattere spazio ' '
-		int space_count=0;
-
-		//si preleva il file dei punteggi
-		File f = new File(path);
-		//si controlla se esiste
-		if(!f.exists()) {
-			System.err.println("File inesistente!");
-			return false;
-		}//fi
-		//inizio della lettura del file
-		try {
-			//si istanzia la classe per la lettura
-			FileReader fr = new FileReader(f);
-			//buffer
-			BufferedReader br = new BufferedReader(fr);
-			//variabile ausiliaria
-			String line=new String();
-			//si cicla fino a quando non si trova una linea vuota
-			while ((line = br.readLine()) != null) {
-				//DEBUGG
-				//System.out.println(line);
-				//iterazione della stringa che rappresenta la riga
-				for( char c: line.toCharArray()) {
-					//concatenzaione dei caratteri che vengono estratti
-					temp+=Character.toString(c);
-					//si incontra uno spazio
-					if(c== ' ') {
-						//punteggio o nome
-						if(space_count<2) {
-							//si aumenta il contatore
-							space_count++;
-							//si memorizza del vettore
-							score_vector[index] = new String(temp.replaceAll(" ", ""));
-							//si resetta la variabile temporanea
-							temp = new String();
-						}//fi
-						else {
-							//oggetto data, se sono gia' stati incontrati due caratteri spazio ' '
-							//si memorizza nel vettore
-							score_vector[index] = new String(temp.replaceAll(" ", ""));
-						}//esle
-						//indice del vettore aumentato
-						if(index<2)index++;
-					}//fi
-					else {
-						//se fine riga
-						if(index==2) {
-							//si accoda l'ultima sequenza della data, cioe' l'orario
-							score_vector[index]=new String(temp);
-						}//fi
-					}//esle
-				}//for
-				//controllo sulle celle del vettore
-				//score_vector[0] -> stringa numerica: punteggio
-				if(!score_vector[0].matches("\\-?[1-9]+"))return false;
-				//score_vector[1] -> stringa alfanumerica: nome del giocatore
-				if(!score_vector[1].matches("[\\w\\W]*"))return false;
-				//score_vector[2] -> stringa numerica con caratteri speciali : data
-				//formato : gg-mm-aaaa HH:MM:SS.mmm
-				if(!score_vector[2].matches("([0123][0-9])\\-(0[1-9]|1[0-2])\\-([1-9][0-9]{3})\s(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{3}"))return false;
-				
-			}//while
-			//si chiude il processo di lettura
-			fr.close();
-		}//end try
-		catch(IOException e) {
-			e.printStackTrace();
-		}//end catch	
-		//file valido
-		return true;
-		
+		//si crea una lista in cui ogni nodo sara' una riga del file
+		LinkedList<String> list = new LinkedList<>();
+		//variabile ausiliaria
+		boolean check = true;
+		//si riempie questa lista estraendo i dati del punteggio
+		extractScoreData(path,list);
+		//si analizza ogni nodo della lista
+		for(String s: list) {
+			//analisi della riga selezionata con test tramite regex
+			check = scoreLineCheck(s);
+		}//for
+		return check;
 	}//scoreFileCheck(String)
 	
 	//##### metodi per la gestione del file del punteggio attuale #####
