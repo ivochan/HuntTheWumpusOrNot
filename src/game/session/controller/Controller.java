@@ -102,9 +102,10 @@ public class Controller {
 				s.updateScore(cs);
 			}
 			else {
-				Score s = AutomaticGameSession.getCurrentScore();
+				//TODO punteggio per il giocatore automatico
+				//Score s = AutomaticGameSession.getCurrentScore();
 				//aggiornamento del punteggio
-				s.updateScore(cs);
+				//s.updateScore(cs);
 			}
 		}//fi indici di mossa corretti
 		else { 
@@ -316,9 +317,10 @@ public class Controller {
 					s.hitScore();
 				}
 				else {
-					s = AutomaticGameSession.getCurrentScore();
+					//TODO punteggio per il giocatore automatico
+					//s = AutomaticGameSession.getCurrentScore();
 					//aggiornamento del punteggio
-					s.hitScore();
+					//s.hitScore();
 				}
 			}//fi
 			else {

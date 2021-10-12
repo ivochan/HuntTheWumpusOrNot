@@ -1,10 +1,8 @@
 package game.automatic_player;
 //serie di import
 import java.util.LinkedList;
-
-import game.session.configuration.Starter;
-import game.session.score.ScoreUtility;
 import game.structure.cell.Cell;
+import game.structure.elements.PlayableCharacter;
 import game.structure.map.GameMap;
 import game.structure.map.MapConfiguration;
 /**
@@ -42,6 +40,10 @@ public class AutomaticPlayerTest {
 		System.out.println(AutomaticPlayer.runPathToString(run_path));
 		//DEBUGG
 		//System.out.println("confronto\n"+gm)
+		//int[] pg = PlayableCharacter.getPGposition();
+		//System.out.println("PG : "+pg[0]+','+pg[1]);
+		AutomaticPlayer.updateExplorationMap(em);
+		System.out.println(em);
 
 	}//end main
 	

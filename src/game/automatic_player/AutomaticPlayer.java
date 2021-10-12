@@ -6,8 +6,9 @@ import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.elements.PlayableCharacter;
 import game.structure.map.GameMap;
-/**
- * 
+/** class AutomaticPlayer
+ * questa classe implementa un agente, un giocatore automatico
+ * che risolvera' la partita tenendo conto dei sensori
  * @author ivochan
  *
  */
@@ -39,7 +40,7 @@ public class AutomaticPlayer {
 		return solvingGameFirstStrategy(cur_pg_pos, cur_pg_pos, gm, em, run_path);
 	}//end solveGame
 	
-	/**
+	/** solvingGameFirstStrategy(int[],int[],GameMap,GameMap,LinkedList): int
 	 * 
 	 * @param pre_pg_pos
 	 * @param cur_pg_pos
@@ -153,6 +154,11 @@ public class AutomaticPlayer {
 					run_path.add(next_cell);
 					//DEBUGG
 					//System.out.println("add pericolo "+next_pos[0]+','+next_pos[1]);
+					
+					//aggiornare la posizione del pg
+					//PlayableCharacter.setPGposition(next_pos);//cella attuale
+					PlayableCharacter.setPGposition(cur_pg_pos);//cella precedente
+					
 					//si inserisce questa cella nella mappa di esplorazione
 					em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
 					//si valuta la mossa asuccessiva
@@ -179,6 +185,10 @@ public class AutomaticPlayer {
 			//System.out.println("pre "+pre_pg_pos[0]+','+pre_pg_pos[1]);
 			//TODO
 			run_path.add(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
+			
+			//aggiornare la posizione del pg 
+			PlayableCharacter.setPGposition(pre_pg_pos);//cella precedente
+			
 			//TODO
 			//si inserisce nella mappa di esplorazione
 			em.getMapCell(pre_pg_pos[0], pre_pg_pos[1]).copyCellSpecs(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
@@ -203,6 +213,11 @@ public class AutomaticPlayer {
 				run_path.add(next_cell);
 				//si inserisce questa cella nella mappa di esplorazione
 				em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
+				
+				//aggiornare la posizione del pg
+				//PlayableCharacter.setPGposition(next_pos);//cella attuale
+				PlayableCharacter.setPGposition(cur_pg_pos);//cella precedente
+				
 				//si valuta la mossa successiva
 				result = solvingGameFirstStrategy(cur_pg_pos, next_pos, gm,em, run_path);
 	
@@ -235,6 +250,11 @@ public class AutomaticPlayer {
 					
 					//si inserisce questa cella nella mappa di esplorazione
 					em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
+					
+					//aggiornare la posizione del pg
+					//PlayableCharacter.setPGposition(next_pos);//cella attuale
+					PlayableCharacter.setPGposition(cur_pg_pos);//cella precedente
+					
 					//si valuta la mossa asuccessiva
 					result = solvingGameEmergencyStrategy(cur_pg_pos, next_pos, gm,em, run_path);
 					
@@ -250,6 +270,8 @@ public class AutomaticPlayer {
 			//si inserisce nella mappa di esplorazione
 			em.getMapCell(pre_pg_pos[0], pre_pg_pos[1]).copyCellSpecs(gm.getMapCell(pre_pg_pos[0],pre_pg_pos[1]));
 			
+			//aggiornare la posizione del pg
+			PlayableCharacter.setPGposition(pre_pg_pos);//cella precedente
 			
 			return -4;
 		}//esle sensori spenti
@@ -371,6 +393,11 @@ public class AutomaticPlayer {
 		run_path.add(next_cell);
 		//System.out.println("add "+next_pos[0]+','+next_pos[1]);
 		em.getMapCell(next_pos[0], next_pos[1]).copyCellSpecs(next_cell);
+		
+		//aggiornare la posizione del pg
+		//PlayableCharacter.setPGposition(next_pos);//cella attuale
+		PlayableCharacter.setPGposition(cur_pg_pos);//cella precedente
+		
 		//si valuta la mossa successiva
 		result = solvingGameEmergencyStrategy(cur_pg_pos, next_pos, gm,em, run_path);
 		//si controlla il risultato: FINE PARTITA
@@ -636,6 +663,38 @@ public class AutomaticPlayer {
 		}//fi cella in BASSO
 		
 	}//enemySensor(Map, int[])
+	
+	/** metodo updateExplorationMap(GameMap): void
+	 * questo metodo aggiorna la mappa di gioco in modo che il pg venga
+	 * visualizzato nella cella immediatamente precedente all'ultima in
+	 * cui e' stata effettuata la mossa ed in modo che le celle visitate
+	 * siano mostrate come OBSERVED
+	 * @param em: GameMap, mappa di esplorazione.
+	 */
+	public static void updateExplorationMap(GameMap em) {
+		//si prende la mappa di esplorazione e si itera
+		for(int i=0;i<em.getRows();i++) {
+			for(int j=0;j<em.getColumns();j++) {
+				//si preleva lo status della cella corrente
+				CellStatus cs = em.getMapCell(i,j).getCellStatus();
+				//si controlla lo stato della cella corrente
+				if(!cs.equals(CellStatus.UNKNOWN)) {
+					//se la cella e' stata visitata
+					if(cs.equals(CellStatus.SAFE) || cs.equals(CellStatus.PG)) {
+						//tutte le celle esistenti (non vuote) ma SAFE
+						//oppure la cella che contiene il PG all'inizio
+						//vengono etichettate come OBSERVED
+						em.getMapCell(i,j).setCellStatus(CellStatus.OBSERVED);
+					}
+				}		
+			}//for colonne
+		}//for righe
+		//si inserisce nella mappa la penultima posizione del pg prima della fine della partita
+		int[] pg_pos = PlayableCharacter.getPGposition();
+		//si cambia lo status della cella corrispondente
+		em.getMapCell(pg_pos[0],pg_pos[1]).setCellStatus(CellStatus.PG);	
+	}//updateExplorationMap(GameMap)
+	
 	
 }//end AutomaticPlayer
 
