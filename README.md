@@ -226,11 +226,11 @@ Funzionalità da implementare:
 
 - prevedere lo spostamento del personaggio giocabile in una cella casuale, se in presenza di un super-pipistrello; 
 
-- ~~ definire il meccanismo del punteggio, in base alle tipologie di celle esaminate;~~ 
+- ~~definire il meccanismo del punteggio, in base alle tipologie di celle esaminate;~~ 
 
-- ~~ memorizzare il valore del punteggio acquisito via via durante la partita di gioco;~~ 
+- ~~memorizzare il valore del punteggio acquisito via via durante la partita di gioco;~~ 
 
-- ~~ sostituire i messaggi di errore e le stampe di debug con il sollevamento delle eccezioni;~~ 
+- ~~sostituire i messaggi di errore e le stampe di debug con il sollevamento delle eccezioni;~~ 
 
 - ~~correggere funzione di probabilità per il popolamento della mappa;~~        grazie a PsykeDady <3
 
@@ -317,7 +317,7 @@ Funzionalità da implementare:
   - ~~conoscere la posizione corrente del pg;~~
   - ~~il calcolo del punteggio;~~
   - ~~movimento nella mappa da input (su decisione dell'utente)~~
-    - ~~prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input;~~
+    -~~prevedere e gestire i possibili casi d'errore nell'acquisizione della mossa da input;~~
   - ~~fornire dei messaggi esplicativi della situazione attuale nel gioco;~~
   
 - ~~effettuare il controllo della mossa di gioco lavorando su un'istanza di GameMap le cui info si prendono dai metodi accessori;~~
@@ -332,23 +332,23 @@ Funzionalità da implementare:
 - definire il controller di gioco che permette i movimenti del personaggio giocabile nella mappa, ad esempio:
   - ~~definire la enum che indica le direzioni in cui è possibile effettuare una mossa;~~
   - prevedere i casi di fine partita:
-    - ~~il pg perde se incontra il nemico;~~
-    - il pg vince se:
-      - ~~trova l'uscita segreta, se Wumpus;~~
-      - ~~trova l'oro, se è il Cacciatore;~~
+    -~~il pg perde se incontra il nemico;~~
+    -il pg vince se:
+      -~~trova l'uscita segreta, se Wumpus;~~
+      -~~trova l'oro, se è il Cacciatore;~~
   - controllare che la mossa sia valida:
-    - ~~in termini di indici che identificano la posizione della cella di arrivo nella mappa di gioco;~~
-    - ~~in termini di adiacenza alla cella che rappresenta la posizione corrente del pg;~~
-    - restituire una variabile che descriva lo stato della mossa, ovvero:
-      - ~~se valida;~~
-      - ~~se errata;~~
-      - ~~se il pg è morto;~~
+    -~~in termini di indici che identificano la posizione della cella di arrivo nella mappa di gioco;~~
+    -~~in termini di adiacenza alla cella che rappresenta la posizione corrente del pg;~~
+    -restituire una variabile che descriva lo stato della mossa, ovvero:
+      -~~se valida;~~
+      -~~se errata;~~
+      -~~se il pg è morto;~~
   - effettuare la mossa scelta, nella direzione specificata:
-    - ~~in base alla direzione dedurre gli indici della nuova cella;~~
-    - ~~effettuare la mossa inserendo la cella visitata nella mappa di esplorazione nota al giocatore;~~
-    - ~~effettuare la mossa restituendo le variabili che descrivono il contenuto dei sensori della cella di arrivo;~~
-    - ~~richiedere la mossa successiva;~~
-    - ~~personalizzare i messaggi del gioco in base alla modalità;~~
+    -~~in base alla direzione dedurre gli indici della nuova cella;~~
+    -~~effettuare la mossa inserendo la cella visitata nella mappa di esplorazione nota al giocatore;~~
+    -~~effettuare la mossa restituendo le variabili che descrivono il contenuto dei sensori della cella di arrivo;~~
+    -~~richiedere la mossa successiva;~~
+    -~~personalizzare i messaggi del gioco in base alla modalità;~~
   - ~~definire l'azione di colpire il nemico, scegliendo la direzione~~;
   
 - ~~correggere il posizionamento del pg, controllando che il passaggio dalla sua cella non sia bloccato~~;
@@ -366,8 +366,8 @@ Funzionalità da implementare:
 - definire il giocatore automatico "RandomAgent":
   - si esamina la griglia di gioco, la "situazione iniziale" dell'ambiente circostante;
   - si sceglie la mossa da effettuare in base allo stato dei sensori (**TODO** da testare);
-    - se tutti i sensori accesi, si sceglie di sparare
-      - scegliere la direzione di sparo esaminando le celle adiacenti nella exp map;
+    -se tutti i sensori accesi, si sceglie di sparare
+      -scegliere la direzione di sparo esaminando le celle adiacenti nella exp map;
   - ad ogni passo, si salvano gli indici della cella che è stata visitata;
   - al termine della partita mostra il percorso effettuato;
   
@@ -398,9 +398,9 @@ Funzionalità da implementare:
 
 - salvare tutti i punteggi in un file di testo:
 
-  - ~~ inserendo l'ultimo punteggio in coda al file~~ 
-  - ~~ riordinando i punteggi in ordine decrescente~~ 
-  - ~~ salvandol'ultimo punteggio ottenuto in un altro file~~ 
+  - ~~inserendo l'ultimo punteggio in coda al file~~ 
+  - ~~riordinando i punteggi in ordine decrescente~~ 
+  - ~~salvandol'ultimo punteggio ottenuto in un altro file~~ 
   
   
 
