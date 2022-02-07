@@ -5,12 +5,12 @@ import java.util.Comparator;
 * questa classe implementa l'interfaccia Comparator<T> 
 * in modo da definire uno strumento che verra' utilizzato
 * nel confronto di due oggetti di tipo <T>
+* 
 * @author ivochan
-*
 */
 public class ScoreComparator implements Comparator<Score>{
 
-	/** metodo compare( , ): int
+	/** metodo compare(Score , Score): int
 	 * questo metodo fornisce un criterio di confronto per i due
 	 * oggetti che riceve come parametro
 	 */

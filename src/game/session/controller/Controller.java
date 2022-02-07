@@ -1,7 +1,6 @@
 package game.session.controller;
-import game.session.configuration.AutomaticGameSession;
+// serie di import
 import game.session.configuration.GameSession;
-//serie di import
 import game.session.configuration.Starter;
 import game.session.score.Score;
 import game.session.start.LinkStart;
@@ -14,6 +13,7 @@ import game.structure.text.GameMessages;
  * questa classe definisce i comandi di gioco, cioe' il modo in cui 
  * l'utente potra' interagire, facendo muovere il personaggio giocabile
  * nelle direzioni consentite.
+ * 
  * @author ivonne
  */
 public class Controller {
@@ -24,7 +24,7 @@ public class Controller {
 	 * questo metodo si occupa di verificare se la mossa scelta dal giocatore sia
 	 * valida oppure meno, controllando se la cella in cui effettuare la mossa esista,
 	 * che tipo di contenuto abbia e cosa comporti spostarvici il pg.
-	 * Il risultato delle operazioni di controllo verra' indiicato da una variabile
+	 * Il risultato delle operazioni di controllo verra' indicato da una variabile
 	 * di tipo intero.
 	 * @param move: Direction, direzione in cui effettuare lo spostamento del pg;
 	 * @param gm: GameMap, mappa che racchiude le informazioni con cui e' stato configurata
@@ -94,19 +94,21 @@ public class Controller {
 				//il contenuto di questa cella nella mappa di esplorazione e' il pg
 				ge.getMapCell(cell_pos[0], cell_pos[1]).setCellStatus(CellStatus.PG);
 			}//esle		
-			//TODO modifica
+			//variabile punteggio
+			Score s = new Score();
+			//si aggiorna il punteggio nella modalita' interattiva
 			if(LinkStart.isHumanMode()) {
 				//aggiornamento del punteggio
-				Score s = GameSession.getCurrentScore();
-				//aggiornamento del punteggio
-				s.updateScore(cs);
-			}
-			else {
-				//TODO punteggio per il giocatore automatico
-				//Score s = AutomaticGameSession.getCurrentScore();
+				s = GameSession.getCurrentScore();
+			}//fi
+			//else {
+				//aggiornamento del punteggio per il giocatore automatico
+				//s = AutomaticGameSession.getCurrentScore();
 				//aggiornamento del punteggio
 				//s.updateScore(cs);
-			}
+			//}
+			//aggiornamento del punteggio
+			s.updateScore(cs);
 		}//fi indici di mossa corretti
 		else { 
 			//comando non valido, oppure la cella non esiste
@@ -309,19 +311,19 @@ public class Controller {
 				System.out.println(GameMessages.hit);
 				//si aggiornano i sensori
 				resetEnemySensor(gm);
-				//TODO modifica
-				Score s;
+				//variabile punteggio
+				Score s = new Score();
+				//verifica della modalita' per l'aggiornamento del punteggio
 				if(LinkStart.isHumanMode()) {
+					//si aggiorna il punteggio nella modalita' interattiva
 					s = GameSession.getCurrentScore();
-					//aggiornamento del punteggio
-					s.hitScore();
-				}
-				else {
-					//TODO punteggio per il giocatore automatico
+				}//fi
+				//else {
+					//acquisizione punteggio per il giocatore automatico
 					//s = AutomaticGameSession.getCurrentScore();
-					//aggiornamento del punteggio
-					//s.hitScore();
-				}
+				//}//esle
+				//aggiornamento del punteggio
+				s.hitScore();
 			}//fi
 			else {
 				//colpo errato

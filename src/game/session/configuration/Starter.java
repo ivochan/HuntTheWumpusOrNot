@@ -14,9 +14,9 @@ public class Starter {
 	//##### attributi di classe #####
 
 	//nome del file dei punteggi
-	private static String name = new String("/Scores.txt");
+	private static String file_name = new String("/Scores.txt");
 	//path in cui creare il file
-	private static String path = System.getProperty("user.dir") + name;
+	private static String file_path = System.getProperty("user.dir") + file_name;
 	
 	//acquisizione da input
 	private static Scanner input = new Scanner(System.in);
@@ -331,11 +331,11 @@ public class Starter {
 	 * questo metodo restituisce il valore
 	 * della stringa che rappresenta il path
 	 * del file dei punteggi.
-	 * @return path: String, stringa che contiene il path.
+	 * @return file_path: String, stringa che contiene il path.
 	 */
 	public static String getPath() {
 		//si restituisce l'attributo di classe path
-		return path;
+		return file_path;
 	}//getPath()
 	
 	/** metodo setPath(String): void
@@ -348,7 +348,7 @@ public class Starter {
 		if(p==null) throw new IllegalArgumentException("path del file ricevuto come"
 				+ " parametro non valido");
 		//si assegna il path
-		path = new String(p);
+		file_path = new String(p);
 	}//setPath(String)
 	
 	/** metodo getName(): String
@@ -358,7 +358,7 @@ public class Starter {
 	 */
 	public static String getName() {
 		//si restituisce l'attributo di classe path
-		return name;
+		return file_name;
 	}//getPath()
 
 	/** metodo setName(): void
@@ -371,6 +371,6 @@ public class Starter {
 		if(n==null)throw new IllegalArgumentException("nome del file ricevuto come"
 				+ " parametro non valido");
 		//si specifica il nome del file
-		name = new String(n);
+		file_name = new String(n);
 	}//setPath(String)
 }//end Starter

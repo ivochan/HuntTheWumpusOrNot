@@ -1,8 +1,15 @@
 package game.structure.elements;
-
+// import
 import game.structure.map.GameMap;
-
+/** class GameElements
+ * classe che si occupa di generare il numero di elementi di 
+ * gioco con cui dovra' essere riempita la mappa, specificandone
+ * il valore per ogni categoria.
+ * 
+ * @author Ivonne
+ */
 public class GameElements {
+	
 	//##### attributi di classe #####
 	
 	private static int NUMBER_OF_CELLS;

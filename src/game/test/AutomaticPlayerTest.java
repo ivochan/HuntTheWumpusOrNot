@@ -1,14 +1,16 @@
-package game.automatic_player;
+package game.test;
 //serie di import
 import java.util.LinkedList;
+import game.session.player.AutomaticPlayer;
 import game.structure.cell.Cell;
-import game.structure.elements.PlayableCharacter;
 import game.structure.map.GameMap;
 import game.structure.map.MapConfiguration;
-/**
+/** class AutomaticPlayerTest
+ * questa classe esegue un test per verificare il modo
+ * in cui il giocatore automatico si occupa della 
+ * risoluzione della mappa di gioco.
  * 
  * @author ivochan
- *
  */
 public class AutomaticPlayerTest {
 	

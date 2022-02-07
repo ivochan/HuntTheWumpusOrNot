@@ -30,7 +30,6 @@ public class GameSession {
 	//nome del file dei punteggi
 	private static String score_file;
 	
-	
 	/** metodo start(): void
 	 * questo metodo avvia la sezione di gioco, preparando il terreno
 	 * su cui si svolgera' la partita, popolando la mappa di tutti
@@ -154,13 +153,13 @@ public class GameSession {
 	 * eseguite al termine della partita.
 	 */
 	public static void end() {
-		System.out.println("THE E.N.D.");
+		System.out.println("\nTHE E.N.D.");
 		//stato della partita attuale
 		Starter.setGameStart(false);
 		//si resetta la disponibilita' del colpo
 		Starter.setChanceToHit(true);
 		//punteggio
-		System.out.println("Questo e' il tuo punteggio: "+score.getScore());
+		//System.out.println("Questo e' il tuo punteggio: "+score.getScore());
 		//si memorizza il punteggio
 		ScoreUtility.saveScore(score_file, score.toString());
 		//pulizia della console

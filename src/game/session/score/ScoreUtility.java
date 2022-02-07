@@ -14,6 +14,7 @@ import java.util.TreeMap;
 /** class ScoreUtility
  * questa classe serve per interagire con il file di testo su
  * cui verranno memorizzati tutti i punteggi ottenuti dall'utente
+ * 
  * @author ivonne
  */
 public class ScoreUtility {
@@ -262,7 +263,7 @@ public class ScoreUtility {
 			catch(IOException e) {
 				e.printStackTrace();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
+				//stampa dell'errore
 				e.printStackTrace();
 			}
 		}//esle
@@ -294,7 +295,7 @@ public class ScoreUtility {
 			writeScoreFile(path,line);
 		}
 		//si legge il file dei punteggi
-		readScoreFile(path);
+		//readScoreFile(path);
 	}//updateScoreFile()
 	
 	/** metodo extractScoreData(String, LinkedList<String<): void

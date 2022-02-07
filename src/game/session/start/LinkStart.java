@@ -1,8 +1,8 @@
 package game.session.start;
 //serie di import
 import java.util.Scanner;
-import game.player.Player;
 import game.session.configuration.Starter;
+import game.session.player.Player;
 import game.session.score.ScoreUtility;
 import game.structure.text.GameMessages;
 /** class LinkStart
@@ -70,15 +70,23 @@ public class LinkStart {
 	
 	//##### metodi accessori per il nome del giocatore #####
 	
-	/**
-	 * 
-	 * @return
+	/** metodo getPlayerName(): String
+	 * questo metodo restituisce il valore
+	 * dell'attributo di classe
+	 * @return player_name: String, nome del giocatore
 	 */
 	public static String getPlayerName() {
 		return player_name;
 	}//getPlayerName()
 	
+	/** metodo inHumanMode(): boolean
+	 * verifica della modalita' di gioco interattiva
+	 * @return human: boolean, se true allora la modalita'
+	 * 				di gioco interattiva, se false allora
+	 * 				quella automatica.
+	 */
 	public static boolean isHumanMode() {
 		return human;
-	}
+	}//isHumanMode()
+	
 }//end LinkStart

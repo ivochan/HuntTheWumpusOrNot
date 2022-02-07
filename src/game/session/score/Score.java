@@ -1,4 +1,5 @@
 package game.session.score;
+// serie di import
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import game.structure.cell.CellStatus;
@@ -6,6 +7,7 @@ import game.structure.cell.CellStatus;
  * questa classe descrive il punteggio raggiunto dal giocatore
  * durante la sessione di gioco, calcolandolo in base alle mosse che
  * ha effettuato durante la partita.
+ * 
  * @author ivonne
  */
 public class Score {

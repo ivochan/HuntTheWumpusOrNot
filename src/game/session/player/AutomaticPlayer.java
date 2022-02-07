@@ -1,4 +1,4 @@
-package game.automatic_player;
+package game.session.player;
 //serie di import
 import java.util.Collections;
 import java.util.LinkedList;
@@ -9,8 +9,8 @@ import game.structure.map.GameMap;
 /** class AutomaticPlayer
  * questa classe implementa un agente, un giocatore automatico
  * che risolvera' la partita tenendo conto dei sensori
+ * 
  * @author ivochan
- *
  */
 public class AutomaticPlayer {
 
@@ -406,7 +406,7 @@ public class AutomaticPlayer {
 		return -5;		
 	}
 		
-
+	
 	/** metodo printStatusMessage(int)
 	 * questo metodo stampa una stringa indicativa del codice di
 	 * uscita con cui e' terminato il metodo di risoluzione

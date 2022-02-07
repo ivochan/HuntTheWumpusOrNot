@@ -16,7 +16,7 @@ Inoltre, bisogna evitare le stanze con i pozzi, in cui si corre il rischio di ca
 
 Il codice utilizzato per implementare questa versione del gioco andrà costituire il back-end di un altro progetto, ovvero la trasposizione di questo gioco in un'applicazione Android.
 
-Quindi l'integrazione con la parte grafica, ovvero il front-end, realizzato prima in Android e poi in Kotlin, avverrà in seguito.
+Quindi l'integrazione con la parte grafica, ovvero il front-end, realizzato in Android, avverrà in seguito.
 
 In questa versione del gioco è stata prevista, per il giocatore, la possibilità di interpretare, indifferentemente, il ruolo del **Wumpus** o del cacciatore, a cui ci si riferisce come **Avventuriero**.
 
@@ -200,13 +200,19 @@ Il punteggio verrà calcolato tenendo conto delle seguenti penalità/ ricompense
 
 Questa classe si occupa di memorizzare il punteggio del giocatore al termine di ogni partita, utilizzando un file di testo, denominato *Punteggi.txt*. Alla chiusura dell'applicazione questo file verrà eliminato.
 
-### Human Player
+### Player
 
 Questa classe implementa il giocatore controllato dall'utente.
 
-### IA Player 
+### Automatic Player 
 
 Questa classe implementa il giocatore automatico.
+
+### Avvio dell'eseguibile
+
+Il file eseguibile .jar consente di provare il gioco "**Hunt the Wumpus or not**" .
+
+Per avviare il gioco si può eseguire un doppio click del mouse su questo applicativo oppure aprirlo con il programma **Java Platform SE Binary**.
 
 
 

@@ -1,7 +1,6 @@
 package game.structure.cell;
-
+// import
 import java.io.Serializable;
-
 /** Cell
  * Questa classe implementa la cella della matrice di gioco
  * il cui contenuto e' indicato dalla enum CellStatus
@@ -9,8 +8,8 @@ import java.io.Serializable;
  * @author ivonne
  */
 public class Cell implements Serializable {
-	/**
-	 * 
+	/** questa classe e' stata resa serializzabile in modo da 
+	 * trasferire le caratteristiche delle sue istanze
 	 */
 	private static final long serialVersionUID = -6063662208178208918L;
 

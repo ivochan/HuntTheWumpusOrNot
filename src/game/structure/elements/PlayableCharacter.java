@@ -1,13 +1,12 @@
 package game.structure.elements;
-
+// serie di import
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
-
 /** class PlayableCharacter
  * Questa classe si deve occupare di tenere traccia della posizione del PG
- * all'interno della mappa di gioco, occupandosi proprio del suo insierimento
- * nella matrice, dopo che e' stata popolata con tutit gli altri elementi.
- * E' necessatio che il suo percorso non venga bloccato da celle non accessibili.
+ * all'interno della mappa di gioco, occupandosi proprio del suo inserimento
+ * nella matrice, dopo che e' stata popolata con tutti gli altri elementi.
+ * E' necessario che il suo percorso non venga bloccato da celle non accessibili.
  * Questo personaggio giocabile puo' essere l'eroe oppure il wumpus, a seconda
  * della modalita' di gioco considerata.
  * 
@@ -16,9 +15,9 @@ import game.structure.map.GameMap;
  * Ogni cella della cornice e' indicata da un numero identificativo:
  * Cella i-esima della cornice
  * {0,		1,	   2,	  3,	 4,		5,	   6,	  7,	 8, 	9,	  10,	 11}
- * Inoltre si utilizzaranno due vettori, quali:
+ * Inoltre si utilizzeranno due vettori, quali:
  * - un vettore di 12 celle, che conterra' gli indici riga, in ordine, di tutte
- * 	 le celle sulla cronice, tenendo conto che gli indici di cella di questo vettore
+ * 	 le celle sulla cornice, tenendo conto che gli indici di cella di questo vettore
  *	 saranno indicativi della cella considerata.
  * - un vettore di 12 celle, analogo al precedente, che conterra' pero' gli indici 
  * 	 colonna.
@@ -31,7 +30,7 @@ import game.structure.map.GameMap;
  * 
  * Cella i-esima centrale 
  * {12,		13,	   14,	  15}
- * si dovra' generale un numero casuale tra 12 e 16 (escluso)
+ * si dovra' generare un numero casuale tra 12 e 16 (escluso)
  * il posizionamento centrale si potra' utilizzare se il pg e' il wumpus
  *
  * @author ivonne
@@ -52,7 +51,6 @@ public class PlayableCharacter {
 	//private static int [] r_center_index = {1, 1, 2, 2 };
 	//vettore degli indici colonna, per le celle centrali
 	//private static int [] c_center_index = {0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 2, 1};
-	
 	
 	/** metodo placePGonCorner(): boolean
 	 * questo metodo si occupa di posizionare il personaggio giocabile nella mappa

@@ -1,10 +1,12 @@
 package game.structure.elements;
-//import
+// serie di import
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
 /** class Sensors
- * 
+ * questa classe si occupa di assegnare, ad ogni cella della mappa, 
+ * il valore del vettore dei sensori, sulla base del contenuto delle 
+ * celle adiacenti.
  * @author ivochan
  *
  */

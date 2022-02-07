@@ -1,13 +1,18 @@
-package game.player;
+package game.session.player;
 //serie di import
 import game.session.configuration.AutomaticGameSession;
 import game.session.configuration.GameSession;
 import game.structure.text.GameMessages;
 import java.util.Scanner;
-/**
+/** class Player
+ * questa classe implementa i macro-metodi che riguardano il concetto
+ * di giocatore, sia che questo sia controllato
+ * dall'utente, dandogli dei comandi tramite console,
+ * sia che si tratti del giocatore automatico.
+ * Infatti richiama i metodi delle classi dedite alla configurazione della
+ * sessione di gioco.
  * 
  * @author ivonne
- *
  */
 public class Player {
 	//##### attribuiti di classe #####
@@ -60,7 +65,7 @@ public class Player {
 	}//chooseType()
 	
 	/** metodo automaticMode(): void
-	 * 
+	 * scelta della modalita' di gioco automatica
 	 */
 	public static void automaticMode() {
 		System.out.println(GameMessages.automatic_player);

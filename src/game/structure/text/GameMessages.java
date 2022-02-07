@@ -2,8 +2,8 @@ package game.structure.text;
 /** classe GameMessages
  * contiene i messaggi utilizzati all'interno del gioco
  * per fornire delle informazioni all'utente
+ * 
  * @author ivochan
- *
  */
 public class GameMessages {
 

@@ -58,7 +58,7 @@ public class MapConfiguration {
 		do {
 			//si riassegnano alle variabili i valori di default
 			//in modo da resettare la situazione se la configurazione ottenuta
-			//per la mappa di gioco non e' idonea */
+			//per la mappa di gioco non e' idonea
 			danger=n_danger;
 			enemy=n_enemy;
 			cells=n_cells;
@@ -127,7 +127,7 @@ public class MapConfiguration {
 	
 	/** metodo init(GameMap): void
 	 * questo metodo si occupa di trovare una configurazione valida della
-	 * mappa di gioco, generando una struttura di base, in cui sono stati
+	 * mappa di gioco, generando prima una struttura di base, in cui sono stati
 	 * posizionati tutti gli elementi di gioco, ad eccezione del personaggio
 	 * giocabile, che verra' posizionato subito dopo.
 	 * Se il posizionamento del pg non va a buon fine, la mappa deve essere
@@ -164,7 +164,7 @@ public class MapConfiguration {
 	 * dove random, calcolato usando la funzione Math.random(), e' un numero casuale
 	 * utilizzato per dare un po' di varianza alla funzione stessa, moltiplicato per 0.3
 	 * dividendo tutto quanto per 3.
-	 * Dopo aver effettuato il calcolo, questa probilita' viene restituita per essere confrontata
+	 * Dopo aver effettuato il calcolo, questa probabilita' viene restituita per essere confrontata
 	 * con il valore di soglia e stabilire cosi' se la cella in esame possa essere etichetta
 	 * con la tipologia che si sta considerando.
 	 * @param x: int, e' il numero di oggetti di tipo X che sono rimasti da posizionare nella mappa;

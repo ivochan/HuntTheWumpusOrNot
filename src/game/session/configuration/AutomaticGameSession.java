@@ -1,10 +1,7 @@
 package game.session.configuration;
+// serie di import
 import java.util.LinkedList;
-
-import game.automatic_player.AutomaticPlayer;
-//serie di import
-import game.session.score.Score;
-import game.session.score.ScoreUtility;
+import game.session.player.AutomaticPlayer;
 import game.structure.cell.Cell;
 import game.structure.cell.CellStatus;
 import game.structure.map.GameMap;
@@ -21,8 +18,6 @@ public class AutomaticGameSession {
 	//mappe di gioco
 	private static GameMap gm;
 	private static GameMap em;
-	//punteggio
-	//private static Score score;
 	//nome del giocatore automatico
 	//private static String ia_name = "AutomaticPlayer";	
 	//nome del file dei punteggi
@@ -71,14 +66,12 @@ public class AutomaticGameSession {
 	public static void play() {
 		//risoluzione
 		int status = AutomaticPlayer.solveGame(gm, em, run_path);
-		//stampa della mappa di esplorazione
-		System.out.println("Ecco cosa ho visto:\n"+em);
 		//messaggio di fine partita
 		System.out.println(AutomaticPlayer.printStatusMessage(status));
 		//si stampa la mappa di esplorazione
-		System.out.println(em.gameMapToString());
+		System.out.println("Ecco cosa ho visto:\n"+em.gameMapToString());
 		//si mostra il percorso compiuto
-		System.out.println(AutomaticPlayer.runPathToString(run_path));
+		System.out.println("Path "+AutomaticPlayer.runPathToString(run_path));
 	}//play()
 		
 	/** metodo end(): void
@@ -86,7 +79,7 @@ public class AutomaticGameSession {
 	 * eseguite al termine della partita.
 	 */
 	public static void end() {
-		System.out.println("THE E.N.D.");
+		System.out.println("\nTHE E.N.D.");
 		//stato della partita attuale
 		//Starter.setGameStart(false);
 		//si resetta la disponibilita' del colpo

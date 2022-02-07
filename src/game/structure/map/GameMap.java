@@ -31,8 +31,8 @@ import game.structure.cell.CellStatus;
  * @author ivonne
  */
 public class GameMap implements Serializable {
-	/**
-	 * 
+	/** questa classe e' stata resa serializzabile in modo da 
+	 * trasferire le caratteristiche delle sue istanze
 	 */
 	private static final long serialVersionUID = -5948888928665296259L;
 	
